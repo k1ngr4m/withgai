@@ -363,8 +363,9 @@ function calculateAchievements() {
 
 // 确保在微信环境中运行
 if (typeof wx !== 'undefined') {
-  // 启动游戏
-  initGame();
+  // 启动游戏循环，初始状态为start
+  databus.gameState = 'start';
+  gameLoop();
 } else {
   console.error('未在微信环境中运行');
 }
