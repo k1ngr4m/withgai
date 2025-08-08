@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+  <!-- 背景 -->
+  <rect width="32" height="32" fill="#f0f0f0"/>
+  
+  <!-- 头部 -->
+  <rect x="10" y="8" width="12" height="8" fill="#ffcc99"/>
+  
+  <!-- 身体 -->
+  <rect x="12" y="16" width="8" height="8" fill="#66ccff"/>
+  
+  <!-- 腿部 -->
+  <rect x="12" y="24" width="4" height="4" fill="#3399ff"/>
+  <rect x="16" y="24" width="4" height="4" fill="#3399ff"/>
+  
+  <!-- 手臂 -->
+  <rect x="8" y="16" width="4" height="4" fill="#ffcc99"/>
+  <rect x="20" y="16" width="4" height="4" fill="#ffcc99"/>
+  
+  <!-- 眼睛 -->
+  <rect x="13" y="10" width="2" height="2" fill="#000000"/>
+  <rect x="17" y="10" width="2" height="2" fill="#000000"/>
+  
+  <!-- 嘴巴 -->
+  <rect x="15" y="13" width="2" height="1" fill="#ff6666"/>
+</svg>
