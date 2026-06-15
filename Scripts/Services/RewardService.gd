@@ -14,17 +14,18 @@ func setup(p_content_resolver, p_map_service: MapService, p_meta_service: MetaPr
 	map_service = p_map_service
 	meta_service = p_meta_service
 
-func accept_battle_reward(run_state: Dictionary, card_id: String) -> String:
+func accept_battle_reward(run_state: Dictionary, card_id: String, relic_id: String = "") -> String:
 	var reward: Dictionary = run_state.get("pending_reward_state", {})
-	if not card_id.is_empty():
+	var candidate_cards: Array = reward.get("candidate_card_ids", [])
+	if not card_id.is_empty() and candidate_cards.has(card_id):
 		run_state["deck_state"]["master_deck"].append(card_id)
 	var currency_amount := int(reward.get("currency_amount", 0))
 	if reward.get("source_node_type", "") == "elite_battle" and run_state.get("owned_relic_ids", []).has("relic_parking_pass"):
 		currency_amount += 15
 	run_state["currency_perf_points"] = int(run_state.get("currency_perf_points", 0)) + currency_amount
 	var relics: Array = reward.get("candidate_relic_ids", [])
-	if not relics.is_empty() and not run_state.get("owned_relic_ids", []).has(relics[0]):
-		run_state["owned_relic_ids"].append(relics[0])
+	if not relic_id.is_empty() and relics.has(relic_id) and not run_state.get("owned_relic_ids", []).has(relic_id):
+		run_state["owned_relic_ids"].append(relic_id)
 	var counters: Dictionary = run_state.get("run_counters", {})
 	if reward.get("source_node_type", "") == "elite_battle":
 		counters["elite_wins"] = int(counters.get("elite_wins", 0)) + 1
@@ -38,15 +39,42 @@ func accept_battle_reward(run_state: Dictionary, card_id: String) -> String:
 func prepare_shop_stock(run_state: Dictionary) -> void:
 	if not run_state.get("shop_state", {}).is_empty():
 		return
+	run_state["shop_state"] = _roll_shop_stock(run_state)
+
+func _roll_shop_stock(run_state: Dictionary) -> Dictionary:
 	var cards: Array = content_resolver.cards_for_run_class(run_state.get("selected_class_id", ""), true)
 	cards.shuffle()
 	var relics: Array = content_resolver.relics_for_run_class(run_state.get("selected_class_id", ""))
+	var owned_relics: Array = run_state.get("owned_relic_ids", [])
+	relics = relics.filter(func(relic): return not owned_relics.has(relic.get("id", "")))
 	relics.shuffle()
-	run_state["shop_state"] = {
+	return {
 		"card_stock": cards.slice(0, min(5, cards.size())).map(func(card): return card.get("id", "")),
 		"relic_stock": relics.slice(0, min(3, relics.size())).map(func(relic): return relic.get("id", "")),
 		"removed": false,
+		"refresh_count": 0,
 	}
+
+func shop_refresh_cost(_run_state: Dictionary = {}) -> int:
+	var pool: Dictionary = content_resolver.shop_pool("shop_default")
+	return int(pool.get("refresh_cost", 20))
+
+func refresh_shop_stock(run_state: Dictionary) -> bool:
+	prepare_shop_stock(run_state)
+	var cost: int = shop_refresh_cost(run_state)
+	if int(run_state.get("currency_perf_points", 0)) < cost:
+		return false
+	var previous_state: Dictionary = run_state.get("shop_state", {})
+	var removed := bool(previous_state.get("removed", false))
+	var discount_used := bool(previous_state.get("discount_used", false))
+	var refresh_count := int(previous_state.get("refresh_count", 0)) + 1
+	run_state["currency_perf_points"] = int(run_state.get("currency_perf_points", 0)) - cost
+	run_state["shop_state"] = _roll_shop_stock(run_state)
+	run_state["shop_state"]["removed"] = removed
+	run_state["shop_state"]["refresh_count"] = refresh_count
+	if discount_used:
+		run_state["shop_state"]["discount_used"] = true
+	return true
 
 func buy_shop_card(run_state: Dictionary, card_id: String) -> bool:
 	prepare_shop_stock(run_state)
@@ -80,19 +108,31 @@ func buy_shop_relic(run_state: Dictionary, relic_id: String) -> bool:
 	run_state["shop_state"]["relic_stock"] = stock
 	return true
 
-func remove_shop_card(run_state: Dictionary) -> bool:
+func remove_shop_card(run_state: Dictionary, card_id: String = "") -> bool:
 	prepare_shop_stock(run_state)
-	var cost := remove_cost(run_state)
+	var cost: int = remove_cost(run_state)
 	if int(run_state.get("currency_perf_points", 0)) < cost:
 		return false
 	if bool(run_state["shop_state"].get("removed", false)):
 		return false
-	if run_state["deck_state"]["master_deck"].is_empty():
+	var deck: Array = run_state["deck_state"].get("master_deck", [])
+	if deck.is_empty():
 		return false
+	var target_index: int = deck.size() - 1
+	if not card_id.is_empty():
+		target_index = -1
+		for i in deck.size():
+			if String(deck[i]) == card_id:
+				target_index = i
+				break
+		if target_index == -1:
+			return false
+	var removed_card_id := String(deck[target_index])
 	run_state["currency_perf_points"] = int(run_state.get("currency_perf_points", 0)) - cost
 	_mark_shop_discount_used(run_state)
-	var removed = run_state["deck_state"]["master_deck"].pop_back()
-	run_state["deck_state"]["removed_cards"].append(removed)
+	deck.remove_at(target_index)
+	run_state["deck_state"]["master_deck"] = deck
+	run_state["deck_state"]["removed_cards"].append(removed_card_id)
 	run_state["shop_state"]["removed"] = true
 	return true
 
@@ -200,7 +240,7 @@ func _count_rest(run_state: Dictionary) -> void:
 
 func _apply_event_effect(run_state: Dictionary, entry: Dictionary) -> void:
 	var params: Dictionary = entry.get("params", {})
-	var amount := int(params.get("amount", 0))
+	var amount: int = int(params.get("amount", 0))
 	match entry.get("effect_type", ""):
 		"gain_currency":
 			run_state["currency_perf_points"] = max(0, int(run_state.get("currency_perf_points", 0)) + amount)
@@ -213,25 +253,48 @@ func _apply_event_effect(run_state: Dictionary, entry: Dictionary) -> void:
 			ps2["current_spirit"] = max(1, int(ps2.get("current_spirit", 72)) - amount)
 			run_state["player_state"] = ps2
 		"add_random_card":
-			var cards: Array = content_resolver.cards_for_run_class(run_state.get("selected_class_id", ""), true)
-			cards.shuffle()
-			if not cards.is_empty():
-				run_state["deck_state"]["master_deck"].append(cards[0].get("id", ""))
+			_add_random_cards(run_state, max(1, amount))
 		"draw_cards":
-			var cards2: Array = content_resolver.cards_for_run_class(run_state.get("selected_class_id", ""), true)
-			cards2.shuffle()
-			for i in range(max(1, amount)):
-				if i >= cards2.size():
-					break
-				run_state["deck_state"]["master_deck"].append(cards2[i].get("id", ""))
+			_add_random_cards(run_state, max(1, amount))
 		"add_random_relic":
-			var relics: Array = content_resolver.relics_for_run_class(run_state.get("selected_class_id", ""))
-			relics.shuffle()
-			if not relics.is_empty():
-				run_state["owned_relic_ids"].append(relics[0].get("id", ""))
+			_add_random_relics(run_state, max(1, amount))
 		"remove_card":
-			if not run_state["deck_state"]["master_deck"].is_empty():
-				run_state["deck_state"]["removed_cards"].append(run_state["deck_state"]["master_deck"].pop_back())
+			_remove_cards(run_state, max(1, amount))
 		"upgrade_card":
-			if not run_state["deck_state"]["master_deck"].is_empty():
-				run_state["deck_state"]["upgraded_cards"].append(run_state["deck_state"]["master_deck"][0])
+			_upgrade_cards(run_state, max(1, amount))
+
+func _add_random_cards(run_state: Dictionary, amount: int) -> void:
+	var cards: Array = content_resolver.cards_for_run_class(run_state.get("selected_class_id", ""), true)
+	cards.shuffle()
+	for i in range(min(max(1, amount), cards.size())):
+		run_state["deck_state"]["master_deck"].append(cards[i].get("id", ""))
+
+func _add_random_relics(run_state: Dictionary, amount: int) -> void:
+	var relics: Array = content_resolver.relics_for_run_class(run_state.get("selected_class_id", ""))
+	relics.shuffle()
+	var owned: Array = run_state.get("owned_relic_ids", [])
+	var added := 0
+	for relic in relics:
+		if added >= amount:
+			break
+		var relic_id := String(relic.get("id", ""))
+		if relic_id.is_empty() or owned.has(relic_id):
+			continue
+		owned.append(relic_id)
+		added += 1
+	run_state["owned_relic_ids"] = owned
+
+func _remove_cards(run_state: Dictionary, amount: int) -> void:
+	for i in range(max(1, amount)):
+		if run_state["deck_state"]["master_deck"].is_empty():
+			return
+		var removed = run_state["deck_state"]["master_deck"].pop_back()
+		run_state["deck_state"]["removed_cards"].append(removed)
+
+func _upgrade_cards(run_state: Dictionary, amount: int) -> void:
+	var upgraded := 0
+	for card_id in run_state["deck_state"]["master_deck"]:
+		if upgraded >= amount:
+			break
+		if _upgrade_card_id(run_state, String(card_id)):
+			upgraded += 1

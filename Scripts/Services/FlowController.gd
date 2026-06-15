@@ -24,11 +24,14 @@ func show_scene(tag: String) -> void:
 	if root == null:
 		return
 	if AppRoot.run_session.has_active_run():
-		AppRoot.run_session.run_state["current_scene_tag"] = tag
-		if tag != "battle":
-			AppRoot.save_service.save_suspend(AppRoot.run_session.run_state, AppRoot.meta_service.meta_state)
+		if _is_run_scene(tag):
+			AppRoot.run_session.run_state["current_scene_tag"] = tag
+		AppRoot.save_service.save_suspend(AppRoot.run_session.run_state, AppRoot.meta_service.meta_state)
 	if current_scene != null and is_instance_valid(current_scene):
 		current_scene.queue_free()
 	var packed: PackedScene = load(SCENES.get(tag, SCENES["main_menu"]))
 	current_scene = packed.instantiate()
 	root.add_child(current_scene)
+
+func _is_run_scene(tag: String) -> bool:
+	return ["map", "battle", "reward", "shop", "event", "rest", "run_result"].has(tag)

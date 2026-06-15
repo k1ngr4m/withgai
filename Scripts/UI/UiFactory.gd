@@ -11,12 +11,12 @@ static func fill(node: Control) -> void:
 static func add_background(parent: Control, path: String) -> void:
 	if path.is_empty():
 		return
-	var texture = load(path)
-	if texture == null:
+	var loaded_texture = load(path)
+	if loaded_texture == null:
 		return
 	var bg := TextureRect.new()
 	fill(bg)
-	bg.texture = texture
+	bg.texture = loaded_texture
 	bg.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	bg.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 	bg.modulate = Color(0.72, 0.72, 0.72, 1.0)
@@ -33,7 +33,7 @@ static func margin(parent: Control, size := 24) -> MarginContainer:
 	return box
 
 static func panel() -> PanelContainer:
-	var panel := PanelContainer.new()
+	var panel_container := PanelContainer.new()
 	var style := StyleBoxFlat.new()
 	style.bg_color = Color(0.05, 0.07, 0.09, 0.82)
 	style.border_color = Color(0.58, 0.72, 0.82, 0.6)
@@ -42,8 +42,8 @@ static func panel() -> PanelContainer:
 	style.corner_radius_top_right = 6
 	style.corner_radius_bottom_left = 6
 	style.corner_radius_bottom_right = 6
-	panel.add_theme_stylebox_override("panel", style)
-	return panel
+	panel_container.add_theme_stylebox_override("panel", style)
+	return panel_container
 
 static func label(text: String, size := 18, color := Color.WHITE) -> Label:
 	var l := Label.new()

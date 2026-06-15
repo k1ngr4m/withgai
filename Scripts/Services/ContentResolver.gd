@@ -77,12 +77,12 @@ func events_for_run_class(class_id: String, chapter: int) -> Array:
 			result.append(event)
 	return result
 
-func encounters_for_node(chapter: int, node_type: String, floor: int) -> Array:
+func encounters_for_node(chapter: int, node_type: String, map_floor: int) -> Array:
 	var result: Array = []
 	for encounter in config_service.encounters_for(chapter, node_type):
 		var min_floor := int(encounter.get("min_floor", 1))
 		var max_floor := int(encounter.get("max_floor", 99))
-		if floor >= min_floor and floor <= max_floor:
+		if map_floor >= min_floor and map_floor <= max_floor:
 			result.append(encounter)
 	return result
 
@@ -90,6 +90,11 @@ func intent_entries_for_enemy(enemy_id: String) -> Array:
 	var enemy := enemy_def(enemy_id)
 	var group: Dictionary = config_service.get_def("intent_groups", enemy.get("intent_group_id", ""))
 	return group.get("intent_entries", [])
+
+func phase_entries_for_enemy(enemy_id: String) -> Array:
+	var enemy := enemy_def(enemy_id)
+	var group: Dictionary = config_service.get_def("phase_groups", enemy.get("phase_group_id", ""))
+	return group.get("phase_entries", [])
 
 func weighted_pick(rows: Array, rng: RandomNumberGenerator) -> Dictionary:
 	return config_service.random_weighted(rows, rng)

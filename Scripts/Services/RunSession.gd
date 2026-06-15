@@ -60,6 +60,7 @@ func create_new_run(class_id: String) -> Dictionary:
 			"enemies_defeated": 0,
 		},
 		"pending_reward_state": {},
+		"active_battle_state": {},
 		"current_scene_tag": "map",
 		"run_flags": {},
 		"shop_state": {},

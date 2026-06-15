@@ -76,14 +76,62 @@ const cardNames = {
 
 const rarityByIndex = (i) => (i < 14 ? "common" : i < 24 ? "uncommon" : "rare");
 const targetForType = (type) => (type === "attack" ? "single_enemy" : "self");
+const targetForCard = (type, id) => (id === "card_shared_meeting_mute" ? "selected" : targetForType(type));
+
+const specialCardDescriptions = {
+  card_shared_rollback: "回滚版本：获得防线，清除脆弱、易伤与焦虑。",
+  card_shared_standup: "晨会同步：获得防线，抽牌并返还精力。",
+  card_shared_meeting_mute: "会议静音：获得防线并削弱目标攻击意图。",
+};
+
+function descriptionForCard(id, name, type) {
+  return specialCardDescriptions[id] ?? `${name}：${type === "attack" ? "造成伤害" : type === "power" ? "建立长期收益" : "获得防线并触发职业资源"}。`;
+}
 
 function cardEffects(classId, cardId, type, cost, idx) {
   const n = Math.max(cost, 0);
   const rareBoost = idx >= 24 ? 4 : idx >= 14 ? 2 : 0;
+  if (cardId === "card_status_option_promise") {
+    return [
+      { effect_type: "apply_status", target_type: "self", params: { status_id: "anxiety", amount: 1 } },
+    ];
+  }
+  if (cardId === "card_status_meeting_minutes") {
+    return [
+      { effect_type: "apply_status", target_type: "self", params: { status_id: "overtime", amount: 1 } },
+    ];
+  }
+  if (cardId === "card_curse_next_year_promotion") {
+    return [
+      { effect_type: "apply_status", target_type: "self", params: { status_id: "weak", amount: 1 } },
+      { effect_type: "apply_status", target_type: "self", params: { status_id: "vulnerable", amount: 1 } },
+    ];
+  }
   if (cardId === "card_shared_coffee_boost") {
     return [
       { effect_type: "gain_energy", target_type: "self", params: { amount: 1 } },
       { effect_type: "draw_cards", target_type: "self", params: { amount: 1 } },
+    ];
+  }
+  if (cardId === "card_shared_rollback") {
+    return [
+      { effect_type: "gain_block", target_type: "self", params: { amount: 6 } },
+      { effect_type: "remove_status", target_type: "self", params: { status_id: "weak" } },
+      { effect_type: "remove_status", target_type: "self", params: { status_id: "vulnerable" } },
+      { effect_type: "remove_status", target_type: "self", params: { status_id: "anxiety" } },
+    ];
+  }
+  if (cardId === "card_shared_standup") {
+    return [
+      { effect_type: "gain_block", target_type: "self", params: { amount: 5 } },
+      { effect_type: "draw_cards", target_type: "self", params: { amount: 1 } },
+      { effect_type: "gain_energy", target_type: "self", params: { amount: 1 } },
+    ];
+  }
+  if (cardId === "card_shared_meeting_mute") {
+    return [
+      { effect_type: "gain_block", target_type: "self", params: { amount: 5 } },
+      { effect_type: "modify_intent", target_type: "selected", params: { amount: -4 } },
     ];
   }
   if (type === "attack") {
@@ -133,12 +181,33 @@ for (const [classId, names] of Object.entries(cardNames)) {
     const isShared = classId === "shared";
     cards.push({
       id, name, class_tags: isShared ? ["programmer_shared"] : [classId], rarity: isShared ? "common" : rarityByIndex(i),
-      type, cost, target_type: targetForType(type), keywords: [], effect_group_id: `eg_${id}`, upgrade_to: `${id}_plus`,
-      enabled_in_first_playable: !["hr"].includes(classId), description: `${name}：${type === "attack" ? "造成伤害" : type === "power" ? "建立长期收益" : "获得防线并触发职业资源"}。`,
+      type, cost, target_type: targetForCard(type, id), keywords: [], effect_group_id: `eg_${id}`, upgrade_to: `${id}_plus`,
+      enabled_in_first_playable: !["hr"].includes(classId), description: descriptionForCard(id, name, type),
       art_path: id === "card_backend_publish_script" ? "res://Resources/Art/Generated/P0/cards/card_illust_backend_publish_script_v1/final.png" : "",
     });
   }
 }
+
+const pollutionCards = [
+  ["card_status_option_promise", "期权承诺", "status", "焦虑 +1。"],
+  ["card_status_meeting_minutes", "会议纪要污染", "status", "加班 +1。"],
+  ["card_curse_next_year_promotion", "明年提拔你", "curse", "脆弱与易伤 +1。"],
+].map(([id, name, type, description]) => ({
+  id,
+  name,
+  class_tags: ["pollution"],
+  rarity: "special",
+  type,
+  cost: 0,
+  target_type: "self",
+  keywords: ["pollution"],
+  effect_group_id: `eg_${id}`,
+  upgrade_to: "",
+  enabled_in_first_playable: true,
+  description: `${name}：${description}`,
+  art_path: "",
+}));
+cards.push(...pollutionCards);
 
 const effectGroups = {};
 const effectEntries = [];
@@ -208,6 +277,34 @@ const relics = [
   id, name, allowed_classes, rarity, trigger_list: relicTriggers(id), effect_group_id: "", shop_weight: rarity === "starter" ? 0 : 10, description, art_path,
 }));
 
+const phaseScripts = {
+  enemy_airdrop_director: [
+    { threshold_pct: 0.5, name: "空降姿态切换", actions: [{ action_type: "block", amount: 8 }, { action_type: "force_intent", intent: { intent_type: "multi_attack", amount: 4, hits: 2 } }] },
+  ],
+  elite_airdrop_project_lead: [
+    { threshold_pct: 0.5, name: "Deadline 收紧", actions: [{ action_type: "debuff_player", status_id: "anxiety", amount: 2 }, { action_type: "force_intent", intent: { intent_type: "multi_attack", amount: 6, hits: 2 } }] },
+  ],
+  elite_outsource_manager: [
+    { threshold_pct: 0.5, name: "外包协同", actions: [{ action_type: "spawn", enemy_id: "enemy_process_specialist", amount: 1, max_allies: 4 }, { action_type: "block", amount: 8 }] },
+  ],
+  elite_approval_eye: [
+    { threshold_pct: 0.5, name: "审批冻结", actions: [{ action_type: "cleanse_player", amount: 3 }, { action_type: "pollute", card_id: "card_curse_next_year_promotion", amount: 1, destination: "discard" }] },
+  ],
+  boss_pitch_supervisor: [
+    { threshold_pct: 0.66, name: "期权加码", actions: [{ action_type: "pollute", card_id: "card_status_option_promise", amount: 1, destination: "hand" }, { action_type: "block", amount: 10 }] },
+    { threshold_pct: 0.33, name: "明年一定", actions: [{ action_type: "pollute", card_id: "card_curse_next_year_promotion", amount: 1, destination: "draw" }, { action_type: "force_intent", intent: { intent_type: "attack", amount: 18 } }] },
+  ],
+  boss_mutant_hr: [
+    { threshold_pct: 0.66, name: "绩效面谈升级", actions: [{ action_type: "cleanse_player", amount: 2 }, { action_type: "debuff_player", status_id: "overtime", amount: 1 }, { action_type: "block", amount: 10 }] },
+    { threshold_pct: 0.33, name: "优化名单扩散", actions: [{ action_type: "pollute", card_id: "card_status_meeting_minutes", amount: 2, destination: "discard" }, { action_type: "force_intent", intent: { intent_type: "debuff", status_id: "overtime", amount: 3 } }] },
+  ],
+  boss_mutant_ceo: [
+    { threshold_pct: 0.7, name: "季度会启动", actions: [{ action_type: "spawn", enemy_id: "enemy_meeting_maniac", amount: 1, max_allies: 4 }, { action_type: "block", amount: 12 }] },
+    { threshold_pct: 0.4, name: "资本意志压顶", actions: [{ action_type: "pollute", card_id: "card_status_meeting_minutes", amount: 2, destination: "discard" }, { action_type: "force_intent", intent: { intent_type: "multi_attack", amount: 8, hits: 3 } }] },
+    { threshold_pct: 0.2, name: "全员大会", actions: [{ action_type: "spawn", enemy_id: "enemy_process_specialist", amount: 1, max_allies: 5 }, { action_type: "pollute", card_id: "card_curse_next_year_promotion", amount: 1, destination: "draw" }, { action_type: "block", amount: 20 }] },
+  ],
+};
+
 const enemies = [
   ["enemy_slacker_coworker", "摸鱼同事", [1], 34, "偶尔跳过攻击并叠防线", "res://Resources/Art/Generated/P0/enemies/enemy_slacker_coworker_v1/raw.png"],
   ["enemy_workaholic_coworker", "卷王同事", [1], 38, "高频多段攻击", "res://Resources/Art/Generated/P0/enemies/enemy_workaholic_coworker_v1/raw.png"],
@@ -226,22 +323,88 @@ const enemies = [
   ["boss_mutant_hr", "变异HR", [2], 150, "压缩续航、惩罚冗余手牌", ""],
   ["boss_mutant_ceo", "变异总裁", [3], 190, "多阶段、多意图、召唤会议纪要", ""],
 ].map(([id, name, chapter_tags, base_hp, description, art_path]) => ({
-  id, name, chapter_tags, base_hp, intent_group_id: `ig_${id}`, phase_group_id: "", reward_profile_id: "reward_default", description, art_path,
+  id, name, chapter_tags, base_hp, intent_group_id: `ig_${id}`, phase_group_id: phaseScripts[id] ? `pg_${id}` : "", reward_profile_id: "reward_default", description, art_path,
 }));
+
+const specialtyIntents = {
+  enemy_workaholic_coworker: [
+    { intent_type: "multi_attack", amount: 3, hits: 3, weight: 4 },
+  ],
+  enemy_salesman: [
+    { intent_type: "pollute", card_id: "card_status_option_promise", amount: 1, destination: "discard", weight: 4 },
+  ],
+  enemy_process_specialist: [
+    { intent_type: "block", amount: 10, weight: 3 },
+  ],
+  enemy_performance_inspector: [
+    { intent_type: "debuff", status_id: "weak", amount: 1, weight: 2 },
+  ],
+  enemy_meeting_maniac: [
+    { intent_type: "spawn", enemy_id: "enemy_process_specialist", amount: 1, max_allies: 3, weight: 3 },
+    { intent_type: "pollute", card_id: "card_status_meeting_minutes", amount: 1, destination: "discard", weight: 2 },
+  ],
+  enemy_airdrop_director: [
+    { intent_type: "phase_shift", amount: 5, weight: 2 },
+  ],
+  enemy_compliance_judge: [
+    { intent_type: "cleanse_player", amount: 2, card_id: "card_status_meeting_minutes", weight: 3 },
+  ],
+  elite_airdrop_project_lead: [
+    { intent_type: "multi_attack", amount: 5, hits: 2, weight: 3 },
+  ],
+  elite_outsource_manager: [
+    { intent_type: "spawn", enemy_id: "enemy_process_specialist", amount: 1, max_allies: 4, weight: 4 },
+  ],
+  elite_budget_gatekeeper: [
+    { intent_type: "debuff", status_id: "vulnerable", amount: 1, weight: 2 },
+  ],
+  elite_approval_eye: [
+    { intent_type: "cleanse_player", amount: 3, card_id: "card_curse_next_year_promotion", weight: 3 },
+  ],
+  boss_pitch_supervisor: [
+    { intent_type: "pollute", card_id: "card_status_option_promise", amount: 2, destination: "discard", weight: 4 },
+    { intent_type: "pollute", card_id: "card_curse_next_year_promotion", amount: 1, destination: "draw", weight: 2 },
+  ],
+  boss_mutant_hr: [
+    { intent_type: "cleanse_player", amount: 3, card_id: "card_status_meeting_minutes", weight: 3 },
+    { intent_type: "debuff", status_id: "overtime", amount: 2, weight: 2 },
+  ],
+  boss_mutant_ceo: [
+    { intent_type: "multi_attack", amount: 6, hits: 3, weight: 3 },
+    { intent_type: "spawn", enemy_id: "enemy_meeting_maniac", amount: 1, max_allies: 4, weight: 3 },
+    { intent_type: "pollute", card_id: "card_status_meeting_minutes", amount: 2, destination: "discard", weight: 2 },
+  ],
+};
 
 const intentGroups = {};
 for (const enemy of enemies) {
   const boss = enemy.id.startsWith("boss");
   const elite = enemy.id.startsWith("elite");
+  const baseEntries = [
+    { intent_type: "attack", amount: boss ? 14 : elite ? 11 : 7, weight: 5 },
+    { intent_type: "block", amount: boss ? 12 : elite ? 9 : 6, weight: 2 },
+    { intent_type: "debuff", status_id: "anxiety", amount: 1, weight: 1 },
+  ];
   intentGroups[`ig_${enemy.id}`] = {
     id: `ig_${enemy.id}`,
-    intent_entries: [
-      { intent_type: "attack", amount: boss ? 14 : elite ? 11 : 7, weight: 5 },
-      { intent_type: "block", amount: boss ? 12 : elite ? 9 : 6, weight: 2 },
-      { intent_type: "debuff", status_id: "anxiety", amount: 1, weight: 1 },
-    ],
+    intent_entries: baseEntries.concat(specialtyIntents[enemy.id] ?? []),
   };
 }
+
+const phaseGroups = Object.fromEntries(Object.entries(phaseScripts).map(([enemyId, phases]) => {
+  const groupId = `pg_${enemyId}`;
+  return [groupId, {
+    id: groupId,
+    enemy_id: enemyId,
+    phase_entries: phases.map((phase, index) => ({
+      id: `${groupId}_p${String(index + 1).padStart(2, "0")}`,
+      order: index + 1,
+      threshold_pct: phase.threshold_pct,
+      name: phase.name,
+      actions: phase.actions,
+    })),
+  }];
+}));
 
 const encounters = [
   ["enc_ch1_slacker", 1, "normal_battle", ["enemy_slacker_coworker"], 10, 1, 4],
@@ -324,6 +487,7 @@ const config = {
   effect_groups: effectGroups,
   effect_entries: Object.fromEntries(effectEntries.map((e) => [e.id, e])),
   intent_groups: intentGroups,
+  phase_groups: phaseGroups,
   reward_profiles: rewardProfiles,
   shop_pools: shopPools,
 };
@@ -366,6 +530,7 @@ const tableDefs = [
   ["EffectGroupDef", Object.values(config.effect_groups), ["id", "entry_ids"]],
   ["EffectEntryDef", Object.values(config.effect_entries), ["id", "effect_group_id", "order", "effect_type", "target_type", "params"]],
   ["EnemyIntentGroupDef", Object.values(config.intent_groups), ["id", "intent_entries"]],
+  ["PhaseGroupDef", Object.values(config.phase_groups), ["id", "enemy_id", "phase_entries"]],
   ["RewardProfileDef", Object.values(config.reward_profiles), ["id", "card_pool_ref", "relic_pool_ref", "currency_range"]],
   ["ShopPoolDef", Object.values(config.shop_pools), ["id", "card_pool_refs", "relic_pool_refs", "refresh_cost"]],
 ];

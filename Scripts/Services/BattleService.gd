@@ -1,6 +1,22 @@
 class_name BattleService
 extends RefCounted
 
+const PLAYER_POSITIVE_STATUS_IDS := [
+	"service_online",
+	"cache",
+	"component",
+	"style_layer",
+	"case_mark",
+	"diff",
+	"compute",
+	"complexity",
+	"requirement_change",
+	"priority",
+	"performance",
+]
+const PLAYER_TURN_END_DECAY_STATUS_IDS := ["weak", "vulnerable"]
+const ENEMY_ACTION_END_DECAY_STATUS_IDS := ["weak", "vulnerable"]
+
 var content_resolver
 var effect_executor: EffectExecutor
 var battle_state: Dictionary = {}
@@ -13,18 +29,7 @@ func start_battle(run_state: Dictionary, node: Dictionary) -> Dictionary:
 	var encounter := _select_encounter(run_state, node)
 	var enemies: Array = []
 	for enemy_id in encounter.get("enemy_ids", []):
-		var def: Dictionary = content_resolver.enemy_def(enemy_id)
-		enemies.append({
-			"enemy_def_id": enemy_id,
-			"name": def.get("name", enemy_id),
-			"max_hp": int(def.get("base_hp", 30)),
-			"current_hp": int(def.get("base_hp", 30)),
-			"current_block": 0,
-			"phase_index": 0,
-			"intent": {},
-			"status_list": {},
-			"runtime_flags": {},
-		})
+		enemies.append(_build_enemy(String(enemy_id)))
 	var deck: Array = run_state.get("deck_state", {}).get("master_deck", []).duplicate(true)
 	deck.shuffle()
 	battle_state = {
@@ -60,7 +65,22 @@ func start_battle(run_state: Dictionary, node: Dictionary) -> Dictionary:
 	}
 	_apply_battle_start_relics(run_state)
 	_start_player_turn(run_state, true)
+	_persist_battle(run_state)
 	return battle_state
+
+func restore_battle(run_state: Dictionary) -> bool:
+	var saved_battle: Dictionary = run_state.get("active_battle_state", {})
+	if saved_battle.is_empty():
+		return false
+	battle_state = saved_battle
+	run_state["active_battle_state"] = battle_state
+	return true
+
+func _persist_battle(run_state: Dictionary) -> void:
+	if battle_state.is_empty() or ["victory", "defeat"].has(String(battle_state.get("phase", ""))):
+		run_state["active_battle_state"] = {}
+	else:
+		run_state["active_battle_state"] = battle_state
 
 func _initial_class_resources(class_id: String) -> Dictionary:
 	match class_id:
@@ -86,6 +106,22 @@ func _select_encounter(run_state: Dictionary, node: Dictionary) -> Dictionary:
 		int(node.get("floor", run_state.get("current_floor", 1)))
 	)
 	return content_resolver.weighted_pick(rows, rng)
+
+func _build_enemy(enemy_id: String) -> Dictionary:
+	var def: Dictionary = content_resolver.enemy_def(enemy_id)
+	if def.is_empty():
+		return {}
+	return {
+		"enemy_def_id": enemy_id,
+		"name": def.get("name", enemy_id),
+		"max_hp": int(def.get("base_hp", 30)),
+		"current_hp": int(def.get("base_hp", 30)),
+		"current_block": 0,
+		"phase_index": 0,
+		"intent": {},
+		"status_list": {},
+		"runtime_flags": {},
+	}
 
 func _apply_battle_start_relics(run_state: Dictionary) -> void:
 	var player: Dictionary = battle_state.get("player", {})
@@ -136,10 +172,12 @@ func play_card(run_state: Dictionary, hand_index: int, target_index := 0) -> voi
 	battle_state["log"].append("打出：%s%s" % [card.get("name", card_id), "+" if upgraded else ""])
 	var entries: Array = _actual_effect_entries(card)
 	effect_executor.execute(entries, battle_state, run_state, target_index, battle_state["log"])
+	_check_enemy_phase_triggers(run_state)
 	_collect_defeated_enemies(run_state)
 	_apply_card_relics(run_state, card)
 	player["discard_pile"].append(card_id)
 	_check_victory(run_state)
+	_persist_battle(run_state)
 
 func select_target(target_index: int) -> void:
 	var enemies: Array = battle_state.get("enemies", [])
@@ -216,16 +254,20 @@ func end_turn(run_state: Dictionary) -> void:
 	_round_end_triggers(run_state)
 	_check_victory(run_state)
 	if battle_state.get("phase", "") == "victory":
+		_persist_battle(run_state)
 		return
 	battle_state["phase"] = "enemy"
 	_enemy_turn(run_state)
 	if battle_state.get("phase", "") == "defeat":
+		_persist_battle(run_state)
 		return
 	_start_player_turn(run_state)
+	_persist_battle(run_state)
 
 func _enemy_turn(run_state: Dictionary) -> void:
 	var player: Dictionary = battle_state.get("player", {})
-	for enemy in battle_state.get("enemies", []):
+	var acting_enemies: Array = battle_state.get("enemies", []).duplicate()
+	for enemy in acting_enemies:
 		if int(enemy.get("current_hp", 0)) <= 0:
 			continue
 		var statuses: Dictionary = enemy.get("status_list", {})
@@ -238,6 +280,8 @@ func _enemy_turn(run_state: Dictionary) -> void:
 		match intent.get("intent_type", ""):
 			"attack":
 				_enemy_attack(player, enemy, int(intent.get("amount", 0)), run_state)
+			"multi_attack":
+				_enemy_multi_attack(player, enemy, intent, run_state)
 			"block":
 				enemy["current_block"] = int(enemy.get("current_block", 0)) + int(intent.get("amount", 0))
 				battle_state["log"].append("%s 获得防线" % enemy.get("name", "敌人"))
@@ -246,23 +290,182 @@ func _enemy_turn(run_state: Dictionary) -> void:
 				pstatus[String(intent.get("status_id", "anxiety"))] = int(pstatus.get(String(intent.get("status_id", "anxiety")), 0)) + int(intent.get("amount", 1))
 				player["status_list"] = pstatus
 				battle_state["log"].append("%s 施加负面状态" % enemy.get("name", "敌人"))
+			"pollute":
+				_pollute_player(player, String(intent.get("card_id", "")), String(intent.get("destination", "discard")), int(intent.get("amount", 1)), String(enemy.get("name", "敌人")))
+			"spawn":
+				_spawn_enemy(String(intent.get("enemy_id", "")), int(intent.get("amount", 1)), int(intent.get("max_allies", 0)), String(enemy.get("name", "敌人")))
+			"cleanse_player":
+				_cleanse_player_boons(player, int(intent.get("amount", 1)), String(enemy.get("name", "敌人")))
+				if not String(intent.get("card_id", "")).is_empty():
+					_pollute_player(player, String(intent.get("card_id", "")), String(intent.get("destination", "discard")), 1, String(enemy.get("name", "敌人")))
+			"phase_shift":
+				_phase_shift_enemy(enemy, int(intent.get("amount", 0)))
+		_tick_enemy_action_statuses(enemy)
 		_collect_defeated_enemies(run_state)
 	if int(player.get("current_spirit", 0)) <= 0:
 		battle_state["phase"] = "defeat"
 		run_state["player_state"]["current_spirit"] = 0
+		run_state["active_battle_state"] = {}
 	else:
 		_check_victory(run_state)
 
+func _enemy_multi_attack(player: Dictionary, enemy: Dictionary, intent: Dictionary, run_state: Dictionary) -> void:
+	var hits: int = max(1, int(intent.get("hits", 2)))
+	var amount := int(intent.get("amount", 0))
+	battle_state["log"].append("%s 发起 %d 段压迫" % [enemy.get("name", "敌人"), hits])
+	for i in range(hits):
+		if int(player.get("current_spirit", 0)) <= 0:
+			break
+		_enemy_attack(player, enemy, amount, run_state)
+
 func _enemy_attack(player: Dictionary, enemy: Dictionary, amount: int, run_state: Dictionary) -> void:
+	var final_amount := amount
+	var enemy_statuses: Dictionary = enemy.get("status_list", {})
+	if int(enemy_statuses.get("weak", 0)) > 0:
+		final_amount = int(floor(final_amount * 0.75))
+	var player_statuses: Dictionary = player.get("status_list", {})
+	if int(player_statuses.get("vulnerable", 0)) > 0:
+		final_amount = int(ceil(final_amount * 1.5))
 	var block := int(player.get("current_block", 0))
-	var blocked := int(min(block, amount))
+	var blocked := int(min(block, final_amount))
 	player["current_block"] = block - blocked
-	var damage := int(amount - blocked)
+	var damage := int(final_amount - blocked)
 	player["current_spirit"] = max(0, int(player.get("current_spirit", 0)) - damage)
 	player["damage_taken_this_turn"] = int(player.get("damage_taken_this_turn", 0)) + damage
 	battle_state["log"].append("%s 造成 %d 压力" % [enemy.get("name", "敌人"), damage])
 	if damage > 0:
 		_apply_damage_taken_relics(player, run_state, damage)
+
+func _pollute_player(player: Dictionary, card_id: String, destination: String, amount: int, source_name: String) -> void:
+	if card_id.is_empty() or content_resolver.card_def(card_id).is_empty():
+		battle_state["log"].append("%s 的污染牌配置缺失" % source_name)
+		return
+	var pile_name := "discard_pile"
+	if destination == "hand":
+		pile_name = "hand"
+	elif destination == "draw":
+		pile_name = "draw_pile"
+	var pile: Array = player.get(pile_name, [])
+	for i in range(max(1, amount)):
+		pile.append(card_id)
+	player[pile_name] = pile
+	battle_state["log"].append("%s 塞入污染牌 %s x%d" % [source_name, content_resolver.card_def(card_id).get("name", card_id), max(1, amount)])
+
+func _spawn_enemy(enemy_id: String, amount: int, max_allies: int, source_name: String) -> void:
+	if enemy_id.is_empty():
+		return
+	var rng := RandomNumberGenerator.new()
+	rng.randomize()
+	for i in range(max(1, amount)):
+		if max_allies > 0 and _alive_enemy_count() >= max_allies:
+			battle_state["log"].append("%s 呼叫增援，但会议室已经坐满" % source_name)
+			return
+		var spawned := _build_enemy(enemy_id)
+		if spawned.is_empty():
+			battle_state["log"].append("%s 的增援配置缺失" % source_name)
+			return
+		var intents: Array = content_resolver.intent_entries_for_enemy(enemy_id)
+		if not intents.is_empty():
+			spawned["intent"] = content_resolver.weighted_pick(intents, rng).duplicate(true)
+		battle_state["enemies"].append(spawned)
+		battle_state["log"].append("%s 召唤增援：%s" % [source_name, spawned.get("name", enemy_id)])
+
+func _alive_enemy_count() -> int:
+	var count := 0
+	for enemy in battle_state.get("enemies", []):
+		if int(enemy.get("current_hp", 0)) > 0:
+			count += 1
+	return count
+
+func _cleanse_player_boons(player: Dictionary, amount: int, source_name: String) -> void:
+	var statuses: Dictionary = player.get("status_list", {})
+	var removed_statuses := 0
+	for status_id in PLAYER_POSITIVE_STATUS_IDS:
+		if statuses.has(status_id):
+			statuses.erase(status_id)
+			removed_statuses += 1
+	player["status_list"] = statuses
+	var resources: Dictionary = player.get("class_resource_state", {})
+	var cleanse_amount: int = max(1, amount)
+	var reduced_resources := 0
+	for key in resources.keys():
+		if int(resources.get(key, 0)) <= 0:
+			continue
+		resources[key] = max(0, int(resources.get(key, 0)) - cleanse_amount)
+		reduced_resources += 1
+	player["class_resource_state"] = resources
+	battle_state["log"].append("%s 清理玩家增益：状态 %d 个，资源 %d 项" % [source_name, removed_statuses, reduced_resources])
+
+func _phase_shift_enemy(enemy: Dictionary, amount: int) -> void:
+	enemy["phase_index"] = int(enemy.get("phase_index", 0)) + 1
+	if amount > 0:
+		enemy["current_block"] = int(enemy.get("current_block", 0)) + amount
+	battle_state["log"].append("%s 切换阶段" % enemy.get("name", "敌人"))
+
+func _check_enemy_phase_triggers(run_state: Dictionary) -> void:
+	for enemy in battle_state.get("enemies", []):
+		if int(enemy.get("current_hp", 0)) <= 0:
+			continue
+		var entries: Array = content_resolver.phase_entries_for_enemy(String(enemy.get("enemy_def_id", "")))
+		if entries.is_empty():
+			continue
+		var max_hp: int = max(1, int(enemy.get("max_hp", 1)))
+		var hp_pct: float = float(enemy.get("current_hp", 0)) / float(max_hp)
+		for phase in entries:
+			var threshold_pct: float = float(phase.get("threshold_pct", 0.0))
+			if threshold_pct <= 0.0 or hp_pct > threshold_pct:
+				continue
+			var phase_id := String(phase.get("id", "phase_%s" % str(threshold_pct)))
+			var flags: Dictionary = enemy.get("runtime_flags", {})
+			var triggered: Array = flags.get("triggered_phases", [])
+			if triggered.has(phase_id):
+				continue
+			triggered.append(phase_id)
+			flags["triggered_phases"] = triggered
+			enemy["runtime_flags"] = flags
+			enemy["phase_index"] = max(int(enemy.get("phase_index", 0)), int(phase.get("order", 0)))
+			battle_state["log"].append("%s 进入阶段：%s" % [enemy.get("name", "敌人"), phase.get("name", phase_id)])
+			_execute_phase_actions(enemy, phase.get("actions", []), run_state)
+
+func _execute_phase_actions(enemy: Dictionary, actions: Array, _run_state: Dictionary) -> void:
+	var player: Dictionary = battle_state.get("player", {})
+	for action in actions:
+		var action_type := String(action.get("action_type", ""))
+		match action_type:
+			"block":
+				enemy["current_block"] = int(enemy.get("current_block", 0)) + int(action.get("amount", 0))
+				battle_state["log"].append("%s 阶段防线 +%d" % [enemy.get("name", "敌人"), int(action.get("amount", 0))])
+			"pollute":
+				_pollute_player(player, String(action.get("card_id", "")), String(action.get("destination", "discard")), int(action.get("amount", 1)), String(enemy.get("name", "敌人")))
+			"spawn":
+				_spawn_enemy(String(action.get("enemy_id", "")), int(action.get("amount", 1)), int(action.get("max_allies", 0)), String(enemy.get("name", "敌人")))
+			"cleanse_player":
+				_cleanse_player_boons(player, int(action.get("amount", 1)), String(enemy.get("name", "敌人")))
+			"debuff_player":
+				_add_player_status(player, String(action.get("status_id", "anxiety")), int(action.get("amount", 1)), String(enemy.get("name", "敌人")))
+			"status_self":
+				_add_enemy_status(enemy, String(action.get("status_id", "")), int(action.get("amount", 1)))
+			"force_intent":
+				var next_intent: Dictionary = action.get("intent", {}).duplicate(true)
+				if not next_intent.is_empty():
+					enemy["intent"] = next_intent
+					battle_state["log"].append("%s 重置意图为 %s" % [enemy.get("name", "敌人"), next_intent.get("intent_type", "")])
+
+func _add_player_status(player: Dictionary, status_id: String, amount: int, source_name: String) -> void:
+	if status_id.is_empty():
+		return
+	var statuses: Dictionary = player.get("status_list", {})
+	statuses[status_id] = int(statuses.get(status_id, 0)) + max(1, amount)
+	player["status_list"] = statuses
+	battle_state["log"].append("%s 施加 %s x%d" % [source_name, status_id, max(1, amount)])
+
+func _add_enemy_status(enemy: Dictionary, status_id: String, amount: int) -> void:
+	if status_id.is_empty():
+		return
+	var statuses: Dictionary = enemy.get("status_list", {})
+	statuses[status_id] = int(statuses.get(status_id, 0)) + max(1, amount)
+	enemy["status_list"] = statuses
+	battle_state["log"].append("%s 获得 %s x%d" % [enemy.get("name", "敌人"), status_id, max(1, amount)])
 
 func _start_player_turn(run_state: Dictionary, first_turn := false) -> void:
 	var player: Dictionary = battle_state.get("player", {})
@@ -295,6 +498,7 @@ func _check_victory(run_state: Dictionary) -> void:
 	battle_state["runtime_flags"] = runtime_flags
 	battle_state["phase"] = "victory"
 	run_state["player_state"]["current_spirit"] = int(battle_state.get("player", {}).get("current_spirit", 1))
+	run_state["active_battle_state"] = {}
 	var counters: Dictionary = run_state.get("run_counters", {})
 	counters["battles_won"] = int(counters.get("battles_won", 0)) + 1
 	run_state["run_counters"] = counters
@@ -339,6 +543,7 @@ func _round_start_triggers(run_state: Dictionary, first_turn: bool) -> void:
 		battle_state["log"].append("焦虑让本回合精力 -1")
 	if int(statuses.get("overtime", 0)) > 0:
 		player["current_spirit"] = max(0, int(player.get("current_spirit", 0)) - int(statuses.get("overtime", 0)))
+		statuses["overtime"] = max(0, int(statuses.get("overtime", 0)) - 1)
 		battle_state["log"].append("加班造成精神消耗")
 	player["status_list"] = statuses
 	var resources: Dictionary = player.get("class_resource_state", {})
@@ -355,15 +560,30 @@ func _round_end_triggers(run_state: Dictionary) -> void:
 	var player: Dictionary = battle_state.get("player", {})
 	var resources: Dictionary = player.get("class_resource_state", {})
 	var services := int(resources.get("services", 0))
-	if services <= 0:
-		return
-	var damage := services * 2
-	for enemy in battle_state.get("enemies", []):
-		if int(enemy.get("current_hp", 0)) <= 0:
-			continue
-		enemy["current_hp"] = max(0, int(enemy.get("current_hp", 0)) - damage)
-		battle_state["log"].append("服务巡检对 %s 造成 %d 伤害" % [enemy.get("name", "敌人"), damage])
-	_collect_defeated_enemies(run_state)
+	if services > 0:
+		var damage := services * 2
+		for enemy in battle_state.get("enemies", []):
+			if int(enemy.get("current_hp", 0)) <= 0:
+				continue
+			enemy["current_hp"] = max(0, int(enemy.get("current_hp", 0)) - damage)
+			battle_state["log"].append("服务巡检对 %s 造成 %d 伤害" % [enemy.get("name", "敌人"), damage])
+		_check_enemy_phase_triggers(run_state)
+		_collect_defeated_enemies(run_state)
+	_tick_player_turn_end_statuses(player)
+
+func _tick_player_turn_end_statuses(player: Dictionary) -> void:
+	var statuses: Dictionary = player.get("status_list", {})
+	for status_id in PLAYER_TURN_END_DECAY_STATUS_IDS:
+		if int(statuses.get(status_id, 0)) > 0:
+			statuses[status_id] = max(0, int(statuses.get(status_id, 0)) - 1)
+	player["status_list"] = statuses
+
+func _tick_enemy_action_statuses(enemy: Dictionary) -> void:
+	var statuses: Dictionary = enemy.get("status_list", {})
+	for status_id in ENEMY_ACTION_END_DECAY_STATUS_IDS:
+		if int(statuses.get(status_id, 0)) > 0:
+			statuses[status_id] = max(0, int(statuses.get(status_id, 0)) - 1)
+	enemy["status_list"] = statuses
 
 func _collect_defeated_enemies(run_state: Dictionary) -> void:
 	var counters: Dictionary = run_state.get("run_counters", {})

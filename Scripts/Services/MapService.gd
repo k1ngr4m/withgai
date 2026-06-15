@@ -42,7 +42,7 @@ func generate_chapter(run_state: Dictionary, chapter: int) -> void:
 		"boss_node_id": floors[5][0]["id"],
 	}
 
-func _node_type_for(chapter: int, local_floor: int, index: int, rng: RandomNumberGenerator) -> String:
+func _node_type_for(_chapter: int, local_floor: int, index: int, rng: RandomNumberGenerator) -> String:
 	if local_floor == 0:
 		return "normal_battle"
 	if local_floor == 5:

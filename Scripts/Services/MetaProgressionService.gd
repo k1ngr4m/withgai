@@ -58,17 +58,17 @@ func apply_run_start_bonuses(player_state: Dictionary) -> void:
 
 func settle_run(run_state: Dictionary, victory: bool) -> int:
 	if run_state.get("run_flags", {}).get("settled", false):
-		return 0
-	var floor := int(run_state.get("current_floor", 1))
+		return int(run_state.get("settlement_state", {}).get("earned_currency", 0))
+	var reached_floor := int(run_state.get("current_floor", 1))
 	var boss_count := int(run_state.get("defeated_boss_ids", []).size())
-	var earned := int(floor * 2 + boss_count * 35 + (80 if victory else 0))
+	var earned := int(reached_floor * 2 + boss_count * 35 + (80 if victory else 0))
 	meta_state["owned_discomfort_currency"] = int(meta_state.get("owned_discomfort_currency", 0)) + earned
-	meta_state["highest_floor_reached"] = max(int(meta_state.get("highest_floor_reached", 1)), floor)
+	meta_state["highest_floor_reached"] = max(int(meta_state.get("highest_floor_reached", 1)), reached_floor)
 	var milestones: Dictionary = meta_state.get("career_milestones", {})
 	var counters: Dictionary = run_state.get("run_counters", {})
 	for key in counters.keys():
 		milestones[key] = int(milestones.get(key, 0)) + int(counters.get(key, 0))
-	milestones["highest_floor_reached"] = max(int(milestones.get("highest_floor_reached", 1)), floor)
+	milestones["highest_floor_reached"] = max(int(milestones.get("highest_floor_reached", 1)), reached_floor)
 	meta_state["career_milestones"] = milestones
 	for boss_id in run_state.get("defeated_boss_ids", []):
 		var records: Array = meta_state.get("defeated_boss_records", [])
@@ -79,6 +79,19 @@ func settle_run(run_state: Dictionary, victory: bool) -> int:
 	var flags: Dictionary = run_state.get("run_flags", {})
 	flags["settled"] = true
 	run_state["run_flags"] = flags
+	run_state["settlement_state"] = {
+		"victory": victory,
+		"earned_currency": earned,
+		"highest_floor": reached_floor,
+		"boss_count": boss_count,
+		"battle_count": int(counters.get("battles_won", 0)),
+		"elite_count": int(counters.get("elite_wins", 0)),
+		"event_count": int(counters.get("events_resolved", 0)),
+		"shop_count": int(counters.get("shops_visited", 0)),
+		"rest_count": int(counters.get("rests_used", 0)),
+		"enemy_count": int(counters.get("enemies_defeated", 0)),
+		"total_currency_after": int(meta_state.get("owned_discomfort_currency", 0)),
+	}
 	save_service.save_meta(meta_state)
 	return earned
 

@@ -6,25 +6,25 @@ var config_service: ConfigService
 func setup(p_config_service: ConfigService) -> void:
 	config_service = p_config_service
 
-func execute(entries: Array, battle_state: Dictionary, run_state: Dictionary, target_index: int, log: Array) -> void:
+func execute(entries: Array, battle_state: Dictionary, run_state: Dictionary, target_index: int, battle_log: Array) -> void:
 	for entry in entries:
-		_execute_entry(entry, battle_state, run_state, target_index, log)
+		_execute_entry(entry, battle_state, run_state, target_index, battle_log)
 
-func _execute_entry(entry: Dictionary, battle_state: Dictionary, run_state: Dictionary, target_index: int, log: Array) -> void:
+func _execute_entry(entry: Dictionary, battle_state: Dictionary, run_state: Dictionary, target_index: int, battle_log: Array) -> void:
 	var effect_type := String(entry.get("effect_type", ""))
 	var params: Dictionary = entry.get("params", {})
 	var amount := int(params.get("amount", 0))
 	match effect_type:
 		"gain_block":
-			_gain_block(battle_state, run_state, amount, log)
+			_gain_block(battle_state, run_state, amount, battle_log)
 		"deal_damage":
-			_damage_enemies(entry.get("target_type", "selected"), battle_state, run_state, target_index, amount, log)
+			_damage_enemies(entry.get("target_type", "selected"), battle_state, run_state, target_index, amount, battle_log)
 		"draw_cards":
-			_draw_cards(battle_state, amount, log)
+			_draw_cards(battle_state, amount, battle_log)
 		"gain_energy":
 			_player(battle_state)["current_energy"] = int(_player(battle_state).get("current_energy", 0)) + amount
 		"apply_status":
-			_apply_status(entry.get("target_type", "selected"), battle_state, run_state, target_index, String(params.get("status_id", "")), int(params.get("amount", 1)), log)
+			_apply_status(entry.get("target_type", "selected"), battle_state, run_state, target_index, String(params.get("status_id", "")), int(params.get("amount", 1)), battle_log)
 		"remove_status":
 			_remove_status(entry.get("target_type", "selected"), battle_state, target_index, String(params.get("status_id", "")))
 		"gain_currency":
@@ -38,40 +38,40 @@ func _execute_entry(entry: Dictionary, battle_state: Dictionary, run_state: Dict
 			ps2["current_spirit"] = max(1, int(ps2.get("current_spirit", 72)) - amount)
 			run_state["player_state"] = ps2
 		"deploy_service":
-			_add_class_resource(battle_state, "services", max(1, amount), log, "部署服务")
+			_add_class_resource(battle_state, "services", max(1, amount), battle_log, "部署服务")
 		"add_cache":
-			_add_class_resource(battle_state, "cache", amount, log, "缓存")
+			_add_class_resource(battle_state, "cache", amount, battle_log, "缓存")
 		"add_component":
-			_add_class_resource(battle_state, "components", amount, log, "组件")
-			_apply_component_relics(battle_state, run_state, log)
+			_add_class_resource(battle_state, "components", amount, battle_log, "组件")
+			_apply_component_relics(battle_state, run_state, battle_log)
 		"add_style_layer":
-			_add_class_resource(battle_state, "style_layers", amount, log, "样式层")
+			_add_class_resource(battle_state, "style_layers", amount, battle_log, "样式层")
 		"inject_bug":
 			for enemy in _target_enemies(entry.get("target_type", "selected"), battle_state, target_index):
-				_enemy_status(enemy, battle_state, run_state, "bug", max(1, amount), log)
-			_modify_intents(entry.get("target_type", "selected"), battle_state, run_state, target_index, -2 * max(1, amount), log)
+				_enemy_status(enemy, battle_state, run_state, "bug", max(1, amount), battle_log)
+			_modify_intents(entry.get("target_type", "selected"), battle_state, run_state, target_index, -2 * max(1, amount), battle_log)
 		"add_case":
 			for enemy in _target_enemies(entry.get("target_type", "selected"), battle_state, target_index):
-				_enemy_status(enemy, battle_state, run_state, "case_mark", max(1, amount), log)
+				_enemy_status(enemy, battle_state, run_state, "case_mark", max(1, amount), battle_log)
 		"add_diff":
 			for enemy in _target_enemies(entry.get("target_type", "selected"), battle_state, target_index):
-				_enemy_status(enemy, battle_state, run_state, "diff", max(1, amount), log)
+				_enemy_status(enemy, battle_state, run_state, "diff", max(1, amount), battle_log)
 		"add_compute":
-			_add_class_resource(battle_state, "compute", amount, log, "算力")
+			_add_class_resource(battle_state, "compute", amount, battle_log, "算力")
 		"modify_complexity":
-			_add_class_resource(battle_state, "complexity", amount, log, "复杂度")
+			_add_class_resource(battle_state, "complexity", amount, battle_log, "复杂度")
 		"modify_intent":
-			_modify_intents(entry.get("target_type", "selected"), battle_state, run_state, target_index, amount, log)
+			_modify_intents(entry.get("target_type", "selected"), battle_state, run_state, target_index, amount, battle_log)
 		"create_card":
-			_create_card(battle_state, String(params.get("card_id", "")), String(params.get("destination", "discard")), max(1, amount), log)
+			_create_card(battle_state, String(params.get("card_id", "")), String(params.get("destination", "discard")), max(1, amount), battle_log)
 		"add_relic":
-			_add_relic(run_state, String(params.get("relic_id", "")), log)
+			_add_relic(run_state, String(params.get("relic_id", "")), battle_log)
 		"spawn_enemy":
-			_spawn_enemy(battle_state, String(params.get("enemy_id", "")), log)
+			_spawn_enemy(battle_state, String(params.get("enemy_id", "")), battle_log)
 		"upgrade_card", "remove_card", "add_random_card", "add_random_relic", "move_card":
-			log.append("事件效果已记录：%s" % effect_type)
+			battle_log.append("事件效果已记录：%s" % effect_type)
 		_:
-			log.append("未实现效果：%s" % effect_type)
+			battle_log.append("未实现效果：%s" % effect_type)
 
 func _player(battle_state: Dictionary) -> Dictionary:
 	return battle_state.get("player", {})
@@ -111,7 +111,7 @@ func _target_enemies(target_type: String, battle_state: Dictionary, target_index
 	var enemy := _target_enemy(battle_state, target_index, target_type)
 	return [] if enemy.is_empty() else [enemy]
 
-func _gain_block(battle_state: Dictionary, run_state: Dictionary, amount: int, log: Array) -> void:
+func _gain_block(battle_state: Dictionary, run_state: Dictionary, amount: int, battle_log: Array) -> void:
 	var player := _player(battle_state)
 	var flags: Dictionary = player.get("relic_runtime_flags", {})
 	var relics: Array = run_state.get("owned_relic_ids", [])
@@ -119,16 +119,16 @@ func _gain_block(battle_state: Dictionary, run_state: Dictionary, amount: int, l
 	if relics.has("relic_standing_desk") and not flags.get("standing_desk_block_used", false):
 		final_amount += 2
 		flags["standing_desk_block_used"] = true
-		log.append("升降桌追加 2 防线")
+		battle_log.append("升降桌追加 2 防线")
 	player["relic_runtime_flags"] = flags
 	player["current_block"] = int(player.get("current_block", 0)) + final_amount
-	log.append("获得 %d 防线" % final_amount)
+	battle_log.append("获得 %d 防线" % final_amount)
 
-func _damage_enemies(target_type: String, battle_state: Dictionary, run_state: Dictionary, target_index: int, amount: int, log: Array) -> void:
+func _damage_enemies(target_type: String, battle_state: Dictionary, run_state: Dictionary, target_index: int, amount: int, battle_log: Array) -> void:
 	for enemy in _target_enemies(target_type, battle_state, target_index):
-		_damage_enemy(enemy, battle_state, run_state, amount, log)
+		_damage_enemy(enemy, battle_state, run_state, amount, battle_log)
 
-func _damage_enemy(enemy: Dictionary, battle_state: Dictionary, run_state: Dictionary, amount: int, log: Array) -> void:
+func _damage_enemy(enemy: Dictionary, battle_state: Dictionary, run_state: Dictionary, amount: int, battle_log: Array) -> void:
 	if enemy.is_empty():
 		return
 	var player := _player(battle_state)
@@ -145,9 +145,9 @@ func _damage_enemy(enemy: Dictionary, battle_state: Dictionary, run_state: Dicti
 	var blocked := int(min(block, damage))
 	enemy["current_block"] = block - blocked
 	enemy["current_hp"] = max(0, int(enemy.get("current_hp", 0)) - (damage - blocked))
-	log.append("对 %s 造成 %d 伤害" % [enemy.get("name", "敌人"), damage])
+	battle_log.append("对 %s 造成 %d 伤害" % [enemy.get("name", "敌人"), damage])
 
-func _draw_cards(battle_state: Dictionary, amount: int, log: Array) -> void:
+func _draw_cards(battle_state: Dictionary, amount: int, battle_log: Array) -> void:
 	var player := _player(battle_state)
 	for i in range(amount):
 		if player.get("draw_pile", []).is_empty():
@@ -161,9 +161,9 @@ func _draw_cards(battle_state: Dictionary, amount: int, log: Array) -> void:
 			break
 		player["hand"].append(player["draw_pile"].pop_back())
 	if amount > 0:
-		log.append("抽 %d 张牌" % amount)
+		battle_log.append("抽 %d 张牌" % amount)
 
-func _apply_status(target_type: String, battle_state: Dictionary, run_state: Dictionary, target_index: int, status_id: String, amount: int, log: Array) -> void:
+func _apply_status(target_type: String, battle_state: Dictionary, run_state: Dictionary, target_index: int, status_id: String, amount: int, battle_log: Array) -> void:
 	if status_id.is_empty():
 		return
 	if target_type == "self":
@@ -171,15 +171,10 @@ func _apply_status(target_type: String, battle_state: Dictionary, run_state: Dic
 		var statuses: Dictionary = player.get("status_list", {})
 		statuses[status_id] = int(statuses.get(status_id, 0)) + amount
 		player["status_list"] = statuses
-		if status_id == "service_online":
-			_add_class_resource(battle_state, "services", amount, log, "服务")
-		elif status_id == "style_layer":
-			_add_class_resource(battle_state, "style_layers", amount, log, "样式层")
-		elif status_id == "compute":
-			_add_class_resource(battle_state, "compute", amount, log, "算力")
+		_sync_status_resource(battle_state, status_id, amount, battle_log)
 	else:
 		for enemy in _target_enemies(target_type, battle_state, target_index):
-			_enemy_status(enemy, battle_state, run_state, status_id, amount, log)
+			_enemy_status(enemy, battle_state, run_state, status_id, amount, battle_log)
 
 func _remove_status(target_type: String, battle_state: Dictionary, target_index: int, status_id: String) -> void:
 	if target_type == "self":
@@ -187,76 +182,127 @@ func _remove_status(target_type: String, battle_state: Dictionary, target_index:
 	else:
 		_target_enemy(battle_state, target_index).get("status_list", {}).erase(status_id)
 
-func _enemy_status(enemy: Dictionary, battle_state: Dictionary, run_state: Dictionary, status_id: String, amount: int, log: Array) -> void:
+func _enemy_status(enemy: Dictionary, battle_state: Dictionary, run_state: Dictionary, status_id: String, amount: int, battle_log: Array) -> void:
 	if enemy.is_empty():
 		return
 	var statuses: Dictionary = enemy.get("status_list", {})
 	statuses[status_id] = int(statuses.get(status_id, 0)) + amount
 	enemy["status_list"] = statuses
-	log.append("%s 获得 %s x%d" % [enemy.get("name", "敌人"), status_id, amount])
-	_apply_status_relics(battle_state, run_state, enemy, status_id, amount, log)
+	battle_log.append("%s 获得 %s x%d" % [enemy.get("name", "敌人"), status_id, amount])
+	_sync_status_resource(battle_state, status_id, amount, battle_log)
+	_apply_status_relics(battle_state, run_state, enemy, status_id, amount, battle_log)
 
-func _add_class_resource(battle_state: Dictionary, key: String, amount: int, log: Array, label: String) -> void:
+func _sync_status_resource(battle_state: Dictionary, status_id: String, amount: int, battle_log: Array) -> void:
+	var resource_key := ""
+	var label := ""
+	match status_id:
+		"service_online":
+			resource_key = "services"
+			label = "服务"
+		"cache":
+			resource_key = "cache"
+			label = "缓存"
+		"component":
+			resource_key = "components"
+			label = "组件"
+		"style_layer":
+			resource_key = "style_layers"
+			label = "样式层"
+		"bug":
+			resource_key = "bugs"
+			label = "Bug"
+		"case_mark":
+			resource_key = "cases"
+			label = "用例"
+		"diff":
+			resource_key = "diff_tags"
+			label = "Diff"
+		"compute":
+			resource_key = "compute"
+			label = "算力"
+		"complexity":
+			resource_key = "complexity"
+			label = "复杂度"
+		"requirement_change":
+			resource_key = "requirement_change_marks"
+			label = "需求变更"
+		"priority":
+			resource_key = "priority_targets"
+			label = "优先级"
+		"performance":
+			resource_key = "performance"
+			label = "绩效"
+		"optimization_target":
+			resource_key = "optimization_targets"
+			label = "优化名单"
+	if resource_key.is_empty():
+		return
+	_add_class_resource(battle_state, resource_key, amount, battle_log, label)
+
+func _add_class_resource(battle_state: Dictionary, key: String, amount: int, battle_log: Array, label: String) -> void:
 	var player := _player(battle_state)
 	var resources: Dictionary = player.get("class_resource_state", {})
 	resources[key] = max(0, int(resources.get(key, 0)) + amount)
 	player["class_resource_state"] = resources
 	if amount != 0:
-		log.append("%s %+d" % [label, amount])
+		battle_log.append("%s %+d" % [label, amount])
 
-func _modify_intents(target_type: String, battle_state: Dictionary, run_state: Dictionary, target_index: int, amount: int, log: Array) -> void:
+func _modify_intents(target_type: String, battle_state: Dictionary, run_state: Dictionary, target_index: int, amount: int, battle_log: Array) -> void:
 	for enemy in _target_enemies(target_type, battle_state, target_index):
-		_modify_intent(enemy, battle_state, run_state, amount, log)
+		_modify_intent(enemy, battle_state, run_state, amount, battle_log)
 
-func _modify_intent(enemy: Dictionary, battle_state: Dictionary, run_state: Dictionary, amount: int, log: Array) -> void:
+func _modify_intent(enemy: Dictionary, battle_state: Dictionary, run_state: Dictionary, amount: int, battle_log: Array) -> void:
 	var intent: Dictionary = enemy.get("intent", {})
 	if intent.get("intent_type", "") == "attack":
 		intent["amount"] = max(0, int(intent.get("amount", 0)) + amount)
 		enemy["intent"] = intent
-		log.append("%s 攻击意图 %+d" % [enemy.get("name", "敌人"), amount])
-	_apply_modify_intent_relics(battle_state, run_state, log)
+		battle_log.append("%s 攻击意图 %+d" % [enemy.get("name", "敌人"), amount])
+	_apply_modify_intent_relics(battle_state, run_state, battle_log)
 
-func _apply_status_relics(battle_state: Dictionary, run_state: Dictionary, enemy: Dictionary, status_id: String, amount: int, log: Array) -> void:
+func _apply_status_relics(battle_state: Dictionary, run_state: Dictionary, enemy: Dictionary, status_id: String, amount: int, battle_log: Array) -> void:
 	var player := _player(battle_state)
 	var flags: Dictionary = player.get("relic_runtime_flags", {})
 	var relics: Array = run_state.get("owned_relic_ids", [])
 	if status_id == "bug" and relics.has("relic_tester_automation_framework") and not flags.get("automation_framework_used", false):
 		flags["automation_framework_used"] = true
-		_enemy_status(enemy, battle_state, run_state, "case_mark", 1, log)
+		_enemy_status(enemy, battle_state, run_state, "case_mark", 1, battle_log)
+	if status_id == "bug" and relics.has("relic_error_log_repo"):
+		_damage_enemy(enemy, battle_state, run_state, 3 * max(1, amount), battle_log)
+		battle_log.append("报错日志仓库追加惩罚")
 	if status_id == "requirement_change" and relics.has("relic_pm_review_minutes") and not flags.get("pm_review_minutes_used", false):
 		flags["pm_review_minutes_used"] = true
 		player["relic_runtime_flags"] = flags
-		_gain_block(battle_state, run_state, 4, log)
-		_draw_cards(battle_state, 1, log)
+		_gain_block(battle_state, run_state, 4, battle_log)
+		_draw_cards(battle_state, 1, battle_log)
 	else:
 		player["relic_runtime_flags"] = flags
 
-func _apply_modify_intent_relics(battle_state: Dictionary, run_state: Dictionary, log: Array) -> void:
+func _apply_modify_intent_relics(battle_state: Dictionary, run_state: Dictionary, battle_log: Array) -> void:
 	var player := _player(battle_state)
 	var flags: Dictionary = player.get("relic_runtime_flags", {})
 	var relics: Array = run_state.get("owned_relic_ids", [])
 	if relics.has("relic_gantt_roadmap") and not flags.get("gantt_roadmap_used", false):
 		flags["gantt_roadmap_used"] = true
 		player["relic_runtime_flags"] = flags
-		_draw_cards(battle_state, 1, log)
+		_draw_cards(battle_state, 1, battle_log)
 	if relics.has("relic_pm_review_minutes") and not flags.get("pm_review_minutes_used", false):
 		flags = player.get("relic_runtime_flags", {})
 		flags["pm_review_minutes_used"] = true
 		player["relic_runtime_flags"] = flags
-		_gain_block(battle_state, run_state, 4, log)
-		_draw_cards(battle_state, 1, log)
+		_gain_block(battle_state, run_state, 4, battle_log)
+		_draw_cards(battle_state, 1, battle_log)
 	else:
 		player["relic_runtime_flags"] = flags
 
-func _apply_component_relics(battle_state: Dictionary, run_state: Dictionary, log: Array) -> void:
+func _apply_component_relics(battle_state: Dictionary, run_state: Dictionary, battle_log: Array) -> void:
 	var player := _player(battle_state)
 	var flags: Dictionary = player.get("relic_runtime_flags", {})
 	if run_state.get("owned_relic_ids", []).has("relic_figma_library") and not flags.get("figma_library_used", false):
 		flags["figma_library_used"] = true
-		_add_class_resource(battle_state, "components", 1, log, "Figma组件库复制组件")
+		_add_class_resource(battle_state, "components", 1, battle_log, "Figma组件库复制组件")
 	player["relic_runtime_flags"] = flags
 
-func _create_card(battle_state: Dictionary, card_id: String, destination: String, amount: int, log: Array) -> void:
+func _create_card(battle_state: Dictionary, card_id: String, destination: String, amount: int, battle_log: Array) -> void:
 	if card_id.is_empty():
 		return
 	var player := _player(battle_state)
@@ -267,18 +313,18 @@ func _create_card(battle_state: Dictionary, card_id: String, destination: String
 		pile_name = "draw_pile"
 	for i in range(amount):
 		player[pile_name].append(card_id)
-	log.append("生成卡牌 %s x%d" % [card_id, amount])
+	battle_log.append("生成卡牌 %s x%d" % [card_id, amount])
 
-func _add_relic(run_state: Dictionary, relic_id: String, log: Array) -> void:
+func _add_relic(run_state: Dictionary, relic_id: String, battle_log: Array) -> void:
 	if relic_id.is_empty():
 		return
 	var relics: Array = run_state.get("owned_relic_ids", [])
 	if not relics.has(relic_id):
 		relics.append(relic_id)
 	run_state["owned_relic_ids"] = relics
-	log.append("获得遗物 %s" % relic_id)
+	battle_log.append("获得遗物 %s" % relic_id)
 
-func _spawn_enemy(battle_state: Dictionary, enemy_id: String, log: Array) -> void:
+func _spawn_enemy(battle_state: Dictionary, enemy_id: String, battle_log: Array) -> void:
 	var enemy_def: Dictionary = config_service.get_def("enemies", enemy_id)
 	if enemy_def.is_empty():
 		return
@@ -293,4 +339,4 @@ func _spawn_enemy(battle_state: Dictionary, enemy_id: String, log: Array) -> voi
 		"status_list": {},
 		"runtime_flags": {},
 	})
-	log.append("增援出现：%s" % enemy_def.get("name", enemy_id))
+	battle_log.append("增援出现：%s" % enemy_def.get("name", enemy_id))

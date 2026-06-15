@@ -28,4 +28,7 @@ func _ready() -> void:
 func _continue_run() -> void:
 	if AppRoot.run_session.restore_from_suspend(AppRoot.save_service.load_suspend()):
 		var tag: String = String(AppRoot.run_session.run_state.get("current_scene_tag", "map"))
+		if tag == "battle" and not AppRoot.battle_service.restore_battle(AppRoot.run_session.run_state):
+			tag = "map"
+			AppRoot.run_session.run_state["current_scene_tag"] = "map"
 		AppRoot.flow_controller.show_scene(tag)

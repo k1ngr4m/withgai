@@ -11,5 +11,6 @@ MetaUpgradeDef,Datas/MetaUpgradeDef.csv
 EffectGroupDef,Datas/EffectGroupDef.csv
 EffectEntryDef,Datas/EffectEntryDef.csv
 EnemyIntentGroupDef,Datas/EnemyIntentGroupDef.csv
+PhaseGroupDef,Datas/PhaseGroupDef.csv
 RewardProfileDef,Datas/RewardProfileDef.csv
 ShopPoolDef,Datas/ShopPoolDef.csv
