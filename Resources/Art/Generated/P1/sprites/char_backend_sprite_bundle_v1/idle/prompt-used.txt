@@ -1,0 +1,9 @@
+Use the image just shown as the visual reference. Create a side-view hero action sprite sheet for the same backend engineer battle character, preserving his identity markers: dark wavy hair, glasses, dark gray-blue office jacket, gray shirt, employee badge, dark pants, sturdy sneakers, compact tech gauntlet/service device language, teal cache-like light accents, clean_hd commercial 2D game sprite style.
+
+ACTION: idle loop only.
+
+EXACT SHEET: 2 rows by 2 columns, exactly 4 equal invisible cells, no borders, no frames, no labels.
+
+Frame sequence left-to-right then next row: 1 neutral side-view ready stance, 2 subtle breathing and jacket shift, 3 small teal service-node pulse kept close to the body, 4 return-to-idle pose.
+
+Full body visible in every cell, side-view battle stance facing right, body-only action sheet, no detached VFX outside the main silhouette, no projectile, no large UI panels, no long trails, no slash arcs. The entire character must fit fully inside each cell, centered in the central 60% to 70% safe area, same bounding box and same pixel scale across frames, stable feet line at the same y position, leave solid magenta margin on all four sides of every cell. Background must be 100% solid flat #FF00FF magenta with no gradients. No text, no watermark, no UI, no speech bubbles.
