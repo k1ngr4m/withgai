@@ -1,0 +1,9 @@
+Use the image just shown as the visual reference for the accepted side-view HR sprite identity, body scale, palette, proportions, and clean_hd commercial 2D game sprite style. Regenerate a safer side-view hero action sprite sheet for the same HR battle character: neat dark hair, deep navy and gray-white business outfit with burgundy accents, compact folder held close.
+
+ACTION: hurt reaction only.
+
+EXACT SHEET: 2 rows by 2 columns, exactly 4 equal invisible cells, no borders, no frames, no labels.
+
+Frame sequence left-to-right then next row: 1 impact flinch pose clutching folder close, 2 small recoil pose leaning back with knees bent, 3 compact stagger pose recovering balance, 4 recovery pose returning toward ready stance.
+
+Make the character smaller and safer than a full cell: full body must stay within the central 55% to 60% safe area of each cell, with thick solid magenta margin above the head, below the feet, and on both sides in every frame. Stable feet line, same bounding box and same pixel scale across frames. Body-only action sheet: no detached impact burst, no flying paper storm, no giant warning symbol, no detached red effect cloud, no horror monster face, no projectile, no long trails. No limb, shoe, folder, hair, or jacket edge may touch or cross a cell edge. Background must be 100% solid flat #FF00FF magenta with no gradients. No text, no watermark, no UI, no speech bubbles.

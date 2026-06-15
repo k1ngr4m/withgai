@@ -1,0 +1,165 @@
+{
+  "bundle": "char_hr_sprite_bundle_v1",
+  "source_manual": "Resources/Docs/04_ASSET_PROMPTS.md#5.24-char_hr_sprite_bundle",
+  "priority": "P2",
+  "asset_type": "hero_action_bundle",
+  "reference": "none; generated directly from section 5.24 identity prompt",
+  "accepted": true,
+  "actions": {
+    "idle": {
+      "sheet": "Resources/Art/Generated/P2/sprites/char_hr_sprite_bundle_v1/idle/processed/sheet-transparent.png",
+      "gif": "Resources/Art/Generated/P2/sprites/char_hr_sprite_bundle_v1/idle/processed/animation.gif",
+      "raw_sheet": "Resources/Art/Generated/P2/sprites/char_hr_sprite_bundle_v1/idle/raw-sheet.png",
+      "prompt": "Resources/Art/Generated/P2/sprites/char_hr_sprite_bundle_v1/idle/prompt-used.txt",
+      "rows": 2,
+      "cols": 2,
+      "cell_size": 128,
+      "frame_count": 4,
+      "frame_labels": [
+        "idle-1",
+        "idle-2",
+        "idle-3",
+        "idle-4"
+      ],
+      "edge_touch_frames": [],
+      "output_sizes": [
+        [
+          42,
+          99
+        ],
+        [
+          42,
+          99
+        ],
+        [
+          42,
+          99
+        ],
+        [
+          42,
+          99
+        ]
+      ],
+      "accepted": true
+    },
+    "run": {
+      "sheet": "Resources/Art/Generated/P2/sprites/char_hr_sprite_bundle_v1/run/processed/sheet-transparent.png",
+      "gif": "Resources/Art/Generated/P2/sprites/char_hr_sprite_bundle_v1/run/processed/animation.gif",
+      "raw_sheet": "Resources/Art/Generated/P2/sprites/char_hr_sprite_bundle_v1/run/raw-sheet.png",
+      "prompt": "Resources/Art/Generated/P2/sprites/char_hr_sprite_bundle_v1/run/prompt-used.txt",
+      "rows": 2,
+      "cols": 2,
+      "cell_size": 128,
+      "frame_count": 4,
+      "frame_labels": [
+        "run-1",
+        "run-2",
+        "run-3",
+        "run-4"
+      ],
+      "edge_touch_frames": [],
+      "output_sizes": [
+        [
+          73,
+          98
+        ],
+        [
+          53,
+          98
+        ],
+        [
+          81,
+          97
+        ],
+        [
+          66,
+          99
+        ]
+      ],
+      "accepted": true
+    },
+    "execute_cast": {
+      "sheet": "Resources/Art/Generated/P2/sprites/char_hr_sprite_bundle_v1/execute_cast/processed/sheet-transparent.png",
+      "gif": "Resources/Art/Generated/P2/sprites/char_hr_sprite_bundle_v1/execute_cast/processed/animation.gif",
+      "raw_sheet": "Resources/Art/Generated/P2/sprites/char_hr_sprite_bundle_v1/execute_cast/raw-sheet.png",
+      "prompt": "Resources/Art/Generated/P2/sprites/char_hr_sprite_bundle_v1/execute_cast/prompt-used.txt",
+      "rows": 2,
+      "cols": 3,
+      "cell_size": 128,
+      "frame_count": 6,
+      "frame_labels": [
+        "cast-1",
+        "cast-2",
+        "cast-3",
+        "cast-4",
+        "cast-5",
+        "cast-6"
+      ],
+      "edge_touch_frames": [],
+      "output_sizes": [
+        [
+          45,
+          99
+        ],
+        [
+          48,
+          99
+        ],
+        [
+          53,
+          99
+        ],
+        [
+          61,
+          99
+        ],
+        [
+          69,
+          98
+        ],
+        [
+          45,
+          99
+        ]
+      ],
+      "accepted": true
+    },
+    "hurt": {
+      "sheet": "Resources/Art/Generated/P2/sprites/char_hr_sprite_bundle_v1/hurt/processed/sheet-transparent.png",
+      "gif": "Resources/Art/Generated/P2/sprites/char_hr_sprite_bundle_v1/hurt/processed/animation.gif",
+      "raw_sheet": "Resources/Art/Generated/P2/sprites/char_hr_sprite_bundle_v1/hurt/raw-sheet.png",
+      "prompt": "Resources/Art/Generated/P2/sprites/char_hr_sprite_bundle_v1/hurt/prompt-used.txt",
+      "rows": 2,
+      "cols": 2,
+      "cell_size": 128,
+      "frame_count": 4,
+      "frame_labels": [
+        "hurt-1",
+        "hurt-2",
+        "hurt-3",
+        "hurt-4"
+      ],
+      "edge_touch_frames": [],
+      "output_sizes": [
+        [
+          49,
+          97
+        ],
+        [
+          55,
+          93
+        ],
+        [
+          45,
+          93
+        ],
+        [
+          41,
+          99
+        ]
+      ],
+      "accepted": true
+    }
+  },
+  "contact_sheet": "Resources/Art/Generated/P2/sprites/char_hr_sprite_bundle_v1/char_hr_sprite_bundle_contact_sheet_v1.png"
+}

@@ -1,0 +1,9 @@
+Use the image just shown as the visual reference for the accepted side-view HR sprite identity, body scale, palette, proportions, and clean_hd commercial 2D game sprite style. Create a side-view hero action sprite sheet for the same HR battle character: neat dark hair, deep navy and gray-white business outfit with burgundy accents, compact folder held close, small performance-review stamp accessory.
+
+ACTION: execute-cast body animation only, no projectile. The emotion is calm corporate audit and decisive review, not horror.
+
+EXACT SHEET: 2 rows by 3 columns, exactly 6 equal invisible cells, no borders, no frames, no labels.
+
+Frame sequence left-to-right across row 1 then row 2: 1 composed stance with folder close, 2 small burgundy stamp glow begins near folder, 3 focused review gesture raising stamp close to hand, 4 release-start pose with compact stamp mark and performance-arrow accent attached near folder, 5 peak execute-cast pose with tight burgundy compliance glow around hand and folder, 6 settle pose returning toward idle.
+
+Full body visible in every cell, side-view battle stance facing right, body-only action sheet, no detached wide VFX, no giant paper storm, no paperwork wall, no detached red effect cloud, no horror monster face, no projectile, no long trails. Body height and body scale should match the accepted idle/run sheets. The entire character must fit fully inside each cell, centered in the central 60% to 70% safe area, same bounding box and same pixel scale across frames, stable feet line at the same y position, leave solid magenta margin on all four sides of every cell. Background must be 100% solid flat #FF00FF magenta with no gradients. No text, no watermark, no UI, no speech bubbles.

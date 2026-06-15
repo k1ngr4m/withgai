@@ -13,7 +13,7 @@ Scope: P1/P2 `hero_action_bundle` sprite deliverables from sections 5.4, 5.8, 5.
 | P1 | `char_tester_sprite_bundle` | `idle`, `run`, `debuff_cast`, `hurt` | Completed | See `batch_2026-06-15_p1_tester_sprite_bundle_01.md`. |
 | P1 | `char_algorithm_sprite_bundle` | `idle`, `run`, `charge`, `cast` | Completed | See `batch_2026-06-15_p1_algorithm_sprite_bundle_01.md`. |
 | P1 | `char_product_manager_sprite_bundle` | `idle`, `run`, `command_cast`, `hurt` | Completed | See `batch_2026-06-15_p1_product_manager_sprite_bundle_01.md`. |
-| P2 | `char_hr_sprite_bundle` | `idle`, `run`, `execute_cast`, `hurt` | Pending | No P0 HR keyart exists yet; generate directly from section 5.24 or create HR keyart first. |
+| P2 | `char_hr_sprite_bundle` | `idle`, `run`, `execute_cast`, `hurt` | Completed | See `Resources/Art/Generated/P2/manifests/batch_2026-06-15_p2_hr_sprite_bundle_01.md`. |
 
 ## Batch Rules
 
