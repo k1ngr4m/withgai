@@ -48,5 +48,5 @@ func _class_card(cls: Dictionary) -> Control:
 
 func _start_class(class_id: String) -> void:
 	AppRoot.run_session.create_new_run(class_id)
-	AppRoot.save_service.save_suspend(AppRoot.run_session.run_state)
+	AppRoot.save_service.save_suspend(AppRoot.run_session.run_state, AppRoot.meta_service.meta_state)
 	AppRoot.flow_controller.show_scene("map")

@@ -24,8 +24,9 @@ func _build() -> void:
 	], 22))
 	var enemy_row := UiFactory.hbox(10)
 	main.add_child(enemy_row)
-	for enemy in state.get("enemies", []):
-		enemy_row.add_child(_enemy_panel(enemy))
+	var enemies: Array = state.get("enemies", [])
+	for i in range(enemies.size()):
+		enemy_row.add_child(_enemy_panel(enemies[i], i))
 	var hand_row := UiFactory.hbox(8)
 	main.add_child(UiFactory.scroll(hand_row))
 	var hand: Array = player.get("hand", [])
@@ -45,7 +46,7 @@ func _build() -> void:
 		log_box.add_child(UiFactory.label(String(line), 14, Color(0.86, 0.9, 0.9)))
 	main.add_child(log_panel)
 
-func _enemy_panel(enemy: Dictionary) -> Control:
+func _enemy_panel(enemy: Dictionary, enemy_index: int) -> Control:
 	var panel := UiFactory.panel()
 	panel.custom_minimum_size = Vector2(260, 230)
 	var box := UiFactory.vbox(6)
@@ -53,14 +54,20 @@ func _enemy_panel(enemy: Dictionary) -> Control:
 	var def: Dictionary = AppRoot.config_service.get_def("enemies", enemy.get("enemy_def_id", ""))
 	box.add_child(UiFactory.texture(def.get("art_path", ""), Vector2(210, 120)))
 	var intent: Dictionary = enemy.get("intent", {})
-	box.add_child(UiFactory.label("%s  HP %d/%d  防线 %d" % [enemy.get("name", ""), int(enemy.get("current_hp", 0)), int(enemy.get("max_hp", 0)), int(enemy.get("current_block", 0))], 18))
+	var selected := enemy_index == AppRoot.battle_service.selected_target_index()
+	box.add_child(UiFactory.label("%s%s  HP %d/%d  防线 %d" % ["▶ " if selected else "", enemy.get("name", ""), int(enemy.get("current_hp", 0)), int(enemy.get("max_hp", 0)), int(enemy.get("current_block", 0))], 18))
 	box.add_child(UiFactory.label("意图：%s %s" % [intent.get("intent_type", ""), str(intent.get("amount", ""))], 15, Color(1.0, 0.82, 0.55)))
 	box.add_child(UiFactory.label("状态：%s" % str(enemy.get("status_list", {})), 13, Color(0.74, 0.9, 0.92)))
+	var target := UiFactory.button("设为目标")
+	target.disabled = int(enemy.get("current_hp", 0)) <= 0
+	target.pressed.connect(func(): _select_target(enemy_index))
+	box.add_child(target)
 	return panel
 
 func _card_button(card_id: String, hand_index: int) -> Button:
 	var card: Dictionary = AppRoot.config_service.get_def("cards", card_id)
-	var cost: String = "X" if int(card.get("cost", 0)) < 0 else str(card.get("cost", 0))
+	var upgraded := AppRoot.battle_service.battle_state.get("upgraded_card_ids", []).has(card_id)
+	var cost: String = "X" if int(card.get("cost", 0)) < 0 else str(max(0, int(card.get("cost", 0)) - (1 if upgraded else 0)))
 	var b: Button = UiFactory.button("%s [%s]\n%s\n%s" % [card.get("name", card_id), cost, card.get("type", ""), card.get("description", "")])
 	b.custom_minimum_size = Vector2(190, 150)
 	b.disabled = not AppRoot.battle_service.can_play_card(hand_index)
@@ -68,8 +75,12 @@ func _card_button(card_id: String, hand_index: int) -> Button:
 	return b
 
 func _play_card(hand_index: int) -> void:
-	AppRoot.battle_service.play_card(AppRoot.run_session.run_state, hand_index, 0)
+	AppRoot.battle_service.play_card(AppRoot.run_session.run_state, hand_index, AppRoot.battle_service.selected_target_index())
 	_after_action()
+
+func _select_target(enemy_index: int) -> void:
+	AppRoot.battle_service.select_target(enemy_index)
+	_build()
 
 func _end_turn() -> void:
 	AppRoot.battle_service.end_turn(AppRoot.run_session.run_state)

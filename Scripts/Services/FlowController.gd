@@ -26,7 +26,7 @@ func show_scene(tag: String) -> void:
 	if AppRoot.run_session.has_active_run():
 		AppRoot.run_session.run_state["current_scene_tag"] = tag
 		if tag != "battle":
-			AppRoot.save_service.save_suspend(AppRoot.run_session.run_state)
+			AppRoot.save_service.save_suspend(AppRoot.run_session.run_state, AppRoot.meta_service.meta_state)
 	if current_scene != null and is_instance_valid(current_scene):
 		current_scene.queue_free()
 	var packed: PackedScene = load(SCENES.get(tag, SCENES["main_menu"]))

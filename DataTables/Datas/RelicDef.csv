@@ -2,21 +2,21 @@ id,name,allowed_classes,rarity,trigger_list,effect_group_id,shop_weight,descript
 string,string,json,string,json,string,int,string,string
 c,c,c,c,c,c,c,c,c
 ## id,## name,## allowed_classes,## rarity,## trigger_list,## effect_group_id,## shop_weight,## description,## art_path
-relic_backend_gray_release,灰度发布开关,"[""backend""]",starter,[],,0,战斗开始获得 1 缓存；首次部署服务抽 1 张。,res://Resources/Art/Generated/P0/icons/relic_icon_traffic_valve_v1/prop.png
-relic_frontend_design_link,设计稿链接,"[""frontend""]",starter,[],,0,每回合第 3 张牌获得 1 样式层。,res://Resources/Art/Generated/P0/icons/relic_icon_design_review_v1/prop.png
-relic_tester_automation_framework,自动化测试框架,"[""tester""]",starter,[],,0,首次施加 Bug 时追加用例。,res://Resources/Art/Generated/P0/icons/relic_icon_unit_test_template_v1/prop.png
-relic_algorithm_local_cluster,本地算力集群,"[""algorithm""]",starter,[],,0,首次 X 费牌返还 1 精力。,res://Resources/Art/Generated/P0/icons/relic_icon_gpu_card_v1/prop.png
-relic_pm_review_minutes,需求评审纪要,"[""product_manager""]",starter,[],,0,首次需求变更时抽牌并获得防线。,res://Resources/Art/Generated/P0/icons/relic_icon_meeting_room_claim_v1/prop.png
-relic_hr_annual_review,年度考评表,"[""hr""]",starter,[],,0,首次击败敌人获得绩效。,res://Resources/Art/Generated/P0/icons/relic_icon_performance_table_v1/prop.png
-relic_blue_light_glasses,蓝光眼镜,"[""backend"",""frontend"",""tester"",""algorithm"",""product_manager""]",common,[],,10,首回合额外抽 1 张。,res://Resources/Art/Generated/P0/icons/relic_icon_blue_light_glasses_v1/prop.png
-relic_cold_brew_bucket,冷萃咖啡桶,"[""backend"",""frontend"",""tester"",""algorithm"",""product_manager""]",common,[],,10,首次打出 0 费牌获得 1 精力。,res://Resources/Art/Generated/P0/icons/relic_icon_cold_brew_bucket_v1/prop.png
-relic_hair_shampoo,防脱洗发水,"[""backend"",""frontend"",""tester"",""algorithm"",""product_manager""]",common,[],,10,开局最大精神状态 +6。,res://Resources/Art/Generated/P0/icons/relic_icon_hair_shampoo_v1/prop.png
-relic_lumbar_cushion,护腰靠垫,"[""backend"",""frontend"",""tester"",""algorithm"",""product_manager""]",common,[],,10,战斗开始获得 4 防线。,res://Resources/Art/Generated/P0/icons/relic_icon_lumbar_cushion_v1/prop.png
-relic_standing_desk,升降桌,"[""backend"",""frontend"",""tester"",""algorithm"",""product_manager""]",common,[],,10,每回合首次获得防线追加 2。,res://Resources/Art/Generated/P0/icons/relic_icon_standing_desk_v1/prop.png
-relic_parking_pass,园区停车月卡,"[""backend"",""frontend"",""tester"",""algorithm"",""product_manager""]",common,[],,10,击败精英额外获得绩效点。,res://Resources/Art/Generated/P0/icons/relic_icon_parking_pass_v1/prop.png
-relic_employee_coupon,员工内购券,"[""backend"",""frontend"",""tester"",""algorithm"",""product_manager""]",common,[],,10,首次商店消费折扣。,res://Resources/Art/Generated/P0/icons/relic_icon_employee_discount_coupon_v1/prop.png
-relic_error_log_repo,报错日志仓库,"[""tester""]",uncommon,[],,10,Bug 触发时追加伤害。,res://Resources/Art/Generated/P0/icons/relic_icon_error_log_repo_v1/prop.png
-relic_figma_library,Figma组件库,"[""frontend""]",uncommon,[],,10,首次生成组件时额外复制。,res://Resources/Art/Generated/P0/icons/relic_icon_figma_library_v1/prop.png
-relic_read_replica,只读从库快照,"[""backend""]",uncommon,[],,10,首次承压时返还资源。,res://Resources/Art/Generated/P0/icons/relic_icon_read_replica_v1/prop.png
-relic_gantt_roadmap,路线图甘特图,"[""product_manager""]",uncommon,[],,10,首次重置意图后抽牌。,res://Resources/Art/Generated/P0/icons/relic_icon_gantt_roadmap_v1/prop.png
-relic_paper_citation,论文引用榜,"[""algorithm""]",uncommon,[],,10,高复杂度时终结牌更强。,res://Resources/Art/Generated/P0/icons/relic_icon_paper_citation_v1/prop.png
+relic_backend_gray_release,灰度发布开关,"[""backend""]",starter,"[""battle_start"",""card_played""]",,0,战斗开始获得 1 缓存；首次部署服务抽 1 张。,res://Resources/Art/Generated/P0/icons/relic_icon_traffic_valve_v1/prop.png
+relic_frontend_design_link,设计稿链接,"[""frontend""]",starter,"[""card_played""]",,0,每回合第 3 张牌获得 1 样式层。,res://Resources/Art/Generated/P0/icons/relic_icon_design_review_v1/prop.png
+relic_tester_automation_framework,自动化测试框架,"[""tester""]",starter,"[""apply_status""]",,0,首次施加 Bug 时追加用例。,res://Resources/Art/Generated/P0/icons/relic_icon_unit_test_template_v1/prop.png
+relic_algorithm_local_cluster,本地算力集群,"[""algorithm""]",starter,"[""card_played""]",,0,首次 X 费牌返还 1 精力。,res://Resources/Art/Generated/P0/icons/relic_icon_gpu_card_v1/prop.png
+relic_pm_review_minutes,需求评审纪要,"[""product_manager""]",starter,"[""apply_status"",""modify_intent""]",,0,首次需求变更时抽牌并获得防线。,res://Resources/Art/Generated/P0/icons/relic_icon_meeting_room_claim_v1/prop.png
+relic_hr_annual_review,年度考评表,"[""hr""]",starter,"[""enemy_defeated""]",,0,首次击败敌人获得绩效。,res://Resources/Art/Generated/P0/icons/relic_icon_performance_table_v1/prop.png
+relic_blue_light_glasses,蓝光眼镜,"[""backend"",""frontend"",""tester"",""algorithm"",""product_manager""]",common,"[""battle_start""]",,10,首回合额外抽 1 张。,res://Resources/Art/Generated/P0/icons/relic_icon_blue_light_glasses_v1/prop.png
+relic_cold_brew_bucket,冷萃咖啡桶,"[""backend"",""frontend"",""tester"",""algorithm"",""product_manager""]",common,"[""card_played""]",,10,首次打出 0 费牌获得 1 精力。,res://Resources/Art/Generated/P0/icons/relic_icon_cold_brew_bucket_v1/prop.png
+relic_hair_shampoo,防脱洗发水,"[""backend"",""frontend"",""tester"",""algorithm"",""product_manager""]",common,"[""battle_start""]",,10,开局最大精神状态 +6。,res://Resources/Art/Generated/P0/icons/relic_icon_hair_shampoo_v1/prop.png
+relic_lumbar_cushion,护腰靠垫,"[""backend"",""frontend"",""tester"",""algorithm"",""product_manager""]",common,"[""battle_start""]",,10,战斗开始获得 4 防线。,res://Resources/Art/Generated/P0/icons/relic_icon_lumbar_cushion_v1/prop.png
+relic_standing_desk,升降桌,"[""backend"",""frontend"",""tester"",""algorithm"",""product_manager""]",common,"[""gain_block""]",,10,每回合首次获得防线追加 2。,res://Resources/Art/Generated/P0/icons/relic_icon_standing_desk_v1/prop.png
+relic_parking_pass,园区停车月卡,"[""backend"",""frontend"",""tester"",""algorithm"",""product_manager""]",common,"[""elite_reward""]",,10,击败精英额外获得绩效点。,res://Resources/Art/Generated/P0/icons/relic_icon_parking_pass_v1/prop.png
+relic_employee_coupon,员工内购券,"[""backend"",""frontend"",""tester"",""algorithm"",""product_manager""]",common,"[""shop_purchase""]",,10,首次商店消费折扣。,res://Resources/Art/Generated/P0/icons/relic_icon_employee_discount_coupon_v1/prop.png
+relic_error_log_repo,报错日志仓库,"[""tester""]",uncommon,"[""enemy_turn""]",,10,Bug 触发时追加伤害。,res://Resources/Art/Generated/P0/icons/relic_icon_error_log_repo_v1/prop.png
+relic_figma_library,Figma组件库,"[""frontend""]",uncommon,"[""add_component""]",,10,首次生成组件时额外复制。,res://Resources/Art/Generated/P0/icons/relic_icon_figma_library_v1/prop.png
+relic_read_replica,只读从库快照,"[""backend""]",uncommon,"[""damage_taken""]",,10,首次承压时返还资源。,res://Resources/Art/Generated/P0/icons/relic_icon_read_replica_v1/prop.png
+relic_gantt_roadmap,路线图甘特图,"[""product_manager""]",uncommon,"[""modify_intent""]",,10,首次重置意图后抽牌。,res://Resources/Art/Generated/P0/icons/relic_icon_gantt_roadmap_v1/prop.png
+relic_paper_citation,论文引用榜,"[""algorithm""]",uncommon,"[""deal_damage""]",,10,高复杂度时终结牌更强。,res://Resources/Art/Generated/P0/icons/relic_icon_paper_citation_v1/prop.png

@@ -39,8 +39,11 @@ func _init() -> void:
 		_validate_class_resources(class_id)
 		_validate_map_constraints(run, "%s map constraints" % class_id)
 		_validate_battle(class_id, config, content, map, meta, reward_service)
+	_validate_combat_mechanics(config, content, map, meta)
 	_validate_shop_event_rest(config, content, map, meta, reward_service)
+	_validate_reward_economy(config, map, meta, reward_service)
 	_validate_save_roundtrip(config, map, meta, save)
+	_validate_meta_settlement(config, map, meta)
 	_validate_boss_progression(config, map, meta, reward_service)
 	print("TEST_RESULT: %s" % ("FAILED" if failed else "PASSED"))
 	quit(1 if failed else 0)
@@ -137,6 +140,94 @@ func _validate_battle(class_id: String, config, content, map, meta, reward_servi
 	_check(int(run.get("deck_state", {}).get("master_deck", []).size()) == deck_before + 1, "%s reward card added" % class_id)
 	_check(int(run.get("currency_perf_points", 0)) > 0, "%s reward currency added" % class_id)
 
+func _validate_combat_mechanics(config, content, map, meta) -> void:
+	var run_session = RunSessionScript.new()
+	run_session.call("setup", config, map, meta)
+	var executor = EffectExecutorScript.new()
+	executor.call("setup", config)
+
+	var run := run_session.create_new_run("backend")
+	run["owned_relic_ids"].append("relic_blue_light_glasses")
+	var battle = _start_first_battle(run, content, map, executor)
+	_check(int(battle.battle_state.get("player", {}).get("hand", []).size()) == 6, "blue light glasses opening draw")
+
+	var player: Dictionary = battle.battle_state.get("player", {})
+	player["hand"] = ["card_backend_publish_script"]
+	player["current_energy"] = 3
+	battle.play_card(run, 0, 0)
+	_check(int(player.get("class_resource_state", {}).get("services", 0)) >= 1, "backend publish script deploys service")
+
+	run = run_session.create_new_run("frontend")
+	run["owned_relic_ids"].append("relic_standing_desk")
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	player["current_block"] = 0
+	executor.execute([{ "effect_type": "gain_block", "target_type": "self", "params": { "amount": 5 } }], battle.battle_state, run, 0, battle.battle_state["log"])
+	executor.execute([{ "effect_type": "gain_block", "target_type": "self", "params": { "amount": 5 } }], battle.battle_state, run, 0, battle.battle_state["log"])
+	_check(int(player.get("current_block", 0)) == 12, "standing desk adds only first block per turn")
+
+	run = run_session.create_new_run("tester")
+	battle = _start_first_battle(run, content, map, executor)
+	var enemies: Array = battle.battle_state.get("enemies", [])
+	if enemies.size() == 1:
+		enemies.append(enemies[0].duplicate(true))
+		enemies[1]["name"] = "测试副目标"
+		enemies[1]["current_hp"] = 20
+	battle.battle_state["enemies"] = enemies
+	executor.execute([{ "effect_type": "deal_damage", "target_type": "all_enemies", "params": { "amount": 3 } }], battle.battle_state, run, 0, battle.battle_state["log"])
+	_check(int(battle.battle_state["enemies"][0].get("current_hp", 0)) < int(battle.battle_state["enemies"][0].get("max_hp", 0)), "all enemies damages first target")
+	_check(int(battle.battle_state["enemies"][1].get("current_hp", 0)) == 17, "all enemies damages second target")
+	battle.select_target(1)
+	_check(battle.selected_target_index() == 1, "battle target selection records index")
+	var second_before := int(battle.battle_state["enemies"][1].get("current_hp", 0))
+	player = battle.battle_state.get("player", {})
+	player["hand"] = ["card_tester_defect_log"]
+	player["current_energy"] = 3
+	battle.play_card(run, 0, battle.selected_target_index())
+	_check(int(battle.battle_state["enemies"][1].get("current_hp", 0)) < second_before, "selected target receives card damage")
+	executor.execute([{ "effect_type": "inject_bug", "target_type": "selected", "params": { "amount": 1 } }], battle.battle_state, run, 0, battle.battle_state["log"])
+	var status: Dictionary = battle.battle_state["enemies"][0].get("status_list", {})
+	_check(int(status.get("bug", 0)) >= 1, "tester injects bug")
+	_check(int(status.get("case_mark", 0)) >= 1, "tester starter relic adds case")
+
+	run = run_session.create_new_run("product_manager")
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	player["draw_pile"] = ["card_pm_change_wording"]
+	var hand_before := int(player.get("hand", []).size())
+	executor.execute([{ "effect_type": "apply_status", "target_type": "selected", "params": { "status_id": "requirement_change", "amount": 1 } }], battle.battle_state, run, 0, battle.battle_state["log"])
+	_check(int(player.get("current_block", 0)) >= 4, "pm starter relic grants block")
+	_check(int(player.get("hand", []).size()) == hand_before + 1, "pm starter relic draws")
+
+	run = run_session.create_new_run("algorithm")
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	player["hand"] = ["card_algo_global_optimum"]
+	player["current_energy"] = 3
+	battle.play_card(run, 0, 0)
+	_check(int(player.get("current_energy", 0)) == 1, "algorithm starter relic refunds first x card")
+
+	run = run_session.create_new_run("backend")
+	run["owned_relic_ids"].append("relic_read_replica")
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	player["current_block"] = 0
+	var cache_before := int(player.get("class_resource_state", {}).get("cache", 0))
+	battle.call("_enemy_attack", player, battle.battle_state.get("enemies", [])[0], 6, run)
+	_check(int(player.get("class_resource_state", {}).get("cache", 0)) > cache_before, "read replica returns cache on damage")
+
+	run = run_session.create_new_run("backend")
+	run["deck_state"]["upgraded_cards"] = ["card_backend_interface_probe"]
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	player["hand"] = ["card_backend_interface_probe"]
+	player["current_energy"] = 3
+	var target: Dictionary = battle.battle_state.get("enemies", [])[0]
+	var hp_before := int(target.get("current_hp", 0))
+	battle.play_card(run, 0, 0)
+	_check(int(player.get("current_energy", 0)) == 3, "upgraded one-cost card costs zero")
+	_check(hp_before - int(target.get("current_hp", 0)) >= 12, "upgraded card effect is stronger")
+
 func _validate_map_constraints(run: Dictionary, label: String) -> void:
 	var floors: Array = run.get("map_state", {}).get("floors", [])
 	var has_shop := false
@@ -191,19 +282,67 @@ func _validate_shop_event_rest(config, _content, map, meta, reward_service) -> v
 	run["current_node_id"] = rest_id
 	reward_service.rest_upgrade(run)
 	_check(int(run.get("deck_state", {}).get("upgraded_cards", []).size()) == 1, "rest upgrade records card")
+	run = run_session.create_new_run("backend")
+	rest_id = _first_node_of_type(run, "rest")
+	run["current_node_id"] = rest_id
+	reward_service.rest_upgrade_card(run, "card_backend_publish_script")
+	_check(run.get("deck_state", {}).get("upgraded_cards", []).has("card_backend_publish_script"), "rest selected upgrade records chosen card")
+
+func _validate_reward_economy(config, map, meta, reward_service) -> void:
+	var run_session = RunSessionScript.new()
+	run_session.call("setup", config, map, meta)
+	var run := run_session.create_new_run("backend")
+	run["owned_relic_ids"].append("relic_parking_pass")
+	run["pending_reward_state"] = {
+		"candidate_card_ids": ["card_backend_interface_probe"],
+		"candidate_relic_ids": [],
+		"currency_amount": 10,
+		"source_node_type": "elite_battle",
+	}
+	reward_service.accept_battle_reward(run, "")
+	_check(int(run.get("currency_perf_points", 0)) == 25, "parking pass adds elite currency")
+	_check(int(run.get("run_counters", {}).get("elite_wins", 0)) == 1, "elite reward increments counter")
+
+	run = run_session.create_new_run("frontend")
+	run["owned_relic_ids"].append("relic_employee_coupon")
+	run["currency_perf_points"] = 100
+	reward_service.prepare_shop_stock(run)
+	var before_currency := int(run.get("currency_perf_points", 0))
+	var card_id := String(run["shop_state"]["card_stock"][0])
+	var cost: int = int(reward_service.card_cost(run))
+	_check(cost < RewardService.CARD_COST, "employee coupon discounts first shop purchase")
+	reward_service.buy_shop_card(run, card_id)
+	_check(int(run.get("currency_perf_points", 0)) == before_currency - cost, "discounted card cost charged")
+	_check(reward_service.card_cost(run) == RewardService.CARD_COST, "shop discount consumed")
 
 func _validate_save_roundtrip(config, map, meta, save) -> void:
 	var run_session = RunSessionScript.new()
 	run_session.call("setup", config, map, meta)
 	var run := run_session.create_new_run("product_manager")
 	run["current_scene_tag"] = "map"
-	save.save_suspend(run)
+	save.save_suspend(run, meta.meta_state)
 	_check(save.has_suspend(), "suspend save exists")
+	_check(not save.load_suspend().get("serialized_meta_state_snapshot", {}).is_empty(), "suspend stores meta snapshot")
 	var restored_session = RunSessionScript.new()
 	restored_session.call("setup", config, map, meta)
 	_check(restored_session.restore_from_suspend(save.load_suspend()), "suspend restore succeeds")
 	_check(restored_session.run_state.get("selected_class_id", "") == "product_manager", "suspend selected class roundtrip")
 	save.clear_suspend()
+
+func _validate_meta_settlement(config, map, meta) -> void:
+	var run_session = RunSessionScript.new()
+	run_session.call("setup", config, map, meta)
+	var run := run_session.create_new_run("tester")
+	run["current_floor"] = 8
+	run["run_counters"]["elite_wins"] = 2
+	run["run_counters"]["events_resolved"] = 3
+	run["defeated_boss_ids"] = ["boss_pitch_supervisor"]
+	var currency_before := int(meta.meta_state.get("owned_discomfort_currency", 0))
+	var earned: int = meta.settle_run(run, false)
+	_check(earned > 0, "meta settlement earns currency")
+	_check(int(meta.meta_state.get("owned_discomfort_currency", 0)) == currency_before + earned, "meta currency increases")
+	_check(int(meta.meta_state.get("career_milestones", {}).get("elite_wins", 0)) >= 2, "meta records elite wins")
+	_check(meta.meta_state.get("defeated_boss_records", []).has("boss_pitch_supervisor"), "meta records defeated boss")
 
 func _validate_boss_progression(config, map, meta, reward_service) -> void:
 	var run_session = RunSessionScript.new()
@@ -231,3 +370,11 @@ func _first_node_of_type(run: Dictionary, node_type: String) -> String:
 			if node.get("node_type", "") == node_type:
 				return String(node.get("id", ""))
 	return ""
+
+func _start_first_battle(run: Dictionary, content, map, executor):
+	var first_node_id := String(run.get("map_state", {}).get("available_next_nodes", [])[0])
+	var node: Dictionary = map.choose_node(run, first_node_id)
+	var battle = BattleServiceScript.new()
+	battle.call("setup", content, executor)
+	battle.start_battle(run, node)
+	return battle

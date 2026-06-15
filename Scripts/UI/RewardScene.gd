@@ -31,5 +31,5 @@ func _accept_reward(card_id: String) -> void:
 	if result == "run_victory":
 		AppRoot.flow_controller.show_scene("run_result")
 	else:
-		AppRoot.save_service.save_suspend(run)
+		AppRoot.save_service.save_suspend(run, AppRoot.meta_service.meta_state)
 		AppRoot.flow_controller.show_scene("map")

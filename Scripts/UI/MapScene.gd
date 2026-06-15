@@ -38,7 +38,7 @@ func _build() -> void:
 	var bottom := UiFactory.hbox(8)
 	main.add_child(bottom)
 	var save := UiFactory.button("保存")
-	save.pressed.connect(func(): AppRoot.save_service.save_suspend(AppRoot.run_session.run_state))
+	save.pressed.connect(func(): AppRoot.save_service.save_suspend(AppRoot.run_session.run_state, AppRoot.meta_service.meta_state))
 	bottom.add_child(save)
 	var menu := UiFactory.button("主菜单")
 	menu.pressed.connect(func(): AppRoot.flow_controller.show_scene("main_menu"))
