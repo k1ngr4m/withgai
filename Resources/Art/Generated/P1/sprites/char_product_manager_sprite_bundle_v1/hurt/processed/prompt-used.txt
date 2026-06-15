@@ -1,0 +1,9 @@
+Use the image just shown as the visual reference for the accepted side-view product manager sprite identity, body scale, palette, proportions, and clean_hd commercial 2D game sprite style. Create a side-view hero action sprite sheet for the same product manager battle character: neat dark bun, glasses, beige business coat, blue shirt, dark trousers, brown office shoes, clipboard/folder held close.
+
+ACTION: hurt reaction only.
+
+EXACT SHEET: 2 rows by 2 columns, exactly 4 equal invisible cells, no borders, no frames, no labels.
+
+Frame sequence left-to-right then next row: 1 impact flinch pose clutching clipboard close, 2 recoil pose leaning back with knees bent, 3 stagger pose recovering balance, 4 recovery pose returning toward ready stance.
+
+Full body visible in every cell, side-view battle stance facing right, body-only action sheet, no detached impact burst, no flying paper storm, no giant warning symbol, no wide red/orange effect cloud, no projectile, no long trails. Small attached clipboard flicker is allowed but must stay inside the main silhouette. Body height and body scale should match the accepted idle/run/command_cast sheets. The entire character must fit fully inside each cell, centered in the central 60% to 70% safe area, same bounding box and same pixel scale across frames, stable feet line at the same y position, leave solid magenta margin on all four sides of every cell. Background must be 100% solid flat #FF00FF magenta with no gradients. No text, no watermark, no UI, no speech bubbles.
