@@ -1,0 +1,314 @@
+{
+  "generated_at": "2026-06-15T14:41:47",
+  "source": "Resources/Art/Generated/P0/icons/enemy_portrait_icon_set_v1/raw-sheet-selected-1024.png",
+  "selected_raw": "Resources/Art/Generated/P0/icons/enemy_portrait_icon_set_v1/raw-sheet-retry.png",
+  "final_sheet": "Resources/Art/Generated/P0/icons/enemy_portrait_icon_set_v1/sheet-transparent-headicon-tight.png",
+  "contact_sheet": "Resources/Art/Generated/P0/icons/enemy_portrait_icon_set_v1/enemy_portrait_icon_set_headicon_tight_contact_sheet_v1.png",
+  "frame_prefix": "enemy_portrait_headicon_tight-",
+  "frame_count": 16,
+  "size": [
+    1024,
+    1024
+  ],
+  "cell_size": [
+    256,
+    256
+  ],
+  "mode": "RGBA",
+  "edge_alpha_frames": [],
+  "frames": [
+    {
+      "grid": [
+        0,
+        0
+      ],
+      "upper_limit": 186,
+      "source_bbox": [
+        60,
+        35,
+        247,
+        186
+      ],
+      "output_size": [
+        203,
+        159
+      ],
+      "edge_alpha": false
+    },
+    {
+      "grid": [
+        0,
+        1
+      ],
+      "upper_limit": 186,
+      "source_bbox": [
+        21,
+        28,
+        245,
+        186
+      ],
+      "output_size": [
+        224,
+        155
+      ],
+      "edge_alpha": false
+    },
+    {
+      "grid": [
+        0,
+        2
+      ],
+      "upper_limit": 190,
+      "source_bbox": [
+        3,
+        23,
+        249,
+        190
+      ],
+      "output_size": [
+        224,
+        153
+      ],
+      "edge_alpha": false
+    },
+    {
+      "grid": [
+        0,
+        3
+      ],
+      "upper_limit": 186,
+      "source_bbox": [
+        37,
+        24,
+        189,
+        186
+      ],
+      "output_size": [
+        168,
+        170
+      ],
+      "edge_alpha": false
+    },
+    {
+      "grid": [
+        1,
+        0
+      ],
+      "upper_limit": 188,
+      "source_bbox": [
+        27,
+        0,
+        251,
+        188
+      ],
+      "output_size": [
+        224,
+        178
+      ],
+      "edge_alpha": false
+    },
+    {
+      "grid": [
+        1,
+        1
+      ],
+      "upper_limit": 188,
+      "source_bbox": [
+        16,
+        0,
+        237,
+        188
+      ],
+      "output_size": [
+        224,
+        178
+      ],
+      "edge_alpha": false
+    },
+    {
+      "grid": [
+        1,
+        2
+      ],
+      "upper_limit": 188,
+      "source_bbox": [
+        10,
+        0,
+        256,
+        188
+      ],
+      "output_size": [
+        224,
+        166
+      ],
+      "edge_alpha": false
+    },
+    {
+      "grid": [
+        1,
+        3
+      ],
+      "upper_limit": 188,
+      "source_bbox": [
+        0,
+        0,
+        242,
+        188
+      ],
+      "output_size": [
+        224,
+        168
+      ],
+      "edge_alpha": false
+    },
+    {
+      "grid": [
+        2,
+        0
+      ],
+      "upper_limit": 190,
+      "source_bbox": [
+        20,
+        0,
+        247,
+        190
+      ],
+      "output_size": [
+        224,
+        175
+      ],
+      "edge_alpha": false
+    },
+    {
+      "grid": [
+        2,
+        1
+      ],
+      "upper_limit": 190,
+      "source_bbox": [
+        7,
+        0,
+        234,
+        190
+      ],
+      "output_size": [
+        224,
+        176
+      ],
+      "edge_alpha": false
+    },
+    {
+      "grid": [
+        2,
+        2
+      ],
+      "upper_limit": 190,
+      "source_bbox": [
+        0,
+        0,
+        256,
+        190
+      ],
+      "output_size": [
+        224,
+        166
+      ],
+      "edge_alpha": false
+    },
+    {
+      "grid": [
+        2,
+        3
+      ],
+      "upper_limit": 190,
+      "source_bbox": [
+        0,
+        0,
+        235,
+        190
+      ],
+      "output_size": [
+        224,
+        175
+      ],
+      "edge_alpha": false
+    },
+    {
+      "grid": [
+        3,
+        0
+      ],
+      "upper_limit": 192,
+      "source_bbox": [
+        21,
+        16,
+        243,
+        192
+      ],
+      "output_size": [
+        224,
+        173
+      ],
+      "edge_alpha": false
+    },
+    {
+      "grid": [
+        3,
+        1
+      ],
+      "upper_limit": 192,
+      "source_bbox": [
+        21,
+        13,
+        256,
+        192
+      ],
+      "output_size": [
+        224,
+        172
+      ],
+      "edge_alpha": false
+    },
+    {
+      "grid": [
+        3,
+        2
+      ],
+      "upper_limit": 192,
+      "source_bbox": [
+        0,
+        11,
+        256,
+        192
+      ],
+      "output_size": [
+        224,
+        165
+      ],
+      "edge_alpha": false
+    },
+    {
+      "grid": [
+        3,
+        3
+      ],
+      "upper_limit": 192,
+      "source_bbox": [
+        0,
+        5,
+        238,
+        192
+      ],
+      "output_size": [
+        224,
+        175
+      ],
+      "edge_alpha": false
+    }
+  ],
+  "notes": [
+    "preferred final UI portrait icon crop",
+    "deterministic crop from generated retry sheet",
+    "tight top-region crop removes lower disconnected bust fragments"
+  ]
+}

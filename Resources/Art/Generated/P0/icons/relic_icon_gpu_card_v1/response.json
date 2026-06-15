@@ -1,0 +1,20 @@
+{
+  "created": 1781497119,
+  "usage": {
+    "input_tokens": 80,
+    "output_tokens": 6500,
+    "total_tokens": 6580,
+    "input_tokens_details": {
+      "text_tokens": 80,
+      "image_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens_details": {
+      "text_tokens": 0,
+      "image_tokens": 6500,
+      "reasoning_tokens": 0
+    }
+  },
+  "revised_prompt": "A clean premium product render of a GPU training card relic icon, centered single object, high-performance compute card with cool blue compute glow, algorithm office-tech feeling, high contrast, crisp commercial 2D game icon style, readable at small UI size, isolated on plain light neutral background, no readable text, no label, no logo, no watermark, no character, no busy scene, no border.",
+  "url": "https://image.nianhua.store/images/2026/06/15/1781497147_c159c21cc287dc9b8ded135d2f51b311.png"
+}

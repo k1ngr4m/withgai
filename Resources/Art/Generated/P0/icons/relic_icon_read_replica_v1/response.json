@@ -1,0 +1,20 @@
+{
+  "created": 1781496856,
+  "usage": {
+    "input_tokens": 83,
+    "output_tokens": 6500,
+    "total_tokens": 6583,
+    "input_tokens_details": {
+      "text_tokens": 83,
+      "image_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens_details": {
+      "text_tokens": 0,
+      "image_tokens": 6500,
+      "reasoning_tokens": 0
+    }
+  },
+  "revised_prompt": "A clean premium product render of a read-only replica snapshot relic icon, centered single object, small database snapshot module with cool blue tech glow, backend data-storage office-tech feeling, high contrast, crisp commercial 2D game icon style, readable at small UI size, isolated on plain light neutral background, no readable text, no label, no logo, no watermark, no character, no busy scene, no border.",
+  "url": "https://image.nianhua.store/images/2026/06/15/1781496888_cfe8e155b760869c58dff30f94272a57.png"
+}

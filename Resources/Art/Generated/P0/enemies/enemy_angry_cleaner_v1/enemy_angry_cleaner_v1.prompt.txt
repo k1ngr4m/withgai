@@ -1,0 +1,10 @@
+Use case: stylized-concept
+Asset type: P0 enemy key art for a workplace roguelike card game
+Primary request: Create the enemy key art for "暴躁保洁阿姨" / angry cleaner.
+Scene/backdrop: simplified modern office-building corridor, cool white overhead lighting, wet floor reflections, office material language.
+Subject: a strong office cleaner in practical cleaning uniform, holding a mop, bucket, and spray bottle like heavy improvised weapons. Fierce authoritative expression, grounded stance, not a horror monster.
+Style/medium: semi-realistic polished 2D commercial card-game illustration, workplace fantasy satire, absurd office comedy, readable silhouette, crisp shapes, no photorealism, no 3D render look, no anime idol look.
+Composition/framing: vertical full-body or three-quarter key art, single clear subject centered, strong heavy-attack posture, enough margin for later portrait crop, simplified corridor background.
+Lighting/mood: bright cool office lighting with small warning red/orange and cleaning-fluid green accents, forceful and intimidating but comedic.
+Constraints: wet floor streaks and cleaning tools should communicate a heavy single-hit attack feeling; no readable text, no watermark, no logo, no UI overlay.
+Avoid: demon janitor, gore, slapstick cartoon proportions, horror tone, fantasy weapon redesign, extra limbs, deformed hands.

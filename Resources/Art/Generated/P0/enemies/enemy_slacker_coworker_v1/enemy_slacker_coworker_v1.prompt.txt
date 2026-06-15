@@ -1,0 +1,10 @@
+Use case: stylized-concept
+Asset type: P0 enemy key art for a workplace roguelike card game
+Primary request: Create the enemy key art for "摸鱼同事" / slacker coworker.
+Scene/backdrop: simplified bright modern open office with cubicle workstation elements, cool white office lighting, cold gray-blue environment base.
+Subject: a modern office employee lounging or leaning near a cubicle workstation, lazy but sly expression, phone browsing posture, snacks and office partition pieces around them, improvised desk clutter forming a small defensive barrier.
+Style/medium: semi-realistic polished 2D commercial card-game illustration, workplace fantasy satire, absurd office comedy mutation, readable silhouette, crisp shapes, no photorealism, no 3D render look, no anime idol look.
+Composition/framing: vertical full-body or three-quarter key art, single clear subject centered, enough margin for later portrait crop, background simplified and secondary.
+Lighting/mood: bright office lighting with subtle cool blue-gray shadows and small fluorescent cyan/green accents, lazy but mischievous mood.
+Constraints: communicate "sometimes does not attack, but slows the rhythm" through pose and props; no readable text, no watermark, no logo, no UI overlay.
+Avoid: zombie look, exaggerated monster claws, horror tone, photorealism, chibi proportions, cluttered unreadable office, extra limbs, deformed hands.

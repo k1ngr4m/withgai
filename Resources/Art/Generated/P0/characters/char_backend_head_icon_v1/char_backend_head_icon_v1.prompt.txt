@@ -1,0 +1,9 @@
+Use case: stylized-concept
+Asset type: P0 class selection head icon, 1024x1024 square
+Primary request: Backend engineer head icon, preserving the established backend key art identity: calm systems engineer, dark gray-blue outfit, rational expression, small service-node and cache-ring glow markers.
+Scene/backdrop: extremely minimal cool gray-blue background, icon-ready high contrast.
+Subject: centered front or three-quarter face of a modern backend engineer, calm and reliable, with simplified service nodes and cache halo elements near the head.
+Style/medium: semi-realistic polished 2D game avatar icon, commercial card-game UI quality, clean silhouette, crisp shape language, workplace fantasy satire.
+Composition/framing: head and upper shoulders only, centered, readable at small size, strong facial silhouette.
+Color palette: cool gray-blue with cyan and cold green accents.
+Constraints: no readable text, no watermark, no logo, no detailed background, no tiny clutter, no full body.

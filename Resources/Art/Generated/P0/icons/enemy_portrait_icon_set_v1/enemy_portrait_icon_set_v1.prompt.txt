@@ -1,0 +1,10 @@
+Use case: stylized-concept
+Asset type: 4x4 enemy portrait icon sprite sheet for a workplace roguelike card game
+Primary request: Create a clean_hd 4x4 portrait-icon pack for the enemy roster.
+Sheet layout: exact 4 rows by 4 columns, one centered head-and-shoulders portrait in each cell, equal invisible cells, consistent portrait scale, each portrait fully contained with generous margin.
+Background: the entire background must be 100% solid flat #FF00FF magenta, no gradients, no shadows on the background, no borders, no dividers, no frames, no labels.
+Portrait subjects, left to right top to bottom: slacker coworker, workaholic coworker, angry office cleaner, pushy salesman, process specialist, performance inspector, meeting maniac, airdrop director, compliance judge, airdrop project lead, outsource manager, budget gatekeeper, approval eye office mutant, pitch supervisor, mutant HR, mutant CEO.
+Style/medium: clean hand-painted HD 2D game portrait icons, semi-realistic polished commercial card-game style, workplace fantasy satire, absurd office mutation, cold gray-blue office material language with orange warning and green/cyan system accents, high contrast and readable at small size, not pixel art.
+Composition/framing: head-and-shoulders only, front or three-quarter view, centered in each cell, strong distinct silhouette per enemy, no full-body figures, no busy backgrounds inside cells.
+Constraints: no text, no labels, no readable UI, no watermark, no logo, no visible guide marks, no borders between cells. Keep all portraits inside their cells; no hair, props, glow, papers, hands, or effects crossing cell edges.
+Avoid: photorealistic photography, chibi proportions, anime idol look, medieval fantasy monsters, horror gore, cluttered backgrounds, extra limbs, deformed faces.

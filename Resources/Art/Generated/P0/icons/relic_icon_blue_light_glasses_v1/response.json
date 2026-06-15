@@ -1,0 +1,20 @@
+{
+  "created": 1781495759,
+  "usage": {
+    "input_tokens": 75,
+    "output_tokens": 6500,
+    "total_tokens": 6575,
+    "input_tokens_details": {
+      "text_tokens": 75,
+      "image_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens_details": {
+      "text_tokens": 0,
+      "image_tokens": 6500,
+      "reasoning_tokens": 0
+    }
+  },
+  "revised_prompt": "A clean premium product render of modern office blue-light glasses, centered single object, gray-blue frame, cold white reflections on the lenses, high contrast, crisp commercial 2D game relic icon style, readable at small UI size, isolated on plain light neutral background, no text, no label, no logo, no watermark, no character, no busy scene, no border.",
+  "url": "https://image.nianhua.store/images/2026/06/15/1781495790_0ebb23dfd42d27c8af3b37d522bd7483.png"
+}

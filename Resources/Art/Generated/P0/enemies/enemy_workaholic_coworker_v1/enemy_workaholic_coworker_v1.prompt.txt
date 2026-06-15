@@ -1,0 +1,10 @@
+Use case: stylized-concept
+Asset type: P0 enemy key art for a workplace roguelike card game
+Primary request: Create the enemy key art for "卷王同事" / workaholic coworker.
+Scene/backdrop: simplified bright modern internet-company office, cool white lights, gray-blue office base, desks and task boards suggested but not cluttered.
+Subject: a modern internet-company employee with over-caffeinated eyes and frantic fast movement, carrying a laptop bag and several devices, typing rapidly or juggling many tickets at once. Office supplies and task cards fly like combo weapons around the subject.
+Style/medium: semi-realistic polished 2D commercial card-game illustration, workplace fantasy satire, absurd office mutation, readable silhouette, crisp shapes, no photorealism, no 3D render look, no anime idol look.
+Composition/framing: vertical full-body or three-quarter key art, single clear subject centered, dynamic diagonal motion, enough margin for later portrait crop, simplified background.
+Lighting/mood: bright cool office lighting, cyan and cold green technical accents, high-energy pressure.
+Constraints: clearly communicate fast multi-hit attacks through pose, motion, and office props; no readable text, no watermark, no logo, no UI overlay.
+Avoid: superhero costume, cyber ninja, horror mutation overload, photorealism, unreadable device clutter, extra limbs, deformed hands.

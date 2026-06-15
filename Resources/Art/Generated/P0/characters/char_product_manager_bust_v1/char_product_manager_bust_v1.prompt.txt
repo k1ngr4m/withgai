@@ -1,0 +1,9 @@
+Use case: stylized-concept
+Asset type: P0 battle UI bust portrait, 1024x1024 square
+Primary request: Product manager battle bust portrait, preserving the established product manager key art identity: confident controller, business-casual styling, PRD document, priority cards, roadmap, meeting notes, requirement-change arrows.
+Scene/backdrop: simplified modern meeting room or office lighting, clean background, no readable whiteboard.
+Subject: chest-up modern product manager, composed and persuasive expression, one hand holding meeting notes and another rearranging priority cards. Floating simplified roadmap, priority tags, requirement arrows, and meeting command shapes around shoulders.
+Style/medium: semi-realistic polished commercial 2D card-game character portrait, clean silhouette, crisp shapes, workplace fantasy satire, player-class heroic not villain.
+Composition/framing: square bust portrait, face and upper torso clear, suitable for battle UI crop.
+Color palette: gray-white, business blue, warning orange, small red revision accents.
+Constraints: no readable text, no watermark, no logo, no text-heavy notes, no messy whiteboard, no exaggerated villain grin, not full body.

@@ -1,0 +1,15 @@
+name,file
+ClassDef,Datas/ClassDef.csv
+CardDef,Datas/CardDef.csv
+RelicDef,Datas/RelicDef.csv
+EnemyDef,Datas/EnemyDef.csv
+EncounterDef,Datas/EncounterDef.csv
+MapNodeDef,Datas/MapNodeDef.csv
+EventDef,Datas/EventDef.csv
+StatusDef,Datas/StatusDef.csv
+MetaUpgradeDef,Datas/MetaUpgradeDef.csv
+EffectGroupDef,Datas/EffectGroupDef.csv
+EffectEntryDef,Datas/EffectEntryDef.csv
+EnemyIntentGroupDef,Datas/EnemyIntentGroupDef.csv
+RewardProfileDef,Datas/RewardProfileDef.csv
+ShopPoolDef,Datas/ShopPoolDef.csv

@@ -1,0 +1,20 @@
+{
+  "created": 1781497155,
+  "usage": {
+    "input_tokens": 81,
+    "output_tokens": 6500,
+    "total_tokens": 6581,
+    "input_tokens_details": {
+      "text_tokens": 81,
+      "image_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens_details": {
+      "text_tokens": 0,
+      "image_tokens": 6500,
+      "reasoning_tokens": 0
+    }
+  },
+  "revised_prompt": "A clean premium product render of a paper citation ranking relic icon, centered single object, research paper page combined with upward citation arrow, algorithm office-academic tool feeling, high contrast, crisp commercial 2D game icon style, readable at small UI size, isolated on plain light neutral background, no readable text, no label, no logo, no watermark, no character, no busy scene, no border.",
+  "url": "https://image.nianhua.store/images/2026/06/15/1781497183_9805922ea69a05b8d39bb8e400389fe6.png"
+}

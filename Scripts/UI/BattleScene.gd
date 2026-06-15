@@ -1,0 +1,99 @@
+extends Control
+
+func _ready() -> void:
+	_build()
+
+func _build() -> void:
+	for child in get_children():
+		child.queue_free()
+	UiFactory.fill(self)
+	var chapter: int = int(AppRoot.run_session.run_state.get("current_chapter", 1))
+	var bg := "res://Resources/Art/Generated/P0/backgrounds/bg_battle_ch1_open_office_v1.png"
+	if chapter == 2:
+		bg = "res://Resources/Art/Generated/P0/backgrounds/bg_battle_ch2_management_zone_v1.png"
+	elif chapter == 3:
+		bg = "res://Resources/Art/Generated/P0/backgrounds/bg_battle_ch3_ceo_floor_v1.png"
+	UiFactory.add_background(self, bg)
+	var margin := UiFactory.margin(self, 16)
+	var main := UiFactory.vbox(8)
+	margin.add_child(main)
+	var state := AppRoot.battle_service.battle_state
+	var player: Dictionary = state.get("player", {})
+	main.add_child(UiFactory.label("精神 %d/%d  精力 %d  防线 %d  回合 %d  %s" % [
+		int(player.get("current_spirit", 0)), int(player.get("max_spirit", 0)), int(player.get("current_energy", 0)), int(player.get("current_block", 0)), int(player.get("turn_number", 1)), _resource_text(player)
+	], 22))
+	var enemy_row := UiFactory.hbox(10)
+	main.add_child(enemy_row)
+	for enemy in state.get("enemies", []):
+		enemy_row.add_child(_enemy_panel(enemy))
+	var hand_row := UiFactory.hbox(8)
+	main.add_child(UiFactory.scroll(hand_row))
+	var hand: Array = player.get("hand", [])
+	for i in range(hand.size()):
+		hand_row.add_child(_card_button(hand[i], i))
+	var actions := UiFactory.hbox(8)
+	main.add_child(actions)
+	var end_turn := UiFactory.button("结束回合")
+	end_turn.pressed.connect(_end_turn)
+	actions.add_child(end_turn)
+	var log_panel := UiFactory.panel()
+	log_panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	var log_box := UiFactory.vbox(3)
+	log_panel.add_child(log_box)
+	var logs: Array = state.get("log", [])
+	for line in logs.slice(max(0, logs.size() - 8), logs.size()):
+		log_box.add_child(UiFactory.label(String(line), 14, Color(0.86, 0.9, 0.9)))
+	main.add_child(log_panel)
+
+func _enemy_panel(enemy: Dictionary) -> Control:
+	var panel := UiFactory.panel()
+	panel.custom_minimum_size = Vector2(260, 230)
+	var box := UiFactory.vbox(6)
+	panel.add_child(box)
+	var def: Dictionary = AppRoot.config_service.get_def("enemies", enemy.get("enemy_def_id", ""))
+	box.add_child(UiFactory.texture(def.get("art_path", ""), Vector2(210, 120)))
+	var intent: Dictionary = enemy.get("intent", {})
+	box.add_child(UiFactory.label("%s  HP %d/%d  防线 %d" % [enemy.get("name", ""), int(enemy.get("current_hp", 0)), int(enemy.get("max_hp", 0)), int(enemy.get("current_block", 0))], 18))
+	box.add_child(UiFactory.label("意图：%s %s" % [intent.get("intent_type", ""), str(intent.get("amount", ""))], 15, Color(1.0, 0.82, 0.55)))
+	box.add_child(UiFactory.label("状态：%s" % str(enemy.get("status_list", {})), 13, Color(0.74, 0.9, 0.92)))
+	return panel
+
+func _card_button(card_id: String, hand_index: int) -> Button:
+	var card: Dictionary = AppRoot.config_service.get_def("cards", card_id)
+	var cost: String = "X" if int(card.get("cost", 0)) < 0 else str(card.get("cost", 0))
+	var b: Button = UiFactory.button("%s [%s]\n%s\n%s" % [card.get("name", card_id), cost, card.get("type", ""), card.get("description", "")])
+	b.custom_minimum_size = Vector2(190, 150)
+	b.disabled = not AppRoot.battle_service.can_play_card(hand_index)
+	b.pressed.connect(func(): _play_card(hand_index))
+	return b
+
+func _play_card(hand_index: int) -> void:
+	AppRoot.battle_service.play_card(AppRoot.run_session.run_state, hand_index, 0)
+	_after_action()
+
+func _end_turn() -> void:
+	AppRoot.battle_service.end_turn(AppRoot.run_session.run_state)
+	_after_action()
+
+func _after_action() -> void:
+	var phase: String = String(AppRoot.battle_service.battle_state.get("phase", ""))
+	if phase == "victory":
+		call_deferred("_go_reward")
+	elif phase == "defeat":
+		AppRoot.run_session.run_state["run_flags"]["victory"] = false
+		call_deferred("_go_result")
+	else:
+		_build()
+
+func _go_reward() -> void:
+	AppRoot.flow_controller.show_scene("reward")
+
+func _go_result() -> void:
+	AppRoot.flow_controller.show_scene("run_result")
+
+func _resource_text(player: Dictionary) -> String:
+	var resources: Dictionary = player.get("class_resource_state", {})
+	var parts: Array = []
+	for key in resources.keys():
+		parts.append("%s:%s" % [key, resources[key]])
+	return "资源 " + " ".join(parts)

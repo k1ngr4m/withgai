@@ -1,0 +1,65 @@
+{
+  "generated_at": "2026-06-15T12:30:50",
+  "assets": [
+    {
+      "id": "enemy_slacker_coworker_v1",
+      "path": "Resources/Art/Generated/P0/enemies/enemy_slacker_coworker_v1/raw.png",
+      "exists": true,
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGB",
+      "prompt_exists": true,
+      "response_exists": true
+    },
+    {
+      "id": "enemy_workaholic_coworker_v1",
+      "path": "Resources/Art/Generated/P0/enemies/enemy_workaholic_coworker_v1/raw.png",
+      "exists": true,
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGB",
+      "prompt_exists": true,
+      "response_exists": true
+    },
+    {
+      "id": "enemy_angry_cleaner_v1",
+      "path": "Resources/Art/Generated/P0/enemies/enemy_angry_cleaner_v1/raw.png",
+      "exists": true,
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGB",
+      "prompt_exists": true,
+      "response_exists": true
+    },
+    {
+      "id": "enemy_salesman_v1",
+      "path": "Resources/Art/Generated/P0/enemies/enemy_salesman_v1/raw.png",
+      "exists": true,
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGB",
+      "prompt_exists": true,
+      "response_exists": true
+    },
+    {
+      "id": "elite_airdrop_project_lead_v1",
+      "path": "Resources/Art/Generated/P0/enemies/elite_airdrop_project_lead_v1/raw.png",
+      "exists": true,
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGB",
+      "prompt_exists": true,
+      "response_exists": true
+    }
+  ]
+}

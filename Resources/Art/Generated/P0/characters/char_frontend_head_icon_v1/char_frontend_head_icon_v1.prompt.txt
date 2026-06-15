@@ -1,0 +1,9 @@
+Use case: stylized-concept
+Asset type: P0 class selection head icon, 1024x1024 square
+Primary request: Frontend engineer head icon, preserving the established frontend key art identity: stylish UI builder, agile confident expression, simplified component blocks and style-band motifs.
+Scene/backdrop: extremely minimal bright blue-white/teal background, icon-ready high contrast.
+Subject: centered front or three-quarter face of a modern frontend engineer, clean designed hairstyle and clothing, small component squares and style strips near the head.
+Style/medium: semi-realistic polished 2D game avatar icon, commercial card-game UI quality, clean silhouette, crisp shape language.
+Composition/framing: head and upper shoulders only, centered, readable at small size.
+Color palette: bright blue, white, teal, soft violet accents.
+Constraints: no readable text, no watermark, no logo, no detailed background, no tiny clutter, no full body.

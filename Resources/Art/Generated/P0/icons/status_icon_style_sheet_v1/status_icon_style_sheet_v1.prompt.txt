@@ -1,0 +1,9 @@
+Use case: stylized-concept
+Asset type: 3x3 status icon sprite sheet for a workplace roguelike card game
+Primary request: Create a clean_hd 3x3 icon-style sheet for workplace roguelike status effects.
+Sheet layout: exact 3 rows by 3 columns, one compact symbolic icon per cell, equal invisible cells, consistent icon scale, centered icons, generous margin.
+Background: pure solid flat #FF00FF magenta across the entire canvas, no gradients, no shadows on background, no borders, no dividers, no labels.
+Icons, left to right top to bottom: anxiety, overtime, vulnerable, weak, bug, case, diff, compute, requirement-change.
+Style/medium: clean hand-painted HD 2D corporate-fantasy card game icon style, high readability, strong silhouette, modern office UI materials, no pixel art.
+Composition/framing: single centered object or symbol per cell, compact and readable at small size.
+Constraints: no readable text, no letters, no numbers, no watermark, no logo, no realistic scene fragments, no crowded composition, no cell borders.

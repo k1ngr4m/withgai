@@ -1,0 +1,20 @@
+id,name,chapter_tags,base_hp,intent_group_id,phase_group_id,reward_profile_id,description,art_path
+string,string,json,int,string,string,string,string,string
+c,c,c,c,c,c,c,c,c
+## id,## name,## chapter_tags,## base_hp,## intent_group_id,## phase_group_id,## reward_profile_id,## description,## art_path
+enemy_slacker_coworker,摸鱼同事,[1],34,ig_enemy_slacker_coworker,,reward_default,偶尔跳过攻击并叠防线,res://Resources/Art/Generated/P0/enemies/enemy_slacker_coworker_v1/raw.png
+enemy_workaholic_coworker,卷王同事,[1],38,ig_enemy_workaholic_coworker,,reward_default,高频多段攻击,res://Resources/Art/Generated/P0/enemies/enemy_workaholic_coworker_v1/raw.png
+enemy_angry_cleaner,暴躁保洁阿姨,[1],42,ig_enemy_angry_cleaner,,reward_default,高面板单次伤害,res://Resources/Art/Generated/P0/enemies/enemy_angry_cleaner_v1/raw.png
+enemy_salesman,西装推销员,[1],36,ig_enemy_salesman,,reward_default,向牌组塞低价值污染,res://Resources/Art/Generated/P0/enemies/enemy_salesman_v1/raw.png
+enemy_process_specialist,流程专员,[2],48,ig_enemy_process_specialist,,reward_default,频繁获得防线与增益,
+enemy_performance_inspector,绩效监察,[2],52,ig_enemy_performance_inspector,,reward_default,惩罚拖回合与手牌膨胀,
+enemy_meeting_maniac,开会狂人,[2],46,ig_enemy_meeting_maniac,,reward_default,通过议程召唤衍生物,
+enemy_airdrop_director,空降总监,[3],58,ig_enemy_airdrop_director,,reward_default,切换姿态压迫节奏,
+enemy_compliance_judge,合规审判官,[3],60,ig_enemy_compliance_judge,,reward_default,清除玩家增益并塞入污染,
+elite_airdrop_project_lead,空降项目组长,[1],78,ig_elite_airdrop_project_lead,,reward_default,Deadline 倒计时,res://Resources/Art/Generated/P0/enemies/elite_airdrop_project_lead_v1/raw.png
+elite_outsource_manager,外包统筹经理,"[1,2]",82,ig_elite_outsource_manager,,reward_default,召唤杂兵并强化协同,
+elite_budget_gatekeeper,预算守门人,[2],88,ig_elite_budget_gatekeeper,,reward_default,压缩绩效点收益,
+elite_approval_eye,审批流之眼,[3],96,ig_elite_approval_eye,,reward_default,冻结高费牌并扭曲顺序,
+boss_pitch_supervisor,画饼主管,[1],120,ig_boss_pitch_supervisor,,reward_default,塞入期权与明年提拔你,res://Resources/Art/Generated/P0/characters/boss_pitch_supervisor_v1.png
+boss_mutant_hr,变异HR,[2],150,ig_boss_mutant_hr,,reward_default,压缩续航、惩罚冗余手牌,
+boss_mutant_ceo,变异总裁,[3],190,ig_boss_mutant_ceo,,reward_default,多阶段、多意图、召唤会议纪要,

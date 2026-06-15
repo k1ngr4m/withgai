@@ -1,0 +1,20 @@
+id,intent_entries
+string,json
+c,c
+## id,## intent_entries
+ig_enemy_slacker_coworker,"[{""intent_type"":""attack"",""amount"":7,""weight"":5},{""intent_type"":""block"",""amount"":6,""weight"":2},{""intent_type"":""debuff"",""status_id"":""anxiety"",""amount"":1,""weight"":1}]"
+ig_enemy_workaholic_coworker,"[{""intent_type"":""attack"",""amount"":7,""weight"":5},{""intent_type"":""block"",""amount"":6,""weight"":2},{""intent_type"":""debuff"",""status_id"":""anxiety"",""amount"":1,""weight"":1}]"
+ig_enemy_angry_cleaner,"[{""intent_type"":""attack"",""amount"":7,""weight"":5},{""intent_type"":""block"",""amount"":6,""weight"":2},{""intent_type"":""debuff"",""status_id"":""anxiety"",""amount"":1,""weight"":1}]"
+ig_enemy_salesman,"[{""intent_type"":""attack"",""amount"":7,""weight"":5},{""intent_type"":""block"",""amount"":6,""weight"":2},{""intent_type"":""debuff"",""status_id"":""anxiety"",""amount"":1,""weight"":1}]"
+ig_enemy_process_specialist,"[{""intent_type"":""attack"",""amount"":7,""weight"":5},{""intent_type"":""block"",""amount"":6,""weight"":2},{""intent_type"":""debuff"",""status_id"":""anxiety"",""amount"":1,""weight"":1}]"
+ig_enemy_performance_inspector,"[{""intent_type"":""attack"",""amount"":7,""weight"":5},{""intent_type"":""block"",""amount"":6,""weight"":2},{""intent_type"":""debuff"",""status_id"":""anxiety"",""amount"":1,""weight"":1}]"
+ig_enemy_meeting_maniac,"[{""intent_type"":""attack"",""amount"":7,""weight"":5},{""intent_type"":""block"",""amount"":6,""weight"":2},{""intent_type"":""debuff"",""status_id"":""anxiety"",""amount"":1,""weight"":1}]"
+ig_enemy_airdrop_director,"[{""intent_type"":""attack"",""amount"":7,""weight"":5},{""intent_type"":""block"",""amount"":6,""weight"":2},{""intent_type"":""debuff"",""status_id"":""anxiety"",""amount"":1,""weight"":1}]"
+ig_enemy_compliance_judge,"[{""intent_type"":""attack"",""amount"":7,""weight"":5},{""intent_type"":""block"",""amount"":6,""weight"":2},{""intent_type"":""debuff"",""status_id"":""anxiety"",""amount"":1,""weight"":1}]"
+ig_elite_airdrop_project_lead,"[{""intent_type"":""attack"",""amount"":11,""weight"":5},{""intent_type"":""block"",""amount"":9,""weight"":2},{""intent_type"":""debuff"",""status_id"":""anxiety"",""amount"":1,""weight"":1}]"
+ig_elite_outsource_manager,"[{""intent_type"":""attack"",""amount"":11,""weight"":5},{""intent_type"":""block"",""amount"":9,""weight"":2},{""intent_type"":""debuff"",""status_id"":""anxiety"",""amount"":1,""weight"":1}]"
+ig_elite_budget_gatekeeper,"[{""intent_type"":""attack"",""amount"":11,""weight"":5},{""intent_type"":""block"",""amount"":9,""weight"":2},{""intent_type"":""debuff"",""status_id"":""anxiety"",""amount"":1,""weight"":1}]"
+ig_elite_approval_eye,"[{""intent_type"":""attack"",""amount"":11,""weight"":5},{""intent_type"":""block"",""amount"":9,""weight"":2},{""intent_type"":""debuff"",""status_id"":""anxiety"",""amount"":1,""weight"":1}]"
+ig_boss_pitch_supervisor,"[{""intent_type"":""attack"",""amount"":14,""weight"":5},{""intent_type"":""block"",""amount"":12,""weight"":2},{""intent_type"":""debuff"",""status_id"":""anxiety"",""amount"":1,""weight"":1}]"
+ig_boss_mutant_hr,"[{""intent_type"":""attack"",""amount"":14,""weight"":5},{""intent_type"":""block"",""amount"":12,""weight"":2},{""intent_type"":""debuff"",""status_id"":""anxiety"",""amount"":1,""weight"":1}]"
+ig_boss_mutant_ceo,"[{""intent_type"":""attack"",""amount"":14,""weight"":5},{""intent_type"":""block"",""amount"":12,""weight"":2},{""intent_type"":""debuff"",""status_id"":""anxiety"",""amount"":1,""weight"":1}]"

@@ -1,0 +1,181 @@
+{
+  "batch": "p0_cards_backend_01",
+  "status": "completed",
+  "asset_count": 10,
+  "expected_count": 10,
+  "all_files_exist": true,
+  "all_dimensions_valid": true,
+  "contact_sheet": "Resources/Art/Generated/P0/cards/backend_cards_contact_sheet_v1.png",
+  "records": [
+    {
+      "asset_id": "card_illust_backend_publish_script",
+      "folder": "Resources/Art/Generated/P0/cards/card_illust_backend_publish_script_v1",
+      "raw": "Resources/Art/Generated/P0/cards/card_illust_backend_publish_script_v1/raw.png",
+      "final": "Resources/Art/Generated/P0/cards/card_illust_backend_publish_script_v1/final.png",
+      "prompt": "Resources/Art/Generated/P0/cards/card_illust_backend_publish_script_v1/card_illust_backend_publish_script_v1.prompt.txt",
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGB",
+      "sha256": "e547dc1a4a8473c091bd13dd94c9010a58b397036824e7d060ab94e4bab75eeb",
+      "prompt_exists": true,
+      "raw_exists": true,
+      "final_exists": true,
+      "valid_portrait_1024x1536": true
+    },
+    {
+      "asset_id": "card_illust_backend_api_gateway",
+      "folder": "Resources/Art/Generated/P0/cards/card_illust_backend_api_gateway_v1",
+      "raw": "Resources/Art/Generated/P0/cards/card_illust_backend_api_gateway_v1/raw.png",
+      "final": "Resources/Art/Generated/P0/cards/card_illust_backend_api_gateway_v1/final.png",
+      "prompt": "Resources/Art/Generated/P0/cards/card_illust_backend_api_gateway_v1/card_illust_backend_api_gateway_v1.prompt.txt",
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGB",
+      "sha256": "c6d333a105c05ef9e2493c6adb1e362a1defa8998101b39eb527a9c388d8f769",
+      "prompt_exists": true,
+      "raw_exists": true,
+      "final_exists": true,
+      "valid_portrait_1024x1536": true
+    },
+    {
+      "asset_id": "card_illust_backend_redis_warmup",
+      "folder": "Resources/Art/Generated/P0/cards/card_illust_backend_redis_warmup_v1",
+      "raw": "Resources/Art/Generated/P0/cards/card_illust_backend_redis_warmup_v1/raw.png",
+      "final": "Resources/Art/Generated/P0/cards/card_illust_backend_redis_warmup_v1/final.png",
+      "prompt": "Resources/Art/Generated/P0/cards/card_illust_backend_redis_warmup_v1/card_illust_backend_redis_warmup_v1.prompt.txt",
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGB",
+      "sha256": "a97626fac068ad365c12b3d1c9e7291dbadb77e36ca9b42a61ec78323d93fda1",
+      "prompt_exists": true,
+      "raw_exists": true,
+      "final_exists": true,
+      "valid_portrait_1024x1536": true
+    },
+    {
+      "asset_id": "card_illust_backend_message_queue",
+      "folder": "Resources/Art/Generated/P0/cards/card_illust_backend_message_queue_v1",
+      "raw": "Resources/Art/Generated/P0/cards/card_illust_backend_message_queue_v1/raw.png",
+      "final": "Resources/Art/Generated/P0/cards/card_illust_backend_message_queue_v1/final.png",
+      "prompt": "Resources/Art/Generated/P0/cards/card_illust_backend_message_queue_v1/card_illust_backend_message_queue_v1.prompt.txt",
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGB",
+      "sha256": "cf37a526d4aa295387492e00ab10a1dcce3529bb1e6bf7c223878cbfa8fc16a7",
+      "prompt_exists": true,
+      "raw_exists": true,
+      "final_exists": true,
+      "valid_portrait_1024x1536": true
+    },
+    {
+      "asset_id": "card_illust_backend_circuit_breaker",
+      "folder": "Resources/Art/Generated/P0/cards/card_illust_backend_circuit_breaker_v1",
+      "raw": "Resources/Art/Generated/P0/cards/card_illust_backend_circuit_breaker_v1/raw.png",
+      "final": "Resources/Art/Generated/P0/cards/card_illust_backend_circuit_breaker_v1/final.png",
+      "prompt": "Resources/Art/Generated/P0/cards/card_illust_backend_circuit_breaker_v1/card_illust_backend_circuit_breaker_v1.prompt.txt",
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGB",
+      "sha256": "40847ec8958f6247bb3098ca432dfcbc6b7eacd407dc18d85460d865c4eddfb8",
+      "prompt_exists": true,
+      "raw_exists": true,
+      "final_exists": true,
+      "valid_portrait_1024x1536": true
+    },
+    {
+      "asset_id": "card_illust_backend_service_degrade",
+      "folder": "Resources/Art/Generated/P0/cards/card_illust_backend_service_degrade_v1",
+      "raw": "Resources/Art/Generated/P0/cards/card_illust_backend_service_degrade_v1/raw.png",
+      "final": "Resources/Art/Generated/P0/cards/card_illust_backend_service_degrade_v1/final.png",
+      "prompt": "Resources/Art/Generated/P0/cards/card_illust_backend_service_degrade_v1/card_illust_backend_service_degrade_v1.prompt.txt",
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGB",
+      "sha256": "8d1eef2101976e17a3fcffb3873b910af250e639b02f8237fffe01331075c46e",
+      "prompt_exists": true,
+      "raw_exists": true,
+      "final_exists": true,
+      "valid_portrait_1024x1536": true
+    },
+    {
+      "asset_id": "card_illust_backend_sharding",
+      "folder": "Resources/Art/Generated/P0/cards/card_illust_backend_sharding_v1",
+      "raw": "Resources/Art/Generated/P0/cards/card_illust_backend_sharding_v1/raw.png",
+      "final": "Resources/Art/Generated/P0/cards/card_illust_backend_sharding_v1/final.png",
+      "prompt": "Resources/Art/Generated/P0/cards/card_illust_backend_sharding_v1/card_illust_backend_sharding_v1.prompt.txt",
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGB",
+      "sha256": "85758cb3bf938c43a53b85d96d4f51c2a36d44ff9ba0e7f36dd23fc8f8c7edf7",
+      "prompt_exists": true,
+      "raw_exists": true,
+      "final_exists": true,
+      "valid_portrait_1024x1536": true
+    },
+    {
+      "asset_id": "card_illust_backend_traffic_shaping",
+      "folder": "Resources/Art/Generated/P0/cards/card_illust_backend_traffic_shaping_v1",
+      "raw": "Resources/Art/Generated/P0/cards/card_illust_backend_traffic_shaping_v1/raw.png",
+      "final": "Resources/Art/Generated/P0/cards/card_illust_backend_traffic_shaping_v1/final.png",
+      "prompt": "Resources/Art/Generated/P0/cards/card_illust_backend_traffic_shaping_v1/card_illust_backend_traffic_shaping_v1.prompt.txt",
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGB",
+      "sha256": "9c10b59de084dec5423f4b3697f99637b4b74a84e6bce69211b0c447a5ba518a",
+      "prompt_exists": true,
+      "raw_exists": true,
+      "final_exists": true,
+      "valid_portrait_1024x1536": true
+    },
+    {
+      "asset_id": "card_illust_backend_flush_all",
+      "folder": "Resources/Art/Generated/P0/cards/card_illust_backend_flush_all_v1",
+      "raw": "Resources/Art/Generated/P0/cards/card_illust_backend_flush_all_v1/raw.png",
+      "final": "Resources/Art/Generated/P0/cards/card_illust_backend_flush_all_v1/final.png",
+      "prompt": "Resources/Art/Generated/P0/cards/card_illust_backend_flush_all_v1/card_illust_backend_flush_all_v1.prompt.txt",
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGB",
+      "sha256": "ebb67a11ad07315f030a67e8fea5b911d0665849034ddca0a0994afc84cf16f2",
+      "prompt_exists": true,
+      "raw_exists": true,
+      "final_exists": true,
+      "valid_portrait_1024x1536": true
+    },
+    {
+      "asset_id": "card_illust_backend_prod_inspection",
+      "folder": "Resources/Art/Generated/P0/cards/card_illust_backend_prod_inspection_v1",
+      "raw": "Resources/Art/Generated/P0/cards/card_illust_backend_prod_inspection_v1/raw.png",
+      "final": "Resources/Art/Generated/P0/cards/card_illust_backend_prod_inspection_v1/final.png",
+      "prompt": "Resources/Art/Generated/P0/cards/card_illust_backend_prod_inspection_v1/card_illust_backend_prod_inspection_v1.prompt.txt",
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGB",
+      "sha256": "ab7785ae380d31bb5e9bbe91aa1d855065927885eece5f9762b4d19b48461423",
+      "prompt_exists": true,
+      "raw_exists": true,
+      "final_exists": true,
+      "valid_portrait_1024x1536": true
+    }
+  ]
+}

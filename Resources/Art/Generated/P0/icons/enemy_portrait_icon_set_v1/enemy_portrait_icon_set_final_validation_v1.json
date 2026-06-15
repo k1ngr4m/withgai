@@ -1,0 +1,393 @@
+{
+  "generated_at": "2026-06-15T14:43:21",
+  "source": "Resources/Art/Generated/P0/icons/enemy_portrait_icon_set_v1/raw-sheet-retry.png",
+  "final_sheet": "Resources/Art/Generated/P0/icons/enemy_portrait_icon_set_v1/sheet-transparent-final.png",
+  "contact_sheet": "Resources/Art/Generated/P0/icons/enemy_portrait_icon_set_v1/enemy_portrait_icon_set_final_contact_sheet_v1.png",
+  "frame_prefix": "enemy_portrait_final-",
+  "frame_count": 16,
+  "size": [
+    1024,
+    1024
+  ],
+  "cell_size": [
+    256,
+    256
+  ],
+  "mode": "RGBA",
+  "edge_alpha_frames": [],
+  "frames": [
+    {
+      "grid": [
+        0,
+        0
+      ],
+      "source_window": [
+        20,
+        34,
+        285,
+        304
+      ],
+      "trim_bbox": [
+        0,
+        8,
+        265,
+        270
+      ],
+      "output_size": [
+        221,
+        224
+      ],
+      "edge_alpha": false
+    },
+    {
+      "grid": [
+        0,
+        1
+      ],
+      "source_window": [
+        315,
+        32,
+        610,
+        310
+      ],
+      "trim_bbox": [
+        17,
+        2,
+        295,
+        278
+      ],
+      "output_size": [
+        224,
+        219
+      ],
+      "edge_alpha": false
+    },
+    {
+      "grid": [
+        0,
+        2
+      ],
+      "source_window": [
+        625,
+        36,
+        910,
+        304
+      ],
+      "trim_bbox": [
+        6,
+        0,
+        285,
+        268
+      ],
+      "output_size": [
+        224,
+        211
+      ],
+      "edge_alpha": false
+    },
+    {
+      "grid": [
+        0,
+        3
+      ],
+      "source_window": [
+        945,
+        32,
+        1225,
+        304
+      ],
+      "trim_bbox": [
+        13,
+        0,
+        280,
+        272
+      ],
+      "output_size": [
+        224,
+        223
+      ],
+      "edge_alpha": false
+    },
+    {
+      "grid": [
+        1,
+        0
+      ],
+      "source_window": [
+        20,
+        360,
+        285,
+        610
+      ],
+      "trim_bbox": [
+        6,
+        11,
+        265,
+        250
+      ],
+      "output_size": [
+        224,
+        207
+      ],
+      "edge_alpha": false
+    },
+    {
+      "grid": [
+        1,
+        1
+      ],
+      "source_window": [
+        315,
+        360,
+        610,
+        615
+      ],
+      "trim_bbox": [
+        15,
+        13,
+        289,
+        255
+      ],
+      "output_size": [
+        224,
+        194
+      ],
+      "edge_alpha": false
+    },
+    {
+      "grid": [
+        1,
+        2
+      ],
+      "source_window": [
+        625,
+        358,
+        910,
+        615
+      ],
+      "trim_bbox": [
+        14,
+        4,
+        285,
+        257
+      ],
+      "output_size": [
+        224,
+        208
+      ],
+      "edge_alpha": false
+    },
+    {
+      "grid": [
+        1,
+        3
+      ],
+      "source_window": [
+        945,
+        358,
+        1225,
+        615
+      ],
+      "trim_bbox": [
+        0,
+        13,
+        280,
+        257
+      ],
+      "output_size": [
+        224,
+        200
+      ],
+      "edge_alpha": false
+    },
+    {
+      "grid": [
+        2,
+        0
+      ],
+      "source_window": [
+        20,
+        665,
+        285,
+        920
+      ],
+      "trim_bbox": [
+        2,
+        0,
+        265,
+        255
+      ],
+      "output_size": [
+        224,
+        216
+      ],
+      "edge_alpha": false
+    },
+    {
+      "grid": [
+        2,
+        1
+      ],
+      "source_window": [
+        315,
+        660,
+        610,
+        920
+      ],
+      "trim_bbox": [
+        7,
+        3,
+        285,
+        260
+      ],
+      "output_size": [
+        224,
+        201
+      ],
+      "edge_alpha": false
+    },
+    {
+      "grid": [
+        2,
+        2
+      ],
+      "source_window": [
+        625,
+        660,
+        910,
+        920
+      ],
+      "trim_bbox": [
+        1,
+        1,
+        283,
+        260
+      ],
+      "output_size": [
+        224,
+        204
+      ],
+      "edge_alpha": false
+    },
+    {
+      "grid": [
+        2,
+        3
+      ],
+      "source_window": [
+        945,
+        660,
+        1225,
+        920
+      ],
+      "trim_bbox": [
+        0,
+        2,
+        280,
+        260
+      ],
+      "output_size": [
+        224,
+        208
+      ],
+      "edge_alpha": false
+    },
+    {
+      "grid": [
+        3,
+        0
+      ],
+      "source_window": [
+        20,
+        965,
+        285,
+        1232
+      ],
+      "trim_bbox": [
+        3,
+        0,
+        265,
+        266
+      ],
+      "output_size": [
+        222,
+        224
+      ],
+      "edge_alpha": false
+    },
+    {
+      "grid": [
+        3,
+        1
+      ],
+      "source_window": [
+        315,
+        960,
+        610,
+        1232
+      ],
+      "trim_bbox": [
+        18,
+        0,
+        276,
+        270
+      ],
+      "output_size": [
+        222,
+        224
+      ],
+      "edge_alpha": false
+    },
+    {
+      "grid": [
+        3,
+        2
+      ],
+      "source_window": [
+        625,
+        960,
+        910,
+        1232
+      ],
+      "trim_bbox": [
+        0,
+        0,
+        280,
+        270
+      ],
+      "output_size": [
+        224,
+        214
+      ],
+      "edge_alpha": false
+    },
+    {
+      "grid": [
+        3,
+        3
+      ],
+      "source_window": [
+        945,
+        960,
+        1225,
+        1232
+      ],
+      "trim_bbox": [
+        0,
+        0,
+        280,
+        271
+      ],
+      "output_size": [
+        224,
+        218
+      ],
+      "edge_alpha": false
+    }
+  ],
+  "notes": [
+    "preferred final icon sheet",
+    "deterministic crop from generated retry sheet",
+    "manual visual windows used because generated sheet spacing was not mathematically equal"
+  ]
+}

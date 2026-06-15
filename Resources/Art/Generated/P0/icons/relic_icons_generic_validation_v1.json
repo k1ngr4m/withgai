@@ -1,0 +1,92 @@
+[
+  {
+    "file": "Resources/Art/Generated/P0/icons/relic_icon_generic_blue_light_glasses_v1/prop.png",
+    "size": [
+      1024,
+      1024
+    ],
+    "mode": "RGBA",
+    "has_alpha": true,
+    "alpha_bbox": [
+      92,
+      326,
+      932,
+      697
+    ]
+  },
+  {
+    "file": "Resources/Art/Generated/P0/icons/relic_icon_generic_cold_brew_bucket_v1/prop.png",
+    "size": [
+      1024,
+      1024
+    ],
+    "mode": "RGBA",
+    "has_alpha": true,
+    "alpha_bbox": [
+      167,
+      103,
+      856,
+      921
+    ]
+  },
+  {
+    "file": "Resources/Art/Generated/P0/icons/relic_icon_generic_hair_shampoo_v1/prop.png",
+    "size": [
+      1024,
+      1024
+    ],
+    "mode": "RGBA",
+    "has_alpha": true,
+    "alpha_bbox": [
+      347,
+      99,
+      676,
+      925
+    ]
+  },
+  {
+    "file": "Resources/Art/Generated/P0/icons/relic_icon_generic_lumbar_cushion_v1/prop.png",
+    "size": [
+      1024,
+      1024
+    ],
+    "mode": "RGBA",
+    "has_alpha": true,
+    "alpha_bbox": [
+      121,
+      107,
+      903,
+      917
+    ]
+  },
+  {
+    "file": "Resources/Art/Generated/P0/icons/relic_icon_employee_discount_coupon_v1/prop.png",
+    "size": [
+      1024,
+      1024
+    ],
+    "mode": "RGBA",
+    "has_alpha": true,
+    "alpha_bbox": [
+      102,
+      179,
+      922,
+      845
+    ]
+  },
+  {
+    "file": "Resources/Art/Generated/P0/icons/relic_icon_generic_parking_pass_v1/prop.png",
+    "size": [
+      1024,
+      1024
+    ],
+    "mode": "RGBA",
+    "has_alpha": true,
+    "alpha_bbox": [
+      237,
+      100,
+      787,
+      924
+    ]
+  }
+]

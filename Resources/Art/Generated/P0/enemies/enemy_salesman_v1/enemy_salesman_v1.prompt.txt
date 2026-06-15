@@ -1,0 +1,10 @@
+Use case: stylized-concept
+Asset type: P0 enemy key art for a workplace roguelike card game
+Primary request: Create the enemy key art for "西装推销员" / salesman.
+Scene/backdrop: simplified modern office lobby or office area, cold gray-blue office base, polished floor, business materials suggested without clutter.
+Subject: a pushy office salesman in an exaggerated fitted suit, enthusiastically handing out package proposals, contracts, and sales-talk cards. Low-value pollution-card papers and contract sheets float around him as pressure tools rather than magic.
+Style/medium: semi-realistic polished 2D commercial card-game illustration, workplace fantasy satire, absurd office comedy, readable silhouette, crisp shapes, no photorealism, no 3D render look, no anime idol look.
+Composition/framing: vertical full-body or three-quarter key art, single clear subject centered, energetic oppressive pose reaching toward viewer, enough margin for later portrait crop, simplified background.
+Lighting/mood: bright office lighting, cool gray-blue base with system orange and warning red accents, persuasive and oppressive.
+Constraints: papers may have abstract lines only, no readable text; no watermark, no logo, no UI overlay.
+Avoid: mafia look, gun, horror salesman grin, readable contract text, photorealism, extra limbs, deformed hands.

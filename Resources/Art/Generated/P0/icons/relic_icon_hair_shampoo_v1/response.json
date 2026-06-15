@@ -1,0 +1,20 @@
+{
+  "created": 1781495838,
+  "usage": {
+    "input_tokens": 92,
+    "output_tokens": 6500,
+    "total_tokens": 6592,
+    "input_tokens_details": {
+      "text_tokens": 92,
+      "image_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens_details": {
+      "text_tokens": 0,
+      "image_tokens": 6500,
+      "reasoning_tokens": 0
+    }
+  },
+  "revised_prompt": "A clean premium product render of an anti-hair-loss shampoo bottle relic, centered single object, modern office-worker black-comedy tone, clean bottle silhouette, cool gray-blue plastic with small office-satire accent color, high contrast, crisp commercial 2D game relic icon style, readable at small UI size, isolated on plain light neutral background, no text, no label, no logo, no watermark, no character, no busy scene, no border.",
+  "url": "https://image.nianhua.store/images/2026/06/15/1781495867_f4e84b9fb1cf75bff6b82301a4a2431a.png"
+}

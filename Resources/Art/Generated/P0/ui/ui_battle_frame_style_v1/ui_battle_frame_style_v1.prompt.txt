@@ -1,0 +1,8 @@
+Use case: ui-mockup
+Asset type: P0 battle UI frame style concept for a workplace roguelike card game
+Primary request: Create a clean 2D commercial game UI concept showing decorative battle-frame language for an office-themed card roguelike.
+Visual content: cold white corporate system style, gray-blue glass panels, thin outlined information frames, card slots, enemy intent area, class resource zone, log zone, button zone, unified panel structure and material reference.
+Style/medium: polished 2D game UI concept, modern enterprise software mixed with card RPG UI, clean readable shapes, restrained office fantasy satire.
+Composition/framing: 16:9 wide UI style board, not a playable screenshot, no characters, no complete screen text, only high-quality frame divisions and decorative panel language.
+Color palette: cold white, gray-blue, glassy transparent panels, system orange, warning red, fluorescent green accents.
+Constraints: no readable text, no watermark, no logo, no character art, no fantasy parchment, no mobile candy UI, no cyberpunk overload.

@@ -1,0 +1,33 @@
+Create ONE production sprite sheet image for a game UI portrait icon pack.
+
+FORMAT REQUIREMENTS, highest priority:
+- Exact 4 x 4 grid arrangement: 4 columns and 4 rows, exactly 16 portraits total.
+- Each cell contains one isolated head-and-shoulders bust portrait only.
+- All portraits use the same scale, same crop height, same lighting, and same icon style.
+- The entire canvas background is pure flat chroma key magenta #FF00FF. It must look like a single solid color, no gradient, no texture, no shadow, no scenery, no floor, no office background.
+- No visible grid lines, no frames, no labels, no text, no watermark, no logo, no UI overlay.
+- Leave clean magenta margin around every portrait. Nothing crosses into another cell.
+
+ART DIRECTION:
+Clean HD hand-painted 2D game portrait icons, semi-realistic polished commercial card-game style, workplace fantasy satire. Modern internet-company office employees distorted into readable office enemies. Keep them human or office-mutant, not medieval fantasy, not cyberpunk soldiers, not horror gore, not anime idols, not chibi. Use cold gray-blue office clothing/materials with restrained orange warning accents and cyan/green system glows.
+
+PORTRAITS, left to right, top to bottom:
+1 slacker coworker: lazy young office worker, loose tie or hoodie, sleepy sly expression, phone and snack hint near shoulder.
+2 workaholic coworker: frantic employee with glasses, caffeine, laptop strap, task-paper motion hints.
+3 angry office cleaner: stern cleaner uniform, mop handle or spray bottle near shoulder, authoritative expression.
+4 pushy salesman: fitted suit, forced smile, proposal papers/cards near shoulder, no readable text.
+5 process specialist: rigid office rule follower, forms and flowchart shapes, severe expression.
+6 performance inspector: evaluator with clipboard-like silhouette and cold measuring gaze, abstract check marks only no text.
+7 meeting maniac: overly enthusiastic meeting host with headset and presentation-clicker hint, manic smile.
+8 airdrop director: sudden senior manager with headset and hovering task-drone shapes, calm pressure.
+9 compliance judge: office-policy judge with gray corporate robe-like coat made from suit fabric, legal file shapes, no fantasy wig.
+10 airdrop project lead: urgent middle manager, red abstract deadline frames and timeline bars, pressured authority.
+11 outsource manager: tired coordinator with many vendor badges/cards as abstract shapes, no readable text.
+12 budget gatekeeper: heavy finance manager, calculator/card hints, guarded expression.
+13 approval eye: office approval-system mutant with one large bureaucratic eye integrated into a human manager bust, absurd but not gore.
+14 pitch supervisor: severe presentation supervisor with laser pointer and pitch-deck shapes, no readable text.
+15 mutant HR: corporate HR office mutant, calm smile, policy folders and ID badge shapes, pale cyan glow.
+16 mutant CEO: final corporate executive mutant bust, larger jaw and suit collar, cold authority, not monstrous gore.
+
+NEGATIVE REQUIREMENTS:
+No readable words, letters, numbers, signatures, captions, watermarks, logos, UI panels, speech bubbles, office background, cell borders, gradient background, shadows on background, photorealism, 3D render look, cyber armor, sci-fi helmets, medieval fantasy, gore, extra faces, extra limbs, full-body figures.

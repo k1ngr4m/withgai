@@ -1,0 +1,8 @@
+Use case: ui-mockup
+Asset type: P0 tester class resource panel decoration concept
+Primary request: Tester / QA profession resource panel decoration, representing bug/case/diff mechanics as a battle resource UI element.
+Visual content: QA panel, warning frame, checkbox blocks, defect markers, exception-log visual language, organized resource bar hierarchy.
+Style/medium: polished 2D commercial game UI element concept, clean office roguelike card game, transparent-background-friendly centered composition.
+Composition/framing: single isolated UI panel element centered on a simple neutral background, no monitor wall, no characters.
+Color palette: gray-white base with high contrast red, yellow, and green validation accents.
+Constraints: no readable text, no labels, no watermark, no logo, no too many tiny icons, no unreadable chart wall.

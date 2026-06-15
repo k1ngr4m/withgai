@@ -1,0 +1,9 @@
+Use case: stylized-concept
+Asset type: P0 class selection head icon, 1024x1024 square
+Primary request: Tester / QA engineer head icon, preserving the established tester identity: focused suspicious expression, defect-hunter visual language, compact bug/check/warning motifs.
+Scene/backdrop: extremely minimal cool office background, icon-ready high contrast.
+Subject: centered front or three-quarter face of a modern QA engineer, calm skeptical eyes, small simplified bug symbol, check mark box, and warning frame near the head.
+Style/medium: semi-realistic polished 2D game avatar icon, commercial card-game UI quality, clean silhouette.
+Composition/framing: head and upper shoulders only, centered, readable at small size.
+Color palette: cool gray base with red bug, green check, yellow warning accents.
+Constraints: no readable text, no watermark, no logo, no detailed background, no tiny clutter, no full body.

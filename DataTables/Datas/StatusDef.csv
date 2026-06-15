@@ -1,0 +1,21 @@
+id,name,stack_rule,timing_hooks,effect_group_id,max_stack,is_hidden,type
+string,string,string,json,string,int,bool,string
+c,c,c,c,c,c,c,c
+## id,## name,## stack_rule,## timing_hooks,## effect_group_id,## max_stack,## is_hidden,## type
+anxiety,焦虑,stack,[],,99,false,debuff
+overtime,加班,stack,[],,99,false,debuff
+vulnerable,易伤,stack,[],,99,false,debuff
+weak,脆弱,stack,[],,99,false,debuff
+service_online,服务在线,stack,[],,99,false,class
+cache,缓存,stack,[],,99,false,class
+component,组件,stack,[],,99,false,class
+style_layer,样式层,stack,[],,99,false,class
+bug,Bug,stack,[],,99,false,class
+case_mark,用例,stack,[],,99,false,class
+diff,Diff,stack,[],,99,false,class
+compute,算力,stack,[],,99,false,class
+complexity,复杂度,stack,[],,99,false,class
+requirement_change,需求变更,stack,[],,99,false,class
+priority,优先级,stack,[],,99,false,class
+performance,绩效,stack,[],,99,false,class
+optimization_target,优化名单,stack,[],,99,false,class

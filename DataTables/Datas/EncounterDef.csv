@@ -1,0 +1,19 @@
+id,chapter,node_type,enemy_ids,weight,min_floor,max_floor
+string,int,string,json,int,int,int
+c,c,c,c,c,c,c
+## id,## chapter,## node_type,## enemy_ids,## weight,## min_floor,## max_floor
+enc_ch1_slacker,1,normal_battle,"[""enemy_slacker_coworker""]",10,1,4
+enc_ch1_workaholic,1,normal_battle,"[""enemy_workaholic_coworker""]",10,1,4
+enc_ch1_salesman_cleaner,1,normal_battle,"[""enemy_salesman"",""enemy_angry_cleaner""]",6,2,5
+enc_ch1_elite_lead,1,elite_battle,"[""elite_airdrop_project_lead""]",10,2,5
+enc_ch1_boss_pitch,1,boss,"[""boss_pitch_supervisor""]",1,6,6
+enc_ch2_process,2,normal_battle,"[""enemy_process_specialist""]",10,7,10
+enc_ch2_performance,2,normal_battle,"[""enemy_performance_inspector""]",10,7,10
+enc_ch2_meeting,2,normal_battle,"[""enemy_meeting_maniac"",""enemy_process_specialist""]",8,8,11
+enc_ch2_elite_budget,2,elite_battle,"[""elite_budget_gatekeeper""]",8,8,11
+enc_ch2_elite_outsource,2,elite_battle,"[""elite_outsource_manager""]",6,8,11
+enc_ch2_boss_hr,2,boss,"[""boss_mutant_hr""]",1,12,12
+enc_ch3_director,3,normal_battle,"[""enemy_airdrop_director""]",10,13,16
+enc_ch3_compliance,3,normal_battle,"[""enemy_compliance_judge""]",10,13,16
+enc_ch3_elite_eye,3,elite_battle,"[""elite_approval_eye""]",8,14,17
+enc_ch3_boss_ceo,3,boss,"[""boss_mutant_ceo""]",1,18,18

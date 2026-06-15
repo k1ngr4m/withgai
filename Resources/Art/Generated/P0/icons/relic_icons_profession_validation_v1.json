@@ -1,0 +1,182 @@
+[
+  {
+    "file": "Resources/Art/Generated/P0/icons/relic_icon_unit_test_template_v1/prop.png",
+    "size": [
+      1024,
+      1024
+    ],
+    "mode": "RGBA",
+    "has_alpha": true,
+    "alpha_bbox": [
+      197,
+      105,
+      827,
+      919
+    ]
+  },
+  {
+    "file": "Resources/Art/Generated/P0/icons/relic_icon_error_log_repo_v1/prop.png",
+    "size": [
+      1024,
+      1024
+    ],
+    "mode": "RGBA",
+    "has_alpha": true,
+    "alpha_bbox": [
+      118,
+      107,
+      905,
+      917
+    ]
+  },
+  {
+    "file": "Resources/Art/Generated/P0/icons/relic_icon_figma_library_v1/prop.png",
+    "size": [
+      1024,
+      1024
+    ],
+    "mode": "RGBA",
+    "has_alpha": true,
+    "alpha_bbox": [
+      153,
+      103,
+      870,
+      921
+    ]
+  },
+  {
+    "file": "Resources/Art/Generated/P0/icons/relic_icon_design_review_v1/prop.png",
+    "size": [
+      1024,
+      1024
+    ],
+    "mode": "RGBA",
+    "has_alpha": true,
+    "alpha_bbox": [
+      211,
+      99,
+      813,
+      925
+    ]
+  },
+  {
+    "file": "Resources/Art/Generated/P0/icons/relic_icon_traffic_valve_v1/prop.png",
+    "size": [
+      1024,
+      1024
+    ],
+    "mode": "RGBA",
+    "has_alpha": true,
+    "alpha_bbox": [
+      98,
+      137,
+      936,
+      886
+    ]
+  },
+  {
+    "file": "Resources/Art/Generated/P0/icons/relic_icon_read_replica_v1/prop.png",
+    "size": [
+      1024,
+      1024
+    ],
+    "mode": "RGBA",
+    "has_alpha": true,
+    "alpha_bbox": [
+      179,
+      103,
+      844,
+      921
+    ]
+  },
+  {
+    "file": "Resources/Art/Generated/P0/icons/relic_icon_gantt_roadmap_v1/prop.png",
+    "size": [
+      1024,
+      1024
+    ],
+    "mode": "RGBA",
+    "has_alpha": true,
+    "alpha_bbox": [
+      99,
+      149,
+      925,
+      874
+    ]
+  },
+  {
+    "file": "Resources/Art/Generated/P0/icons/relic_icon_meeting_room_claim_v1/prop.png",
+    "size": [
+      1024,
+      1024
+    ],
+    "mode": "RGBA",
+    "has_alpha": true,
+    "alpha_bbox": [
+      241,
+      99,
+      783,
+      925
+    ]
+  },
+  {
+    "file": "Resources/Art/Generated/P0/icons/relic_icon_candidate_blacklist_v1/prop.png",
+    "size": [
+      1024,
+      1024
+    ],
+    "mode": "RGBA",
+    "has_alpha": true,
+    "alpha_bbox": [
+      139,
+      102,
+      885,
+      922
+    ]
+  },
+  {
+    "file": "Resources/Art/Generated/P0/icons/relic_icon_performance_table_v1/prop.png",
+    "size": [
+      1024,
+      1024
+    ],
+    "mode": "RGBA",
+    "has_alpha": true,
+    "alpha_bbox": [
+      146,
+      100,
+      878,
+      924
+    ]
+  },
+  {
+    "file": "Resources/Art/Generated/P0/icons/relic_icon_gpu_card_v1/prop.png",
+    "size": [
+      1024,
+      1024
+    ],
+    "mode": "RGBA",
+    "has_alpha": true,
+    "alpha_bbox": [
+      77,
+      154,
+      957,
+      870
+    ]
+  },
+  {
+    "file": "Resources/Art/Generated/P0/icons/relic_icon_paper_citation_v1/prop.png",
+    "size": [
+      1024,
+      1024
+    ],
+    "mode": "RGBA",
+    "has_alpha": true,
+    "alpha_bbox": [
+      122,
+      103,
+      901,
+      921
+    ]
+  }
+]

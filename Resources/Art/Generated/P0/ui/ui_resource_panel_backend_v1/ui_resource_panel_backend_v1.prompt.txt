@@ -1,0 +1,8 @@
+Use case: ui-mockup
+Asset type: P0 backend class resource panel decoration concept
+Primary request: Backend profession resource panel decoration, representing service/cache mechanics as a battle resource UI element.
+Visual content: enterprise technical monitoring panel mixed with card battle resource bar, gray-blue frame, cold green cache ring, service-node slots, subtle API gateway blocks, clean high readability.
+Style/medium: polished 2D commercial game UI element concept, office roguelike card game, transparent-background-friendly centered composition.
+Composition/framing: single isolated UI panel element centered on a simple neutral background, not a full dashboard, no characters.
+Color palette: gray-blue frame, cold green cache glow, cyan service node accents.
+Constraints: no readable text, no labels, no watermark, no logo, no tiny charts, no full-screen dashboard.

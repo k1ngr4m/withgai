@@ -1,0 +1,9 @@
+Use case: stylized-concept
+Asset type: P0 battle UI bust portrait, 1024x1024 square
+Primary request: Backend engineer battle bust portrait, based on the established backend key art identity: calm defensive systems engineer, dark gray-blue hoodie or programmer jacket, work badge, API gateway panel, cache layer, service nodes, queue/log fragments.
+Scene/backdrop: simple cold white modern office lighting, minimal cool gray-blue background, no readable screens.
+Subject: chest-up modern internet-company backend engineer, calm rational expression, hands operating translucent service panel and cache layer, small holographic office-tech elements around shoulders and arms.
+Style/medium: semi-realistic polished commercial 2D card-game character portrait, clean silhouette, crisp shapes, workplace fantasy satire, no photorealism, no 3D render look, no anime idol look.
+Composition/framing: square bust portrait, face and upper torso clear, enough margin for circular or square UI crop.
+Color palette: cool gray-blue, dark slate clothing, fluorescent cyan and cold green technical accents.
+Constraints: no readable text, no watermark, no logo, no UI overlay, not full body, clean background.

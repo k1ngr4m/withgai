@@ -1,0 +1,92 @@
+[
+  {
+    "file": "Resources/Art/Generated/P0/icons/relic_icon_blue_light_glasses_v1/prop.png",
+    "size": [
+      1024,
+      1024
+    ],
+    "mode": "RGBA",
+    "has_alpha": true,
+    "alpha_bbox": [
+      82,
+      332,
+      942,
+      692
+    ]
+  },
+  {
+    "file": "Resources/Art/Generated/P0/icons/relic_icon_cold_brew_bucket_v1/prop.png",
+    "size": [
+      1024,
+      1024
+    ],
+    "mode": "RGBA",
+    "has_alpha": true,
+    "alpha_bbox": [
+      206,
+      101,
+      818,
+      923
+    ]
+  },
+  {
+    "file": "Resources/Art/Generated/P0/icons/relic_icon_hair_shampoo_v1/prop.png",
+    "size": [
+      1024,
+      1024
+    ],
+    "mode": "RGBA",
+    "has_alpha": true,
+    "alpha_bbox": [
+      324,
+      98,
+      700,
+      926
+    ]
+  },
+  {
+    "file": "Resources/Art/Generated/P0/icons/relic_icon_lumbar_cushion_v1/prop.png",
+    "size": [
+      1024,
+      1024
+    ],
+    "mode": "RGBA",
+    "has_alpha": true,
+    "alpha_bbox": [
+      145,
+      105,
+      879,
+      919
+    ]
+  },
+  {
+    "file": "Resources/Art/Generated/P0/icons/relic_icon_parking_pass_v1/prop.png",
+    "size": [
+      1024,
+      1024
+    ],
+    "mode": "RGBA",
+    "has_alpha": true,
+    "alpha_bbox": [
+      251,
+      101,
+      772,
+      923
+    ]
+  },
+  {
+    "file": "Resources/Art/Generated/P0/icons/relic_icon_standing_desk_v1/prop.png",
+    "size": [
+      1024,
+      1024
+    ],
+    "mode": "RGBA",
+    "has_alpha": true,
+    "alpha_bbox": [
+      100,
+      156,
+      924,
+      867
+    ]
+  }
+]

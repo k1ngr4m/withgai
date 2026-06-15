@@ -1,0 +1,10 @@
+Use case: stylized-concept
+Asset type: P0 elite enemy key art for a workplace roguelike card game
+Primary request: Create the elite enemy key art for "空降项目组长" / airdrop project lead.
+Scene/backdrop: simplified office project war-room background, cold white meeting lights, gray-blue office base, task walls and planning surfaces implied but not readable.
+Subject: a modern middle-management project coordinator with stronger presence than ordinary enemies, standing like a sudden authority figure. Around the subject float deadline countdown shapes, project timeline bars, urgent red project frames, and waterfall task chart forms, all stylized without readable text.
+Style/medium: semi-realistic polished 2D commercial card-game elite enemy illustration, workplace fantasy satire, absurd office management mutation, readable silhouette, crisp shapes, no photorealism, no 3D render look, no anime idol look.
+Composition/framing: vertical full-body or three-quarter key art, centered dominant figure, larger visual mass and authority than ordinary enemies, enough margin for later portrait crop, simplified war-room background.
+Lighting/mood: bright cold office lighting with urgent red-orange warning accents and cyan management-system glow, pressuring like a huge burst is approaching.
+Constraints: elite enemy should feel structured, pressurized, and visually dominant but not final boss scale; all charts are abstract with no readable text; no watermark, no logo, no UI overlay.
+Avoid: generic office worker, final boss scale, sci-fi commander, readable UI text, cluttered dashboard wall, extra limbs, deformed hands.

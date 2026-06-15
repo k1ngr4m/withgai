@@ -1,0 +1,9 @@
+Use case: stylized-concept
+Asset type: P0 class selection head icon, 1024x1024 square
+Primary request: Product manager head icon. Preserve the established product manager key art identity exactly: confident professional female product manager, East Asian or modern urban office look, black hair tied in a neat bun, thin round glasses, beige blazer over navy blue shirt, smart controlling expression, not male.
+Scene/backdrop: extremely minimal business blue-gray office background, icon-ready high contrast, no readable boards.
+Subject: centered front or three-quarter face and upper shoulders of the same female product manager class character. Add only small simplified priority tags, orange arrows, roadmap cards, and requirement-change markers near the head.
+Style/medium: semi-realistic polished 2D game avatar icon, commercial card-game UI quality, clean silhouette, workplace fantasy satire, player-class heroic and confident.
+Composition/framing: head and upper shoulders only, centered, readable at small size, enough margin for circular or square crop.
+Color palette: beige blazer, navy shirt, business blue-gray, warning orange accents, subtle red revision accents.
+Constraints: no readable text, no watermark, no logo, no clutter, no overcomplicated charts, no full body, no male face, no beard, no villain grin.

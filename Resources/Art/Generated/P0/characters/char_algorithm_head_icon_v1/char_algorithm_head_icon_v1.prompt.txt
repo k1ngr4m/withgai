@@ -1,0 +1,9 @@
+Use case: stylized-concept
+Asset type: P0 class selection head icon, 1024x1024 square
+Primary request: Algorithm engineer head icon, preserving the established algorithm identity: calm high-intelligence face, matrix grid, path arrows, compute glow motifs.
+Scene/backdrop: extremely minimal deep blue-gray background, icon-ready high contrast.
+Subject: centered front or three-quarter face of a modern algorithm engineer, focused analytical expression, small matrix cells and pathfinding arrow glow near the head.
+Style/medium: semi-realistic polished 2D game avatar icon, commercial card-game UI quality, clean silhouette.
+Composition/framing: head and upper shoulders only, centered, readable at small size.
+Color palette: cold blue, deep gray, cyan highlights.
+Constraints: no readable text, no formulas, no watermark, no logo, no detailed sci-fi interface, no full body.

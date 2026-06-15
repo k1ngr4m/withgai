@@ -1,0 +1,8 @@
+Use case: ui-mockup
+Asset type: P0 algorithm class resource panel decoration concept
+Primary request: Algorithm profession resource panel decoration, representing compute/complexity mechanics as a battle resource UI element.
+Visual content: compute core, matrix layers, complexity scale blocks, pathfinding lines, rational high-intelligence resource panel.
+Style/medium: polished 2D commercial game UI element concept, clean office roguelike card game, not spaceship HUD, transparent-background-friendly centered composition.
+Composition/framing: single isolated UI panel element centered on a simple neutral background, no characters.
+Color palette: cool blue, deep gray, restrained violet-blue glow accents.
+Constraints: no readable text, no formulas, no watermark, no logo, no sci-fi spaceship HUD, no tiny formulas everywhere.

@@ -1,0 +1,20 @@
+{
+  "created": 1781495938,
+  "usage": {
+    "input_tokens": 96,
+    "output_tokens": 6500,
+    "total_tokens": 6596,
+    "input_tokens_details": {
+      "text_tokens": 96,
+      "image_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens_details": {
+      "text_tokens": 0,
+      "image_tokens": 6500,
+      "reasoning_tokens": 0
+    }
+  },
+  "revised_prompt": "A clean premium product render of an office-campus parking monthly pass card relic, centered single object, simple pass-card shape with corporate parking-garage visual cues but no readable letters, cool gray-blue and white palette with small warning-orange accent, high contrast, crisp commercial 2D game relic icon style, readable at small UI size, isolated on plain light neutral background, no text, no label, no logo, no watermark, no character, no busy scene, no border.",
+  "url": "https://image.nianhua.store/images/2026/06/15/1781495975_cfbc4c9c1591ea5947bb8ed296583ce0.png"
+}
