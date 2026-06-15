@@ -10,7 +10,7 @@ Scope: P1/P2 `hero_action_bundle` sprite deliverables from sections 5.4, 5.8, 5.
 | --- | --- | --- | --- | --- |
 | P1 | `char_backend_sprite_bundle` | `idle`, `run`, `skill_cast`, `hurt` | Completed | See `batch_2026-06-15_p1_backend_sprite_bundle_01.md`. |
 | P1 | `char_frontend_sprite_bundle` | `idle`, `run`, `skill_cast`, `attack` | Completed | See `batch_2026-06-15_p1_frontend_sprite_bundle_01.md`. |
-| P1 | `char_tester_sprite_bundle` | `idle`, `run`, `debuff_cast`, `hurt` | Pending | Use `char_tester_keyart_v1.png` as visual reference. |
+| P1 | `char_tester_sprite_bundle` | `idle`, `run`, `debuff_cast`, `hurt` | Completed | See `batch_2026-06-15_p1_tester_sprite_bundle_01.md`. |
 | P1 | `char_algorithm_sprite_bundle` | `idle`, `run`, `charge`, `cast` | Pending | Use `char_algorithm_keyart_v1.png` as visual reference. |
 | P1 | `char_product_manager_sprite_bundle` | `idle`, `run`, `command_cast`, `hurt` | Pending | Use `char_product_manager_keyart_v1.png` as visual reference. |
 | P2 | `char_hr_sprite_bundle` | `idle`, `run`, `execute_cast`, `hurt` | Pending | No P0 HR keyart exists yet; generate directly from section 5.24 or create HR keyart first. |
