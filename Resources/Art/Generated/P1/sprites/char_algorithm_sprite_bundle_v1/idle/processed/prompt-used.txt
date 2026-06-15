@@ -1,0 +1,9 @@
+Use the image just shown as the visual reference. Create a side-view hero action sprite sheet for the same algorithm engineer battle character, preserving identity markers: dark neat hair, focused expression, white office shirt, blue tie, dark trousers, black shoes, slim tablet, small blue-purple geometric compute accents, modern office-intellectual silhouette. Use clean_hd commercial 2D game sprite style.
+
+ACTION: idle loop only.
+
+EXACT SHEET: 2 rows by 2 columns, exactly 4 equal invisible cells, no borders, no frames, no labels.
+
+Frame sequence left-to-right then next row: 1 calm side-view ready stance facing right holding tablet close, 2 subtle breathing and tie shift, 3 tiny attached blue-purple compute core glow near the hand/tablet, 4 return-to-idle pose.
+
+Full body visible in every cell, body-only action sheet, no detached wide VFX, no giant magic circle, no floating matrix wall, no large grid panels, no projectile, no long trails. The entire character must fit fully inside each cell, centered in the central 60% to 70% safe area, same bounding box and same pixel scale across frames, stable feet line at the same y position, leave solid magenta margin on all four sides of every cell. Background must be 100% solid flat #FF00FF magenta with no gradients. No text, no watermark, no UI, no speech bubbles.
