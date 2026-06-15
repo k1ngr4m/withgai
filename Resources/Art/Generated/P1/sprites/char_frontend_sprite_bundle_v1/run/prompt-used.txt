@@ -1,0 +1,9 @@
+Use the image just shown as the visual reference for the accepted side-view frontend engineer sprite identity, body scale, palette, proportions, and clean_hd commercial 2D game sprite style. Create a side-view hero action sprite sheet for the same frontend engineer battle character: tousled dark hair, glasses, white-blue office-tech coat, dark inner shirt, employee lanyard badge, dark cropped pants, white-blue sneakers, compact UI card accessories, tiny blue-orange component accents kept close to the body.
+
+ACTION: run loop only.
+
+EXACT SHEET: 2 rows by 2 columns, exactly 4 equal invisible cells, no borders, no frames, no labels.
+
+Frame sequence left-to-right then next row: 1 light lean-forward run contact pose, 2 quick passing stride with one arm balancing a compact card close to the body, 3 opposite-foot contact pose, 4 recovery stride returning to loop.
+
+Full body visible in every cell, side-view battle run facing right, body-only action sheet, no detached dust, no detached wide VFX, no giant floating interface, no large UI panels, no projectile, no long trails. Coat tails and UI cards must stay inside the cell and close to the body. Body height and body scale should match the reference idle sheet. The entire character must fit fully inside each cell, centered in the central 60% to 70% safe area, same bounding box and same pixel scale across frames, stable feet line at the same y position, leave solid magenta margin on all four sides of every cell. Background must be 100% solid flat #FF00FF magenta with no gradients. No text, no watermark, no UI, no speech bubbles.
