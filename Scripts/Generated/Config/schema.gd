@@ -163,6 +163,7 @@ class EffectParams:
     var cache_multiplier: int
     var consume_compute: bool
     var compute_multiplier: int
+    var complexity_multiplier: int
     var cards_played_multiplier: int
     var style_layer_hits: bool
     var style_layer_hit_multiplier: int
@@ -194,6 +195,7 @@ class EffectParams:
         if _json_.get('cache_multiplier') != null: self.cache_multiplier = _json_["cache_multiplier"]
         if _json_.get('consume_compute') != null: self.consume_compute = _json_["consume_compute"]
         if _json_.get('compute_multiplier') != null: self.compute_multiplier = _json_["compute_multiplier"]
+        if _json_.get('complexity_multiplier') != null: self.complexity_multiplier = _json_["complexity_multiplier"]
         if _json_.get('cards_played_multiplier') != null: self.cards_played_multiplier = _json_["cards_played_multiplier"]
         if _json_.get('style_layer_hits') != null: self.style_layer_hits = _json_["style_layer_hits"]
         if _json_.get('style_layer_hit_multiplier') != null: self.style_layer_hit_multiplier = _json_["style_layer_hit_multiplier"]

@@ -112,6 +112,7 @@ const specialCardDescriptions = {
   card_tester_regression_confirm: "回归确认：若目标已有用例，抽牌并施加 Diff。",
   card_tester_92_bugs: "提交92个致命Bug：向目标连续注入多段 Bug。",
   card_tester_report_lock: "测试报告封板：按目标 Bug、用例和 Diff 层数结算高额伤害。",
+  card_algo_complexity_burst: "复杂度爆炸：按当前复杂度追加高额伤害。",
   card_algo_global_optimum: "全局最优解：消耗全部精力与算力，按投入造成高额伤害。",
   card_pm_scope_spread: "范围蔓延：建立长期状态，使每次需求变更额外影响另一个敌人。",
 };
@@ -257,6 +258,11 @@ function cardEffects(classId, cardId, type, cost, idx) {
   if (cardId === "card_tester_report_lock") {
     return [
       { effect_type: "deal_damage", target_type: "single_enemy", params: { amount: 8, bug_multiplier: 2, case_multiplier: 2, diff_multiplier: 3 } },
+    ];
+  }
+  if (cardId === "card_algo_complexity_burst") {
+    return [
+      { effect_type: "deal_damage", target_type: "single_enemy", params: { amount: 8, complexity_multiplier: 4 } },
     ];
   }
   if (cardId === "card_algo_global_optimum") {
@@ -857,6 +863,7 @@ const lubanDefines = `<module name="">
     <var name="cache_multiplier" type="int?"/>
     <var name="consume_compute" type="bool?"/>
     <var name="compute_multiplier" type="int?"/>
+    <var name="complexity_multiplier" type="int?"/>
     <var name="cards_played_multiplier" type="int?"/>
     <var name="style_layer_hits" type="bool?"/>
     <var name="style_layer_hit_multiplier" type="int?"/>

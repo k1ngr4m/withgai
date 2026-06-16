@@ -1981,17 +1981,8 @@
     "effect_type": "deal_damage",
     "target_type": "single_enemy",
     "params": {
-      "amount": 16
-    }
-  },
-  {
-    "id": "eg_card_algo_complexity_burst_e02",
-    "effect_group_id": "eg_card_algo_complexity_burst",
-    "order": 2,
-    "effect_type": "add_compute",
-    "target_type": "self",
-    "params": {
-      "amount": 2
+      "amount": 8,
+      "complexity_multiplier": 4
     }
   },
   {

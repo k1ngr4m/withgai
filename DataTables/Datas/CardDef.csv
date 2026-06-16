@@ -107,7 +107,7 @@
 ,card_algo_path_read,路径预读,"[""algorithm""]",common,skill,1,self,[],eg_card_algo_path_read,card_algo_path_read_plus,true,路径预读：获得防线并触发职业资源。,
 ,card_algo_edge_reweight,边权重排,"[""algorithm""]",common,skill,1,self,[],eg_card_algo_edge_reweight,card_algo_edge_reweight_plus,true,边权重排：获得防线并触发职业资源。,
 ,card_algo_dynamic_programming,动态规划,"[""algorithm""]",uncommon,power,2,self,[],eg_card_algo_dynamic_programming,card_algo_dynamic_programming_plus,true,动态规划：建立长期收益。,res://Resources/Art/Generated/P0/cards/card_illust_algo_dynamic_programming_v1/final.png
-,card_algo_complexity_burst,复杂度爆炸,"[""algorithm""]",uncommon,attack,2,single_enemy,[],eg_card_algo_complexity_burst,card_algo_complexity_burst_plus,true,复杂度爆炸：造成伤害。,res://Resources/Art/Generated/P0/cards/card_illust_algo_complexity_burst_v1/final.png
+,card_algo_complexity_burst,复杂度爆炸,"[""algorithm""]",uncommon,attack,2,single_enemy,[],eg_card_algo_complexity_burst,card_algo_complexity_burst_plus,true,复杂度爆炸：按当前复杂度追加高额伤害。,res://Resources/Art/Generated/P0/cards/card_illust_algo_complexity_burst_v1/final.png
 ,card_algo_big_o_compress,大O压缩,"[""algorithm""]",uncommon,skill,1,self,[],eg_card_algo_big_o_compress,card_algo_big_o_compress_plus,true,大O压缩：获得防线并触发职业资源。,res://Resources/Art/Generated/P0/cards/card_illust_algo_big_o_compress_v1/final.png
 ,card_algo_monte_carlo,蒙特卡洛试投,"[""algorithm""]",uncommon,skill,1,self,[],eg_card_algo_monte_carlo,card_algo_monte_carlo_plus,true,蒙特卡洛试投：获得防线并触发职业资源。,res://Resources/Art/Generated/P0/cards/card_illust_algo_monte_carlo_v1/final.png
 ,card_algo_astar,A星寻路,"[""algorithm""]",uncommon,skill,1,self,[],eg_card_algo_astar,card_algo_astar_plus,true,A星寻路：获得防线并触发职业资源。,res://Resources/Art/Generated/P0/cards/card_illust_algo_astar_v1/final.png

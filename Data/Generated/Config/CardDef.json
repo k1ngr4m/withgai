@@ -1798,7 +1798,7 @@
     "effect_group_id": "eg_card_algo_complexity_burst",
     "upgrade_to": "card_algo_complexity_burst_plus",
     "enabled_in_first_playable": true,
-    "description": "复杂度爆炸：造成伤害。",
+    "description": "复杂度爆炸：按当前复杂度追加高额伤害。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_algo_complexity_burst_v1/final.png"
   },
   {

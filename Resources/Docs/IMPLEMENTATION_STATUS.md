@@ -106,6 +106,10 @@
 - Frontend `style_layer` now has live damage-hook behavior: `deal_damage` reads either the frontend resource stack or visible status stack, adds the layer count as damage bonus, and consumes one layer after a successful damage effect without double-counting synced resource/status values.
 - Tester `Diff` now has a live bug-injection hook: targets with Diff gain an extra Bug when `inject_bug` resolves, consume one Diff stack, sync the tester `diff_tags` resource downward, and reduce attack intent using the final Bug amount.
 - Algorithm `compute` now has live X-finisher behavior: `card_algo_global_optimum` scales damage from paid X energy and stored compute, consumes the spent compute, and still works with the starter relic's first X-card energy refund.
+- Algorithm `card_algo_complexity_burst` now works as the designed complexity-scaling attack:
+  - generated config gives it a data-driven `complexity_multiplier` instead of the generic attack-plus-compute filler
+  - runtime damage reads the higher of complexity resource/status stacks and adds that scaled bonus without consuming complexity
+  - the card now rewards high-complexity setup while preserving complexity for later pressure/compression decisions
 - Algorithm `relic_gpu_training_card` now exists in the generated relic pool and adds one extra compute the first time compute is gained each battle.
 - Algorithm `complexity` is now a real pressure resource instead of a passive counter:
   - `StatusDef.params` is now available in Luban CSV/JSON/GDScript output for status-specific tuning.
@@ -192,6 +196,7 @@ Result:
 - Godot test runner now checks tester `Diff` hook declaration, extra Bug injection, Diff consumption, `diff_tags` resource sync, and final intent reduction.
 - Godot test runner now checks backend `cache` damage-hook declaration, `card_backend_flush_all` generated params, cache-scaled damage, and cache consumption.
 - Godot test runner now checks algorithm `compute` damage-hook declaration, X-finisher damage scaling, compute consumption, and local-cluster energy refund.
+- Godot test runner now checks algorithm `card_algo_complexity_burst` generated complexity-scaling params, live complexity-based bonus damage, no generic compute gain, and preserved complexity.
 - Godot test runner now checks `relic_gpu_training_card` config, algorithm ownership, compute trigger declaration, first compute bonus, and one-shot behavior.
 - Godot test runner now checks `complexity` status params, compute-to-complexity gain, GPU bonus complexity gain, high-complexity round-start pressure, and resource/status no-double-count behavior.
 - Godot test runner now checks product manager priority target routing, including ignored low-priority selected targets and requirement-change marking on the resolved target.

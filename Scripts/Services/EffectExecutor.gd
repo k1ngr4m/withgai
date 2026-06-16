@@ -249,7 +249,8 @@ func _algorithm_damage_context(player: Dictionary, battle_state: Dictionary, par
 	var result := { "bonus": 0, "consume_compute": 0 }
 	var uses_x_energy := bool(params.get("x_energy_scaling", false))
 	var consumes_compute := bool(params.get("consume_compute", false))
-	if not uses_x_energy and not consumes_compute:
+	var complexity_multiplier := int(params.get("complexity_multiplier", 0))
+	if not uses_x_energy and not consumes_compute and complexity_multiplier <= 0:
 		return result
 	var play_context: Dictionary = battle_state.get("last_play_context", {})
 	if uses_x_energy and bool(play_context.get("is_x_cost", false)):
@@ -258,12 +259,19 @@ func _algorithm_damage_context(player: Dictionary, battle_state: Dictionary, par
 	if consumes_compute and compute > 0:
 		result["bonus"] = int(result.get("bonus", 0)) + compute * int(params.get("compute_multiplier", 3))
 		result["consume_compute"] = compute
+	if complexity_multiplier > 0:
+		result["bonus"] = int(result.get("bonus", 0)) + _complexity_count(player) * complexity_multiplier
 	return result
 
 func _compute_count(player: Dictionary) -> int:
 	var resources: Dictionary = player.get("class_resource_state", {})
 	var statuses: Dictionary = player.get("status_list", {})
 	return max(int(resources.get("compute", 0)), int(statuses.get("compute", 0)))
+
+func _complexity_count(player: Dictionary) -> int:
+	var resources: Dictionary = player.get("class_resource_state", {})
+	var statuses: Dictionary = player.get("status_list", {})
+	return max(int(resources.get("complexity", 0)), int(statuses.get("complexity", 0)))
 
 func _consume_compute(player: Dictionary, amount: int, battle_log: Array) -> void:
 	var resources: Dictionary = player.get("class_resource_state", {})
