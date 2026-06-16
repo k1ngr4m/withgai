@@ -77,8 +77,14 @@ func _execute_entry(entry: Dictionary, battle_state: Dictionary, run_state: Dict
 			_add_relic(run_state, String(params.get("relic_id", "")), battle_log)
 		"spawn_enemy":
 			_spawn_enemy(battle_state, String(params.get("enemy_id", "")), battle_log)
-		"upgrade_card", "remove_card", "add_random_card", "add_random_relic":
-			battle_log.append("事件效果已记录：%s" % effect_type)
+		"upgrade_card":
+			_upgrade_run_cards(run_state, battle_state, max(1, amount), String(params.get("card_id", "")), battle_log)
+		"remove_card":
+			_remove_run_cards(run_state, max(1, amount), String(params.get("card_id", "")), battle_log)
+		"add_random_card":
+			_add_random_run_cards(run_state, max(1, amount), battle_log)
+		"add_random_relic":
+			_add_random_run_relics(run_state, max(1, amount), battle_log)
 		_:
 			battle_log.append("未实现效果：%s" % effect_type)
 
@@ -371,6 +377,89 @@ func _add_relic(run_state: Dictionary, relic_id: String, battle_log: Array) -> v
 		relics.append(relic_id)
 	run_state["owned_relic_ids"] = relics
 	battle_log.append("获得遗物 %s" % relic_id)
+
+func _add_random_run_cards(run_state: Dictionary, amount: int, battle_log: Array) -> void:
+	var candidates: Array = config_service.cards_for_class(String(run_state.get("selected_class_id", "")), true, false)
+	candidates.shuffle()
+	var deck_state: Dictionary = run_state.get("deck_state", {})
+	var deck: Array = deck_state.get("master_deck", [])
+	var added := 0
+	for card in candidates:
+		if added >= amount:
+			break
+		var card_id := String(card.get("id", ""))
+		if card_id.is_empty():
+			continue
+		deck.append(card_id)
+		added += 1
+	deck_state["master_deck"] = deck
+	run_state["deck_state"] = deck_state
+	if added > 0:
+		battle_log.append("获得随机卡牌 x%d" % added)
+
+func _add_random_run_relics(run_state: Dictionary, amount: int, battle_log: Array) -> void:
+	var candidates: Array = config_service.relics_for_class(String(run_state.get("selected_class_id", "")), false)
+	candidates.shuffle()
+	var owned: Array = run_state.get("owned_relic_ids", [])
+	var added := 0
+	for relic in candidates:
+		if added >= amount:
+			break
+		var relic_id := String(relic.get("id", ""))
+		if relic_id.is_empty() or owned.has(relic_id):
+			continue
+		owned.append(relic_id)
+		added += 1
+	run_state["owned_relic_ids"] = owned
+	if added > 0:
+		battle_log.append("获得随机遗物 x%d" % added)
+
+func _remove_run_cards(run_state: Dictionary, amount: int, card_id: String, battle_log: Array) -> void:
+	var deck_state: Dictionary = run_state.get("deck_state", {})
+	var deck: Array = deck_state.get("master_deck", [])
+	var removed_cards: Array = deck_state.get("removed_cards", [])
+	var removed := 0
+	for i in range(amount):
+		var index := _find_card_index(deck, card_id)
+		if index < 0:
+			break
+		var removed_card := String(deck[index])
+		deck.remove_at(index)
+		removed_cards.append(removed_card)
+		removed += 1
+	deck_state["master_deck"] = deck
+	deck_state["removed_cards"] = removed_cards
+	run_state["deck_state"] = deck_state
+	if removed > 0:
+		battle_log.append("移除卡牌 x%d" % removed)
+
+func _upgrade_run_cards(run_state: Dictionary, battle_state: Dictionary, amount: int, card_id: String, battle_log: Array) -> void:
+	var deck_state: Dictionary = run_state.get("deck_state", {})
+	var deck: Array = deck_state.get("master_deck", [])
+	var upgraded: Array = deck_state.get("upgraded_cards", [])
+	var upgraded_battle: Array = battle_state.get("upgraded_card_ids", [])
+	var upgraded_count := 0
+	if not card_id.is_empty():
+		if deck.has(card_id):
+			upgraded_count += _upgrade_one_card(card_id, upgraded, upgraded_battle)
+	else:
+		for item in deck:
+			if upgraded_count >= amount:
+				break
+			upgraded_count += _upgrade_one_card(String(item), upgraded, upgraded_battle)
+	deck_state["upgraded_cards"] = upgraded
+	run_state["deck_state"] = deck_state
+	battle_state["upgraded_card_ids"] = upgraded_battle
+	if upgraded_count > 0:
+		battle_log.append("升级卡牌 x%d" % upgraded_count)
+
+func _upgrade_one_card(card_id: String, upgraded: Array, upgraded_battle: Array) -> int:
+	if card_id.is_empty() or upgraded.has(card_id):
+		return 0
+	upgraded.append(card_id)
+	if not upgraded_battle.has(card_id):
+		upgraded_battle.append(card_id)
+	return 1
 
 func _spawn_enemy(battle_state: Dictionary, enemy_id: String, battle_log: Array) -> void:
 	var enemy_def: Dictionary = config_service.get_def("enemies", enemy_id)

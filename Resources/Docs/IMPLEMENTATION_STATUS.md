@@ -26,6 +26,7 @@
   - `meta_canteen_card` at first shop purchase
   - workstation purchase cost/level validation and career-unlock purchase rejection
 - `EffectExecutor.move_card` now performs real battle pile movement between hand, draw, discard, and exhaust piles, including optional named-card selection and default top-card movement.
+- `EffectExecutor` now executes run-state reward/deck effects directly for `add_random_card`, `add_random_relic`, `upgrade_card`, and `remove_card`, so these no longer degrade to placeholder logs outside event handling.
 - Card illustration presentation now uses `CardDef.art_path` in reusable UI card buttons for battle hands, reward choices, shop stock, and shop removal picks.
 - `card_frontend_component_reuse` now has a generated P0 card illustration wired through `Tools/build_config.mjs`, Luban CSV/JSON output, and runtime config.
 - `Tools/build_config.mjs` now auto-wires any matching `Resources/Art/Generated/P0/cards/card_illust_<card_id>_v1/final.png` asset into `CardDef.art_path`; current generated config exposes 10 card illustrations.
@@ -54,6 +55,7 @@ Result:
 - Godot test runner now checks career-tree labels, HR non-playable status, and milestone progress text.
 - Godot test runner now checks global workstation upgrade purchases plus run-start, rest, and shop effects for every implemented upgrade.
 - Godot test runner now checks `move_card` named-card and top-card movement across combat piles.
+- Godot test runner now checks `EffectExecutor` deck/relic reward effects update `RunState` and active battle upgrade state.
 - Godot test runner now checks configured card art paths load, including `card_frontend_component_reuse`.
 - Godot test runner now checks bulk card-art auto-wiring through an existing backend card illustration and a minimum configured-card-art count.
 - Godot MCP `get_project_info` reports Godot `4.6.1.stable.official.14d19694e`, 11 scenes, and 25 scripts.
