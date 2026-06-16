@@ -62,6 +62,7 @@ var _broadcast_index := 0
 var _broadcast_label: Label
 var _ambient_lines: Array = []
 var _pulse_nodes: Array = []
+var _menu_buttons: Array = []
 
 
 func _ready() -> void:
@@ -70,6 +71,7 @@ func _ready() -> void:
 	_add_readability_scrims()
 	_add_atmosphere_overlay()
 	_content_layer = Control.new()
+	_content_layer.name = "MenuContent"
 	UiFactory.fill(_content_layer)
 	add_child(_content_layer)
 	_build_menu()
@@ -102,6 +104,7 @@ func _build_menu() -> void:
 	if _content_layer == null:
 		return
 	_pulse_nodes.clear()
+	_menu_buttons.clear()
 	_broadcast_label = null
 	for child in _content_layer.get_children():
 		_content_layer.remove_child(child)
@@ -191,6 +194,7 @@ func _is_compact_layout() -> bool:
 
 func _root_margin(margin_size: int) -> MarginContainer:
 	var margin := MarginContainer.new()
+	margin.name = "Root"
 	UiFactory.fill(margin)
 	margin.add_theme_constant_override("margin_left", margin_size)
 	margin.add_theme_constant_override("margin_right", margin_size)
@@ -201,6 +205,7 @@ func _root_margin(margin_size: int) -> MarginContainer:
 
 func _top_bar(compact := false) -> Control:
 	var row := UiFactory.hbox(10)
+	row.name = "TopBar"
 	row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 
 	row.add_child(_status_chip(BUILD_LABEL))
@@ -217,6 +222,7 @@ func _top_bar(compact := false) -> Control:
 
 func _hero_block(compact := false) -> Control:
 	var box := UiFactory.vbox(12 if compact else 14)
+	box.name = "TitlePanel"
 	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 
 	var title := _label("withgai", 56 if compact else 64, Color(0.96, 0.99, 1.0))
@@ -240,6 +246,10 @@ func _hero_block(compact := false) -> Control:
 	broadcast.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	box.add_child(broadcast)
 
+	var shift_board := _shift_board_panel(compact)
+	shift_board.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	box.add_child(shift_board)
+
 	var route := _route_panel(compact)
 	route.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	box.add_child(route)
@@ -252,6 +262,7 @@ func _hero_block(compact := false) -> Control:
 
 func _menu_panel(compact := false) -> PanelContainer:
 	var panel := _panel(Color(0.025, 0.040, 0.050, 0.91), Color(0.53, 0.83, 0.86, 0.68), 8)
+	panel.name = "PrimaryActions"
 	var pad := _pad(20 if compact else 24)
 	panel.add_child(pad)
 
@@ -272,22 +283,30 @@ func _menu_panel(compact := false) -> PanelContainer:
 	button_gap.custom_minimum_size = Vector2(1, 4)
 	box.add_child(button_gap)
 
+	var actions := UiFactory.vbox(10)
+	actions.name = "PrimaryActionButtons"
+	actions.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	box.add_child(actions)
+
 	var new_button := _menu_button("开始爬楼", true, "new_run")
+	new_button.name = "NewGameButton"
 	new_button.tooltip_text = "进入职业选择界面"
 	new_button.pressed.connect(func(): AppRoot.flow_controller.show_scene("class_select"))
-	box.add_child(new_button)
+	actions.add_child(new_button)
 	new_button.call_deferred("grab_focus")
 
-	var continue_button := _menu_button("继续中断档", false, "continue")
+	var continue_button := _menu_button(_continue_button_text(), false, "continue")
+	continue_button.name = "ContinueButton"
 	continue_button.disabled = not _has_valid_suspend()
-	continue_button.tooltip_text = "从最近一次中断的楼层继续"
+	continue_button.tooltip_text = "从最近一次中断的楼层继续" if not continue_button.disabled else "当前没有可恢复的中断档"
 	continue_button.pressed.connect(_continue_run)
-	box.add_child(continue_button)
+	actions.add_child(continue_button)
 
 	var meta_button := _menu_button("工位成长", false, "meta")
+	meta_button.name = "MetaButton"
 	meta_button.tooltip_text = "打开局外成长和职业解锁树"
 	meta_button.pressed.connect(func(): AppRoot.flow_controller.show_scene("meta"))
-	box.add_child(meta_button)
+	actions.add_child(meta_button)
 
 	var filler := Control.new()
 	filler.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -296,6 +315,7 @@ func _menu_panel(compact := false) -> PanelContainer:
 	box.add_child(_save_status_card())
 
 	var quit_button := _menu_button("退出游戏", false, "quit")
+	quit_button.name = "ExitButton"
 	quit_button.pressed.connect(func(): get_tree().quit())
 	box.add_child(quit_button)
 	return panel
@@ -303,6 +323,7 @@ func _menu_panel(compact := false) -> PanelContainer:
 
 func _save_status_card() -> PanelContainer:
 	var panel := _panel(Color(0.03, 0.055, 0.065, 0.78), Color(0.38, 0.62, 0.68, 0.46), 7)
+	panel.name = "SaveStatusCard"
 	var pad := _pad(14)
 	panel.add_child(pad)
 
@@ -338,6 +359,7 @@ func _save_status_card() -> PanelContainer:
 
 func _broadcast_strip(compact := false) -> PanelContainer:
 	var panel := _panel(Color(0.025, 0.055, 0.065, 0.70), Color(0.48, 0.78, 0.82, 0.42), 7)
+	panel.name = "BroadcastStrip"
 	var pad := _pad(12 if compact else 14)
 	panel.add_child(pad)
 
@@ -359,8 +381,71 @@ func _broadcast_strip(compact := false) -> PanelContainer:
 	return panel
 
 
+func _shift_board_panel(compact := false) -> PanelContainer:
+	var panel := _panel(Color(0.026, 0.044, 0.052, 0.76), Color(0.50, 0.80, 0.82, 0.42), 7)
+	panel.name = "ShiftBoardPanel"
+	var pad := _pad(14)
+	panel.add_child(pad)
+
+	var box := UiFactory.vbox(8)
+	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	pad.add_child(box)
+
+	var header := UiFactory.hbox(8)
+	header.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	box.add_child(header)
+	header.add_child(_label("值班看板", 15, Color(0.88, 0.97, 1.0)))
+	var spacer := Control.new()
+	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	header.add_child(spacer)
+	header.add_child(_label("首屏状态", 12, Color(0.60, 0.74, 0.78)))
+
+	var stats: Container
+	var narrow := compact and get_viewport_rect().size.x < 560
+	if narrow:
+		var grid := GridContainer.new()
+		grid.columns = 1
+		grid.add_theme_constant_override("h_separation", 8)
+		grid.add_theme_constant_override("v_separation", 8)
+		stats = grid
+	else:
+		stats = UiFactory.hbox(8)
+	stats.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	box.add_child(stats)
+
+	stats.add_child(_shift_stat("可选职业", "%d" % _playable_class_count(), "五职业首个可玩", Color(0.42, 0.88, 0.82)))
+	stats.add_child(_shift_stat("中断档", "有" if _has_valid_suspend() else "无", _save_resume_summary(), Color(0.96, 0.72, 0.36)))
+	stats.add_child(_shift_stat("窝囊费", str(_meta_currency()), "局外成长资源", Color(0.70, 0.62, 0.96)))
+	return panel
+
+
+func _shift_stat(label_text: String, value_text: String, detail_text: String, accent: Color) -> PanelContainer:
+	var panel := _panel(Color(0.04, 0.064, 0.072, 0.78), Color(accent.r, accent.g, accent.b, 0.42), 6)
+	panel.custom_minimum_size = Vector2(148, 70)
+	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var pad := _pad(9)
+	panel.add_child(pad)
+
+	var box := UiFactory.vbox(2)
+	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	pad.add_child(box)
+	box.add_child(_label(label_text, 11, Color(0.62, 0.76, 0.78)))
+	var value := _label(value_text, 22, Color(accent.r, accent.g, accent.b, 1.0))
+	value.autowrap_mode = TextServer.AUTOWRAP_OFF
+	value.clip_text = true
+	value.custom_minimum_size = Vector2(64, 26)
+	box.add_child(value)
+	var detail := _label(detail_text, 11, Color(0.70, 0.82, 0.84))
+	detail.autowrap_mode = TextServer.AUTOWRAP_OFF
+	detail.clip_text = true
+	detail.custom_minimum_size = Vector2(96, 18)
+	box.add_child(detail)
+	return panel
+
+
 func _route_panel(compact := false) -> PanelContainer:
 	var panel := _panel(Color(0.028, 0.045, 0.050, 0.78), Color(0.50, 0.76, 0.80, 0.40), 7)
+	panel.name = "RoutePreviewPanel"
 	var pad := _pad(14)
 	panel.add_child(pad)
 
@@ -420,6 +505,7 @@ func _career_dossier_strip(compact := false) -> Control:
 		row = grid
 	else:
 		row = UiFactory.hbox(10)
+	row.name = "CareerDossierStrip"
 	row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 
 	for cls in AppRoot.config_service.first_playable_classes(false):
@@ -509,6 +595,7 @@ func _class_portrait(item: Dictionary, accent: Color) -> Control:
 func _menu_button(text: String, primary := false, icon_key := "") -> Button:
 	var button := Button.new()
 	button.text = text
+	_menu_buttons.append(button)
 	button.custom_minimum_size = Vector2(260, 54)
 	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	button.add_theme_font_size_override("font_size", 18)
@@ -640,6 +727,29 @@ func _playable_class_count() -> int:
 		if bool(cls.get("enabled_in_first_playable", false)):
 			count += 1
 	return count
+
+
+func _meta_currency() -> int:
+	if AppRoot.meta_service == null:
+		return 0
+	return int(AppRoot.meta_service.meta_state.get("owned_discomfort_currency", 0))
+
+
+func _continue_button_text() -> String:
+	var run_state := _suspend_run_state()
+	if run_state.is_empty():
+		return "没有中断档"
+	return "继续 %s %dF" % [
+		CLASS_SHORT_LABELS.get(String(run_state.get("selected_class_id", "")), "未知"),
+		int(run_state.get("current_floor", 1)),
+	]
+
+
+func _save_resume_summary() -> String:
+	var run_state := _suspend_run_state()
+	if run_state.is_empty():
+		return "新局从 1F 开始"
+	return _scene_label(String(run_state.get("current_scene_tag", "map")))
 
 
 func _class_card_count(class_id: String) -> int:

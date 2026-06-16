@@ -98,6 +98,9 @@
   - dynamic building broadcast strip and KPI risk chip give the opening screen a live game-menu feel
   - right-side action panel for new run, continue, meta progression, and exit
   - bottom career dossier strip using existing class portrait assets, class colors, core resource labels, difficulty, and live card-pool counts
+  - dynamic nodes now expose spec-aligned names such as `Root`, `TitlePanel`, `PrimaryActions`, `NewGameButton`, `ContinueButton`, `MetaButton`, and `ExitButton`
+  - the first screen includes a compact duty board for playable career count, suspend-save presence, and current meta currency
+  - continue action text and tooltip now reflect whether a valid suspend save exists
 - Career unlock tree presentation now has reusable `MetaProgressionService` helpers for class availability, unlock condition text, and milestone progress.
 - `ClassSelectScene` now shows each class status, unlock condition, and current progress while keeping HR visible but not battle-playable.
 - `MetaProgressionScene` now renders the career tree as readable class nodes with difficulty, summary, unlock condition, current progress, and HR expansion-placeholder messaging.
