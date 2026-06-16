@@ -164,11 +164,13 @@ func _damage_enemies(target_type: String, battle_state: Dictionary, run_state: D
 	var targets := _target_enemies(target_type, battle_state, target_index)
 	var player := _player(battle_state)
 	var style_layer_count: int = _style_layer_count(player)
+	var hotfix_style_bonus: int = _hotfix_style_bonus(player)
+	var effective_style_layers := style_layer_count + hotfix_style_bonus
 	var style_layers_as_hits: bool = bool(params.get("style_layer_hits", false))
-	var style_layer_bonus: int = 0 if style_layers_as_hits else style_layer_count
+	var style_layer_bonus: int = 0 if style_layers_as_hits else effective_style_layers
 	var hit_count: int = int(max(1, int(params.get("hits", 1))))
 	if style_layers_as_hits:
-		hit_count += style_layer_count * int(max(1, int(params.get("style_layer_hit_multiplier", 1))))
+		hit_count += effective_style_layers * int(max(1, int(params.get("style_layer_hit_multiplier", 1))))
 	var backend_context := _backend_damage_context(player, params)
 	var algorithm_context := _algorithm_damage_context(player, battle_state, params)
 	var cards_played_bonus := _cards_played_damage_bonus(player, params)
@@ -178,8 +180,10 @@ func _damage_enemies(target_type: String, battle_state: Dictionary, run_state: D
 			_damage_enemy(enemy, battle_state, run_state, amount, battle_log, style_layer_bonus, resource_bonus, params)
 	if not targets.is_empty() and style_layers_as_hits and bool(params.get("consume_all_style_layers", false)) and style_layer_count > 0:
 		_consume_style_layers(player, style_layer_count, battle_log)
-	elif not targets.is_empty() and style_layer_bonus > 0:
+	elif not targets.is_empty() and style_layer_count > 0 and style_layer_bonus > 0:
 		_consume_style_layer(player, battle_log)
+	if not targets.is_empty() and hotfix_style_bonus > 0:
+		_consume_hotfix_style(player, battle_log)
 	if not targets.is_empty() and int(backend_context.get("consume_cache", 0)) > 0:
 		_consume_cache(player, int(backend_context.get("consume_cache", 0)), battle_log)
 	if not targets.is_empty() and int(algorithm_context.get("consume_compute", 0)) > 0:
@@ -222,6 +226,27 @@ func _style_layer_count(player: Dictionary) -> int:
 	var resources: Dictionary = player.get("class_resource_state", {})
 	var statuses: Dictionary = player.get("status_list", {})
 	return max(int(resources.get("style_layers", 0)), int(statuses.get("style_layer", 0)))
+
+func _hotfix_style_bonus(player: Dictionary) -> int:
+	var statuses: Dictionary = player.get("status_list", {})
+	var stacks := int(statuses.get("hotfix_style", 0))
+	if stacks <= 0:
+		return 0
+	var params := _status_params("hotfix_style")
+	return stacks * int(max(1, int(params.get("style_layer_amount", 1))))
+
+func _status_params(status_id: String) -> Dictionary:
+	if config_service == null:
+		return {}
+	return config_service.get_def("statuses", status_id).get("params", {})
+
+func _consume_hotfix_style(player: Dictionary, battle_log: Array) -> void:
+	var statuses: Dictionary = player.get("status_list", {})
+	if int(statuses.get("hotfix_style", 0)) <= 0:
+		return
+	statuses.erase("hotfix_style")
+	player["status_list"] = statuses
+	battle_log.append("热更新样式放大本次攻击")
 
 func _consume_style_layer(player: Dictionary, battle_log: Array) -> void:
 	_consume_style_layers(player, 1, battle_log)

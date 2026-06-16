@@ -232,6 +232,22 @@
     "type": "class"
   },
   {
+    "id": "hotfix_style",
+    "name": "热更新样式",
+    "stack_rule": "stack",
+    "timing_hooks": [
+      "deal_damage",
+      "round_end"
+    ],
+    "params": {
+      "style_layer_amount": 1
+    },
+    "effect_group_id": "",
+    "max_stack": 99,
+    "is_hidden": true,
+    "type": "class"
+  },
+  {
     "id": "vue_suite",
     "name": "Vue三件套",
     "stack_rule": "stack",

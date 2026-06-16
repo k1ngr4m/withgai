@@ -243,6 +243,18 @@ func _validate_config_references(config, content) -> void:
 		if entry.get("effect_type", "") == "add_component" and bool(params.get("requires_existing_component", false)) and bool(params.get("draw_if_success", false)):
 			component_reuse_requires_component = true
 	_check(component_reuse_requires_component, "frontend component reuse requires component and draws")
+	var hotfix_entries: Array = content.effect_entries(content.card_def("card_frontend_hotfix_style").get("effect_group_id", ""))
+	var hotfix_applies_status := false
+	for entry in hotfix_entries:
+		var params: Dictionary = entry.get("params", {})
+		if entry.get("effect_type", "") == "apply_status" and params.get("status_id", "") == "hotfix_style":
+			hotfix_applies_status = true
+	_check(hotfix_applies_status, "frontend hotfix style applies hotfix status")
+	_check(config.get_def("statuses", "hotfix_style").get("timing_hooks", []).has("deal_damage"), "hotfix style declares damage hook")
+	_check(config.get_def("statuses", "hotfix_style").get("timing_hooks", []).has("round_end"), "hotfix style declares round end hook")
+	_check(bool(config.get_def("statuses", "hotfix_style").get("is_hidden", false)), "hotfix style is hidden")
+	var hotfix_params: Dictionary = config.get_def("statuses", "hotfix_style").get("params", {})
+	_check(int(hotfix_params.get("style_layer_amount", 0)) > 0, "hotfix style config has style layer amount")
 	var pixel_align_entries: Array = content.effect_entries(content.card_def("card_frontend_pixel_align").get("effect_group_id", ""))
 	var pixel_align_checks_component := false
 	for entry in pixel_align_entries:
@@ -432,6 +444,7 @@ func _validate_config_references(config, content) -> void:
 	var state_boost_params: Dictionary = config.get_def("statuses", "state_boost").get("params", {})
 	_check(int(state_boost_params.get("trigger_play_count", 0)) == 4, "state boost config has fourth-card trigger")
 	_check(int(state_boost_params.get("style_layer_amount", 0)) > 0, "state boost config grants style layer")
+	_check(config.get_def("statuses", "hotfix_style").get("timing_hooks", []).has("deal_damage"), "hotfix style declares damage hook")
 	_check(config.get_def("statuses", "vue_suite").get("timing_hooks", []).has("round_start"), "vue suite declares round start hook")
 	var vue_params: Dictionary = config.get_def("statuses", "vue_suite").get("params", {})
 	_check(int(vue_params.get("component_amount", 0)) > 0, "vue suite config has component amount")
@@ -765,6 +778,44 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(player.get("class_resource_state", {}).get("components", 0)) == 0, "frontend slice sprint does not create components")
 	_check(int(player.get("current_block", 0)) == 0, "frontend slice sprint does not grant block")
 	_check(int(player.get("current_energy", 0)) == 0, "frontend slice sprint stays zero cost")
+
+	run = run_session.create_new_run("frontend")
+	run["owned_relic_ids"] = []
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	var hotfix_enemy: Dictionary = battle.battle_state.get("enemies", [])[0]
+	hotfix_enemy["current_hp"] = 50
+	hotfix_enemy["current_block"] = 0
+	player["hand"] = ["card_frontend_hotfix_style"]
+	player["draw_pile"] = []
+	player["discard_pile"] = []
+	player["current_energy"] = 3
+	player["current_block"] = 0
+	player["class_resource_state"]["style_layers"] = 0
+	player["status_list"] = {}
+	battle.play_card(run, 0, 0)
+	_check(int(player.get("status_list", {}).get("hotfix_style", 0)) == 1, "frontend hotfix style stores next attack amplifier")
+	_check(int(player.get("current_block", 0)) == 0, "frontend hotfix style does not grant block")
+	_check(int(player.get("class_resource_state", {}).get("style_layers", 0)) == 0, "frontend hotfix style does not create immediate style layer")
+	_check(int(player.get("current_energy", 0)) == 2, "frontend hotfix style charges card cost")
+	player["hand"] = ["card_frontend_pixel_tap"]
+	battle.play_card(run, 0, 0)
+	_check(int(hotfix_enemy.get("current_hp", 0)) == 39, "frontend hotfix style amplifies next attack")
+	_check(int(player.get("status_list", {}).get("hotfix_style", 0)) == 0, "frontend hotfix style is consumed by attack")
+	_check(int(player.get("class_resource_state", {}).get("style_layers", 0)) == 0, "frontend hotfix style uses virtual style layer")
+
+	run = run_session.create_new_run("frontend")
+	run["owned_relic_ids"] = []
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	player["hand"] = ["card_frontend_hotfix_style"]
+	player["draw_pile"] = []
+	player["discard_pile"] = []
+	player["current_energy"] = 3
+	player["status_list"] = {}
+	battle.play_card(run, 0, 0)
+	battle.call("_tick_player_turn_end_statuses", player)
+	_check(int(player.get("status_list", {}).get("hotfix_style", 0)) == 0, "frontend hotfix style expires at turn end")
 
 	run = run_session.create_new_run("frontend")
 	run["owned_relic_ids"] = []

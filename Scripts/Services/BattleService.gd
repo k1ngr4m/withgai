@@ -14,6 +14,7 @@ const PLAYER_POSITIVE_STATUS_IDS := [
 	"state_boost",
 	"first_screen_optimization",
 	"compatibility_patch",
+	"hotfix_style",
 	"vue_suite",
 	"case_mark",
 	"diff",
@@ -843,6 +844,9 @@ func _tick_player_turn_end_statuses(player: Dictionary) -> void:
 	if int(statuses.get("compatibility_patch", 0)) > 0:
 		statuses.erase("compatibility_patch")
 		battle_state["log"].append("兼容性补丁到期")
+	if int(statuses.get("hotfix_style", 0)) > 0:
+		statuses.erase("hotfix_style")
+		battle_state["log"].append("热更新样式到期")
 	player["status_list"] = statuses
 
 func _tick_enemy_action_statuses(enemy: Dictionary) -> void:

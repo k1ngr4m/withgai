@@ -53,6 +53,10 @@
   - generated config uses draw plus `add_style_layer` instead of default block/component filler
   - runtime draws a card and creates one style layer without granting block or creating components
   - this gives the frontend starter deck a real zero-cost style-layer setup card
+- Frontend `card_frontend_hotfix_style` now works as the designed starter amplifier:
+  - generated config applies hidden `hotfix_style` instead of default block/style filler
+  - the next damage card gains a virtual style-layer bonus and then consumes the hotfix state
+  - unused hotfix state expires at player turn end, preserving the next-attack setup window
 - Frontend `card_frontend_pixel_align` now works as the designed component-aware repair card:
   - generated config uses a dedicated `pixel_align` effect instead of generic block/draw/component filler
   - runtime grants base block, then adds bonus block when the frontend already has at least one component
@@ -242,6 +246,7 @@ Result:
 - Godot test runner now checks frontend `style_layer` damage bonus and consumption from both resource-sourced and status-sourced stacks.
 - Godot test runner now checks frontend `card_frontend_flex_layout` generated block/component effects, live block gain, component generation, no style-layer generation, and cost charge.
 - Godot test runner now checks frontend `card_frontend_slice_sprint` generated draw/style-layer effects, live draw, style-layer generation, no component generation, no block gain, and zero-cost behavior.
+- Godot test runner now checks frontend `card_frontend_hotfix_style` generated hidden status, damage-hook config, next-attack virtual style-layer damage, status consumption, no immediate block/style gain, and turn-end expiry.
 - Godot test runner now checks frontend `card_frontend_component_reuse` generated params, copy-on-existing-component behavior, draw-on-success behavior, and no-copy/no-draw behavior without an existing component.
 - Godot test runner now checks frontend `card_frontend_pixel_align` generated component-bonus params, base block without components, bonus block with components, no component generation, no draw, and component preservation.
 - Godot test runner now checks frontend `card_frontend_compat_patch` generated cleanse/preserve effects, hidden status hooks, debuff cleansing, style bonus damage with preserved style layers, and turn-end expiry.

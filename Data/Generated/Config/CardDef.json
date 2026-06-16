@@ -574,7 +574,7 @@
     "effect_group_id": "eg_card_frontend_hotfix_style",
     "upgrade_to": "card_frontend_hotfix_style_plus",
     "enabled_in_first_playable": true,
-    "description": "热更新样式：获得防线并触发职业资源。",
+    "description": "热更新样式：使下一张攻击牌追加样式层收益。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_frontend_hotfix_style_v1/final.png"
   },
   {
