@@ -4594,7 +4594,10 @@
       "id": "anxiety",
       "name": "焦虑",
       "stack_rule": "stack",
-      "timing_hooks": [],
+      "timing_hooks": [
+        "round_start",
+        "expire"
+      ],
       "effect_group_id": "",
       "max_stack": 99,
       "is_hidden": false,
@@ -4604,7 +4607,10 @@
       "id": "overtime",
       "name": "加班",
       "stack_rule": "stack",
-      "timing_hooks": [],
+      "timing_hooks": [
+        "round_start",
+        "expire"
+      ],
       "effect_group_id": "",
       "max_stack": 99,
       "is_hidden": false,
@@ -4614,7 +4620,12 @@
       "id": "vulnerable",
       "name": "易伤",
       "stack_rule": "stack",
-      "timing_hooks": [],
+      "timing_hooks": [
+        "damage_taken",
+        "round_end",
+        "enemy_action_end",
+        "expire"
+      ],
       "effect_group_id": "",
       "max_stack": 99,
       "is_hidden": false,
@@ -4624,7 +4635,12 @@
       "id": "weak",
       "name": "脆弱",
       "stack_rule": "stack",
-      "timing_hooks": [],
+      "timing_hooks": [
+        "deal_damage",
+        "round_end",
+        "enemy_action_end",
+        "expire"
+      ],
       "effect_group_id": "",
       "max_stack": 99,
       "is_hidden": false,
@@ -4634,7 +4650,10 @@
       "id": "service_online",
       "name": "服务在线",
       "stack_rule": "stack",
-      "timing_hooks": [],
+      "timing_hooks": [
+        "round_start",
+        "round_end"
+      ],
       "effect_group_id": "",
       "max_stack": 99,
       "is_hidden": false,
@@ -4664,7 +4683,9 @@
       "id": "style_layer",
       "name": "样式层",
       "stack_rule": "stack",
-      "timing_hooks": [],
+      "timing_hooks": [
+        "deal_damage"
+      ],
       "effect_group_id": "",
       "max_stack": 99,
       "is_hidden": false,
@@ -4674,7 +4695,11 @@
       "id": "bug",
       "name": "Bug",
       "stack_rule": "stack",
-      "timing_hooks": [],
+      "timing_hooks": [
+        "enemy_before_action",
+        "enemy_action_end",
+        "expire"
+      ],
       "effect_group_id": "",
       "max_stack": 99,
       "is_hidden": false,
@@ -4684,7 +4709,9 @@
       "id": "case_mark",
       "name": "用例",
       "stack_rule": "stack",
-      "timing_hooks": [],
+      "timing_hooks": [
+        "deal_damage"
+      ],
       "effect_group_id": "",
       "max_stack": 99,
       "is_hidden": false,
@@ -4724,7 +4751,10 @@
       "id": "requirement_change",
       "name": "需求变更",
       "stack_rule": "stack",
-      "timing_hooks": [],
+      "timing_hooks": [
+        "apply_status",
+        "modify_intent"
+      ],
       "effect_group_id": "",
       "max_stack": 99,
       "is_hidden": false,
@@ -4734,7 +4764,9 @@
       "id": "priority",
       "name": "优先级",
       "stack_rule": "stack",
-      "timing_hooks": [],
+      "timing_hooks": [
+        "target_resolution"
+      ],
       "effect_group_id": "",
       "max_stack": 99,
       "is_hidden": false,
@@ -5266,8 +5298,8 @@
           "effect_type": "apply_status",
           "target_type": "self",
           "params": {
-            "status_id": "service_online",
-            "amount": 1
+            "amount": 1,
+            "status_id": "service_online"
           }
         },
         {
@@ -5336,8 +5368,8 @@
           "effect_type": "apply_status",
           "target_type": "self",
           "params": {
-            "status_id": "service_online",
-            "amount": 1
+            "amount": 1,
+            "status_id": "service_online"
           }
         },
         {
@@ -5475,8 +5507,8 @@
           "effect_type": "apply_status",
           "target_type": "self",
           "params": {
-            "status_id": "service_online",
-            "amount": 1
+            "amount": 1,
+            "status_id": "service_online"
           }
         },
         {
@@ -5522,8 +5554,8 @@
           "effect_type": "apply_status",
           "target_type": "self",
           "params": {
-            "status_id": "service_online",
-            "amount": 1
+            "amount": 1,
+            "status_id": "service_online"
           }
         },
         {
@@ -5615,8 +5647,8 @@
           "effect_type": "apply_status",
           "target_type": "self",
           "params": {
-            "status_id": "service_online",
-            "amount": 1
+            "amount": 1,
+            "status_id": "service_online"
           }
         },
         {
@@ -5968,8 +6000,8 @@
           "effect_type": "apply_status",
           "target_type": "self",
           "params": {
-            "status_id": "style_layer",
-            "amount": 1
+            "amount": 1,
+            "status_id": "style_layer"
           }
         },
         {
@@ -6007,8 +6039,8 @@
           "effect_type": "apply_status",
           "target_type": "self",
           "params": {
-            "status_id": "style_layer",
-            "amount": 1
+            "amount": 1,
+            "status_id": "style_layer"
           }
         },
         {
@@ -6123,8 +6155,8 @@
           "effect_type": "apply_status",
           "target_type": "self",
           "params": {
-            "status_id": "style_layer",
-            "amount": 1
+            "amount": 1,
+            "status_id": "style_layer"
           }
         },
         {
@@ -6177,8 +6209,8 @@
           "effect_type": "apply_status",
           "target_type": "self",
           "params": {
-            "status_id": "style_layer",
-            "amount": 1
+            "amount": 1,
+            "status_id": "style_layer"
           }
         },
         {
@@ -6262,8 +6294,8 @@
           "effect_type": "apply_status",
           "target_type": "self",
           "params": {
-            "status_id": "style_layer",
-            "amount": 1
+            "amount": 1,
+            "status_id": "style_layer"
           }
         },
         {
@@ -6624,8 +6656,8 @@
           "effect_type": "apply_status",
           "target_type": "self",
           "params": {
-            "status_id": "case_mark",
-            "amount": 1
+            "amount": 1,
+            "status_id": "case_mark"
           }
         },
         {
@@ -6671,8 +6703,8 @@
           "effect_type": "apply_status",
           "target_type": "self",
           "params": {
-            "status_id": "case_mark",
-            "amount": 1
+            "amount": 1,
+            "status_id": "case_mark"
           }
         },
         {
@@ -6948,8 +6980,8 @@
           "effect_type": "apply_status",
           "target_type": "self",
           "params": {
-            "status_id": "case_mark",
-            "amount": 1
+            "amount": 1,
+            "status_id": "case_mark"
           }
         },
         {
@@ -7325,8 +7357,8 @@
           "effect_type": "apply_status",
           "target_type": "self",
           "params": {
-            "status_id": "compute",
-            "amount": 1
+            "amount": 1,
+            "status_id": "compute"
           }
         },
         {
@@ -7464,8 +7496,8 @@
           "effect_type": "apply_status",
           "target_type": "self",
           "params": {
-            "status_id": "compute",
-            "amount": 1
+            "amount": 1,
+            "status_id": "compute"
           }
         },
         {
@@ -7603,8 +7635,8 @@
           "effect_type": "apply_status",
           "target_type": "self",
           "params": {
-            "status_id": "compute",
-            "amount": 1
+            "amount": 1,
+            "status_id": "compute"
           }
         },
         {
@@ -7704,8 +7736,8 @@
           "effect_type": "apply_status",
           "target_type": "selected",
           "params": {
-            "status_id": "requirement_change",
-            "amount": 1
+            "amount": 1,
+            "status_id": "requirement_change"
           }
         },
         {
@@ -7735,8 +7767,8 @@
           "effect_type": "apply_status",
           "target_type": "selected",
           "params": {
-            "status_id": "priority",
-            "amount": 1
+            "amount": 1,
+            "status_id": "priority"
           }
         }
       ]
@@ -7791,8 +7823,8 @@
           "effect_type": "apply_status",
           "target_type": "selected",
           "params": {
-            "status_id": "requirement_change",
-            "amount": 1
+            "amount": 1,
+            "status_id": "requirement_change"
           }
         },
         {
@@ -7845,8 +7877,8 @@
           "effect_type": "apply_status",
           "target_type": "selected",
           "params": {
-            "status_id": "requirement_change",
-            "amount": 1
+            "amount": 1,
+            "status_id": "requirement_change"
           }
         }
       ]
@@ -7892,8 +7924,8 @@
           "effect_type": "apply_status",
           "target_type": "selected",
           "params": {
-            "status_id": "priority",
-            "amount": 1
+            "amount": 1,
+            "status_id": "priority"
           }
         }
       ]
@@ -7916,8 +7948,8 @@
           "effect_type": "apply_status",
           "target_type": "selected",
           "params": {
-            "status_id": "requirement_change",
-            "amount": 1
+            "amount": 1,
+            "status_id": "requirement_change"
           }
         }
       ]
@@ -7940,8 +7972,8 @@
           "effect_type": "apply_status",
           "target_type": "selected",
           "params": {
-            "status_id": "priority",
-            "amount": 1
+            "amount": 1,
+            "status_id": "priority"
           }
         }
       ]
@@ -7988,8 +8020,8 @@
           "effect_type": "apply_status",
           "target_type": "selected",
           "params": {
-            "status_id": "requirement_change",
-            "amount": 1
+            "amount": 1,
+            "status_id": "requirement_change"
           }
         },
         {
@@ -8042,8 +8074,8 @@
           "effect_type": "apply_status",
           "target_type": "selected",
           "params": {
-            "status_id": "priority",
-            "amount": 1
+            "amount": 1,
+            "status_id": "priority"
           }
         }
       ]
@@ -8059,8 +8091,8 @@
           "effect_type": "apply_status",
           "target_type": "self",
           "params": {
-            "status_id": "priority",
-            "amount": 1
+            "amount": 1,
+            "status_id": "priority"
           }
         },
         {
@@ -8090,8 +8122,8 @@
           "effect_type": "apply_status",
           "target_type": "selected",
           "params": {
-            "status_id": "priority",
-            "amount": 1
+            "amount": 1,
+            "status_id": "priority"
           }
         }
       ]
@@ -8122,8 +8154,8 @@
           "effect_type": "apply_status",
           "target_type": "selected",
           "params": {
-            "status_id": "priority",
-            "amount": 1
+            "amount": 1,
+            "status_id": "priority"
           }
         }
       ]
@@ -8146,8 +8178,8 @@
           "effect_type": "apply_status",
           "target_type": "selected",
           "params": {
-            "status_id": "priority",
-            "amount": 1
+            "amount": 1,
+            "status_id": "priority"
           }
         }
       ]
@@ -8163,8 +8195,8 @@
           "effect_type": "apply_status",
           "target_type": "self",
           "params": {
-            "status_id": "priority",
-            "amount": 1
+            "amount": 1,
+            "status_id": "priority"
           }
         },
         {
@@ -8194,8 +8226,8 @@
           "effect_type": "apply_status",
           "target_type": "selected",
           "params": {
-            "status_id": "priority",
-            "amount": 1
+            "amount": 1,
+            "status_id": "priority"
           }
         }
       ]
@@ -8241,8 +8273,8 @@
           "effect_type": "apply_status",
           "target_type": "selected",
           "params": {
-            "status_id": "priority",
-            "amount": 1
+            "amount": 1,
+            "status_id": "priority"
           }
         }
       ]
@@ -8265,8 +8297,8 @@
           "effect_type": "apply_status",
           "target_type": "selected",
           "params": {
-            "status_id": "requirement_change",
-            "amount": 1
+            "amount": 1,
+            "status_id": "requirement_change"
           }
         }
       ]
@@ -8289,8 +8321,8 @@
           "effect_type": "apply_status",
           "target_type": "selected",
           "params": {
-            "status_id": "priority",
-            "amount": 1
+            "amount": 1,
+            "status_id": "priority"
           }
         }
       ]
@@ -8336,8 +8368,8 @@
           "effect_type": "apply_status",
           "target_type": "selected",
           "params": {
-            "status_id": "requirement_change",
-            "amount": 1
+            "amount": 1,
+            "status_id": "requirement_change"
           }
         }
       ]
@@ -8360,8 +8392,8 @@
           "effect_type": "apply_status",
           "target_type": "selected",
           "params": {
-            "status_id": "requirement_change",
-            "amount": 1
+            "amount": 1,
+            "status_id": "requirement_change"
           }
         }
       ]
@@ -8384,8 +8416,8 @@
           "effect_type": "apply_status",
           "target_type": "selected",
           "params": {
-            "status_id": "priority",
-            "amount": 1
+            "amount": 1,
+            "status_id": "priority"
           }
         }
       ]
@@ -8401,8 +8433,8 @@
           "effect_type": "apply_status",
           "target_type": "self",
           "params": {
-            "status_id": "priority",
-            "amount": 1
+            "amount": 1,
+            "status_id": "priority"
           }
         },
         {
@@ -8432,8 +8464,8 @@
           "effect_type": "apply_status",
           "target_type": "selected",
           "params": {
-            "status_id": "priority",
-            "amount": 1
+            "amount": 1,
+            "status_id": "priority"
           }
         }
       ]
@@ -8667,8 +8699,8 @@
           "effect_type": "apply_status",
           "target_type": "self",
           "params": {
-            "status_id": "performance",
-            "amount": 1
+            "amount": 1,
+            "status_id": "performance"
           }
         },
         {
@@ -8721,8 +8753,8 @@
           "effect_type": "apply_status",
           "target_type": "self",
           "params": {
-            "status_id": "performance",
-            "amount": 1
+            "amount": 1,
+            "status_id": "performance"
           }
         },
         {
@@ -8850,8 +8882,8 @@
           "effect_type": "apply_status",
           "target_type": "self",
           "params": {
-            "status_id": "performance",
-            "amount": 1
+            "amount": 1,
+            "status_id": "performance"
           }
         },
         {
@@ -8904,8 +8936,8 @@
           "effect_type": "apply_status",
           "target_type": "self",
           "params": {
-            "status_id": "performance",
-            "amount": 1
+            "amount": 1,
+            "status_id": "performance"
           }
         },
         {
@@ -9186,8 +9218,8 @@
           "effect_type": "apply_status",
           "target_type": "self",
           "params": {
-            "status_id": "anxiety",
-            "amount": 1
+            "amount": 1,
+            "status_id": "anxiety"
           }
         }
       ]
@@ -9202,8 +9234,8 @@
           "effect_type": "apply_status",
           "target_type": "self",
           "params": {
-            "status_id": "overtime",
-            "amount": 1
+            "amount": 1,
+            "status_id": "overtime"
           }
         }
       ]
@@ -9219,16 +9251,16 @@
           "effect_type": "apply_status",
           "target_type": "self",
           "params": {
-            "status_id": "weak",
-            "amount": 1
+            "amount": 1,
+            "status_id": "weak"
           }
         },
         {
           "effect_type": "apply_status",
           "target_type": "self",
           "params": {
-            "status_id": "vulnerable",
-            "amount": 1
+            "amount": 1,
+            "status_id": "vulnerable"
           }
         }
       ]
@@ -9542,8 +9574,8 @@
       "effect_type": "apply_status",
       "target_type": "self",
       "params": {
-        "status_id": "service_online",
-        "amount": 1
+        "amount": 1,
+        "status_id": "service_online"
       }
     },
     "eg_card_backend_api_gateway_e02": {
@@ -9603,8 +9635,8 @@
       "effect_type": "apply_status",
       "target_type": "self",
       "params": {
-        "status_id": "service_online",
-        "amount": 1
+        "amount": 1,
+        "status_id": "service_online"
       }
     },
     "eg_card_backend_sharding_e02": {
@@ -9724,8 +9756,8 @@
       "effect_type": "apply_status",
       "target_type": "self",
       "params": {
-        "status_id": "service_online",
-        "amount": 1
+        "amount": 1,
+        "status_id": "service_online"
       }
     },
     "eg_card_backend_container_orchestration_e02": {
@@ -9765,8 +9797,8 @@
       "effect_type": "apply_status",
       "target_type": "self",
       "params": {
-        "status_id": "service_online",
-        "amount": 1
+        "amount": 1,
+        "status_id": "service_online"
       }
     },
     "eg_card_backend_cluster_scale_e02": {
@@ -9846,8 +9878,8 @@
       "effect_type": "apply_status",
       "target_type": "self",
       "params": {
-        "status_id": "service_online",
-        "amount": 1
+        "amount": 1,
+        "status_id": "service_online"
       }
     },
     "eg_card_backend_zero_downtime_e02": {
@@ -10147,8 +10179,8 @@
       "effect_type": "apply_status",
       "target_type": "self",
       "params": {
-        "status_id": "style_layer",
-        "amount": 1
+        "amount": 1,
+        "status_id": "style_layer"
       }
     },
     "eg_card_frontend_state_boost_e02": {
@@ -10178,8 +10210,8 @@
       "effect_type": "apply_status",
       "target_type": "self",
       "params": {
-        "status_id": "style_layer",
-        "amount": 1
+        "amount": 1,
+        "status_id": "style_layer"
       }
     },
     "eg_card_frontend_vue_suite_e02": {
@@ -10279,8 +10311,8 @@
       "effect_type": "apply_status",
       "target_type": "self",
       "params": {
-        "status_id": "style_layer",
-        "amount": 1
+        "amount": 1,
+        "status_id": "style_layer"
       }
     },
     "eg_card_frontend_design_system_e02": {
@@ -10320,8 +10352,8 @@
       "effect_type": "apply_status",
       "target_type": "self",
       "params": {
-        "status_id": "style_layer",
-        "amount": 1
+        "amount": 1,
+        "status_id": "style_layer"
       }
     },
     "eg_card_frontend_site_refactor_e02": {
@@ -10391,8 +10423,8 @@
       "effect_type": "apply_status",
       "target_type": "self",
       "params": {
-        "status_id": "style_layer",
-        "amount": 1
+        "amount": 1,
+        "status_id": "style_layer"
       }
     },
     "eg_card_frontend_infinite_scroll_e02": {
@@ -10712,8 +10744,8 @@
       "effect_type": "apply_status",
       "target_type": "self",
       "params": {
-        "status_id": "case_mark",
-        "amount": 1
+        "amount": 1,
+        "status_id": "case_mark"
       }
     },
     "eg_card_tester_auto_regression_e02": {
@@ -10753,8 +10785,8 @@
       "effect_type": "apply_status",
       "target_type": "self",
       "params": {
-        "status_id": "case_mark",
-        "amount": 1
+        "amount": 1,
+        "status_id": "case_mark"
       }
     },
     "eg_card_tester_case_matrix_e02": {
@@ -10994,8 +11026,8 @@
       "effect_type": "apply_status",
       "target_type": "self",
       "params": {
-        "status_id": "case_mark",
-        "amount": 1
+        "amount": 1,
+        "status_id": "case_mark"
       }
     },
     "eg_card_tester_zero_bug_fantasy_e02": {
@@ -11325,8 +11357,8 @@
       "effect_type": "apply_status",
       "target_type": "self",
       "params": {
-        "status_id": "compute",
-        "amount": 1
+        "amount": 1,
+        "status_id": "compute"
       }
     },
     "eg_card_algo_dynamic_programming_e02": {
@@ -11446,8 +11478,8 @@
       "effect_type": "apply_status",
       "target_type": "self",
       "params": {
-        "status_id": "compute",
-        "amount": 1
+        "amount": 1,
+        "status_id": "compute"
       }
     },
     "eg_card_algo_memo_search_e02": {
@@ -11567,8 +11599,8 @@
       "effect_type": "apply_status",
       "target_type": "self",
       "params": {
-        "status_id": "compute",
-        "amount": 1
+        "amount": 1,
+        "status_id": "compute"
       }
     },
     "eg_card_algo_distill_e02": {
@@ -11658,8 +11690,8 @@
       "effect_type": "apply_status",
       "target_type": "selected",
       "params": {
-        "status_id": "requirement_change",
-        "amount": 1
+        "amount": 1,
+        "status_id": "requirement_change"
       }
     },
     "eg_card_pm_change_wording_e03": {
@@ -11689,8 +11721,8 @@
       "effect_type": "apply_status",
       "target_type": "selected",
       "params": {
-        "status_id": "priority",
-        "amount": 1
+        "amount": 1,
+        "status_id": "priority"
       }
     },
     "eg_card_pm_meeting_minutes_e01": {
@@ -11740,8 +11772,8 @@
       "effect_type": "apply_status",
       "target_type": "selected",
       "params": {
-        "status_id": "requirement_change",
-        "amount": 1
+        "amount": 1,
+        "status_id": "requirement_change"
       }
     },
     "eg_card_pm_revision_notice_e03": {
@@ -11791,8 +11823,8 @@
       "effect_type": "apply_status",
       "target_type": "selected",
       "params": {
-        "status_id": "requirement_change",
-        "amount": 1
+        "amount": 1,
+        "status_id": "requirement_change"
       }
     },
     "eg_card_pm_scope_confirm_e01": {
@@ -11832,8 +11864,8 @@
       "effect_type": "apply_status",
       "target_type": "selected",
       "params": {
-        "status_id": "priority",
-        "amount": 1
+        "amount": 1,
+        "status_id": "priority"
       }
     },
     "eg_card_pm_reopen_task_e01": {
@@ -11853,8 +11885,8 @@
       "effect_type": "apply_status",
       "target_type": "selected",
       "params": {
-        "status_id": "requirement_change",
-        "amount": 1
+        "amount": 1,
+        "status_id": "requirement_change"
       }
     },
     "eg_card_pm_tracking_backfill_e01": {
@@ -11874,8 +11906,8 @@
       "effect_type": "apply_status",
       "target_type": "selected",
       "params": {
-        "status_id": "priority",
-        "amount": 1
+        "amount": 1,
+        "status_id": "priority"
       }
     },
     "eg_card_pm_split_ticket_e01": {
@@ -11915,8 +11947,8 @@
       "effect_type": "apply_status",
       "target_type": "selected",
       "params": {
-        "status_id": "requirement_change",
-        "amount": 1
+        "amount": 1,
+        "status_id": "requirement_change"
       }
     },
     "eg_card_pm_extra_requirement_e03": {
@@ -11966,8 +11998,8 @@
       "effect_type": "apply_status",
       "target_type": "selected",
       "params": {
-        "status_id": "priority",
-        "amount": 1
+        "amount": 1,
+        "status_id": "priority"
       }
     },
     "eg_card_pm_review_e01": {
@@ -11977,8 +12009,8 @@
       "effect_type": "apply_status",
       "target_type": "self",
       "params": {
-        "status_id": "priority",
-        "amount": 1
+        "amount": 1,
+        "status_id": "priority"
       }
     },
     "eg_card_pm_review_e02": {
@@ -12008,8 +12040,8 @@
       "effect_type": "apply_status",
       "target_type": "selected",
       "params": {
-        "status_id": "priority",
-        "amount": 1
+        "amount": 1,
+        "status_id": "priority"
       }
     },
     "eg_card_pm_priority_top_e01": {
@@ -12039,8 +12071,8 @@
       "effect_type": "apply_status",
       "target_type": "selected",
       "params": {
-        "status_id": "priority",
-        "amount": 1
+        "amount": 1,
+        "status_id": "priority"
       }
     },
     "eg_card_pm_milestone_split_e01": {
@@ -12060,8 +12092,8 @@
       "effect_type": "apply_status",
       "target_type": "selected",
       "params": {
-        "status_id": "priority",
-        "amount": 1
+        "amount": 1,
+        "status_id": "priority"
       }
     },
     "eg_card_pm_scope_spread_e01": {
@@ -12071,8 +12103,8 @@
       "effect_type": "apply_status",
       "target_type": "self",
       "params": {
-        "status_id": "priority",
-        "amount": 1
+        "amount": 1,
+        "status_id": "priority"
       }
     },
     "eg_card_pm_scope_spread_e02": {
@@ -12102,8 +12134,8 @@
       "effect_type": "apply_status",
       "target_type": "selected",
       "params": {
-        "status_id": "priority",
-        "amount": 1
+        "amount": 1,
+        "status_id": "priority"
       }
     },
     "eg_card_pm_proto_walkthrough_e01": {
@@ -12143,8 +12175,8 @@
       "effect_type": "apply_status",
       "target_type": "selected",
       "params": {
-        "status_id": "priority",
-        "amount": 1
+        "amount": 1,
+        "status_id": "priority"
       }
     },
     "eg_card_pm_urgent_schedule_e01": {
@@ -12164,8 +12196,8 @@
       "effect_type": "apply_status",
       "target_type": "selected",
       "params": {
-        "status_id": "requirement_change",
-        "amount": 1
+        "amount": 1,
+        "status_id": "requirement_change"
       }
     },
     "eg_card_pm_verbal_promise_e01": {
@@ -12185,8 +12217,8 @@
       "effect_type": "apply_status",
       "target_type": "selected",
       "params": {
-        "status_id": "priority",
-        "amount": 1
+        "amount": 1,
+        "status_id": "priority"
       }
     },
     "eg_card_pm_align_all_e01": {
@@ -12226,8 +12258,8 @@
       "effect_type": "apply_status",
       "target_type": "selected",
       "params": {
-        "status_id": "requirement_change",
-        "amount": 1
+        "amount": 1,
+        "status_id": "requirement_change"
       }
     },
     "eg_card_pm_snowball_e01": {
@@ -12247,8 +12279,8 @@
       "effect_type": "apply_status",
       "target_type": "selected",
       "params": {
-        "status_id": "requirement_change",
-        "amount": 1
+        "amount": 1,
+        "status_id": "requirement_change"
       }
     },
     "eg_card_pm_goal_drift_e01": {
@@ -12268,8 +12300,8 @@
       "effect_type": "apply_status",
       "target_type": "selected",
       "params": {
-        "status_id": "priority",
-        "amount": 1
+        "amount": 1,
+        "status_id": "priority"
       }
     },
     "eg_card_pm_ceo_tone_e01": {
@@ -12279,8 +12311,8 @@
       "effect_type": "apply_status",
       "target_type": "self",
       "params": {
-        "status_id": "priority",
-        "amount": 1
+        "amount": 1,
+        "status_id": "priority"
       }
     },
     "eg_card_pm_ceo_tone_e02": {
@@ -12310,8 +12342,8 @@
       "effect_type": "apply_status",
       "target_type": "selected",
       "params": {
-        "status_id": "priority",
-        "amount": 1
+        "amount": 1,
+        "status_id": "priority"
       }
     },
     "eg_card_hr_performance_talk_e01": {
@@ -12471,8 +12503,8 @@
       "effect_type": "apply_status",
       "target_type": "self",
       "params": {
-        "status_id": "performance",
-        "amount": 1
+        "amount": 1,
+        "status_id": "performance"
       }
     },
     "eg_card_hr_performance_archive_e02": {
@@ -12512,8 +12544,8 @@
       "effect_type": "apply_status",
       "target_type": "self",
       "params": {
-        "status_id": "performance",
-        "amount": 1
+        "amount": 1,
+        "status_id": "performance"
       }
     },
     "eg_card_hr_annual_award_e02": {
@@ -12603,8 +12635,8 @@
       "effect_type": "apply_status",
       "target_type": "self",
       "params": {
-        "status_id": "performance",
-        "amount": 1
+        "amount": 1,
+        "status_id": "performance"
       }
     },
     "eg_card_hr_annual_inventory_e02": {
@@ -12644,8 +12676,8 @@
       "effect_type": "apply_status",
       "target_type": "self",
       "params": {
-        "status_id": "performance",
-        "amount": 1
+        "amount": 1,
+        "status_id": "performance"
       }
     },
     "eg_card_hr_blacklist_share_e02": {
@@ -12875,8 +12907,8 @@
       "effect_type": "apply_status",
       "target_type": "self",
       "params": {
-        "status_id": "anxiety",
-        "amount": 1
+        "amount": 1,
+        "status_id": "anxiety"
       }
     },
     "eg_card_status_meeting_minutes_e01": {
@@ -12886,8 +12918,8 @@
       "effect_type": "apply_status",
       "target_type": "self",
       "params": {
-        "status_id": "overtime",
-        "amount": 1
+        "amount": 1,
+        "status_id": "overtime"
       }
     },
     "eg_card_curse_next_year_promotion_e01": {
@@ -12897,8 +12929,8 @@
       "effect_type": "apply_status",
       "target_type": "self",
       "params": {
-        "status_id": "weak",
-        "amount": 1
+        "amount": 1,
+        "status_id": "weak"
       }
     },
     "eg_card_curse_next_year_promotion_e02": {
@@ -12908,8 +12940,8 @@
       "effect_type": "apply_status",
       "target_type": "self",
       "params": {
-        "status_id": "vulnerable",
-        "amount": 1
+        "amount": 1,
+        "status_id": "vulnerable"
       }
     }
   },
@@ -12929,9 +12961,9 @@
         },
         {
           "intent_type": "debuff",
-          "status_id": "anxiety",
           "amount": 1,
-          "weight": 1
+          "weight": 1,
+          "status_id": "anxiety"
         }
       ]
     },
@@ -12950,15 +12982,15 @@
         },
         {
           "intent_type": "debuff",
-          "status_id": "anxiety",
           "amount": 1,
-          "weight": 1
+          "weight": 1,
+          "status_id": "anxiety"
         },
         {
           "intent_type": "multi_attack",
           "amount": 3,
-          "hits": 3,
-          "weight": 4
+          "weight": 4,
+          "hits": 3
         }
       ]
     },
@@ -12977,9 +13009,9 @@
         },
         {
           "intent_type": "debuff",
-          "status_id": "anxiety",
           "amount": 1,
-          "weight": 1
+          "weight": 1,
+          "status_id": "anxiety"
         }
       ]
     },
@@ -12998,16 +13030,16 @@
         },
         {
           "intent_type": "debuff",
-          "status_id": "anxiety",
           "amount": 1,
-          "weight": 1
+          "weight": 1,
+          "status_id": "anxiety"
         },
         {
           "intent_type": "pollute",
-          "card_id": "card_status_option_promise",
           "amount": 1,
-          "destination": "discard",
-          "weight": 4
+          "weight": 4,
+          "card_id": "card_status_option_promise",
+          "destination": "discard"
         }
       ]
     },
@@ -13026,9 +13058,9 @@
         },
         {
           "intent_type": "debuff",
-          "status_id": "anxiety",
           "amount": 1,
-          "weight": 1
+          "weight": 1,
+          "status_id": "anxiety"
         },
         {
           "intent_type": "block",
@@ -13052,15 +13084,15 @@
         },
         {
           "intent_type": "debuff",
-          "status_id": "anxiety",
           "amount": 1,
-          "weight": 1
+          "weight": 1,
+          "status_id": "anxiety"
         },
         {
           "intent_type": "debuff",
-          "status_id": "weak",
           "amount": 1,
-          "weight": 2
+          "weight": 2,
+          "status_id": "weak"
         }
       ]
     },
@@ -13079,23 +13111,23 @@
         },
         {
           "intent_type": "debuff",
-          "status_id": "anxiety",
           "amount": 1,
-          "weight": 1
+          "weight": 1,
+          "status_id": "anxiety"
         },
         {
           "intent_type": "spawn",
-          "enemy_id": "enemy_process_specialist",
           "amount": 1,
-          "max_allies": 3,
-          "weight": 3
+          "weight": 3,
+          "enemy_id": "enemy_process_specialist",
+          "max_allies": 3
         },
         {
           "intent_type": "pollute",
-          "card_id": "card_status_meeting_minutes",
           "amount": 1,
-          "destination": "discard",
-          "weight": 2
+          "weight": 2,
+          "card_id": "card_status_meeting_minutes",
+          "destination": "discard"
         }
       ]
     },
@@ -13114,9 +13146,9 @@
         },
         {
           "intent_type": "debuff",
-          "status_id": "anxiety",
           "amount": 1,
-          "weight": 1
+          "weight": 1,
+          "status_id": "anxiety"
         },
         {
           "intent_type": "phase_shift",
@@ -13140,15 +13172,15 @@
         },
         {
           "intent_type": "debuff",
-          "status_id": "anxiety",
           "amount": 1,
-          "weight": 1
+          "weight": 1,
+          "status_id": "anxiety"
         },
         {
           "intent_type": "cleanse_player",
           "amount": 2,
-          "card_id": "card_status_meeting_minutes",
-          "weight": 3
+          "weight": 3,
+          "card_id": "card_status_meeting_minutes"
         }
       ]
     },
@@ -13167,15 +13199,15 @@
         },
         {
           "intent_type": "debuff",
-          "status_id": "anxiety",
           "amount": 1,
-          "weight": 1
+          "weight": 1,
+          "status_id": "anxiety"
         },
         {
           "intent_type": "multi_attack",
           "amount": 5,
-          "hits": 2,
-          "weight": 3
+          "weight": 3,
+          "hits": 2
         }
       ]
     },
@@ -13194,16 +13226,16 @@
         },
         {
           "intent_type": "debuff",
-          "status_id": "anxiety",
           "amount": 1,
-          "weight": 1
+          "weight": 1,
+          "status_id": "anxiety"
         },
         {
           "intent_type": "spawn",
-          "enemy_id": "enemy_process_specialist",
           "amount": 1,
-          "max_allies": 4,
-          "weight": 4
+          "weight": 4,
+          "enemy_id": "enemy_process_specialist",
+          "max_allies": 4
         }
       ]
     },
@@ -13222,15 +13254,15 @@
         },
         {
           "intent_type": "debuff",
-          "status_id": "anxiety",
           "amount": 1,
-          "weight": 1
+          "weight": 1,
+          "status_id": "anxiety"
         },
         {
           "intent_type": "debuff",
-          "status_id": "vulnerable",
           "amount": 1,
-          "weight": 2
+          "weight": 2,
+          "status_id": "vulnerable"
         }
       ]
     },
@@ -13249,15 +13281,15 @@
         },
         {
           "intent_type": "debuff",
-          "status_id": "anxiety",
           "amount": 1,
-          "weight": 1
+          "weight": 1,
+          "status_id": "anxiety"
         },
         {
           "intent_type": "cleanse_player",
           "amount": 3,
-          "card_id": "card_curse_next_year_promotion",
-          "weight": 3
+          "weight": 3,
+          "card_id": "card_curse_next_year_promotion"
         }
       ]
     },
@@ -13276,23 +13308,23 @@
         },
         {
           "intent_type": "debuff",
-          "status_id": "anxiety",
           "amount": 1,
-          "weight": 1
+          "weight": 1,
+          "status_id": "anxiety"
         },
         {
           "intent_type": "pollute",
-          "card_id": "card_status_option_promise",
           "amount": 2,
-          "destination": "discard",
-          "weight": 4
+          "weight": 4,
+          "card_id": "card_status_option_promise",
+          "destination": "discard"
         },
         {
           "intent_type": "pollute",
-          "card_id": "card_curse_next_year_promotion",
           "amount": 1,
-          "destination": "draw",
-          "weight": 2
+          "weight": 2,
+          "card_id": "card_curse_next_year_promotion",
+          "destination": "draw"
         }
       ]
     },
@@ -13311,21 +13343,21 @@
         },
         {
           "intent_type": "debuff",
-          "status_id": "anxiety",
           "amount": 1,
-          "weight": 1
+          "weight": 1,
+          "status_id": "anxiety"
         },
         {
           "intent_type": "cleanse_player",
           "amount": 3,
-          "card_id": "card_status_meeting_minutes",
-          "weight": 3
+          "weight": 3,
+          "card_id": "card_status_meeting_minutes"
         },
         {
           "intent_type": "debuff",
-          "status_id": "overtime",
           "amount": 2,
-          "weight": 2
+          "weight": 2,
+          "status_id": "overtime"
         }
       ]
     },
@@ -13344,29 +13376,29 @@
         },
         {
           "intent_type": "debuff",
-          "status_id": "anxiety",
           "amount": 1,
-          "weight": 1
+          "weight": 1,
+          "status_id": "anxiety"
         },
         {
           "intent_type": "multi_attack",
           "amount": 6,
-          "hits": 3,
-          "weight": 3
+          "weight": 3,
+          "hits": 3
         },
         {
           "intent_type": "spawn",
-          "enemy_id": "enemy_meeting_maniac",
           "amount": 1,
-          "max_allies": 4,
-          "weight": 3
+          "weight": 3,
+          "enemy_id": "enemy_meeting_maniac",
+          "max_allies": 4
         },
         {
           "intent_type": "pollute",
-          "card_id": "card_status_meeting_minutes",
           "amount": 2,
-          "destination": "discard",
-          "weight": 2
+          "weight": 2,
+          "card_id": "card_status_meeting_minutes",
+          "destination": "discard"
         }
       ]
     }
@@ -13378,9 +13410,9 @@
       "phase_entries": [
         {
           "id": "pg_enemy_airdrop_director_p01",
+          "name": "空降姿态切换",
           "order": 1,
           "threshold_pct": 0.5,
-          "name": "空降姿态切换",
           "actions": [
             {
               "action_type": "block",
@@ -13404,14 +13436,14 @@
       "phase_entries": [
         {
           "id": "pg_elite_airdrop_project_lead_p01",
+          "name": "Deadline 收紧",
           "order": 1,
           "threshold_pct": 0.5,
-          "name": "Deadline 收紧",
           "actions": [
             {
               "action_type": "debuff_player",
-              "status_id": "anxiety",
-              "amount": 2
+              "amount": 2,
+              "status_id": "anxiety"
             },
             {
               "action_type": "force_intent",
@@ -13431,14 +13463,14 @@
       "phase_entries": [
         {
           "id": "pg_elite_outsource_manager_p01",
+          "name": "外包协同",
           "order": 1,
           "threshold_pct": 0.5,
-          "name": "外包协同",
           "actions": [
             {
               "action_type": "spawn",
-              "enemy_id": "enemy_process_specialist",
               "amount": 1,
+              "enemy_id": "enemy_process_specialist",
               "max_allies": 4
             },
             {
@@ -13455,9 +13487,9 @@
       "phase_entries": [
         {
           "id": "pg_elite_approval_eye_p01",
+          "name": "审批冻结",
           "order": 1,
           "threshold_pct": 0.5,
-          "name": "审批冻结",
           "actions": [
             {
               "action_type": "cleanse_player",
@@ -13465,8 +13497,8 @@
             },
             {
               "action_type": "pollute",
-              "card_id": "card_curse_next_year_promotion",
               "amount": 1,
+              "card_id": "card_curse_next_year_promotion",
               "destination": "discard"
             }
           ]
@@ -13479,14 +13511,14 @@
       "phase_entries": [
         {
           "id": "pg_boss_pitch_supervisor_p01",
+          "name": "期权加码",
           "order": 1,
           "threshold_pct": 0.66,
-          "name": "期权加码",
           "actions": [
             {
               "action_type": "pollute",
-              "card_id": "card_status_option_promise",
               "amount": 1,
+              "card_id": "card_status_option_promise",
               "destination": "hand"
             },
             {
@@ -13497,14 +13529,14 @@
         },
         {
           "id": "pg_boss_pitch_supervisor_p02",
+          "name": "明年一定",
           "order": 2,
           "threshold_pct": 0.33,
-          "name": "明年一定",
           "actions": [
             {
               "action_type": "pollute",
-              "card_id": "card_curse_next_year_promotion",
               "amount": 1,
+              "card_id": "card_curse_next_year_promotion",
               "destination": "draw"
             },
             {
@@ -13524,9 +13556,9 @@
       "phase_entries": [
         {
           "id": "pg_boss_mutant_hr_p01",
+          "name": "绩效面谈升级",
           "order": 1,
           "threshold_pct": 0.66,
-          "name": "绩效面谈升级",
           "actions": [
             {
               "action_type": "cleanse_player",
@@ -13534,8 +13566,8 @@
             },
             {
               "action_type": "debuff_player",
-              "status_id": "overtime",
-              "amount": 1
+              "amount": 1,
+              "status_id": "overtime"
             },
             {
               "action_type": "block",
@@ -13545,22 +13577,22 @@
         },
         {
           "id": "pg_boss_mutant_hr_p02",
+          "name": "优化名单扩散",
           "order": 2,
           "threshold_pct": 0.33,
-          "name": "优化名单扩散",
           "actions": [
             {
               "action_type": "pollute",
-              "card_id": "card_status_meeting_minutes",
               "amount": 2,
+              "card_id": "card_status_meeting_minutes",
               "destination": "discard"
             },
             {
               "action_type": "force_intent",
               "intent": {
                 "intent_type": "debuff",
-                "status_id": "overtime",
-                "amount": 3
+                "amount": 3,
+                "status_id": "overtime"
               }
             }
           ]
@@ -13573,14 +13605,14 @@
       "phase_entries": [
         {
           "id": "pg_boss_mutant_ceo_p01",
+          "name": "季度会启动",
           "order": 1,
           "threshold_pct": 0.7,
-          "name": "季度会启动",
           "actions": [
             {
               "action_type": "spawn",
-              "enemy_id": "enemy_meeting_maniac",
               "amount": 1,
+              "enemy_id": "enemy_meeting_maniac",
               "max_allies": 4
             },
             {
@@ -13591,14 +13623,14 @@
         },
         {
           "id": "pg_boss_mutant_ceo_p02",
+          "name": "资本意志压顶",
           "order": 2,
           "threshold_pct": 0.4,
-          "name": "资本意志压顶",
           "actions": [
             {
               "action_type": "pollute",
-              "card_id": "card_status_meeting_minutes",
               "amount": 2,
+              "card_id": "card_status_meeting_minutes",
               "destination": "discard"
             },
             {
@@ -13613,20 +13645,20 @@
         },
         {
           "id": "pg_boss_mutant_ceo_p03",
+          "name": "全员大会",
           "order": 3,
           "threshold_pct": 0.2,
-          "name": "全员大会",
           "actions": [
             {
               "action_type": "spawn",
-              "enemy_id": "enemy_process_specialist",
               "amount": 1,
+              "enemy_id": "enemy_process_specialist",
               "max_allies": 5
             },
             {
               "action_type": "pollute",
-              "card_id": "card_curse_next_year_promotion",
               "amount": 1,
+              "card_id": "card_curse_next_year_promotion",
               "destination": "draw"
             },
             {

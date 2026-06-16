@@ -1,5 +1,5 @@
-id,card_pool_ref,relic_pool_ref,currency_range
-string,string,string,json
-c,c,c,c
-## id,## card_pool_ref,## relic_pool_ref,## currency_range
-reward_default,class_and_shared,available,"[18,35]"
+##var,id,card_pool_ref,relic_pool_ref,currency_range#format=json
+##type,string,string,string,"list,int"
+##group,c,c,c,c
+##comment,id,card_pool_ref,relic_pool_ref,currency_range
+,reward_default,class_and_shared,available,"[18,35]"

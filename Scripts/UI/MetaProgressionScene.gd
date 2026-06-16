@@ -25,8 +25,7 @@ func _build() -> void:
 	row.add_child(careers)
 	careers.add_child(UiFactory.label("职业解锁树", 24))
 	for cls in AppRoot.config_service.first_playable_classes(true):
-		var status: String = "可玩" if cls.get("enabled_in_first_playable", false) else "扩展占位"
-		careers.add_child(UiFactory.label("%s | 难度 %d | %s\n%s" % [cls.get("name", ""), int(cls.get("recommended_difficulty", 1)), status, cls.get("summary", "")], 16, Color(0.86, 0.94, 0.94)))
+		careers.add_child(_career_card(cls))
 	var back := UiFactory.button("返回主菜单")
 	back.pressed.connect(func(): AppRoot.flow_controller.show_scene("main_menu"))
 	main.add_child(back)
@@ -44,3 +43,24 @@ func _upgrade_button(upgrade: Dictionary) -> Button:
 		_build()
 	)
 	return b
+
+func _career_card(cls: Dictionary) -> PanelContainer:
+	var panel := UiFactory.panel()
+	panel.custom_minimum_size = Vector2(430, 132)
+	var box := UiFactory.vbox(5)
+	panel.add_child(box)
+	var class_id := String(cls.get("id", ""))
+	var title_color := Color(0.90, 0.98, 0.98)
+	if cls.has("color"):
+		title_color = Color(String(cls.get("color", "#E6F5F5")))
+	box.add_child(UiFactory.label("%s  难度 %d  |  %s" % [
+		cls.get("name", class_id),
+		int(cls.get("recommended_difficulty", 1)),
+		AppRoot.meta_service.class_availability_label(cls),
+	], 19, title_color))
+	box.add_child(UiFactory.label(cls.get("summary", ""), 14, Color(0.78, 0.88, 0.90)))
+	box.add_child(UiFactory.label("解锁条件：%s" % AppRoot.meta_service.class_unlock_label(cls), 13, Color(0.70, 0.82, 0.85)))
+	box.add_child(UiFactory.label("当前进度：%s" % AppRoot.meta_service.class_unlock_progress(cls), 13, Color(0.70, 0.82, 0.85)))
+	if class_id == "hr":
+		box.add_child(UiFactory.label("当前只展示职业树节点，不进入战斗、奖励或商店池。", 13, Color(0.95, 0.76, 0.52)))
+	return panel

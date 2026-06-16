@@ -23,6 +23,58 @@ func default_meta_state() -> Dictionary:
 func is_class_unlocked(class_id: String) -> bool:
 	return meta_state.get("unlocked_class_ids", []).has(class_id)
 
+func is_class_playable(class_id: String) -> bool:
+	var cls: Dictionary = config_service.get_def("classes", class_id)
+	return is_class_unlocked(class_id) and bool(cls.get("enabled_in_first_playable", false))
+
+func class_unlock_label(cls: Dictionary) -> String:
+	var class_id := String(cls.get("id", ""))
+	if class_id == "hr" and not bool(cls.get("enabled_in_first_playable", false)):
+		return "扩展预留：击败变异HR后开放完整战斗系统"
+	match String(cls.get("unlock_type", "")):
+		"default":
+			return "默认开放"
+		"boss_defeated":
+			return "击败 Boss：%s" % _boss_name(String(cls.get("unlock_param", "")))
+		"elite_wins":
+			return "累计击败精英：%d 场" % int(cls.get("unlock_param", "0"))
+		"event_count":
+			return "累计解决随机事件：%d 次" % int(cls.get("unlock_param", "0"))
+		"reach_floor":
+			return "到达顶层"
+		_:
+			return "解锁条件未配置"
+
+func class_unlock_progress(cls: Dictionary) -> String:
+	var milestones: Dictionary = meta_state.get("career_milestones", {})
+	var bosses: Array = meta_state.get("defeated_boss_records", [])
+	match String(cls.get("unlock_type", "")):
+		"default":
+			return "已满足"
+		"boss_defeated":
+			var boss_id := String(cls.get("unlock_param", ""))
+			return "已击败" if bosses.has(boss_id) else "未击败"
+		"elite_wins":
+			var required_elites := int(cls.get("unlock_param", "0"))
+			return "%d/%d" % [int(milestones.get("elite_wins", 0)), required_elites]
+		"event_count":
+			var required_events := int(cls.get("unlock_param", "0"))
+			return "%d/%d" % [int(milestones.get("events_resolved", 0)), required_events]
+		"reach_floor":
+			return "%d/18F" % int(milestones.get("highest_floor_reached", meta_state.get("highest_floor_reached", 1)))
+		_:
+			return "-"
+
+func class_availability_label(cls: Dictionary) -> String:
+	var class_id := String(cls.get("id", ""))
+	if is_class_playable(class_id):
+		return "可出战"
+	if is_class_unlocked(class_id) and not bool(cls.get("enabled_in_first_playable", false)):
+		return "扩展占位"
+	if bool(cls.get("enabled_in_first_playable", false)):
+		return "未解锁"
+	return "未开放"
+
 func get_upgrade_level(upgrade_id: String) -> int:
 	return int(meta_state.get("meta_upgrade_levels", {}).get(upgrade_id, 0))
 
@@ -94,6 +146,12 @@ func settle_run(run_state: Dictionary, victory: bool) -> int:
 	}
 	save_service.save_meta(meta_state)
 	return earned
+
+func _boss_name(boss_id: String) -> String:
+	if boss_id.is_empty():
+		return "指定 Boss"
+	var enemy: Dictionary = config_service.get_def("enemies", boss_id)
+	return String(enemy.get("name", boss_id))
 
 func _unlock_available_careers() -> void:
 	var unlocked: Array = meta_state.get("unlocked_class_ids", [])

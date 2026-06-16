@@ -1,0 +1,50 @@
+[
+  {
+    "id": "node_normal",
+    "chapter": 0,
+    "node_type": "normal_battle",
+    "weight": 45,
+    "can_repeat": true,
+    "reward_profile_id": "reward_default"
+  },
+  {
+    "id": "node_elite",
+    "chapter": 0,
+    "node_type": "elite_battle",
+    "weight": 12,
+    "can_repeat": true,
+    "reward_profile_id": "reward_default"
+  },
+  {
+    "id": "node_rest",
+    "chapter": 0,
+    "node_type": "rest",
+    "weight": 14,
+    "can_repeat": true,
+    "reward_profile_id": "reward_default"
+  },
+  {
+    "id": "node_shop",
+    "chapter": 0,
+    "node_type": "shop",
+    "weight": 12,
+    "can_repeat": true,
+    "reward_profile_id": "reward_default"
+  },
+  {
+    "id": "node_event",
+    "chapter": 0,
+    "node_type": "event",
+    "weight": 17,
+    "can_repeat": true,
+    "reward_profile_id": "reward_default"
+  },
+  {
+    "id": "node_boss",
+    "chapter": 0,
+    "node_type": "boss",
+    "weight": 1,
+    "can_repeat": true,
+    "reward_profile_id": "reward_default"
+  }
+]

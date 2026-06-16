@@ -1,0 +1,19 @@
+##var,full_name,value_type,read_schema_from_file,input,index,mode,comment,group,tags,output
+##type,string,string,bool,string,string,string,string,string,string,string
+##group,c,c,c,c,c,c,c,c,c,c
+##comment,full_name,value_type,read_schema_from_file,input,index,mode,comment,group,tags,output
+,TbClassDef,ClassDef,true,ClassDef.csv,id,map,ClassDef table,c,,ClassDef
+,TbCardDef,CardDef,true,CardDef.csv,id,map,CardDef table,c,,CardDef
+,TbRelicDef,RelicDef,true,RelicDef.csv,id,map,RelicDef table,c,,RelicDef
+,TbEnemyDef,EnemyDef,true,EnemyDef.csv,id,map,EnemyDef table,c,,EnemyDef
+,TbEncounterDef,EncounterDef,true,EncounterDef.csv,id,map,EncounterDef table,c,,EncounterDef
+,TbMapNodeDef,MapNodeDef,true,MapNodeDef.csv,id,map,MapNodeDef table,c,,MapNodeDef
+,TbEventDef,EventDef,true,EventDef.csv,id,map,EventDef table,c,,EventDef
+,TbStatusDef,StatusDef,true,StatusDef.csv,id,map,StatusDef table,c,,StatusDef
+,TbMetaUpgradeDef,MetaUpgradeDef,true,MetaUpgradeDef.csv,id,map,MetaUpgradeDef table,c,,MetaUpgradeDef
+,TbEffectGroupDef,EffectGroupDef,true,EffectGroupDef.csv,id,map,EffectGroupDef table,c,,EffectGroupDef
+,TbEffectEntryDef,EffectEntryDef,true,EffectEntryDef.csv,id,map,EffectEntryDef table,c,,EffectEntryDef
+,TbEnemyIntentGroupDef,EnemyIntentGroupDef,true,EnemyIntentGroupDef.csv,id,map,EnemyIntentGroupDef table,c,,EnemyIntentGroupDef
+,TbPhaseGroupDef,PhaseGroupDef,true,PhaseGroupDef.csv,id,map,PhaseGroupDef table,c,,PhaseGroupDef
+,TbRewardProfileDef,RewardProfileDef,true,RewardProfileDef.csv,id,map,RewardProfileDef table,c,,RewardProfileDef
+,TbShopPoolDef,ShopPoolDef,true,ShopPoolDef.csv,id,map,ShopPoolDef table,c,,ShopPoolDef

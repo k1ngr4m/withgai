@@ -1,16 +1,16 @@
-id,type,name,cost_curve,max_level,effect_group_id,prerequisite_ids,description
-string,string,string,json,int,string,json,string
-c,c,c,c,c,c,c,c
-## id,## type,## name,## cost_curve,## max_level,## effect_group_id,## prerequisite_ids,## description
-meta_chair,global_upgrade,人体工学椅,"[20,40,80]",3,,[],开局最大精神状态提升。
-meta_privacy_screen,global_upgrade,防窥膜,"[20,45,90]",3,,[],战斗开始获得少量防线。
-meta_coffee_beans,global_upgrade,极品咖啡豆,"[30,60]",2,,[],首回合精力表现提升。
-meta_hard_drive,global_upgrade,扩容硬盘,"[30,60]",2,,[],首回合额外抽牌。
-meta_nap_bed,global_upgrade,午休折叠床,"[20,45,90]",3,,[],休息处恢复量增加。
-meta_canteen_card,global_upgrade,员工食堂月卡,"[25,50]",2,,[],商店首次消费折扣。
-unlock_backend,career_unlock,后端,[0],1,,[],默认开放。
-unlock_frontend,career_unlock,前端,[0],1,,[],First Playable 开放。
-unlock_tester,career_unlock,测试,[0],1,,[],First Playable 开放。
-unlock_algorithm,career_unlock,算法,[0],1,,[],First Playable 开放。
-unlock_product_manager,career_unlock,产品经理,[0],1,,[],First Playable 开放。
-unlock_hr,career_unlock,HR,[999],1,,[],扩展职业，当前只展示。
+##var,id,type,name,cost_curve#format=json,max_level,effect_group_id,prerequisite_ids#format=json,description
+##type,string,string,string,"list,int",int,string,"list,string",string
+##group,c,c,c,c,c,c,c,c
+##comment,id,type,name,cost_curve,max_level,effect_group_id,prerequisite_ids,description
+,meta_chair,global_upgrade,人体工学椅,"[20,40,80]",3,,[],开局最大精神状态提升。
+,meta_privacy_screen,global_upgrade,防窥膜,"[20,45,90]",3,,[],战斗开始获得少量防线。
+,meta_coffee_beans,global_upgrade,极品咖啡豆,"[30,60]",2,,[],首回合精力表现提升。
+,meta_hard_drive,global_upgrade,扩容硬盘,"[30,60]",2,,[],首回合额外抽牌。
+,meta_nap_bed,global_upgrade,午休折叠床,"[20,45,90]",3,,[],休息处恢复量增加。
+,meta_canteen_card,global_upgrade,员工食堂月卡,"[25,50]",2,,[],商店首次消费折扣。
+,unlock_backend,career_unlock,后端,[0],1,,[],默认开放。
+,unlock_frontend,career_unlock,前端,[0],1,,[],First Playable 开放。
+,unlock_tester,career_unlock,测试,[0],1,,[],First Playable 开放。
+,unlock_algorithm,career_unlock,算法,[0],1,,[],First Playable 开放。
+,unlock_product_manager,career_unlock,产品经理,[0],1,,[],First Playable 开放。
+,unlock_hr,career_unlock,HR,[999],1,,[],扩展职业，当前只展示。

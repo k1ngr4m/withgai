@@ -4,8 +4,10 @@ import path from "node:path";
 const root = process.cwd();
 const dataOut = path.join(root, "Data", "Generated", "Config");
 const tablesOut = path.join(root, "DataTables", "Datas");
+const definesOut = path.join(root, "DataTables", "Defines");
 fs.mkdirSync(dataOut, { recursive: true });
 fs.mkdirSync(tablesOut, { recursive: true });
+fs.mkdirSync(definesOut, { recursive: true });
 
 const classDefs = [
   ["backend", "后端", "programmer", 1, "default", "", "relic_backend_gray_release", ["card_backend_interface_probe", "card_backend_interface_probe", "card_backend_interface_probe", "card_backend_interface_probe", "card_backend_circuit_breaker", "card_backend_circuit_breaker", "card_backend_circuit_breaker", "card_backend_circuit_breaker", "card_backend_publish_script", "card_backend_hotfix_rollback"], ["programmer_shared"], 1, true, "稳健、防守、服务引擎", "#3AA7A3"],
@@ -440,7 +442,29 @@ const statuses = [
   ["service_online", "服务在线", "class"], ["cache", "缓存", "class"], ["component", "组件", "class"], ["style_layer", "样式层", "class"],
   ["bug", "Bug", "class"], ["case_mark", "用例", "class"], ["diff", "Diff", "class"], ["compute", "算力", "class"], ["complexity", "复杂度", "class"],
   ["requirement_change", "需求变更", "class"], ["priority", "优先级", "class"], ["performance", "绩效", "class"], ["optimization_target", "优化名单", "class"],
-].map(([id, name, type]) => ({ id, name, stack_rule: "stack", timing_hooks: [], effect_group_id: "", max_stack: 99, is_hidden: false, type }));
+];
+const statusTimingHooks = {
+  anxiety: ["round_start", "expire"],
+  overtime: ["round_start", "expire"],
+  vulnerable: ["damage_taken", "round_end", "enemy_action_end", "expire"],
+  weak: ["deal_damage", "round_end", "enemy_action_end", "expire"],
+  service_online: ["round_start", "round_end"],
+  style_layer: ["deal_damage"],
+  bug: ["enemy_before_action", "enemy_action_end", "expire"],
+  case_mark: ["deal_damage"],
+  priority: ["target_resolution"],
+  requirement_change: ["apply_status", "modify_intent"],
+};
+const statusList = statuses.map(([id, name, type]) => ({
+  id,
+  name,
+  stack_rule: "stack",
+  timing_hooks: statusTimingHooks[id] ?? [],
+  effect_group_id: "",
+  max_stack: 99,
+  is_hidden: false,
+  type,
+}));
 
 const metaUpgrades = [
   ["meta_chair", "人体工学椅", "global_upgrade", [20, 40, 80], 3, "开局最大精神状态提升。"],
@@ -482,7 +506,7 @@ const config = {
   encounters: Object.fromEntries(encounters.map((e) => [e.id, e])),
   map_nodes: Object.fromEntries(mapNodes.map((n) => [n.id, n])),
   events: Object.fromEntries(events.map((e) => [e.id, e])),
-  statuses: Object.fromEntries(statuses.map((s) => [s.id, s])),
+  statuses: Object.fromEntries(statusList.map((s) => [s.id, s])),
   meta_upgrades: Object.fromEntries(metaUpgrades.map((m) => [m.id, m])),
   effect_groups: effectGroups,
   effect_entries: Object.fromEntries(effectEntries.map((e) => [e.id, e])),
@@ -499,21 +523,41 @@ function csvEscape(v) {
   v = String(v ?? "");
   return /[",\n]/.test(v) ? `"${v.replaceAll('"', '""')}"` : v;
 }
-function csvType(rows, col) {
+const lubanJsonTypes = {
+  CardDef: { class_tags: "list,string", keywords: "list,string" },
+  ClassDef: { starter_deck: "list,string", shared_pool_refs: "list,string" },
+  EffectEntryDef: { params: "EffectParams" },
+  EffectGroupDef: { entry_ids: "list,string" },
+  EncounterDef: { enemy_ids: "list,string" },
+  EnemyDef: { chapter_tags: "list,int" },
+  EnemyIntentGroupDef: { intent_entries: "list,IntentEntry" },
+  EventDef: { chapter_tags: "list,int", allowed_classes: "list,string", options: "list,EventOption" },
+  MetaUpgradeDef: { cost_curve: "list,int", prerequisite_ids: "list,string" },
+  PhaseGroupDef: { phase_entries: "list,PhaseEntry" },
+  RelicDef: { allowed_classes: "list,string", trigger_list: "list,string" },
+  RewardProfileDef: { currency_range: "list,int" },
+  ShopPoolDef: { card_pool_refs: "list,string", relic_pool_refs: "list,string" },
+  StatusDef: { timing_hooks: "list,string" },
+};
+function csvType(tableName, rows, col) {
+  if (lubanJsonTypes[tableName]?.[col]) return lubanJsonTypes[tableName][col];
   const values = rows.map((row) => row[col]).filter((value) => value !== undefined && value !== null && value !== "");
   if (values.length === 0) return "string";
   if (values.every((value) => typeof value === "boolean")) return "bool";
   if (values.every((value) => Number.isInteger(value))) return "int";
-  if (values.some((value) => Array.isArray(value) || (typeof value === "object" && value !== null))) return "json";
+  if (values.some((value) => Array.isArray(value) || (typeof value === "object" && value !== null))) {
+    throw new Error(`Missing Luban type override for ${tableName}.${col}`);
+  }
   return "string";
 }
 function writeCsv(name, rows, cols) {
+  const fieldNames = cols.map((c) => lubanJsonTypes[name]?.[c] ? `${c}#format=json` : c);
   const lines = [
-    cols.join(","),
-    cols.map((c) => csvType(rows, c)).join(","),
-    cols.map(() => "c").join(","),
-    cols.map((c) => `## ${c}`).join(","),
-    ...rows.map((r) => cols.map((c) => csvEscape(r[c])).join(",")),
+    ["##var", ...fieldNames].map(csvEscape).join(","),
+    ["##type", ...cols.map((c) => csvType(name, rows, c))].map(csvEscape).join(","),
+    ["##group", ...cols.map(() => "c")].map(csvEscape).join(","),
+    ["##comment", ...cols].map(csvEscape).join(","),
+    ...rows.map((r) => ["", ...cols.map((c) => csvEscape(r[c]))].join(",")),
   ];
   fs.writeFileSync(path.join(tablesOut, `${name}.csv`), lines.join("\n") + "\n");
 }
@@ -539,17 +583,94 @@ for (const [name, rows, cols] of tableDefs) {
   writeCsv(name, rows, cols);
 }
 
-const manifest = ["name,file", ...tableDefs.map(([name]) => `${name},Datas/${name}.csv`)].join("\n") + "\n";
-fs.writeFileSync(path.join(root, "DataTables", "__tables__.csv"), manifest);
+const tableSchemaColumns = ["full_name", "value_type", "read_schema_from_file", "input", "index", "mode", "comment", "group", "tags", "output"];
+const tableSchemaRows = tableDefs.map(([name]) => ({
+  full_name: `Tb${name}`,
+  value_type: name,
+  read_schema_from_file: true,
+  input: `${name}.csv`,
+  index: "id",
+  mode: "map",
+  comment: `${name} table`,
+  group: "c",
+  tags: "",
+  output: name,
+}));
+const tableSchemaTypes = ["string", "string", "bool", "string", "string", "string", "string", "string", "string", "string"];
+const tableSchemaLines = [
+  ["##var", ...tableSchemaColumns].map(csvEscape).join(","),
+  ["##type", ...tableSchemaTypes].map(csvEscape).join(","),
+  ["##group", ...tableSchemaColumns.map(() => "c")].map(csvEscape).join(","),
+  ["##comment", ...tableSchemaColumns].map(csvEscape).join(","),
+  ...tableSchemaRows.map((row) => ["", ...tableSchemaColumns.map((c) => csvEscape(row[c]))].join(",")),
+];
+fs.writeFileSync(path.join(tablesOut, "__tables__.csv"), tableSchemaLines.join("\n") + "\n");
+
+const lubanDefines = `<module name="">
+  <bean name="EffectParams">
+    <var name="amount" type="int?"/>
+    <var name="status_id" type="string?"/>
+    <var name="card_id" type="string?"/>
+    <var name="destination" type="string?"/>
+    <var name="relic_id" type="string?"/>
+    <var name="enemy_id" type="string?"/>
+    <var name="max_allies" type="int?"/>
+    <var name="hits" type="int?"/>
+  </bean>
+  <bean name="EffectSpec">
+    <var name="effect_type" type="string"/>
+    <var name="target_type" type="string"/>
+    <var name="params" type="EffectParams"/>
+  </bean>
+  <bean name="EventOption">
+    <var name="text" type="string"/>
+    <var name="effects" type="list,EffectSpec"/>
+  </bean>
+  <bean name="IntentEntry">
+    <var name="intent_type" type="string"/>
+    <var name="amount" type="int"/>
+    <var name="weight" type="int?"/>
+    <var name="status_id" type="string?"/>
+    <var name="hits" type="int?"/>
+    <var name="card_id" type="string?"/>
+    <var name="destination" type="string?"/>
+    <var name="enemy_id" type="string?"/>
+    <var name="max_allies" type="int?"/>
+  </bean>
+  <bean name="PhaseAction">
+    <var name="action_type" type="string"/>
+    <var name="amount" type="int?"/>
+    <var name="status_id" type="string?"/>
+    <var name="enemy_id" type="string?"/>
+    <var name="max_allies" type="int?"/>
+    <var name="card_id" type="string?"/>
+    <var name="destination" type="string?"/>
+    <var name="intent" type="IntentEntry?"/>
+  </bean>
+  <bean name="PhaseEntry">
+    <var name="id" type="string"/>
+    <var name="name" type="string"/>
+    <var name="order" type="int"/>
+    <var name="threshold_pct" type="float"/>
+    <var name="actions" type="list,PhaseAction"/>
+  </bean>
+</module>
+`;
+fs.writeFileSync(path.join(definesOut, "withgai.xml"), lubanDefines);
 
 const lubanConf = {
   groups: [
-    {
-      name: "client",
-      default: true,
-      tables: tableDefs.map(([name]) => ({ name, input: `Datas/${name}.csv` })),
-    },
+    { names: ["c"], default: true },
   ],
+  schemaFiles: [
+    { fileName: "Defines", type: "" },
+    { fileName: "Datas/__tables__.csv", type: "table" },
+  ],
+  dataDir: "Datas",
+  targets: [
+    { name: "client", manager: "Tables", groups: ["c"], topModule: "cfg" },
+  ],
+  xargs: [],
 };
 fs.writeFileSync(path.join(root, "DataTables", "luban.conf"), `${JSON.stringify(lubanConf, null, 2)}\n`);
 console.log(`Generated ${Object.keys(config.cards).length} cards, ${Object.keys(config.enemies).length} enemies, ${Object.keys(config.events).length} events.`);

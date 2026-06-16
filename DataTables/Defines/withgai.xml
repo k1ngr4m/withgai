@@ -1,0 +1,49 @@
+<module name="">
+  <bean name="EffectParams">
+    <var name="amount" type="int?"/>
+    <var name="status_id" type="string?"/>
+    <var name="card_id" type="string?"/>
+    <var name="destination" type="string?"/>
+    <var name="relic_id" type="string?"/>
+    <var name="enemy_id" type="string?"/>
+    <var name="max_allies" type="int?"/>
+    <var name="hits" type="int?"/>
+  </bean>
+  <bean name="EffectSpec">
+    <var name="effect_type" type="string"/>
+    <var name="target_type" type="string"/>
+    <var name="params" type="EffectParams"/>
+  </bean>
+  <bean name="EventOption">
+    <var name="text" type="string"/>
+    <var name="effects" type="list,EffectSpec"/>
+  </bean>
+  <bean name="IntentEntry">
+    <var name="intent_type" type="string"/>
+    <var name="amount" type="int"/>
+    <var name="weight" type="int?"/>
+    <var name="status_id" type="string?"/>
+    <var name="hits" type="int?"/>
+    <var name="card_id" type="string?"/>
+    <var name="destination" type="string?"/>
+    <var name="enemy_id" type="string?"/>
+    <var name="max_allies" type="int?"/>
+  </bean>
+  <bean name="PhaseAction">
+    <var name="action_type" type="string"/>
+    <var name="amount" type="int?"/>
+    <var name="status_id" type="string?"/>
+    <var name="enemy_id" type="string?"/>
+    <var name="max_allies" type="int?"/>
+    <var name="card_id" type="string?"/>
+    <var name="destination" type="string?"/>
+    <var name="intent" type="IntentEntry?"/>
+  </bean>
+  <bean name="PhaseEntry">
+    <var name="id" type="string"/>
+    <var name="name" type="string"/>
+    <var name="order" type="int"/>
+    <var name="threshold_pct" type="float"/>
+    <var name="actions" type="list,PhaseAction"/>
+  </bean>
+</module>

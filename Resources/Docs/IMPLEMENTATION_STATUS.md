@@ -4,6 +4,22 @@
 
 ### Implemented
 
+- Main menu has been upgraded from a plain button list to a full first-screen UI:
+  - full-screen generated office background with dark readability overlay
+  - title, subtitle, playable-content counters, current suspend-save status
+  - right-side action panel for new run, continue, meta progression, and exit
+  - bottom five-class preview strip using existing class portrait assets and class colors
+- Career unlock tree presentation now has reusable `MetaProgressionService` helpers for class availability, unlock condition text, and milestone progress.
+- `ClassSelectScene` now shows each class status, unlock condition, and current progress while keeping HR visible but not battle-playable.
+- `MetaProgressionScene` now renders the career tree as readable class nodes with difficulty, summary, unlock condition, current progress, and HR expansion-placeholder messaging.
+- Real Luban generation is now wired into the project-local data pipeline:
+  - `DataTables/gen_client.sh` auto-detects `Tools/Luban/Luban.dll`
+  - uses `.NET SDK 8` from `~/.dotnet/dotnet` when the default `dotnet` is older
+  - emits per-table JSON into `Data/Generated/Config/*.json`
+  - emits GDScript schema output into `Scripts/Generated/Config`
+  - repacks the generated tables into the runtime `Data/Generated/Config/game_config.json` through `Tools/pack_luban_config.mjs`
+- `StatusDef.timing_hooks` now declares live runtime hooks for core debuffs and representative class statuses, including anxiety/overtime round-start hooks, weak/vulnerable damage hooks, service round hooks, and targeting/status-resource hooks.
+- Automated combat coverage now verifies anxiety round-start energy loss and decay in addition to weak, vulnerable, and overtime behavior.
 - Programmer shared utility cards now have concrete data-driven effects:
   - `card_shared_rollback` gains block and clears weak, vulnerable, and anxiety while leaving heavier statuses intact.
   - `card_shared_standup` gains block, draws a replacement card, and refunds energy.
@@ -23,8 +39,11 @@ DataTables/gen_client.sh
 
 Result:
 
-- `DataTables/gen_client.sh` completed through the existing prototype fallback generator.
+- `DataTables/gen_client.sh` completed through real Luban generation using `Tools/Luban/Luban.dll` and `.NET SDK 8`.
 - Godot test runner completed with `TEST_RESULT: PASSED`.
+- Godot test runner now checks `StatusDef.timing_hooks` declarations for anxiety, overtime, weak, vulnerable, and service online.
+- Godot test runner now checks career-tree labels, HR non-playable status, and milestone progress text.
+- Godot MCP `get_project_info` reports Godot `4.6.1.stable.official.14d19694e`, 11 scenes, and 25 scripts.
 - Godot MCP `run_project` + `get_debug_output` verified project startup with empty `errors`.
 
 ## 2026-06-15
@@ -128,11 +147,10 @@ Godot MCP verified:
 - Godot CLI works at `/Applications/Godot.app/Contents/MacOS/Godot`.
 - Codex MCP config has been updated for `@coding-solo/godot-mcp` using `command = "npx"`, `args = ["@coding-solo/godot-mcp"]`, `DEBUG = "true"`, and `GODOT_PATH = "/Applications/Godot.app/Contents/MacOS/Godot"`.
 - The current Codex tool layer exposes Godot MCP, and project startup has been verified through MCP.
-- Local `.NET SDK` is `7.0.200`; Luban 4.x requires `.NET SDK 8+`.
-- `DataTables/gen_client.sh` supports real Luban generation when `LUBAN_DLL` is set. Without it, it refreshes prototype runtime JSON through `Tools/build_config.mjs`.
+- Local default `dotnet` is still `7.0.200`, but `.NET SDK 8.0.422` is available at `~/.dotnet/dotnet`.
+- `DataTables/gen_client.sh` supports real Luban generation through `Tools/Luban/Luban.dll` or `LUBAN_DLL`. Without Luban it still refreshes prototype runtime JSON through `Tools/build_config.mjs`.
 
 ### Remaining Gaps Toward Full Game
 
-- Real Luban 4.x generation has not been executed in this environment because `.NET SDK 8+` and `LUBAN_DLL` are not available.
-- Combat balance, full status hook matrix, remaining relic triggers, and full visual polish remain prototype-level.
+- Combat balance, full status hook matrix, and full visual polish remain prototype-level.
 - Missing P0 representative card illustrations are still represented by placeholder card UI.

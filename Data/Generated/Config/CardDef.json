@@ -1,0 +1,3323 @@
+[
+  {
+    "id": "card_backend_interface_probe",
+    "name": "接口打点",
+    "class_tags": [
+      "backend"
+    ],
+    "rarity": "common",
+    "type": "attack",
+    "cost": 1,
+    "target_type": "single_enemy",
+    "keywords": [],
+    "effect_group_id": "eg_card_backend_interface_probe",
+    "upgrade_to": "card_backend_interface_probe_plus",
+    "enabled_in_first_playable": true,
+    "description": "接口打点：造成伤害。",
+    "art_path": ""
+  },
+  {
+    "id": "card_backend_circuit_breaker",
+    "name": "熔断保护",
+    "class_tags": [
+      "backend"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_backend_circuit_breaker",
+    "upgrade_to": "card_backend_circuit_breaker_plus",
+    "enabled_in_first_playable": true,
+    "description": "熔断保护：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_backend_publish_script",
+    "name": "发布脚本",
+    "class_tags": [
+      "backend"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_backend_publish_script",
+    "upgrade_to": "card_backend_publish_script_plus",
+    "enabled_in_first_playable": true,
+    "description": "发布脚本：获得防线并触发职业资源。",
+    "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_backend_publish_script_v1/final.png"
+  },
+  {
+    "id": "card_backend_hotfix_rollback",
+    "name": "热修复回滚",
+    "class_tags": [
+      "backend"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 0,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_backend_hotfix_rollback",
+    "upgrade_to": "card_backend_hotfix_rollback_plus",
+    "enabled_in_first_playable": true,
+    "description": "热修复回滚：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_backend_cache_hit",
+    "name": "缓存命中",
+    "class_tags": [
+      "backend"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_backend_cache_hit",
+    "upgrade_to": "card_backend_cache_hit_plus",
+    "enabled_in_first_playable": true,
+    "description": "缓存命中：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_backend_log_collect",
+    "name": "日志收集",
+    "class_tags": [
+      "backend"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_backend_log_collect",
+    "upgrade_to": "card_backend_log_collect_plus",
+    "enabled_in_first_playable": true,
+    "description": "日志收集：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_backend_timeout_retry",
+    "name": "超时重试",
+    "class_tags": [
+      "backend"
+    ],
+    "rarity": "common",
+    "type": "attack",
+    "cost": 1,
+    "target_type": "single_enemy",
+    "keywords": [],
+    "effect_group_id": "eg_card_backend_timeout_retry",
+    "upgrade_to": "card_backend_timeout_retry_plus",
+    "enabled_in_first_playable": true,
+    "description": "超时重试：造成伤害。",
+    "art_path": ""
+  },
+  {
+    "id": "card_backend_service_degrade",
+    "name": "服务降级",
+    "class_tags": [
+      "backend"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 0,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_backend_service_degrade",
+    "upgrade_to": "card_backend_service_degrade_plus",
+    "enabled_in_first_playable": true,
+    "description": "服务降级：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_backend_traffic_shaping",
+    "name": "流量削峰",
+    "class_tags": [
+      "backend"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_backend_traffic_shaping",
+    "upgrade_to": "card_backend_traffic_shaping_plus",
+    "enabled_in_first_playable": true,
+    "description": "流量削峰：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_backend_request_merge",
+    "name": "请求聚合",
+    "class_tags": [
+      "backend"
+    ],
+    "rarity": "common",
+    "type": "attack",
+    "cost": 1,
+    "target_type": "single_enemy",
+    "keywords": [],
+    "effect_group_id": "eg_card_backend_request_merge",
+    "upgrade_to": "card_backend_request_merge_plus",
+    "enabled_in_first_playable": true,
+    "description": "请求聚合：造成伤害。",
+    "art_path": ""
+  },
+  {
+    "id": "card_backend_ticket_debug",
+    "name": "工单排查",
+    "class_tags": [
+      "backend"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_backend_ticket_debug",
+    "upgrade_to": "card_backend_ticket_debug_plus",
+    "enabled_in_first_playable": true,
+    "description": "工单排查：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_backend_session_keep",
+    "name": "会话保持",
+    "class_tags": [
+      "backend"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_backend_session_keep",
+    "upgrade_to": "card_backend_session_keep_plus",
+    "enabled_in_first_playable": true,
+    "description": "会话保持：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_backend_pool_maintain",
+    "name": "连接池维护",
+    "class_tags": [
+      "backend"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_backend_pool_maintain",
+    "upgrade_to": "card_backend_pool_maintain_plus",
+    "enabled_in_first_playable": true,
+    "description": "连接池维护：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_backend_read_replica",
+    "name": "只读副本",
+    "class_tags": [
+      "backend"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_backend_read_replica",
+    "upgrade_to": "card_backend_read_replica_plus",
+    "enabled_in_first_playable": true,
+    "description": "只读副本：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_backend_api_gateway",
+    "name": "API网关",
+    "class_tags": [
+      "backend"
+    ],
+    "rarity": "uncommon",
+    "type": "power",
+    "cost": 2,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_backend_api_gateway",
+    "upgrade_to": "card_backend_api_gateway_plus",
+    "enabled_in_first_playable": true,
+    "description": "API网关：建立长期收益。",
+    "art_path": ""
+  },
+  {
+    "id": "card_backend_redis_warmup",
+    "name": "Redis预热",
+    "class_tags": [
+      "backend"
+    ],
+    "rarity": "uncommon",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_backend_redis_warmup",
+    "upgrade_to": "card_backend_redis_warmup_plus",
+    "enabled_in_first_playable": true,
+    "description": "Redis预热：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_backend_message_queue",
+    "name": "消息队列堆积",
+    "class_tags": [
+      "backend"
+    ],
+    "rarity": "uncommon",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_backend_message_queue",
+    "upgrade_to": "card_backend_message_queue_plus",
+    "enabled_in_first_playable": true,
+    "description": "消息队列堆积：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_backend_sharding",
+    "name": "分库分表",
+    "class_tags": [
+      "backend"
+    ],
+    "rarity": "uncommon",
+    "type": "power",
+    "cost": 2,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_backend_sharding",
+    "upgrade_to": "card_backend_sharding_plus",
+    "enabled_in_first_playable": true,
+    "description": "分库分表：建立长期收益。",
+    "art_path": ""
+  },
+  {
+    "id": "card_backend_gray_cutover",
+    "name": "灰度切流",
+    "class_tags": [
+      "backend"
+    ],
+    "rarity": "uncommon",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_backend_gray_cutover",
+    "upgrade_to": "card_backend_gray_cutover_plus",
+    "enabled_in_first_playable": true,
+    "description": "灰度切流：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_backend_rate_limit",
+    "name": "限流策略",
+    "class_tags": [
+      "backend"
+    ],
+    "rarity": "uncommon",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_backend_rate_limit",
+    "upgrade_to": "card_backend_rate_limit_plus",
+    "enabled_in_first_playable": true,
+    "description": "限流策略：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_backend_async_compensate",
+    "name": "异步补偿",
+    "class_tags": [
+      "backend"
+    ],
+    "rarity": "uncommon",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_backend_async_compensate",
+    "upgrade_to": "card_backend_async_compensate_plus",
+    "enabled_in_first_playable": true,
+    "description": "异步补偿：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_backend_slow_query",
+    "name": "慢查询优化",
+    "class_tags": [
+      "backend"
+    ],
+    "rarity": "uncommon",
+    "type": "attack",
+    "cost": 1,
+    "target_type": "single_enemy",
+    "keywords": [],
+    "effect_group_id": "eg_card_backend_slow_query",
+    "upgrade_to": "card_backend_slow_query_plus",
+    "enabled_in_first_playable": true,
+    "description": "慢查询优化：造成伤害。",
+    "art_path": ""
+  },
+  {
+    "id": "card_backend_hot_standby",
+    "name": "双机热备",
+    "class_tags": [
+      "backend"
+    ],
+    "rarity": "uncommon",
+    "type": "skill",
+    "cost": 2,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_backend_hot_standby",
+    "upgrade_to": "card_backend_hot_standby_plus",
+    "enabled_in_first_playable": true,
+    "description": "双机热备：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_backend_container_orchestration",
+    "name": "容器编排",
+    "class_tags": [
+      "backend"
+    ],
+    "rarity": "uncommon",
+    "type": "power",
+    "cost": 2,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_backend_container_orchestration",
+    "upgrade_to": "card_backend_container_orchestration_plus",
+    "enabled_in_first_playable": true,
+    "description": "容器编排：建立长期收益。",
+    "art_path": ""
+  },
+  {
+    "id": "card_backend_flush_all",
+    "name": "全量回写",
+    "class_tags": [
+      "backend"
+    ],
+    "rarity": "rare",
+    "type": "attack",
+    "cost": 2,
+    "target_type": "single_enemy",
+    "keywords": [],
+    "effect_group_id": "eg_card_backend_flush_all",
+    "upgrade_to": "card_backend_flush_all_plus",
+    "enabled_in_first_playable": true,
+    "description": "全量回写：造成伤害。",
+    "art_path": ""
+  },
+  {
+    "id": "card_backend_cluster_scale",
+    "name": "集群扩容",
+    "class_tags": [
+      "backend"
+    ],
+    "rarity": "rare",
+    "type": "power",
+    "cost": 2,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_backend_cluster_scale",
+    "upgrade_to": "card_backend_cluster_scale_plus",
+    "enabled_in_first_playable": true,
+    "description": "集群扩容：建立长期收益。",
+    "art_path": ""
+  },
+  {
+    "id": "card_backend_lossless_release",
+    "name": "无损发布",
+    "class_tags": [
+      "backend"
+    ],
+    "rarity": "rare",
+    "type": "skill",
+    "cost": 2,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_backend_lossless_release",
+    "upgrade_to": "card_backend_lossless_release_plus",
+    "enabled_in_first_playable": true,
+    "description": "无损发布：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_backend_trace_chain",
+    "name": "追踪链路",
+    "class_tags": [
+      "backend"
+    ],
+    "rarity": "rare",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_backend_trace_chain",
+    "upgrade_to": "card_backend_trace_chain_plus",
+    "enabled_in_first_playable": true,
+    "description": "追踪链路：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_backend_disaster_recovery",
+    "name": "灾备接管",
+    "class_tags": [
+      "backend"
+    ],
+    "rarity": "rare",
+    "type": "skill",
+    "cost": 2,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_backend_disaster_recovery",
+    "upgrade_to": "card_backend_disaster_recovery_plus",
+    "enabled_in_first_playable": true,
+    "description": "灾备接管：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_backend_zero_downtime",
+    "name": "零停机升级",
+    "class_tags": [
+      "backend"
+    ],
+    "rarity": "rare",
+    "type": "power",
+    "cost": 3,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_backend_zero_downtime",
+    "upgrade_to": "card_backend_zero_downtime_plus",
+    "enabled_in_first_playable": true,
+    "description": "零停机升级：建立长期收益。",
+    "art_path": ""
+  },
+  {
+    "id": "card_frontend_pixel_tap",
+    "name": "像素敲击",
+    "class_tags": [
+      "frontend"
+    ],
+    "rarity": "common",
+    "type": "attack",
+    "cost": 1,
+    "target_type": "single_enemy",
+    "keywords": [],
+    "effect_group_id": "eg_card_frontend_pixel_tap",
+    "upgrade_to": "card_frontend_pixel_tap_plus",
+    "enabled_in_first_playable": true,
+    "description": "像素敲击：造成伤害。",
+    "art_path": ""
+  },
+  {
+    "id": "card_frontend_flex_layout",
+    "name": "Flex排版",
+    "class_tags": [
+      "frontend"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_frontend_flex_layout",
+    "upgrade_to": "card_frontend_flex_layout_plus",
+    "enabled_in_first_playable": true,
+    "description": "Flex排版：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_frontend_slice_sprint",
+    "name": "切图冲刺",
+    "class_tags": [
+      "frontend"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 0,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_frontend_slice_sprint",
+    "upgrade_to": "card_frontend_slice_sprint_plus",
+    "enabled_in_first_playable": true,
+    "description": "切图冲刺：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_frontend_hotfix_style",
+    "name": "热更新样式",
+    "class_tags": [
+      "frontend"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_frontend_hotfix_style",
+    "upgrade_to": "card_frontend_hotfix_style_plus",
+    "enabled_in_first_playable": true,
+    "description": "热更新样式：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_frontend_pixel_align",
+    "name": "像素级对齐",
+    "class_tags": [
+      "frontend"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 0,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_frontend_pixel_align",
+    "upgrade_to": "card_frontend_pixel_align_plus",
+    "enabled_in_first_playable": true,
+    "description": "像素级对齐：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_frontend_compat_patch",
+    "name": "兼容性补丁",
+    "class_tags": [
+      "frontend"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_frontend_compat_patch",
+    "upgrade_to": "card_frontend_compat_patch_plus",
+    "enabled_in_first_playable": true,
+    "description": "兼容性补丁：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_frontend_button_bounce",
+    "name": "按钮回弹",
+    "class_tags": [
+      "frontend"
+    ],
+    "rarity": "common",
+    "type": "attack",
+    "cost": 1,
+    "target_type": "single_enemy",
+    "keywords": [],
+    "effect_group_id": "eg_card_frontend_button_bounce",
+    "upgrade_to": "card_frontend_button_bounce_plus",
+    "enabled_in_first_playable": true,
+    "description": "按钮回弹：造成伤害。",
+    "art_path": ""
+  },
+  {
+    "id": "card_frontend_component_mount",
+    "name": "组件挂载",
+    "class_tags": [
+      "frontend"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_frontend_component_mount",
+    "upgrade_to": "card_frontend_component_mount_plus",
+    "enabled_in_first_playable": true,
+    "description": "组件挂载：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_frontend_css_override",
+    "name": "CSS覆盖",
+    "class_tags": [
+      "frontend"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_frontend_css_override",
+    "upgrade_to": "card_frontend_css_override_plus",
+    "enabled_in_first_playable": true,
+    "description": "CSS覆盖：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_frontend_first_screen",
+    "name": "首屏优化",
+    "class_tags": [
+      "frontend"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_frontend_first_screen",
+    "upgrade_to": "card_frontend_first_screen_plus",
+    "enabled_in_first_playable": true,
+    "description": "首屏优化：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_frontend_grid_stretch",
+    "name": "栅格拉伸",
+    "class_tags": [
+      "frontend"
+    ],
+    "rarity": "common",
+    "type": "attack",
+    "cost": 1,
+    "target_type": "single_enemy",
+    "keywords": [],
+    "effect_group_id": "eg_card_frontend_grid_stretch",
+    "upgrade_to": "card_frontend_grid_stretch_plus",
+    "enabled_in_first_playable": true,
+    "description": "栅格拉伸：造成伤害。",
+    "art_path": ""
+  },
+  {
+    "id": "card_frontend_event_bubble",
+    "name": "事件冒泡",
+    "class_tags": [
+      "frontend"
+    ],
+    "rarity": "common",
+    "type": "attack",
+    "cost": 1,
+    "target_type": "single_enemy",
+    "keywords": [],
+    "effect_group_id": "eg_card_frontend_event_bubble",
+    "upgrade_to": "card_frontend_event_bubble_plus",
+    "enabled_in_first_playable": true,
+    "description": "事件冒泡：造成伤害。",
+    "art_path": ""
+  },
+  {
+    "id": "card_frontend_breakpoint_adapt",
+    "name": "断点适配",
+    "class_tags": [
+      "frontend"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_frontend_breakpoint_adapt",
+    "upgrade_to": "card_frontend_breakpoint_adapt_plus",
+    "enabled_in_first_playable": true,
+    "description": "断点适配：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_frontend_tracking",
+    "name": "交互埋点",
+    "class_tags": [
+      "frontend"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_frontend_tracking",
+    "upgrade_to": "card_frontend_tracking_plus",
+    "enabled_in_first_playable": true,
+    "description": "交互埋点：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_frontend_component_reuse",
+    "name": "组件复用",
+    "class_tags": [
+      "frontend"
+    ],
+    "rarity": "uncommon",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_frontend_component_reuse",
+    "upgrade_to": "card_frontend_component_reuse_plus",
+    "enabled_in_first_playable": true,
+    "description": "组件复用：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_frontend_state_boost",
+    "name": "状态提升",
+    "class_tags": [
+      "frontend"
+    ],
+    "rarity": "uncommon",
+    "type": "power",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_frontend_state_boost",
+    "upgrade_to": "card_frontend_state_boost_plus",
+    "enabled_in_first_playable": true,
+    "description": "状态提升：建立长期收益。",
+    "art_path": ""
+  },
+  {
+    "id": "card_frontend_motion_overload",
+    "name": "动效超载",
+    "class_tags": [
+      "frontend"
+    ],
+    "rarity": "uncommon",
+    "type": "attack",
+    "cost": 2,
+    "target_type": "single_enemy",
+    "keywords": [],
+    "effect_group_id": "eg_card_frontend_motion_overload",
+    "upgrade_to": "card_frontend_motion_overload_plus",
+    "enabled_in_first_playable": true,
+    "description": "动效超载：造成伤害。",
+    "art_path": ""
+  },
+  {
+    "id": "card_frontend_vue_suite",
+    "name": "Vue三件套",
+    "class_tags": [
+      "frontend"
+    ],
+    "rarity": "uncommon",
+    "type": "power",
+    "cost": 2,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_frontend_vue_suite",
+    "upgrade_to": "card_frontend_vue_suite_plus",
+    "enabled_in_first_playable": true,
+    "description": "Vue三件套：建立长期收益。",
+    "art_path": ""
+  },
+  {
+    "id": "card_frontend_style_isolate",
+    "name": "样式隔离",
+    "class_tags": [
+      "frontend"
+    ],
+    "rarity": "uncommon",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_frontend_style_isolate",
+    "upgrade_to": "card_frontend_style_isolate_plus",
+    "enabled_in_first_playable": true,
+    "description": "样式隔离：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_frontend_night_theme",
+    "name": "夜间主题",
+    "class_tags": [
+      "frontend"
+    ],
+    "rarity": "uncommon",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_frontend_night_theme",
+    "upgrade_to": "card_frontend_night_theme_plus",
+    "enabled_in_first_playable": true,
+    "description": "夜间主题：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_frontend_h5_accel",
+    "name": "H5加速",
+    "class_tags": [
+      "frontend"
+    ],
+    "rarity": "uncommon",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_frontend_h5_accel",
+    "upgrade_to": "card_frontend_h5_accel_plus",
+    "enabled_in_first_playable": true,
+    "description": "H5加速：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_frontend_lazy_load",
+    "name": "懒加载",
+    "class_tags": [
+      "frontend"
+    ],
+    "rarity": "uncommon",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_frontend_lazy_load",
+    "upgrade_to": "card_frontend_lazy_load_plus",
+    "enabled_in_first_playable": true,
+    "description": "懒加载：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_frontend_design_system",
+    "name": "设计系统",
+    "class_tags": [
+      "frontend"
+    ],
+    "rarity": "uncommon",
+    "type": "power",
+    "cost": 2,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_frontend_design_system",
+    "upgrade_to": "card_frontend_design_system_plus",
+    "enabled_in_first_playable": true,
+    "description": "设计系统：建立长期收益。",
+    "art_path": ""
+  },
+  {
+    "id": "card_frontend_animation_compose",
+    "name": "动画编排",
+    "class_tags": [
+      "frontend"
+    ],
+    "rarity": "uncommon",
+    "type": "attack",
+    "cost": 2,
+    "target_type": "single_enemy",
+    "keywords": [],
+    "effect_group_id": "eg_card_frontend_animation_compose",
+    "upgrade_to": "card_frontend_animation_compose_plus",
+    "enabled_in_first_playable": true,
+    "description": "动画编排：造成伤害。",
+    "art_path": ""
+  },
+  {
+    "id": "card_frontend_crash_animation",
+    "name": "崩溃动画",
+    "class_tags": [
+      "frontend"
+    ],
+    "rarity": "rare",
+    "type": "attack",
+    "cost": 2,
+    "target_type": "single_enemy",
+    "keywords": [],
+    "effect_group_id": "eg_card_frontend_crash_animation",
+    "upgrade_to": "card_frontend_crash_animation_plus",
+    "enabled_in_first_playable": true,
+    "description": "崩溃动画：造成伤害。",
+    "art_path": ""
+  },
+  {
+    "id": "card_frontend_site_refactor",
+    "name": "全站重构",
+    "class_tags": [
+      "frontend"
+    ],
+    "rarity": "rare",
+    "type": "power",
+    "cost": 3,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_frontend_site_refactor",
+    "upgrade_to": "card_frontend_site_refactor_plus",
+    "enabled_in_first_playable": true,
+    "description": "全站重构：建立长期收益。",
+    "art_path": ""
+  },
+  {
+    "id": "card_frontend_cross_platform",
+    "name": "跨端统一",
+    "class_tags": [
+      "frontend"
+    ],
+    "rarity": "rare",
+    "type": "skill",
+    "cost": 2,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_frontend_cross_platform",
+    "upgrade_to": "card_frontend_cross_platform_plus",
+    "enabled_in_first_playable": true,
+    "description": "跨端统一：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_frontend_ssr",
+    "name": "SSR直出",
+    "class_tags": [
+      "frontend"
+    ],
+    "rarity": "rare",
+    "type": "skill",
+    "cost": 2,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_frontend_ssr",
+    "upgrade_to": "card_frontend_ssr_plus",
+    "enabled_in_first_playable": true,
+    "description": "SSR直出：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_frontend_visual_climax",
+    "name": "视觉高潮",
+    "class_tags": [
+      "frontend"
+    ],
+    "rarity": "rare",
+    "type": "attack",
+    "cost": 3,
+    "target_type": "single_enemy",
+    "keywords": [],
+    "effect_group_id": "eg_card_frontend_visual_climax",
+    "upgrade_to": "card_frontend_visual_climax_plus",
+    "enabled_in_first_playable": true,
+    "description": "视觉高潮：造成伤害。",
+    "art_path": ""
+  },
+  {
+    "id": "card_frontend_infinite_scroll",
+    "name": "无限滚动",
+    "class_tags": [
+      "frontend"
+    ],
+    "rarity": "rare",
+    "type": "power",
+    "cost": 2,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_frontend_infinite_scroll",
+    "upgrade_to": "card_frontend_infinite_scroll_plus",
+    "enabled_in_first_playable": true,
+    "description": "无限滚动：建立长期收益。",
+    "art_path": ""
+  },
+  {
+    "id": "card_tester_defect_log",
+    "name": "缺陷登记",
+    "class_tags": [
+      "tester"
+    ],
+    "rarity": "common",
+    "type": "attack",
+    "cost": 1,
+    "target_type": "single_enemy",
+    "keywords": [],
+    "effect_group_id": "eg_card_tester_defect_log",
+    "upgrade_to": "card_tester_defect_log_plus",
+    "enabled_in_first_playable": true,
+    "description": "缺陷登记：造成伤害。",
+    "art_path": ""
+  },
+  {
+    "id": "card_tester_smoke_test",
+    "name": "冒烟测试",
+    "class_tags": [
+      "tester"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_tester_smoke_test",
+    "upgrade_to": "card_tester_smoke_test_plus",
+    "enabled_in_first_playable": true,
+    "description": "冒烟测试：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_tester_repro_steps",
+    "name": "复现步骤",
+    "class_tags": [
+      "tester"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_tester_repro_steps",
+    "upgrade_to": "card_tester_repro_steps_plus",
+    "enabled_in_first_playable": true,
+    "description": "复现步骤：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_tester_regression_confirm",
+    "name": "回归确认",
+    "class_tags": [
+      "tester"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 0,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_tester_regression_confirm",
+    "upgrade_to": "card_tester_regression_confirm_plus",
+    "enabled_in_first_playable": true,
+    "description": "回归确认：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_tester_assert_fail",
+    "name": "断言失败",
+    "class_tags": [
+      "tester"
+    ],
+    "rarity": "common",
+    "type": "attack",
+    "cost": 1,
+    "target_type": "single_enemy",
+    "keywords": [],
+    "effect_group_id": "eg_card_tester_assert_fail",
+    "upgrade_to": "card_tester_assert_fail_plus",
+    "enabled_in_first_playable": true,
+    "description": "断言失败：造成伤害。",
+    "art_path": ""
+  },
+  {
+    "id": "card_tester_boundary_check",
+    "name": "边界值校验",
+    "class_tags": [
+      "tester"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 0,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_tester_boundary_check",
+    "upgrade_to": "card_tester_boundary_check_plus",
+    "enabled_in_first_playable": true,
+    "description": "边界值校验：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_tester_log_screenshot",
+    "name": "日志截图",
+    "class_tags": [
+      "tester"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_tester_log_screenshot",
+    "upgrade_to": "card_tester_log_screenshot_plus",
+    "enabled_in_first_playable": true,
+    "description": "日志截图：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_tester_env_reset",
+    "name": "环境重置",
+    "class_tags": [
+      "tester"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_tester_env_reset",
+    "upgrade_to": "card_tester_env_reset_plus",
+    "enabled_in_first_playable": true,
+    "description": "环境重置：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_tester_version_compare",
+    "name": "版本比对",
+    "class_tags": [
+      "tester"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_tester_version_compare",
+    "upgrade_to": "card_tester_version_compare_plus",
+    "enabled_in_first_playable": true,
+    "description": "版本比对：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_tester_whitebox",
+    "name": "白盒排查",
+    "class_tags": [
+      "tester"
+    ],
+    "rarity": "common",
+    "type": "attack",
+    "cost": 1,
+    "target_type": "single_enemy",
+    "keywords": [],
+    "effect_group_id": "eg_card_tester_whitebox",
+    "upgrade_to": "card_tester_whitebox_plus",
+    "enabled_in_first_playable": true,
+    "description": "白盒排查：造成伤害。",
+    "art_path": ""
+  },
+  {
+    "id": "card_tester_blackbox",
+    "name": "黑盒巡检",
+    "class_tags": [
+      "tester"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_tester_blackbox",
+    "upgrade_to": "card_tester_blackbox_plus",
+    "enabled_in_first_playable": true,
+    "description": "黑盒巡检：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_tester_case_add",
+    "name": "Case补录",
+    "class_tags": [
+      "tester"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_tester_case_add",
+    "upgrade_to": "card_tester_case_add_plus",
+    "enabled_in_first_playable": true,
+    "description": "Case补录：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_tester_missed_test",
+    "name": "漏测补刀",
+    "class_tags": [
+      "tester"
+    ],
+    "rarity": "common",
+    "type": "attack",
+    "cost": 1,
+    "target_type": "single_enemy",
+    "keywords": [],
+    "effect_group_id": "eg_card_tester_missed_test",
+    "upgrade_to": "card_tester_missed_test_plus",
+    "enabled_in_first_playable": true,
+    "description": "漏测补刀：造成伤害。",
+    "art_path": ""
+  },
+  {
+    "id": "card_tester_ticket_chase",
+    "name": "工单追击",
+    "class_tags": [
+      "tester"
+    ],
+    "rarity": "common",
+    "type": "attack",
+    "cost": 1,
+    "target_type": "single_enemy",
+    "keywords": [],
+    "effect_group_id": "eg_card_tester_ticket_chase",
+    "upgrade_to": "card_tester_ticket_chase_plus",
+    "enabled_in_first_playable": true,
+    "description": "工单追击：造成伤害。",
+    "art_path": ""
+  },
+  {
+    "id": "card_tester_auto_regression",
+    "name": "自动化回归",
+    "class_tags": [
+      "tester"
+    ],
+    "rarity": "uncommon",
+    "type": "power",
+    "cost": 2,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_tester_auto_regression",
+    "upgrade_to": "card_tester_auto_regression_plus",
+    "enabled_in_first_playable": true,
+    "description": "自动化回归：建立长期收益。",
+    "art_path": ""
+  },
+  {
+    "id": "card_tester_bug_upgrade",
+    "name": "缺陷升级",
+    "class_tags": [
+      "tester"
+    ],
+    "rarity": "uncommon",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_tester_bug_upgrade",
+    "upgrade_to": "card_tester_bug_upgrade_plus",
+    "enabled_in_first_playable": true,
+    "description": "缺陷升级：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_tester_case_matrix",
+    "name": "用例矩阵",
+    "class_tags": [
+      "tester"
+    ],
+    "rarity": "uncommon",
+    "type": "power",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_tester_case_matrix",
+    "upgrade_to": "card_tester_case_matrix_plus",
+    "enabled_in_first_playable": true,
+    "description": "用例矩阵：建立长期收益。",
+    "art_path": ""
+  },
+  {
+    "id": "card_tester_stress_test",
+    "name": "压力测试",
+    "class_tags": [
+      "tester"
+    ],
+    "rarity": "uncommon",
+    "type": "attack",
+    "cost": 2,
+    "target_type": "single_enemy",
+    "keywords": [],
+    "effect_group_id": "eg_card_tester_stress_test",
+    "upgrade_to": "card_tester_stress_test_plus",
+    "enabled_in_first_playable": true,
+    "description": "压力测试：造成伤害。",
+    "art_path": ""
+  },
+  {
+    "id": "card_tester_stability_sample",
+    "name": "稳定性抽检",
+    "class_tags": [
+      "tester"
+    ],
+    "rarity": "uncommon",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_tester_stability_sample",
+    "upgrade_to": "card_tester_stability_sample_plus",
+    "enabled_in_first_playable": true,
+    "description": "稳定性抽检：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_tester_rollback_review",
+    "name": "回滚复盘",
+    "class_tags": [
+      "tester"
+    ],
+    "rarity": "uncommon",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_tester_rollback_review",
+    "upgrade_to": "card_tester_rollback_review_plus",
+    "enabled_in_first_playable": true,
+    "description": "回滚复盘：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_tester_smoke_recheck",
+    "name": "冒烟复检",
+    "class_tags": [
+      "tester"
+    ],
+    "rarity": "uncommon",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_tester_smoke_recheck",
+    "upgrade_to": "card_tester_smoke_recheck_plus",
+    "enabled_in_first_playable": true,
+    "description": "冒烟复检：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_tester_permission_retest",
+    "name": "权限复测",
+    "class_tags": [
+      "tester"
+    ],
+    "rarity": "uncommon",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_tester_permission_retest",
+    "upgrade_to": "card_tester_permission_retest_plus",
+    "enabled_in_first_playable": true,
+    "description": "权限复测：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_tester_night_patrol",
+    "name": "夜间巡检",
+    "class_tags": [
+      "tester"
+    ],
+    "rarity": "uncommon",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_tester_night_patrol",
+    "upgrade_to": "card_tester_night_patrol_plus",
+    "enabled_in_first_playable": true,
+    "description": "夜间巡检：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_tester_repro_harden",
+    "name": "复现加严",
+    "class_tags": [
+      "tester"
+    ],
+    "rarity": "uncommon",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_tester_repro_harden",
+    "upgrade_to": "card_tester_repro_harden_plus",
+    "enabled_in_first_playable": true,
+    "description": "复现加严：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_tester_92_bugs",
+    "name": "提交92个致命Bug",
+    "class_tags": [
+      "tester"
+    ],
+    "rarity": "rare",
+    "type": "skill",
+    "cost": 3,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_tester_92_bugs",
+    "upgrade_to": "card_tester_92_bugs_plus",
+    "enabled_in_first_playable": true,
+    "description": "提交92个致命Bug：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_tester_report_lock",
+    "name": "测试报告封板",
+    "class_tags": [
+      "tester"
+    ],
+    "rarity": "rare",
+    "type": "attack",
+    "cost": 2,
+    "target_type": "single_enemy",
+    "keywords": [],
+    "effect_group_id": "eg_card_tester_report_lock",
+    "upgrade_to": "card_tester_report_lock_plus",
+    "enabled_in_first_playable": true,
+    "description": "测试报告封板：造成伤害。",
+    "art_path": ""
+  },
+  {
+    "id": "card_tester_full_chain",
+    "name": "全链路压测",
+    "class_tags": [
+      "tester"
+    ],
+    "rarity": "rare",
+    "type": "attack",
+    "cost": 3,
+    "target_type": "single_enemy",
+    "keywords": [],
+    "effect_group_id": "eg_card_tester_full_chain",
+    "upgrade_to": "card_tester_full_chain_plus",
+    "enabled_in_first_playable": true,
+    "description": "全链路压测：造成伤害。",
+    "art_path": ""
+  },
+  {
+    "id": "card_tester_shutdown_verify",
+    "name": "停服验证",
+    "class_tags": [
+      "tester"
+    ],
+    "rarity": "rare",
+    "type": "skill",
+    "cost": 2,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_tester_shutdown_verify",
+    "upgrade_to": "card_tester_shutdown_verify_plus",
+    "enabled_in_first_playable": true,
+    "description": "停服验证：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_tester_zero_bug_fantasy",
+    "name": "零缺陷幻想",
+    "class_tags": [
+      "tester"
+    ],
+    "rarity": "rare",
+    "type": "power",
+    "cost": 2,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_tester_zero_bug_fantasy",
+    "upgrade_to": "card_tester_zero_bug_fantasy_plus",
+    "enabled_in_first_playable": true,
+    "description": "零缺陷幻想：建立长期收益。",
+    "art_path": ""
+  },
+  {
+    "id": "card_tester_release_block",
+    "name": "上线拦截",
+    "class_tags": [
+      "tester"
+    ],
+    "rarity": "rare",
+    "type": "skill",
+    "cost": 2,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_tester_release_block",
+    "upgrade_to": "card_tester_release_block_plus",
+    "enabled_in_first_playable": true,
+    "description": "上线拦截：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_algo_linear_probe",
+    "name": "线性试探",
+    "class_tags": [
+      "algorithm"
+    ],
+    "rarity": "common",
+    "type": "attack",
+    "cost": 1,
+    "target_type": "single_enemy",
+    "keywords": [],
+    "effect_group_id": "eg_card_algo_linear_probe",
+    "upgrade_to": "card_algo_linear_probe_plus",
+    "enabled_in_first_playable": true,
+    "description": "线性试探：造成伤害。",
+    "art_path": ""
+  },
+  {
+    "id": "card_algo_complexity_compress",
+    "name": "复杂度压缩",
+    "class_tags": [
+      "algorithm"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_algo_complexity_compress",
+    "upgrade_to": "card_algo_complexity_compress_plus",
+    "enabled_in_first_playable": true,
+    "description": "复杂度压缩：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_algo_heuristic_search",
+    "name": "启发式搜索",
+    "class_tags": [
+      "algorithm"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_algo_heuristic_search",
+    "upgrade_to": "card_algo_heuristic_search_plus",
+    "enabled_in_first_playable": true,
+    "description": "启发式搜索：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_algo_local_opt",
+    "name": "局部最优",
+    "class_tags": [
+      "algorithm"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 0,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_algo_local_opt",
+    "upgrade_to": "card_algo_local_opt_plus",
+    "enabled_in_first_playable": true,
+    "description": "局部最优：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_algo_greedy_sample",
+    "name": "贪心取样",
+    "class_tags": [
+      "algorithm"
+    ],
+    "rarity": "common",
+    "type": "attack",
+    "cost": 1,
+    "target_type": "single_enemy",
+    "keywords": [],
+    "effect_group_id": "eg_card_algo_greedy_sample",
+    "upgrade_to": "card_algo_greedy_sample_plus",
+    "enabled_in_first_playable": true,
+    "description": "贪心取样：造成伤害。",
+    "art_path": ""
+  },
+  {
+    "id": "card_algo_pruning",
+    "name": "剪枝优化",
+    "class_tags": [
+      "algorithm"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_algo_pruning",
+    "upgrade_to": "card_algo_pruning_plus",
+    "enabled_in_first_playable": true,
+    "description": "剪枝优化：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_algo_recursion",
+    "name": "递归下钻",
+    "class_tags": [
+      "algorithm"
+    ],
+    "rarity": "common",
+    "type": "attack",
+    "cost": 1,
+    "target_type": "single_enemy",
+    "keywords": [],
+    "effect_group_id": "eg_card_algo_recursion",
+    "upgrade_to": "card_algo_recursion_plus",
+    "enabled_in_first_playable": true,
+    "description": "递归下钻：造成伤害。",
+    "art_path": ""
+  },
+  {
+    "id": "card_algo_state_compress",
+    "name": "状态压缩",
+    "class_tags": [
+      "algorithm"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_algo_state_compress",
+    "upgrade_to": "card_algo_state_compress_plus",
+    "enabled_in_first_playable": true,
+    "description": "状态压缩：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_algo_hash_accel",
+    "name": "哈希加速",
+    "class_tags": [
+      "algorithm"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_algo_hash_accel",
+    "upgrade_to": "card_algo_hash_accel_plus",
+    "enabled_in_first_playable": true,
+    "description": "哈希加速：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_algo_eval_func",
+    "name": "估值函数",
+    "class_tags": [
+      "algorithm"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_algo_eval_func",
+    "upgrade_to": "card_algo_eval_func_plus",
+    "enabled_in_first_playable": true,
+    "description": "估值函数：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_algo_data_clean",
+    "name": "数据清洗",
+    "class_tags": [
+      "algorithm"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_algo_data_clean",
+    "upgrade_to": "card_algo_data_clean_plus",
+    "enabled_in_first_playable": true,
+    "description": "数据清洗：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_algo_backtrack",
+    "name": "搜索回溯",
+    "class_tags": [
+      "algorithm"
+    ],
+    "rarity": "common",
+    "type": "attack",
+    "cost": 1,
+    "target_type": "single_enemy",
+    "keywords": [],
+    "effect_group_id": "eg_card_algo_backtrack",
+    "upgrade_to": "card_algo_backtrack_plus",
+    "enabled_in_first_playable": true,
+    "description": "搜索回溯：造成伤害。",
+    "art_path": ""
+  },
+  {
+    "id": "card_algo_path_read",
+    "name": "路径预读",
+    "class_tags": [
+      "algorithm"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_algo_path_read",
+    "upgrade_to": "card_algo_path_read_plus",
+    "enabled_in_first_playable": true,
+    "description": "路径预读：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_algo_edge_reweight",
+    "name": "边权重排",
+    "class_tags": [
+      "algorithm"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_algo_edge_reweight",
+    "upgrade_to": "card_algo_edge_reweight_plus",
+    "enabled_in_first_playable": true,
+    "description": "边权重排：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_algo_dynamic_programming",
+    "name": "动态规划",
+    "class_tags": [
+      "algorithm"
+    ],
+    "rarity": "uncommon",
+    "type": "power",
+    "cost": 2,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_algo_dynamic_programming",
+    "upgrade_to": "card_algo_dynamic_programming_plus",
+    "enabled_in_first_playable": true,
+    "description": "动态规划：建立长期收益。",
+    "art_path": ""
+  },
+  {
+    "id": "card_algo_complexity_burst",
+    "name": "复杂度爆炸",
+    "class_tags": [
+      "algorithm"
+    ],
+    "rarity": "uncommon",
+    "type": "attack",
+    "cost": 2,
+    "target_type": "single_enemy",
+    "keywords": [],
+    "effect_group_id": "eg_card_algo_complexity_burst",
+    "upgrade_to": "card_algo_complexity_burst_plus",
+    "enabled_in_first_playable": true,
+    "description": "复杂度爆炸：造成伤害。",
+    "art_path": ""
+  },
+  {
+    "id": "card_algo_big_o_compress",
+    "name": "大O压缩",
+    "class_tags": [
+      "algorithm"
+    ],
+    "rarity": "uncommon",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_algo_big_o_compress",
+    "upgrade_to": "card_algo_big_o_compress_plus",
+    "enabled_in_first_playable": true,
+    "description": "大O压缩：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_algo_monte_carlo",
+    "name": "蒙特卡洛试投",
+    "class_tags": [
+      "algorithm"
+    ],
+    "rarity": "uncommon",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_algo_monte_carlo",
+    "upgrade_to": "card_algo_monte_carlo_plus",
+    "enabled_in_first_playable": true,
+    "description": "蒙特卡洛试投：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_algo_astar",
+    "name": "A星寻路",
+    "class_tags": [
+      "algorithm"
+    ],
+    "rarity": "uncommon",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_algo_astar",
+    "upgrade_to": "card_algo_astar_plus",
+    "enabled_in_first_playable": true,
+    "description": "A星寻路：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_algo_convolution",
+    "name": "卷积加速",
+    "class_tags": [
+      "algorithm"
+    ],
+    "rarity": "uncommon",
+    "type": "attack",
+    "cost": 2,
+    "target_type": "single_enemy",
+    "keywords": [],
+    "effect_group_id": "eg_card_algo_convolution",
+    "upgrade_to": "card_algo_convolution_plus",
+    "enabled_in_first_playable": true,
+    "description": "卷积加速：造成伤害。",
+    "art_path": ""
+  },
+  {
+    "id": "card_algo_memo_search",
+    "name": "记忆化搜索",
+    "class_tags": [
+      "algorithm"
+    ],
+    "rarity": "uncommon",
+    "type": "power",
+    "cost": 2,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_algo_memo_search",
+    "upgrade_to": "card_algo_memo_search_plus",
+    "enabled_in_first_playable": true,
+    "description": "记忆化搜索：建立长期收益。",
+    "art_path": ""
+  },
+  {
+    "id": "card_algo_binary_cut",
+    "name": "二分切割",
+    "class_tags": [
+      "algorithm"
+    ],
+    "rarity": "uncommon",
+    "type": "attack",
+    "cost": 1,
+    "target_type": "single_enemy",
+    "keywords": [],
+    "effect_group_id": "eg_card_algo_binary_cut",
+    "upgrade_to": "card_algo_binary_cut_plus",
+    "enabled_in_first_playable": true,
+    "description": "二分切割：造成伤害。",
+    "art_path": ""
+  },
+  {
+    "id": "card_algo_graph_opt",
+    "name": "图优化",
+    "class_tags": [
+      "algorithm"
+    ],
+    "rarity": "uncommon",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_algo_graph_opt",
+    "upgrade_to": "card_algo_graph_opt_plus",
+    "enabled_in_first_playable": true,
+    "description": "图优化：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_algo_matrix_warmup",
+    "name": "矩阵预热",
+    "class_tags": [
+      "algorithm"
+    ],
+    "rarity": "uncommon",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_algo_matrix_warmup",
+    "upgrade_to": "card_algo_matrix_warmup_plus",
+    "enabled_in_first_playable": true,
+    "description": "矩阵预热：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_algo_global_optimum",
+    "name": "全局最优解",
+    "class_tags": [
+      "algorithm"
+    ],
+    "rarity": "rare",
+    "type": "attack",
+    "cost": -1,
+    "target_type": "single_enemy",
+    "keywords": [],
+    "effect_group_id": "eg_card_algo_global_optimum",
+    "upgrade_to": "card_algo_global_optimum_plus",
+    "enabled_in_first_playable": true,
+    "description": "全局最优解：造成伤害。",
+    "art_path": ""
+  },
+  {
+    "id": "card_algo_matrix_mul",
+    "name": "矩阵乘法",
+    "class_tags": [
+      "algorithm"
+    ],
+    "rarity": "rare",
+    "type": "attack",
+    "cost": 2,
+    "target_type": "single_enemy",
+    "keywords": [],
+    "effect_group_id": "eg_card_algo_matrix_mul",
+    "upgrade_to": "card_algo_matrix_mul_plus",
+    "enabled_in_first_playable": true,
+    "description": "矩阵乘法：造成伤害。",
+    "art_path": ""
+  },
+  {
+    "id": "card_algo_distill",
+    "name": "神经网络蒸馏",
+    "class_tags": [
+      "algorithm"
+    ],
+    "rarity": "rare",
+    "type": "power",
+    "cost": 3,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_algo_distill",
+    "upgrade_to": "card_algo_distill_plus",
+    "enabled_in_first_playable": true,
+    "description": "神经网络蒸馏：建立长期收益。",
+    "art_path": ""
+  },
+  {
+    "id": "card_algo_compute_surge",
+    "name": "算力洪峰",
+    "class_tags": [
+      "algorithm"
+    ],
+    "rarity": "rare",
+    "type": "skill",
+    "cost": 2,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_algo_compute_surge",
+    "upgrade_to": "card_algo_compute_surge_plus",
+    "enabled_in_first_playable": true,
+    "description": "算力洪峰：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_algo_model_converge",
+    "name": "模型收敛",
+    "class_tags": [
+      "algorithm"
+    ],
+    "rarity": "rare",
+    "type": "attack",
+    "cost": 2,
+    "target_type": "single_enemy",
+    "keywords": [],
+    "effect_group_id": "eg_card_algo_model_converge",
+    "upgrade_to": "card_algo_model_converge_plus",
+    "enabled_in_first_playable": true,
+    "description": "模型收敛：造成伤害。",
+    "art_path": ""
+  },
+  {
+    "id": "card_algo_zero_complexity",
+    "name": "复杂度归零",
+    "class_tags": [
+      "algorithm"
+    ],
+    "rarity": "rare",
+    "type": "skill",
+    "cost": 2,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_algo_zero_complexity",
+    "upgrade_to": "card_algo_zero_complexity_plus",
+    "enabled_in_first_playable": true,
+    "description": "复杂度归零：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_pm_change_wording",
+    "name": "需求改口",
+    "class_tags": [
+      "product_manager"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_pm_change_wording",
+    "upgrade_to": "card_pm_change_wording_plus",
+    "enabled_in_first_playable": true,
+    "description": "需求改口：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_pm_priority_shuffle",
+    "name": "优先级重排",
+    "class_tags": [
+      "product_manager"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_pm_priority_shuffle",
+    "upgrade_to": "card_pm_priority_shuffle_plus",
+    "enabled_in_first_playable": true,
+    "description": "优先级重排：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_pm_meeting_minutes",
+    "name": "会议纪要",
+    "class_tags": [
+      "product_manager"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 0,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_pm_meeting_minutes",
+    "upgrade_to": "card_pm_meeting_minutes_plus",
+    "enabled_in_first_playable": true,
+    "description": "会议纪要：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_pm_revision_notice",
+    "name": "改版通知",
+    "class_tags": [
+      "product_manager"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_pm_revision_notice",
+    "upgrade_to": "card_pm_revision_notice_plus",
+    "enabled_in_first_playable": true,
+    "description": "改版通知：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_pm_message_align",
+    "name": "口径统一",
+    "class_tags": [
+      "product_manager"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_pm_message_align",
+    "upgrade_to": "card_pm_message_align_plus",
+    "enabled_in_first_playable": true,
+    "description": "口径统一：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_pm_schedule_compress",
+    "name": "排期压缩",
+    "class_tags": [
+      "product_manager"
+    ],
+    "rarity": "common",
+    "type": "attack",
+    "cost": 1,
+    "target_type": "single_enemy",
+    "keywords": [],
+    "effect_group_id": "eg_card_pm_schedule_compress",
+    "upgrade_to": "card_pm_schedule_compress_plus",
+    "enabled_in_first_playable": true,
+    "description": "排期压缩：造成伤害。",
+    "art_path": ""
+  },
+  {
+    "id": "card_pm_scope_confirm",
+    "name": "范围确认",
+    "class_tags": [
+      "product_manager"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_pm_scope_confirm",
+    "upgrade_to": "card_pm_scope_confirm_plus",
+    "enabled_in_first_playable": true,
+    "description": "范围确认：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_pm_prd_append",
+    "name": "PRD增补",
+    "class_tags": [
+      "product_manager"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_pm_prd_append",
+    "upgrade_to": "card_pm_prd_append_plus",
+    "enabled_in_first_playable": true,
+    "description": "PRD增补：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_pm_reopen_task",
+    "name": "任务重开",
+    "class_tags": [
+      "product_manager"
+    ],
+    "rarity": "common",
+    "type": "attack",
+    "cost": 1,
+    "target_type": "single_enemy",
+    "keywords": [],
+    "effect_group_id": "eg_card_pm_reopen_task",
+    "upgrade_to": "card_pm_reopen_task_plus",
+    "enabled_in_first_playable": true,
+    "description": "任务重开：造成伤害。",
+    "art_path": ""
+  },
+  {
+    "id": "card_pm_tracking_backfill",
+    "name": "埋点回填",
+    "class_tags": [
+      "product_manager"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_pm_tracking_backfill",
+    "upgrade_to": "card_pm_tracking_backfill_plus",
+    "enabled_in_first_playable": true,
+    "description": "埋点回填：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_pm_split_ticket",
+    "name": "需求拆票",
+    "class_tags": [
+      "product_manager"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_pm_split_ticket",
+    "upgrade_to": "card_pm_split_ticket_plus",
+    "enabled_in_first_playable": true,
+    "description": "需求拆票：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_pm_extra_requirement",
+    "name": "临时加需求",
+    "class_tags": [
+      "product_manager"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_pm_extra_requirement",
+    "upgrade_to": "card_pm_extra_requirement_plus",
+    "enabled_in_first_playable": true,
+    "description": "临时加需求：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_pm_sync_conclusion",
+    "name": "同步结论",
+    "class_tags": [
+      "product_manager"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_pm_sync_conclusion",
+    "upgrade_to": "card_pm_sync_conclusion_plus",
+    "enabled_in_first_playable": true,
+    "description": "同步结论：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_pm_pending_item",
+    "name": "待确认项",
+    "class_tags": [
+      "product_manager"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_pm_pending_item",
+    "upgrade_to": "card_pm_pending_item_plus",
+    "enabled_in_first_playable": true,
+    "description": "待确认项：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_pm_review",
+    "name": "需求评审",
+    "class_tags": [
+      "product_manager"
+    ],
+    "rarity": "uncommon",
+    "type": "power",
+    "cost": 2,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_pm_review",
+    "upgrade_to": "card_pm_review_plus",
+    "enabled_in_first_playable": true,
+    "description": "需求评审：建立长期收益。",
+    "art_path": ""
+  },
+  {
+    "id": "card_pm_delay_meeting",
+    "name": "会议延期",
+    "class_tags": [
+      "product_manager"
+    ],
+    "rarity": "uncommon",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_pm_delay_meeting",
+    "upgrade_to": "card_pm_delay_meeting_plus",
+    "enabled_in_first_playable": true,
+    "description": "会议延期：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_pm_priority_top",
+    "name": "优先级置顶",
+    "class_tags": [
+      "product_manager"
+    ],
+    "rarity": "uncommon",
+    "type": "skill",
+    "cost": 0,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_pm_priority_top",
+    "upgrade_to": "card_pm_priority_top_plus",
+    "enabled_in_first_playable": true,
+    "description": "优先级置顶：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_pm_milestone_split",
+    "name": "里程碑拆分",
+    "class_tags": [
+      "product_manager"
+    ],
+    "rarity": "uncommon",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_pm_milestone_split",
+    "upgrade_to": "card_pm_milestone_split_plus",
+    "enabled_in_first_playable": true,
+    "description": "里程碑拆分：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_pm_scope_spread",
+    "name": "范围蔓延",
+    "class_tags": [
+      "product_manager"
+    ],
+    "rarity": "uncommon",
+    "type": "power",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_pm_scope_spread",
+    "upgrade_to": "card_pm_scope_spread_plus",
+    "enabled_in_first_playable": true,
+    "description": "范围蔓延：建立长期收益。",
+    "art_path": ""
+  },
+  {
+    "id": "card_pm_department_align",
+    "name": "部门对齐",
+    "class_tags": [
+      "product_manager"
+    ],
+    "rarity": "uncommon",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_pm_department_align",
+    "upgrade_to": "card_pm_department_align_plus",
+    "enabled_in_first_playable": true,
+    "description": "部门对齐：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_pm_proto_walkthrough",
+    "name": "原型走查",
+    "class_tags": [
+      "product_manager"
+    ],
+    "rarity": "uncommon",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_pm_proto_walkthrough",
+    "upgrade_to": "card_pm_proto_walkthrough_plus",
+    "enabled_in_first_playable": true,
+    "description": "原型走查：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_pm_weekly_sync",
+    "name": "周会拉通",
+    "class_tags": [
+      "product_manager"
+    ],
+    "rarity": "uncommon",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_pm_weekly_sync",
+    "upgrade_to": "card_pm_weekly_sync_plus",
+    "enabled_in_first_playable": true,
+    "description": "周会拉通：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_pm_urgent_schedule",
+    "name": "紧急排期",
+    "class_tags": [
+      "product_manager"
+    ],
+    "rarity": "uncommon",
+    "type": "attack",
+    "cost": 1,
+    "target_type": "single_enemy",
+    "keywords": [],
+    "effect_group_id": "eg_card_pm_urgent_schedule",
+    "upgrade_to": "card_pm_urgent_schedule_plus",
+    "enabled_in_first_playable": true,
+    "description": "紧急排期：造成伤害。",
+    "art_path": ""
+  },
+  {
+    "id": "card_pm_verbal_promise",
+    "name": "口头承诺",
+    "class_tags": [
+      "product_manager"
+    ],
+    "rarity": "uncommon",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_pm_verbal_promise",
+    "upgrade_to": "card_pm_verbal_promise_plus",
+    "enabled_in_first_playable": true,
+    "description": "口头承诺：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_pm_align_all",
+    "name": "全员对齐",
+    "class_tags": [
+      "product_manager"
+    ],
+    "rarity": "rare",
+    "type": "skill",
+    "cost": 2,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_pm_align_all",
+    "upgrade_to": "card_pm_align_all_plus",
+    "enabled_in_first_playable": true,
+    "description": "全员对齐：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_pm_roadmap",
+    "name": "版本路线图",
+    "class_tags": [
+      "product_manager"
+    ],
+    "rarity": "rare",
+    "type": "attack",
+    "cost": 2,
+    "target_type": "single_enemy",
+    "keywords": [],
+    "effect_group_id": "eg_card_pm_roadmap",
+    "upgrade_to": "card_pm_roadmap_plus",
+    "enabled_in_first_playable": true,
+    "description": "版本路线图：造成伤害。",
+    "art_path": ""
+  },
+  {
+    "id": "card_pm_snowball",
+    "name": "需求雪崩",
+    "class_tags": [
+      "product_manager"
+    ],
+    "rarity": "rare",
+    "type": "attack",
+    "cost": 3,
+    "target_type": "single_enemy",
+    "keywords": [],
+    "effect_group_id": "eg_card_pm_snowball",
+    "upgrade_to": "card_pm_snowball_plus",
+    "enabled_in_first_playable": true,
+    "description": "需求雪崩：造成伤害。",
+    "art_path": ""
+  },
+  {
+    "id": "card_pm_goal_drift",
+    "name": "目标漂移",
+    "class_tags": [
+      "product_manager"
+    ],
+    "rarity": "rare",
+    "type": "skill",
+    "cost": 2,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_pm_goal_drift",
+    "upgrade_to": "card_pm_goal_drift_plus",
+    "enabled_in_first_playable": true,
+    "description": "目标漂移：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_pm_ceo_tone",
+    "name": "CEO口风",
+    "class_tags": [
+      "product_manager"
+    ],
+    "rarity": "rare",
+    "type": "power",
+    "cost": 3,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_pm_ceo_tone",
+    "upgrade_to": "card_pm_ceo_tone_plus",
+    "enabled_in_first_playable": true,
+    "description": "CEO口风：建立长期收益。",
+    "art_path": ""
+  },
+  {
+    "id": "card_pm_roadmap_reset",
+    "name": "路线图重置",
+    "class_tags": [
+      "product_manager"
+    ],
+    "rarity": "rare",
+    "type": "skill",
+    "cost": 2,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_pm_roadmap_reset",
+    "upgrade_to": "card_pm_roadmap_reset_plus",
+    "enabled_in_first_playable": true,
+    "description": "路线图重置：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_hr_performance_talk",
+    "name": "绩效面谈",
+    "class_tags": [
+      "hr"
+    ],
+    "rarity": "common",
+    "type": "attack",
+    "cost": 1,
+    "target_type": "single_enemy",
+    "keywords": [],
+    "effect_group_id": "eg_card_hr_performance_talk",
+    "upgrade_to": "card_hr_performance_talk_plus",
+    "enabled_in_first_playable": false,
+    "description": "绩效面谈：造成伤害。",
+    "art_path": ""
+  },
+  {
+    "id": "card_hr_compliance_reminder",
+    "name": "合规提醒",
+    "class_tags": [
+      "hr"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_hr_compliance_reminder",
+    "upgrade_to": "card_hr_compliance_reminder_plus",
+    "enabled_in_first_playable": false,
+    "description": "合规提醒：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_hr_optimization_warning",
+    "name": "优化预警",
+    "class_tags": [
+      "hr"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_hr_optimization_warning",
+    "upgrade_to": "card_hr_optimization_warning_plus",
+    "enabled_in_first_playable": false,
+    "description": "优化预警：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_hr_attendance_check",
+    "name": "考勤抽查",
+    "class_tags": [
+      "hr"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 0,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_hr_attendance_check",
+    "upgrade_to": "card_hr_attendance_check_plus",
+    "enabled_in_first_playable": false,
+    "description": "考勤抽查：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_hr_onboarding",
+    "name": "入职手续",
+    "class_tags": [
+      "hr"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_hr_onboarding",
+    "upgrade_to": "card_hr_onboarding_plus",
+    "enabled_in_first_playable": false,
+    "description": "入职手续：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_hr_background_check",
+    "name": "背调申请",
+    "class_tags": [
+      "hr"
+    ],
+    "rarity": "common",
+    "type": "attack",
+    "cost": 1,
+    "target_type": "single_enemy",
+    "keywords": [],
+    "effect_group_id": "eg_card_hr_background_check",
+    "upgrade_to": "card_hr_background_check_plus",
+    "enabled_in_first_playable": false,
+    "description": "背调申请：造成伤害。",
+    "art_path": ""
+  },
+  {
+    "id": "card_hr_policy_broadcast",
+    "name": "制度宣导",
+    "class_tags": [
+      "hr"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_hr_policy_broadcast",
+    "upgrade_to": "card_hr_policy_broadcast_plus",
+    "enabled_in_first_playable": false,
+    "description": "制度宣导：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_hr_probation_watch",
+    "name": "试用观察",
+    "class_tags": [
+      "hr"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_hr_probation_watch",
+    "upgrade_to": "card_hr_probation_watch_plus",
+    "enabled_in_first_playable": false,
+    "description": "试用观察：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_hr_exit_interview",
+    "name": "离职访谈",
+    "class_tags": [
+      "hr"
+    ],
+    "rarity": "common",
+    "type": "attack",
+    "cost": 1,
+    "target_type": "single_enemy",
+    "keywords": [],
+    "effect_group_id": "eg_card_hr_exit_interview",
+    "upgrade_to": "card_hr_exit_interview_plus",
+    "enabled_in_first_playable": false,
+    "description": "离职访谈：造成伤害。",
+    "art_path": ""
+  },
+  {
+    "id": "card_hr_salary_calc",
+    "name": "薪酬核算",
+    "class_tags": [
+      "hr"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_hr_salary_calc",
+    "upgrade_to": "card_hr_salary_calc_plus",
+    "enabled_in_first_playable": false,
+    "description": "薪酬核算：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_hr_interview_review",
+    "name": "面试复盘",
+    "class_tags": [
+      "hr"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_hr_interview_review",
+    "upgrade_to": "card_hr_interview_review_plus",
+    "enabled_in_first_playable": false,
+    "description": "面试复盘：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_hr_candidate_pool",
+    "name": "候选池维护",
+    "class_tags": [
+      "hr"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_hr_candidate_pool",
+    "upgrade_to": "card_hr_candidate_pool_plus",
+    "enabled_in_first_playable": false,
+    "description": "候选池维护：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_hr_regularization",
+    "name": "转正申请",
+    "class_tags": [
+      "hr"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_hr_regularization",
+    "upgrade_to": "card_hr_regularization_plus",
+    "enabled_in_first_playable": false,
+    "description": "转正申请：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_hr_discipline_warning",
+    "name": "纪律警示",
+    "class_tags": [
+      "hr"
+    ],
+    "rarity": "common",
+    "type": "attack",
+    "cost": 1,
+    "target_type": "single_enemy",
+    "keywords": [],
+    "effect_group_id": "eg_card_hr_discipline_warning",
+    "upgrade_to": "card_hr_discipline_warning_plus",
+    "enabled_in_first_playable": false,
+    "description": "纪律警示：造成伤害。",
+    "art_path": ""
+  },
+  {
+    "id": "card_hr_performance_archive",
+    "name": "绩效归档",
+    "class_tags": [
+      "hr"
+    ],
+    "rarity": "uncommon",
+    "type": "power",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_hr_performance_archive",
+    "upgrade_to": "card_hr_performance_archive_plus",
+    "enabled_in_first_playable": false,
+    "description": "绩效归档：建立长期收益。",
+    "art_path": ""
+  },
+  {
+    "id": "card_hr_last_place_cut",
+    "name": "末位淘汰",
+    "class_tags": [
+      "hr"
+    ],
+    "rarity": "uncommon",
+    "type": "attack",
+    "cost": 2,
+    "target_type": "single_enemy",
+    "keywords": [],
+    "effect_group_id": "eg_card_hr_last_place_cut",
+    "upgrade_to": "card_hr_last_place_cut_plus",
+    "enabled_in_first_playable": false,
+    "description": "末位淘汰：造成伤害。",
+    "art_path": ""
+  },
+  {
+    "id": "card_hr_compliance_review",
+    "name": "合规审查",
+    "class_tags": [
+      "hr"
+    ],
+    "rarity": "uncommon",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_hr_compliance_review",
+    "upgrade_to": "card_hr_compliance_review_plus",
+    "enabled_in_first_playable": false,
+    "description": "合规审查：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_hr_annual_award",
+    "name": "年度评优",
+    "class_tags": [
+      "hr"
+    ],
+    "rarity": "uncommon",
+    "type": "power",
+    "cost": 2,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_hr_annual_award",
+    "upgrade_to": "card_hr_annual_award_plus",
+    "enabled_in_first_playable": false,
+    "description": "年度评优：建立长期收益。",
+    "art_path": ""
+  },
+  {
+    "id": "card_hr_org_optimization",
+    "name": "组织优化",
+    "class_tags": [
+      "hr"
+    ],
+    "rarity": "uncommon",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_hr_org_optimization",
+    "upgrade_to": "card_hr_org_optimization_plus",
+    "enabled_in_first_playable": false,
+    "description": "组织优化：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_hr_layoff_list",
+    "name": "裁员名单",
+    "class_tags": [
+      "hr"
+    ],
+    "rarity": "uncommon",
+    "type": "skill",
+    "cost": 2,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_hr_layoff_list",
+    "upgrade_to": "card_hr_layoff_list_plus",
+    "enabled_in_first_playable": false,
+    "description": "裁员名单：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_hr_headhunter_offer",
+    "name": "猎头报价",
+    "class_tags": [
+      "hr"
+    ],
+    "rarity": "uncommon",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_hr_headhunter_offer",
+    "upgrade_to": "card_hr_headhunter_offer_plus",
+    "enabled_in_first_playable": false,
+    "description": "猎头报价：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_hr_org_diagnosis",
+    "name": "组织诊断",
+    "class_tags": [
+      "hr"
+    ],
+    "rarity": "uncommon",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_hr_org_diagnosis",
+    "upgrade_to": "card_hr_org_diagnosis_plus",
+    "enabled_in_first_playable": false,
+    "description": "组织诊断：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_hr_interview_bargain",
+    "name": "面试压价",
+    "class_tags": [
+      "hr"
+    ],
+    "rarity": "uncommon",
+    "type": "attack",
+    "cost": 1,
+    "target_type": "single_enemy",
+    "keywords": [],
+    "effect_group_id": "eg_card_hr_interview_bargain",
+    "upgrade_to": "card_hr_interview_bargain_plus",
+    "enabled_in_first_playable": false,
+    "description": "面试压价：造成伤害。",
+    "art_path": ""
+  },
+  {
+    "id": "card_hr_transfer_notice",
+    "name": "调岗通知",
+    "class_tags": [
+      "hr"
+    ],
+    "rarity": "uncommon",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_hr_transfer_notice",
+    "upgrade_to": "card_hr_transfer_notice_plus",
+    "enabled_in_first_playable": false,
+    "description": "调岗通知：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_hr_nplusone",
+    "name": "N+1结算",
+    "class_tags": [
+      "hr"
+    ],
+    "rarity": "rare",
+    "type": "attack",
+    "cost": -1,
+    "target_type": "single_enemy",
+    "keywords": [],
+    "effect_group_id": "eg_card_hr_nplusone",
+    "upgrade_to": "card_hr_nplusone_plus",
+    "enabled_in_first_playable": false,
+    "description": "N+1结算：造成伤害。",
+    "art_path": ""
+  },
+  {
+    "id": "card_hr_annual_inventory",
+    "name": "年度盘点",
+    "class_tags": [
+      "hr"
+    ],
+    "rarity": "rare",
+    "type": "power",
+    "cost": 3,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_hr_annual_inventory",
+    "upgrade_to": "card_hr_annual_inventory_plus",
+    "enabled_in_first_playable": false,
+    "description": "年度盘点：建立长期收益。",
+    "art_path": ""
+  },
+  {
+    "id": "card_hr_talent_extraction",
+    "name": "人才盘剥",
+    "class_tags": [
+      "hr"
+    ],
+    "rarity": "rare",
+    "type": "attack",
+    "cost": 3,
+    "target_type": "single_enemy",
+    "keywords": [],
+    "effect_group_id": "eg_card_hr_talent_extraction",
+    "upgrade_to": "card_hr_talent_extraction_plus",
+    "enabled_in_first_playable": false,
+    "description": "人才盘剥：造成伤害。",
+    "art_path": ""
+  },
+  {
+    "id": "card_hr_all_hands_review",
+    "name": "全员述职",
+    "class_tags": [
+      "hr"
+    ],
+    "rarity": "rare",
+    "type": "skill",
+    "cost": 2,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_hr_all_hands_review",
+    "upgrade_to": "card_hr_all_hands_review_plus",
+    "enabled_in_first_playable": false,
+    "description": "全员述职：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_hr_blacklist_share",
+    "name": "黑名单共享",
+    "class_tags": [
+      "hr"
+    ],
+    "rarity": "rare",
+    "type": "power",
+    "cost": 2,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_hr_blacklist_share",
+    "upgrade_to": "card_hr_blacklist_share_plus",
+    "enabled_in_first_playable": false,
+    "description": "黑名单共享：建立长期收益。",
+    "art_path": ""
+  },
+  {
+    "id": "card_hr_optimization_storm",
+    "name": "优化风暴",
+    "class_tags": [
+      "hr"
+    ],
+    "rarity": "rare",
+    "type": "attack",
+    "cost": 3,
+    "target_type": "single_enemy",
+    "keywords": [],
+    "effect_group_id": "eg_card_hr_optimization_storm",
+    "upgrade_to": "card_hr_optimization_storm_plus",
+    "enabled_in_first_playable": false,
+    "description": "优化风暴：造成伤害。",
+    "art_path": ""
+  },
+  {
+    "id": "card_shared_keyboard_smash",
+    "name": "键盘重击",
+    "class_tags": [
+      "programmer_shared"
+    ],
+    "rarity": "common",
+    "type": "attack",
+    "cost": 1,
+    "target_type": "single_enemy",
+    "keywords": [],
+    "effect_group_id": "eg_card_shared_keyboard_smash",
+    "upgrade_to": "card_shared_keyboard_smash_plus",
+    "enabled_in_first_playable": true,
+    "description": "键盘重击：造成伤害。",
+    "art_path": ""
+  },
+  {
+    "id": "card_shared_stapler_burst",
+    "name": "订书机连射",
+    "class_tags": [
+      "programmer_shared"
+    ],
+    "rarity": "common",
+    "type": "attack",
+    "cost": 1,
+    "target_type": "single_enemy",
+    "keywords": [],
+    "effect_group_id": "eg_card_shared_stapler_burst",
+    "upgrade_to": "card_shared_stapler_burst_plus",
+    "enabled_in_first_playable": true,
+    "description": "订书机连射：造成伤害。",
+    "art_path": ""
+  },
+  {
+    "id": "card_shared_noise_cancel",
+    "name": "戴上降噪耳机",
+    "class_tags": [
+      "programmer_shared"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_shared_noise_cancel",
+    "upgrade_to": "card_shared_noise_cancel_plus",
+    "enabled_in_first_playable": true,
+    "description": "戴上降噪耳机：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_shared_coffee_boost",
+    "name": "咖啡续命",
+    "class_tags": [
+      "programmer_shared"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 0,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_shared_coffee_boost",
+    "upgrade_to": "card_shared_coffee_boost_plus",
+    "enabled_in_first_playable": true,
+    "description": "咖啡续命：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_shared_toilet_break",
+    "name": "带薪拉屎",
+    "class_tags": [
+      "programmer_shared"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_shared_toilet_break",
+    "upgrade_to": "card_shared_toilet_break_plus",
+    "enabled_in_first_playable": true,
+    "description": "带薪拉屎：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_shared_desk_inspection",
+    "name": "工位巡检",
+    "class_tags": [
+      "programmer_shared"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_shared_desk_inspection",
+    "upgrade_to": "card_shared_desk_inspection_plus",
+    "enabled_in_first_playable": true,
+    "description": "工位巡检：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_shared_rollback",
+    "name": "回滚版本",
+    "class_tags": [
+      "programmer_shared"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_shared_rollback",
+    "upgrade_to": "card_shared_rollback_plus",
+    "enabled_in_first_playable": true,
+    "description": "回滚版本：获得防线，清除脆弱、易伤与焦虑。",
+    "art_path": ""
+  },
+  {
+    "id": "card_shared_standup",
+    "name": "晨会同步",
+    "class_tags": [
+      "programmer_shared"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_shared_standup",
+    "upgrade_to": "card_shared_standup_plus",
+    "enabled_in_first_playable": true,
+    "description": "晨会同步：获得防线，抽牌并返还精力。",
+    "art_path": ""
+  },
+  {
+    "id": "card_shared_clock_out",
+    "name": "下班打卡",
+    "class_tags": [
+      "programmer_shared"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_shared_clock_out",
+    "upgrade_to": "card_shared_clock_out_plus",
+    "enabled_in_first_playable": true,
+    "description": "下班打卡：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_shared_hotfix_patch",
+    "name": "临时补丁",
+    "class_tags": [
+      "programmer_shared"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 0,
+    "target_type": "self",
+    "keywords": [],
+    "effect_group_id": "eg_card_shared_hotfix_patch",
+    "upgrade_to": "card_shared_hotfix_patch_plus",
+    "enabled_in_first_playable": true,
+    "description": "临时补丁：获得防线并触发职业资源。",
+    "art_path": ""
+  },
+  {
+    "id": "card_shared_badge_throw",
+    "name": "工牌甩脸",
+    "class_tags": [
+      "programmer_shared"
+    ],
+    "rarity": "common",
+    "type": "attack",
+    "cost": 0,
+    "target_type": "single_enemy",
+    "keywords": [],
+    "effect_group_id": "eg_card_shared_badge_throw",
+    "upgrade_to": "card_shared_badge_throw_plus",
+    "enabled_in_first_playable": true,
+    "description": "工牌甩脸：造成伤害。",
+    "art_path": ""
+  },
+  {
+    "id": "card_shared_meeting_mute",
+    "name": "会议静音",
+    "class_tags": [
+      "programmer_shared"
+    ],
+    "rarity": "common",
+    "type": "skill",
+    "cost": 1,
+    "target_type": "selected",
+    "keywords": [],
+    "effect_group_id": "eg_card_shared_meeting_mute",
+    "upgrade_to": "card_shared_meeting_mute_plus",
+    "enabled_in_first_playable": true,
+    "description": "会议静音：获得防线并削弱目标攻击意图。",
+    "art_path": ""
+  },
+  {
+    "id": "card_status_option_promise",
+    "name": "期权承诺",
+    "class_tags": [
+      "pollution"
+    ],
+    "rarity": "special",
+    "type": "status",
+    "cost": 0,
+    "target_type": "self",
+    "keywords": [
+      "pollution"
+    ],
+    "effect_group_id": "eg_card_status_option_promise",
+    "upgrade_to": "",
+    "enabled_in_first_playable": true,
+    "description": "期权承诺：焦虑 +1。",
+    "art_path": ""
+  },
+  {
+    "id": "card_status_meeting_minutes",
+    "name": "会议纪要污染",
+    "class_tags": [
+      "pollution"
+    ],
+    "rarity": "special",
+    "type": "status",
+    "cost": 0,
+    "target_type": "self",
+    "keywords": [
+      "pollution"
+    ],
+    "effect_group_id": "eg_card_status_meeting_minutes",
+    "upgrade_to": "",
+    "enabled_in_first_playable": true,
+    "description": "会议纪要污染：加班 +1。",
+    "art_path": ""
+  },
+  {
+    "id": "card_curse_next_year_promotion",
+    "name": "明年提拔你",
+    "class_tags": [
+      "pollution"
+    ],
+    "rarity": "special",
+    "type": "curse",
+    "cost": 0,
+    "target_type": "self",
+    "keywords": [
+      "pollution"
+    ],
+    "effect_group_id": "eg_card_curse_next_year_promotion",
+    "upgrade_to": "",
+    "enabled_in_first_playable": true,
+    "description": "明年提拔你：脆弱与易伤 +1。",
+    "art_path": ""
+  }
+]

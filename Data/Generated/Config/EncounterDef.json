@@ -1,0 +1,169 @@
+[
+  {
+    "id": "enc_ch1_slacker",
+    "chapter": 1,
+    "node_type": "normal_battle",
+    "enemy_ids": [
+      "enemy_slacker_coworker"
+    ],
+    "weight": 10,
+    "min_floor": 1,
+    "max_floor": 4
+  },
+  {
+    "id": "enc_ch1_workaholic",
+    "chapter": 1,
+    "node_type": "normal_battle",
+    "enemy_ids": [
+      "enemy_workaholic_coworker"
+    ],
+    "weight": 10,
+    "min_floor": 1,
+    "max_floor": 4
+  },
+  {
+    "id": "enc_ch1_salesman_cleaner",
+    "chapter": 1,
+    "node_type": "normal_battle",
+    "enemy_ids": [
+      "enemy_salesman",
+      "enemy_angry_cleaner"
+    ],
+    "weight": 6,
+    "min_floor": 2,
+    "max_floor": 5
+  },
+  {
+    "id": "enc_ch1_elite_lead",
+    "chapter": 1,
+    "node_type": "elite_battle",
+    "enemy_ids": [
+      "elite_airdrop_project_lead"
+    ],
+    "weight": 10,
+    "min_floor": 2,
+    "max_floor": 5
+  },
+  {
+    "id": "enc_ch1_boss_pitch",
+    "chapter": 1,
+    "node_type": "boss",
+    "enemy_ids": [
+      "boss_pitch_supervisor"
+    ],
+    "weight": 1,
+    "min_floor": 6,
+    "max_floor": 6
+  },
+  {
+    "id": "enc_ch2_process",
+    "chapter": 2,
+    "node_type": "normal_battle",
+    "enemy_ids": [
+      "enemy_process_specialist"
+    ],
+    "weight": 10,
+    "min_floor": 7,
+    "max_floor": 10
+  },
+  {
+    "id": "enc_ch2_performance",
+    "chapter": 2,
+    "node_type": "normal_battle",
+    "enemy_ids": [
+      "enemy_performance_inspector"
+    ],
+    "weight": 10,
+    "min_floor": 7,
+    "max_floor": 10
+  },
+  {
+    "id": "enc_ch2_meeting",
+    "chapter": 2,
+    "node_type": "normal_battle",
+    "enemy_ids": [
+      "enemy_meeting_maniac",
+      "enemy_process_specialist"
+    ],
+    "weight": 8,
+    "min_floor": 8,
+    "max_floor": 11
+  },
+  {
+    "id": "enc_ch2_elite_budget",
+    "chapter": 2,
+    "node_type": "elite_battle",
+    "enemy_ids": [
+      "elite_budget_gatekeeper"
+    ],
+    "weight": 8,
+    "min_floor": 8,
+    "max_floor": 11
+  },
+  {
+    "id": "enc_ch2_elite_outsource",
+    "chapter": 2,
+    "node_type": "elite_battle",
+    "enemy_ids": [
+      "elite_outsource_manager"
+    ],
+    "weight": 6,
+    "min_floor": 8,
+    "max_floor": 11
+  },
+  {
+    "id": "enc_ch2_boss_hr",
+    "chapter": 2,
+    "node_type": "boss",
+    "enemy_ids": [
+      "boss_mutant_hr"
+    ],
+    "weight": 1,
+    "min_floor": 12,
+    "max_floor": 12
+  },
+  {
+    "id": "enc_ch3_director",
+    "chapter": 3,
+    "node_type": "normal_battle",
+    "enemy_ids": [
+      "enemy_airdrop_director"
+    ],
+    "weight": 10,
+    "min_floor": 13,
+    "max_floor": 16
+  },
+  {
+    "id": "enc_ch3_compliance",
+    "chapter": 3,
+    "node_type": "normal_battle",
+    "enemy_ids": [
+      "enemy_compliance_judge"
+    ],
+    "weight": 10,
+    "min_floor": 13,
+    "max_floor": 16
+  },
+  {
+    "id": "enc_ch3_elite_eye",
+    "chapter": 3,
+    "node_type": "elite_battle",
+    "enemy_ids": [
+      "elite_approval_eye"
+    ],
+    "weight": 8,
+    "min_floor": 14,
+    "max_floor": 17
+  },
+  {
+    "id": "enc_ch3_boss_ceo",
+    "chapter": 3,
+    "node_type": "boss",
+    "enemy_ids": [
+      "boss_mutant_ceo"
+    ],
+    "weight": 1,
+    "min_floor": 18,
+    "max_floor": 18
+  }
+]

@@ -1,0 +1,302 @@
+[
+  {
+    "id": "relic_backend_gray_release",
+    "name": "灰度发布开关",
+    "allowed_classes": [
+      "backend"
+    ],
+    "rarity": "starter",
+    "trigger_list": [
+      "battle_start",
+      "card_played"
+    ],
+    "effect_group_id": "",
+    "shop_weight": 0,
+    "description": "战斗开始获得 1 缓存；首次部署服务抽 1 张。",
+    "art_path": "res://Resources/Art/Generated/P0/icons/relic_icon_traffic_valve_v1/prop.png"
+  },
+  {
+    "id": "relic_frontend_design_link",
+    "name": "设计稿链接",
+    "allowed_classes": [
+      "frontend"
+    ],
+    "rarity": "starter",
+    "trigger_list": [
+      "card_played"
+    ],
+    "effect_group_id": "",
+    "shop_weight": 0,
+    "description": "每回合第 3 张牌获得 1 样式层。",
+    "art_path": "res://Resources/Art/Generated/P0/icons/relic_icon_design_review_v1/prop.png"
+  },
+  {
+    "id": "relic_tester_automation_framework",
+    "name": "自动化测试框架",
+    "allowed_classes": [
+      "tester"
+    ],
+    "rarity": "starter",
+    "trigger_list": [
+      "apply_status"
+    ],
+    "effect_group_id": "",
+    "shop_weight": 0,
+    "description": "首次施加 Bug 时追加用例。",
+    "art_path": "res://Resources/Art/Generated/P0/icons/relic_icon_unit_test_template_v1/prop.png"
+  },
+  {
+    "id": "relic_algorithm_local_cluster",
+    "name": "本地算力集群",
+    "allowed_classes": [
+      "algorithm"
+    ],
+    "rarity": "starter",
+    "trigger_list": [
+      "card_played"
+    ],
+    "effect_group_id": "",
+    "shop_weight": 0,
+    "description": "首次 X 费牌返还 1 精力。",
+    "art_path": "res://Resources/Art/Generated/P0/icons/relic_icon_gpu_card_v1/prop.png"
+  },
+  {
+    "id": "relic_pm_review_minutes",
+    "name": "需求评审纪要",
+    "allowed_classes": [
+      "product_manager"
+    ],
+    "rarity": "starter",
+    "trigger_list": [
+      "apply_status",
+      "modify_intent"
+    ],
+    "effect_group_id": "",
+    "shop_weight": 0,
+    "description": "首次需求变更时抽牌并获得防线。",
+    "art_path": "res://Resources/Art/Generated/P0/icons/relic_icon_meeting_room_claim_v1/prop.png"
+  },
+  {
+    "id": "relic_hr_annual_review",
+    "name": "年度考评表",
+    "allowed_classes": [
+      "hr"
+    ],
+    "rarity": "starter",
+    "trigger_list": [
+      "enemy_defeated"
+    ],
+    "effect_group_id": "",
+    "shop_weight": 0,
+    "description": "首次击败敌人获得绩效。",
+    "art_path": "res://Resources/Art/Generated/P0/icons/relic_icon_performance_table_v1/prop.png"
+  },
+  {
+    "id": "relic_blue_light_glasses",
+    "name": "蓝光眼镜",
+    "allowed_classes": [
+      "backend",
+      "frontend",
+      "tester",
+      "algorithm",
+      "product_manager"
+    ],
+    "rarity": "common",
+    "trigger_list": [
+      "battle_start"
+    ],
+    "effect_group_id": "",
+    "shop_weight": 10,
+    "description": "首回合额外抽 1 张。",
+    "art_path": "res://Resources/Art/Generated/P0/icons/relic_icon_blue_light_glasses_v1/prop.png"
+  },
+  {
+    "id": "relic_cold_brew_bucket",
+    "name": "冷萃咖啡桶",
+    "allowed_classes": [
+      "backend",
+      "frontend",
+      "tester",
+      "algorithm",
+      "product_manager"
+    ],
+    "rarity": "common",
+    "trigger_list": [
+      "card_played"
+    ],
+    "effect_group_id": "",
+    "shop_weight": 10,
+    "description": "首次打出 0 费牌获得 1 精力。",
+    "art_path": "res://Resources/Art/Generated/P0/icons/relic_icon_cold_brew_bucket_v1/prop.png"
+  },
+  {
+    "id": "relic_hair_shampoo",
+    "name": "防脱洗发水",
+    "allowed_classes": [
+      "backend",
+      "frontend",
+      "tester",
+      "algorithm",
+      "product_manager"
+    ],
+    "rarity": "common",
+    "trigger_list": [
+      "battle_start"
+    ],
+    "effect_group_id": "",
+    "shop_weight": 10,
+    "description": "开局最大精神状态 +6。",
+    "art_path": "res://Resources/Art/Generated/P0/icons/relic_icon_hair_shampoo_v1/prop.png"
+  },
+  {
+    "id": "relic_lumbar_cushion",
+    "name": "护腰靠垫",
+    "allowed_classes": [
+      "backend",
+      "frontend",
+      "tester",
+      "algorithm",
+      "product_manager"
+    ],
+    "rarity": "common",
+    "trigger_list": [
+      "battle_start"
+    ],
+    "effect_group_id": "",
+    "shop_weight": 10,
+    "description": "战斗开始获得 4 防线。",
+    "art_path": "res://Resources/Art/Generated/P0/icons/relic_icon_lumbar_cushion_v1/prop.png"
+  },
+  {
+    "id": "relic_standing_desk",
+    "name": "升降桌",
+    "allowed_classes": [
+      "backend",
+      "frontend",
+      "tester",
+      "algorithm",
+      "product_manager"
+    ],
+    "rarity": "common",
+    "trigger_list": [
+      "gain_block"
+    ],
+    "effect_group_id": "",
+    "shop_weight": 10,
+    "description": "每回合首次获得防线追加 2。",
+    "art_path": "res://Resources/Art/Generated/P0/icons/relic_icon_standing_desk_v1/prop.png"
+  },
+  {
+    "id": "relic_parking_pass",
+    "name": "园区停车月卡",
+    "allowed_classes": [
+      "backend",
+      "frontend",
+      "tester",
+      "algorithm",
+      "product_manager"
+    ],
+    "rarity": "common",
+    "trigger_list": [
+      "elite_reward"
+    ],
+    "effect_group_id": "",
+    "shop_weight": 10,
+    "description": "击败精英额外获得绩效点。",
+    "art_path": "res://Resources/Art/Generated/P0/icons/relic_icon_parking_pass_v1/prop.png"
+  },
+  {
+    "id": "relic_employee_coupon",
+    "name": "员工内购券",
+    "allowed_classes": [
+      "backend",
+      "frontend",
+      "tester",
+      "algorithm",
+      "product_manager"
+    ],
+    "rarity": "common",
+    "trigger_list": [
+      "shop_purchase"
+    ],
+    "effect_group_id": "",
+    "shop_weight": 10,
+    "description": "首次商店消费折扣。",
+    "art_path": "res://Resources/Art/Generated/P0/icons/relic_icon_employee_discount_coupon_v1/prop.png"
+  },
+  {
+    "id": "relic_error_log_repo",
+    "name": "报错日志仓库",
+    "allowed_classes": [
+      "tester"
+    ],
+    "rarity": "uncommon",
+    "trigger_list": [
+      "enemy_turn"
+    ],
+    "effect_group_id": "",
+    "shop_weight": 10,
+    "description": "Bug 触发时追加伤害。",
+    "art_path": "res://Resources/Art/Generated/P0/icons/relic_icon_error_log_repo_v1/prop.png"
+  },
+  {
+    "id": "relic_figma_library",
+    "name": "Figma组件库",
+    "allowed_classes": [
+      "frontend"
+    ],
+    "rarity": "uncommon",
+    "trigger_list": [
+      "add_component"
+    ],
+    "effect_group_id": "",
+    "shop_weight": 10,
+    "description": "首次生成组件时额外复制。",
+    "art_path": "res://Resources/Art/Generated/P0/icons/relic_icon_figma_library_v1/prop.png"
+  },
+  {
+    "id": "relic_read_replica",
+    "name": "只读从库快照",
+    "allowed_classes": [
+      "backend"
+    ],
+    "rarity": "uncommon",
+    "trigger_list": [
+      "damage_taken"
+    ],
+    "effect_group_id": "",
+    "shop_weight": 10,
+    "description": "首次承压时返还资源。",
+    "art_path": "res://Resources/Art/Generated/P0/icons/relic_icon_read_replica_v1/prop.png"
+  },
+  {
+    "id": "relic_gantt_roadmap",
+    "name": "路线图甘特图",
+    "allowed_classes": [
+      "product_manager"
+    ],
+    "rarity": "uncommon",
+    "trigger_list": [
+      "modify_intent"
+    ],
+    "effect_group_id": "",
+    "shop_weight": 10,
+    "description": "首次重置意图后抽牌。",
+    "art_path": "res://Resources/Art/Generated/P0/icons/relic_icon_gantt_roadmap_v1/prop.png"
+  },
+  {
+    "id": "relic_paper_citation",
+    "name": "论文引用榜",
+    "allowed_classes": [
+      "algorithm"
+    ],
+    "rarity": "uncommon",
+    "trigger_list": [
+      "deal_damage"
+    ],
+    "effect_group_id": "",
+    "shop_weight": 10,
+    "description": "高复杂度时终结牌更强。",
+    "art_path": "res://Resources/Art/Generated/P0/icons/relic_icon_paper_citation_v1/prop.png"
+  }
+]

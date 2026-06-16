@@ -104,6 +104,11 @@ func _validate_config_references(config, content) -> void:
 		var pollution_card: Dictionary = content.card_def(card_id)
 		_check(not pollution_card.is_empty(), "%s pollution card resolves" % card_id)
 		_check(not content.effect_entries(pollution_card.get("effect_group_id", "")).is_empty(), "%s pollution card has effects" % card_id)
+	_check(config.get_def("statuses", "anxiety").get("timing_hooks", []).has("round_start"), "anxiety declares round start hook")
+	_check(config.get_def("statuses", "overtime").get("timing_hooks", []).has("round_start"), "overtime declares round start hook")
+	_check(config.get_def("statuses", "weak").get("timing_hooks", []).has("deal_damage"), "weak declares damage hook")
+	_check(config.get_def("statuses", "vulnerable").get("timing_hooks", []).has("damage_taken"), "vulnerable declares damage taken hook")
+	_check(config.get_def("statuses", "service_online").get("timing_hooks", []).has("round_end"), "service online declares round end hook")
 	_check(_has_intent_type(content.intent_entries_for_enemy("enemy_salesman"), "pollute"), "salesman has pollute intent")
 	_check(_has_intent_type(content.intent_entries_for_enemy("enemy_workaholic_coworker"), "multi_attack"), "workaholic has multi attack intent")
 	_check(_has_intent_type(content.intent_entries_for_enemy("enemy_meeting_maniac"), "spawn"), "meeting maniac has spawn intent")
@@ -375,6 +380,11 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(player.get("current_spirit", 0)) == 31, "enemy weak and player vulnerable modify incoming damage")
 	battle.call("_round_end_triggers", run)
 	_check(int(player.get("status_list", {}).get("vulnerable", 0)) == 0, "player short debuff decays at turn end")
+	player["status_list"] = { "anxiety": 2 }
+	player["current_energy"] = 3
+	battle.call("_round_start_triggers", run, false)
+	_check(int(player.get("current_energy", 0)) == 2, "anxiety reduces round start energy")
+	_check(int(player.get("status_list", {}).get("anxiety", 0)) == 1, "anxiety decays after triggering")
 	player["status_list"] = { "overtime": 2 }
 	player["current_spirit"] = 40
 	battle.call("_round_start_triggers", run, false)
@@ -796,6 +806,20 @@ func _validate_save_roundtrip(config, map, meta, save) -> void:
 	save.clear_suspend()
 
 func _validate_meta_settlement(config, map, meta) -> void:
+	meta.meta_state = meta.default_meta_state()
+	var backend_class: Dictionary = config.get_def("classes", "backend")
+	var tester_class: Dictionary = config.get_def("classes", "tester")
+	var hr_class: Dictionary = config.get_def("classes", "hr")
+	_check(meta.is_class_playable("backend"), "meta marks backend playable")
+	_check(meta.is_class_playable("product_manager"), "meta marks first playable office class playable")
+	_check(not meta.is_class_playable("hr"), "meta keeps hr out of playable classes")
+	_check(meta.class_availability_label(backend_class) == "可出战", "career tree labels playable class")
+	_check(meta.class_availability_label(hr_class) == "未开放", "career tree labels locked hr placeholder")
+	_check(meta.class_unlock_label(hr_class).contains("扩展预留"), "career tree explains hr placeholder")
+	_check(meta.class_unlock_progress(tester_class) == "0/3", "career tree reports elite unlock progress")
+	meta.meta_state["career_milestones"] = { "elite_wins": 2, "events_resolved": 4, "highest_floor_reached": 12 }
+	_check(meta.class_unlock_progress(tester_class) == "2/3", "career tree updates milestone progress")
+
 	var run_session = RunSessionScript.new()
 	run_session.call("setup", config, map, meta)
 	var run := run_session.create_new_run("tester")

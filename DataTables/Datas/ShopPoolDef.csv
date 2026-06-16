@@ -1,5 +1,5 @@
-id,card_pool_refs,relic_pool_refs,refresh_cost
-string,json,json,int
-c,c,c,c
-## id,## card_pool_refs,## relic_pool_refs,## refresh_cost
-shop_default,"[""class_and_shared""]","[""available""]",20
+##var,id,card_pool_refs#format=json,relic_pool_refs#format=json,refresh_cost
+##type,string,"list,string","list,string",int
+##group,c,c,c,c
+##comment,id,card_pool_refs,relic_pool_refs,refresh_cost
+,shop_default,"[""class_and_shared""]","[""available""]",20

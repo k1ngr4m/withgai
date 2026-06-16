@@ -1,0 +1,11 @@
+[
+  {
+    "id": "reward_default",
+    "card_pool_ref": "class_and_shared",
+    "relic_pool_ref": "available",
+    "currency_range": [
+      18,
+      35
+    ]
+  }
+]

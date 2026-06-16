@@ -1,0 +1,166 @@
+[
+  {
+    "id": "backend",
+    "name": "后端",
+    "family": "programmer",
+    "unlock_order": 1,
+    "unlock_type": "default",
+    "unlock_param": "",
+    "starter_relic_id": "relic_backend_gray_release",
+    "starter_deck": [
+      "card_backend_interface_probe",
+      "card_backend_interface_probe",
+      "card_backend_interface_probe",
+      "card_backend_interface_probe",
+      "card_backend_circuit_breaker",
+      "card_backend_circuit_breaker",
+      "card_backend_circuit_breaker",
+      "card_backend_circuit_breaker",
+      "card_backend_publish_script",
+      "card_backend_hotfix_rollback"
+    ],
+    "shared_pool_refs": [
+      "programmer_shared"
+    ],
+    "recommended_difficulty": 1,
+    "enabled_in_first_playable": true,
+    "summary": "稳健、防守、服务引擎",
+    "color": "#3AA7A3"
+  },
+  {
+    "id": "frontend",
+    "name": "前端",
+    "family": "programmer",
+    "unlock_order": 2,
+    "unlock_type": "boss_defeated",
+    "unlock_param": "boss_pitch_supervisor",
+    "starter_relic_id": "relic_frontend_design_link",
+    "starter_deck": [
+      "card_frontend_pixel_tap",
+      "card_frontend_pixel_tap",
+      "card_frontend_pixel_tap",
+      "card_frontend_pixel_tap",
+      "card_frontend_flex_layout",
+      "card_frontend_flex_layout",
+      "card_frontend_flex_layout",
+      "card_frontend_flex_layout",
+      "card_frontend_slice_sprint",
+      "card_frontend_hotfix_style"
+    ],
+    "shared_pool_refs": [
+      "programmer_shared"
+    ],
+    "recommended_difficulty": 2,
+    "enabled_in_first_playable": true,
+    "summary": "连击、组件、样式层滚雪球",
+    "color": "#E676AF"
+  },
+  {
+    "id": "tester",
+    "name": "测试",
+    "family": "programmer",
+    "unlock_order": 3,
+    "unlock_type": "elite_wins",
+    "unlock_param": "3",
+    "starter_relic_id": "relic_tester_automation_framework",
+    "starter_deck": [
+      "card_tester_defect_log",
+      "card_tester_defect_log",
+      "card_tester_defect_log",
+      "card_tester_defect_log",
+      "card_tester_smoke_test",
+      "card_tester_smoke_test",
+      "card_tester_smoke_test",
+      "card_tester_smoke_test",
+      "card_tester_repro_steps",
+      "card_tester_regression_confirm"
+    ],
+    "shared_pool_refs": [
+      "programmer_shared"
+    ],
+    "recommended_difficulty": 3,
+    "enabled_in_first_playable": true,
+    "summary": "Bug、用例、Diff 锁场",
+    "color": "#F0B64D"
+  },
+  {
+    "id": "algorithm",
+    "name": "算法",
+    "family": "programmer",
+    "unlock_order": 5,
+    "unlock_type": "reach_floor",
+    "unlock_param": "top",
+    "starter_relic_id": "relic_algorithm_local_cluster",
+    "starter_deck": [
+      "card_algo_linear_probe",
+      "card_algo_linear_probe",
+      "card_algo_linear_probe",
+      "card_algo_linear_probe",
+      "card_algo_complexity_compress",
+      "card_algo_complexity_compress",
+      "card_algo_complexity_compress",
+      "card_algo_complexity_compress",
+      "card_algo_heuristic_search",
+      "card_algo_local_opt"
+    ],
+    "shared_pool_refs": [
+      "programmer_shared"
+    ],
+    "recommended_difficulty": 5,
+    "enabled_in_first_playable": true,
+    "summary": "算力、复杂度、高爆发",
+    "color": "#8B7FF5"
+  },
+  {
+    "id": "product_manager",
+    "name": "产品经理",
+    "family": "office_other",
+    "unlock_order": 3,
+    "unlock_type": "event_count",
+    "unlock_param": "6",
+    "starter_relic_id": "relic_pm_review_minutes",
+    "starter_deck": [
+      "card_pm_schedule_compress",
+      "card_pm_schedule_compress",
+      "card_pm_schedule_compress",
+      "card_pm_schedule_compress",
+      "card_pm_priority_shuffle",
+      "card_pm_priority_shuffle",
+      "card_pm_priority_shuffle",
+      "card_pm_priority_shuffle",
+      "card_pm_meeting_minutes",
+      "card_pm_revision_notice"
+    ],
+    "shared_pool_refs": [],
+    "recommended_difficulty": 3,
+    "enabled_in_first_playable": true,
+    "summary": "需求变更、优先级、意图操控",
+    "color": "#6BB7F0"
+  },
+  {
+    "id": "hr",
+    "name": "HR",
+    "family": "office_other",
+    "unlock_order": 4,
+    "unlock_type": "boss_defeated",
+    "unlock_param": "boss_mutant_hr",
+    "starter_relic_id": "relic_hr_annual_review",
+    "starter_deck": [
+      "card_hr_performance_talk",
+      "card_hr_performance_talk",
+      "card_hr_performance_talk",
+      "card_hr_performance_talk",
+      "card_hr_compliance_reminder",
+      "card_hr_compliance_reminder",
+      "card_hr_compliance_reminder",
+      "card_hr_compliance_reminder",
+      "card_hr_optimization_warning",
+      "card_hr_attendance_check"
+    ],
+    "shared_pool_refs": [],
+    "recommended_difficulty": 4,
+    "enabled_in_first_playable": false,
+    "summary": "绩效、优化名单、经济收割",
+    "color": "#77C776"
+  }
+]

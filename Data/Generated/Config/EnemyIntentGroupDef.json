@@ -1,0 +1,458 @@
+[
+  {
+    "id": "ig_enemy_slacker_coworker",
+    "intent_entries": [
+      {
+        "intent_type": "attack",
+        "amount": 7,
+        "weight": 5
+      },
+      {
+        "intent_type": "block",
+        "amount": 6,
+        "weight": 2
+      },
+      {
+        "intent_type": "debuff",
+        "amount": 1,
+        "weight": 1,
+        "status_id": "anxiety"
+      }
+    ]
+  },
+  {
+    "id": "ig_enemy_workaholic_coworker",
+    "intent_entries": [
+      {
+        "intent_type": "attack",
+        "amount": 7,
+        "weight": 5
+      },
+      {
+        "intent_type": "block",
+        "amount": 6,
+        "weight": 2
+      },
+      {
+        "intent_type": "debuff",
+        "amount": 1,
+        "weight": 1,
+        "status_id": "anxiety"
+      },
+      {
+        "intent_type": "multi_attack",
+        "amount": 3,
+        "weight": 4,
+        "hits": 3
+      }
+    ]
+  },
+  {
+    "id": "ig_enemy_angry_cleaner",
+    "intent_entries": [
+      {
+        "intent_type": "attack",
+        "amount": 7,
+        "weight": 5
+      },
+      {
+        "intent_type": "block",
+        "amount": 6,
+        "weight": 2
+      },
+      {
+        "intent_type": "debuff",
+        "amount": 1,
+        "weight": 1,
+        "status_id": "anxiety"
+      }
+    ]
+  },
+  {
+    "id": "ig_enemy_salesman",
+    "intent_entries": [
+      {
+        "intent_type": "attack",
+        "amount": 7,
+        "weight": 5
+      },
+      {
+        "intent_type": "block",
+        "amount": 6,
+        "weight": 2
+      },
+      {
+        "intent_type": "debuff",
+        "amount": 1,
+        "weight": 1,
+        "status_id": "anxiety"
+      },
+      {
+        "intent_type": "pollute",
+        "amount": 1,
+        "weight": 4,
+        "card_id": "card_status_option_promise",
+        "destination": "discard"
+      }
+    ]
+  },
+  {
+    "id": "ig_enemy_process_specialist",
+    "intent_entries": [
+      {
+        "intent_type": "attack",
+        "amount": 7,
+        "weight": 5
+      },
+      {
+        "intent_type": "block",
+        "amount": 6,
+        "weight": 2
+      },
+      {
+        "intent_type": "debuff",
+        "amount": 1,
+        "weight": 1,
+        "status_id": "anxiety"
+      },
+      {
+        "intent_type": "block",
+        "amount": 10,
+        "weight": 3
+      }
+    ]
+  },
+  {
+    "id": "ig_enemy_performance_inspector",
+    "intent_entries": [
+      {
+        "intent_type": "attack",
+        "amount": 7,
+        "weight": 5
+      },
+      {
+        "intent_type": "block",
+        "amount": 6,
+        "weight": 2
+      },
+      {
+        "intent_type": "debuff",
+        "amount": 1,
+        "weight": 1,
+        "status_id": "anxiety"
+      },
+      {
+        "intent_type": "debuff",
+        "amount": 1,
+        "weight": 2,
+        "status_id": "weak"
+      }
+    ]
+  },
+  {
+    "id": "ig_enemy_meeting_maniac",
+    "intent_entries": [
+      {
+        "intent_type": "attack",
+        "amount": 7,
+        "weight": 5
+      },
+      {
+        "intent_type": "block",
+        "amount": 6,
+        "weight": 2
+      },
+      {
+        "intent_type": "debuff",
+        "amount": 1,
+        "weight": 1,
+        "status_id": "anxiety"
+      },
+      {
+        "intent_type": "spawn",
+        "amount": 1,
+        "weight": 3,
+        "enemy_id": "enemy_process_specialist",
+        "max_allies": 3
+      },
+      {
+        "intent_type": "pollute",
+        "amount": 1,
+        "weight": 2,
+        "card_id": "card_status_meeting_minutes",
+        "destination": "discard"
+      }
+    ]
+  },
+  {
+    "id": "ig_enemy_airdrop_director",
+    "intent_entries": [
+      {
+        "intent_type": "attack",
+        "amount": 7,
+        "weight": 5
+      },
+      {
+        "intent_type": "block",
+        "amount": 6,
+        "weight": 2
+      },
+      {
+        "intent_type": "debuff",
+        "amount": 1,
+        "weight": 1,
+        "status_id": "anxiety"
+      },
+      {
+        "intent_type": "phase_shift",
+        "amount": 5,
+        "weight": 2
+      }
+    ]
+  },
+  {
+    "id": "ig_enemy_compliance_judge",
+    "intent_entries": [
+      {
+        "intent_type": "attack",
+        "amount": 7,
+        "weight": 5
+      },
+      {
+        "intent_type": "block",
+        "amount": 6,
+        "weight": 2
+      },
+      {
+        "intent_type": "debuff",
+        "amount": 1,
+        "weight": 1,
+        "status_id": "anxiety"
+      },
+      {
+        "intent_type": "cleanse_player",
+        "amount": 2,
+        "weight": 3,
+        "card_id": "card_status_meeting_minutes"
+      }
+    ]
+  },
+  {
+    "id": "ig_elite_airdrop_project_lead",
+    "intent_entries": [
+      {
+        "intent_type": "attack",
+        "amount": 11,
+        "weight": 5
+      },
+      {
+        "intent_type": "block",
+        "amount": 9,
+        "weight": 2
+      },
+      {
+        "intent_type": "debuff",
+        "amount": 1,
+        "weight": 1,
+        "status_id": "anxiety"
+      },
+      {
+        "intent_type": "multi_attack",
+        "amount": 5,
+        "weight": 3,
+        "hits": 2
+      }
+    ]
+  },
+  {
+    "id": "ig_elite_outsource_manager",
+    "intent_entries": [
+      {
+        "intent_type": "attack",
+        "amount": 11,
+        "weight": 5
+      },
+      {
+        "intent_type": "block",
+        "amount": 9,
+        "weight": 2
+      },
+      {
+        "intent_type": "debuff",
+        "amount": 1,
+        "weight": 1,
+        "status_id": "anxiety"
+      },
+      {
+        "intent_type": "spawn",
+        "amount": 1,
+        "weight": 4,
+        "enemy_id": "enemy_process_specialist",
+        "max_allies": 4
+      }
+    ]
+  },
+  {
+    "id": "ig_elite_budget_gatekeeper",
+    "intent_entries": [
+      {
+        "intent_type": "attack",
+        "amount": 11,
+        "weight": 5
+      },
+      {
+        "intent_type": "block",
+        "amount": 9,
+        "weight": 2
+      },
+      {
+        "intent_type": "debuff",
+        "amount": 1,
+        "weight": 1,
+        "status_id": "anxiety"
+      },
+      {
+        "intent_type": "debuff",
+        "amount": 1,
+        "weight": 2,
+        "status_id": "vulnerable"
+      }
+    ]
+  },
+  {
+    "id": "ig_elite_approval_eye",
+    "intent_entries": [
+      {
+        "intent_type": "attack",
+        "amount": 11,
+        "weight": 5
+      },
+      {
+        "intent_type": "block",
+        "amount": 9,
+        "weight": 2
+      },
+      {
+        "intent_type": "debuff",
+        "amount": 1,
+        "weight": 1,
+        "status_id": "anxiety"
+      },
+      {
+        "intent_type": "cleanse_player",
+        "amount": 3,
+        "weight": 3,
+        "card_id": "card_curse_next_year_promotion"
+      }
+    ]
+  },
+  {
+    "id": "ig_boss_pitch_supervisor",
+    "intent_entries": [
+      {
+        "intent_type": "attack",
+        "amount": 14,
+        "weight": 5
+      },
+      {
+        "intent_type": "block",
+        "amount": 12,
+        "weight": 2
+      },
+      {
+        "intent_type": "debuff",
+        "amount": 1,
+        "weight": 1,
+        "status_id": "anxiety"
+      },
+      {
+        "intent_type": "pollute",
+        "amount": 2,
+        "weight": 4,
+        "card_id": "card_status_option_promise",
+        "destination": "discard"
+      },
+      {
+        "intent_type": "pollute",
+        "amount": 1,
+        "weight": 2,
+        "card_id": "card_curse_next_year_promotion",
+        "destination": "draw"
+      }
+    ]
+  },
+  {
+    "id": "ig_boss_mutant_hr",
+    "intent_entries": [
+      {
+        "intent_type": "attack",
+        "amount": 14,
+        "weight": 5
+      },
+      {
+        "intent_type": "block",
+        "amount": 12,
+        "weight": 2
+      },
+      {
+        "intent_type": "debuff",
+        "amount": 1,
+        "weight": 1,
+        "status_id": "anxiety"
+      },
+      {
+        "intent_type": "cleanse_player",
+        "amount": 3,
+        "weight": 3,
+        "card_id": "card_status_meeting_minutes"
+      },
+      {
+        "intent_type": "debuff",
+        "amount": 2,
+        "weight": 2,
+        "status_id": "overtime"
+      }
+    ]
+  },
+  {
+    "id": "ig_boss_mutant_ceo",
+    "intent_entries": [
+      {
+        "intent_type": "attack",
+        "amount": 14,
+        "weight": 5
+      },
+      {
+        "intent_type": "block",
+        "amount": 12,
+        "weight": 2
+      },
+      {
+        "intent_type": "debuff",
+        "amount": 1,
+        "weight": 1,
+        "status_id": "anxiety"
+      },
+      {
+        "intent_type": "multi_attack",
+        "amount": 6,
+        "weight": 3,
+        "hits": 3
+      },
+      {
+        "intent_type": "spawn",
+        "amount": 1,
+        "weight": 3,
+        "enemy_id": "enemy_meeting_maniac",
+        "max_allies": 4
+      },
+      {
+        "intent_type": "pollute",
+        "amount": 2,
+        "weight": 2,
+        "card_id": "card_status_meeting_minutes",
+        "destination": "discard"
+      }
+    ]
+  }
+]

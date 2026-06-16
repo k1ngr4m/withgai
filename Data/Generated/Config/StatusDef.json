@@ -1,0 +1,204 @@
+[
+  {
+    "id": "anxiety",
+    "name": "焦虑",
+    "stack_rule": "stack",
+    "timing_hooks": [
+      "round_start",
+      "expire"
+    ],
+    "effect_group_id": "",
+    "max_stack": 99,
+    "is_hidden": false,
+    "type": "debuff"
+  },
+  {
+    "id": "overtime",
+    "name": "加班",
+    "stack_rule": "stack",
+    "timing_hooks": [
+      "round_start",
+      "expire"
+    ],
+    "effect_group_id": "",
+    "max_stack": 99,
+    "is_hidden": false,
+    "type": "debuff"
+  },
+  {
+    "id": "vulnerable",
+    "name": "易伤",
+    "stack_rule": "stack",
+    "timing_hooks": [
+      "damage_taken",
+      "round_end",
+      "enemy_action_end",
+      "expire"
+    ],
+    "effect_group_id": "",
+    "max_stack": 99,
+    "is_hidden": false,
+    "type": "debuff"
+  },
+  {
+    "id": "weak",
+    "name": "脆弱",
+    "stack_rule": "stack",
+    "timing_hooks": [
+      "deal_damage",
+      "round_end",
+      "enemy_action_end",
+      "expire"
+    ],
+    "effect_group_id": "",
+    "max_stack": 99,
+    "is_hidden": false,
+    "type": "debuff"
+  },
+  {
+    "id": "service_online",
+    "name": "服务在线",
+    "stack_rule": "stack",
+    "timing_hooks": [
+      "round_start",
+      "round_end"
+    ],
+    "effect_group_id": "",
+    "max_stack": 99,
+    "is_hidden": false,
+    "type": "class"
+  },
+  {
+    "id": "cache",
+    "name": "缓存",
+    "stack_rule": "stack",
+    "timing_hooks": [],
+    "effect_group_id": "",
+    "max_stack": 99,
+    "is_hidden": false,
+    "type": "class"
+  },
+  {
+    "id": "component",
+    "name": "组件",
+    "stack_rule": "stack",
+    "timing_hooks": [],
+    "effect_group_id": "",
+    "max_stack": 99,
+    "is_hidden": false,
+    "type": "class"
+  },
+  {
+    "id": "style_layer",
+    "name": "样式层",
+    "stack_rule": "stack",
+    "timing_hooks": [
+      "deal_damage"
+    ],
+    "effect_group_id": "",
+    "max_stack": 99,
+    "is_hidden": false,
+    "type": "class"
+  },
+  {
+    "id": "bug",
+    "name": "Bug",
+    "stack_rule": "stack",
+    "timing_hooks": [
+      "enemy_before_action",
+      "enemy_action_end",
+      "expire"
+    ],
+    "effect_group_id": "",
+    "max_stack": 99,
+    "is_hidden": false,
+    "type": "class"
+  },
+  {
+    "id": "case_mark",
+    "name": "用例",
+    "stack_rule": "stack",
+    "timing_hooks": [
+      "deal_damage"
+    ],
+    "effect_group_id": "",
+    "max_stack": 99,
+    "is_hidden": false,
+    "type": "class"
+  },
+  {
+    "id": "diff",
+    "name": "Diff",
+    "stack_rule": "stack",
+    "timing_hooks": [],
+    "effect_group_id": "",
+    "max_stack": 99,
+    "is_hidden": false,
+    "type": "class"
+  },
+  {
+    "id": "compute",
+    "name": "算力",
+    "stack_rule": "stack",
+    "timing_hooks": [],
+    "effect_group_id": "",
+    "max_stack": 99,
+    "is_hidden": false,
+    "type": "class"
+  },
+  {
+    "id": "complexity",
+    "name": "复杂度",
+    "stack_rule": "stack",
+    "timing_hooks": [],
+    "effect_group_id": "",
+    "max_stack": 99,
+    "is_hidden": false,
+    "type": "class"
+  },
+  {
+    "id": "requirement_change",
+    "name": "需求变更",
+    "stack_rule": "stack",
+    "timing_hooks": [
+      "apply_status",
+      "modify_intent"
+    ],
+    "effect_group_id": "",
+    "max_stack": 99,
+    "is_hidden": false,
+    "type": "class"
+  },
+  {
+    "id": "priority",
+    "name": "优先级",
+    "stack_rule": "stack",
+    "timing_hooks": [
+      "target_resolution"
+    ],
+    "effect_group_id": "",
+    "max_stack": 99,
+    "is_hidden": false,
+    "type": "class"
+  },
+  {
+    "id": "performance",
+    "name": "绩效",
+    "stack_rule": "stack",
+    "timing_hooks": [],
+    "effect_group_id": "",
+    "max_stack": 99,
+    "is_hidden": false,
+    "type": "class"
+  },
+  {
+    "id": "optimization_target",
+    "name": "优化名单",
+    "stack_rule": "stack",
+    "timing_hooks": [],
+    "effect_group_id": "",
+    "max_stack": 99,
+    "is_hidden": false,
+    "type": "class"
+  }
+]

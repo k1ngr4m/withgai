@@ -1,0 +1,267 @@
+[
+  {
+    "id": "pg_enemy_airdrop_director",
+    "enemy_id": "enemy_airdrop_director",
+    "phase_entries": [
+      {
+        "id": "pg_enemy_airdrop_director_p01",
+        "name": "空降姿态切换",
+        "order": 1,
+        "threshold_pct": 0.5,
+        "actions": [
+          {
+            "action_type": "block",
+            "amount": 8
+          },
+          {
+            "action_type": "force_intent",
+            "intent": {
+              "intent_type": "multi_attack",
+              "amount": 4,
+              "hits": 2
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "pg_elite_airdrop_project_lead",
+    "enemy_id": "elite_airdrop_project_lead",
+    "phase_entries": [
+      {
+        "id": "pg_elite_airdrop_project_lead_p01",
+        "name": "Deadline 收紧",
+        "order": 1,
+        "threshold_pct": 0.5,
+        "actions": [
+          {
+            "action_type": "debuff_player",
+            "amount": 2,
+            "status_id": "anxiety"
+          },
+          {
+            "action_type": "force_intent",
+            "intent": {
+              "intent_type": "multi_attack",
+              "amount": 6,
+              "hits": 2
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "pg_elite_outsource_manager",
+    "enemy_id": "elite_outsource_manager",
+    "phase_entries": [
+      {
+        "id": "pg_elite_outsource_manager_p01",
+        "name": "外包协同",
+        "order": 1,
+        "threshold_pct": 0.5,
+        "actions": [
+          {
+            "action_type": "spawn",
+            "amount": 1,
+            "enemy_id": "enemy_process_specialist",
+            "max_allies": 4
+          },
+          {
+            "action_type": "block",
+            "amount": 8
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "pg_elite_approval_eye",
+    "enemy_id": "elite_approval_eye",
+    "phase_entries": [
+      {
+        "id": "pg_elite_approval_eye_p01",
+        "name": "审批冻结",
+        "order": 1,
+        "threshold_pct": 0.5,
+        "actions": [
+          {
+            "action_type": "cleanse_player",
+            "amount": 3
+          },
+          {
+            "action_type": "pollute",
+            "amount": 1,
+            "card_id": "card_curse_next_year_promotion",
+            "destination": "discard"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "pg_boss_pitch_supervisor",
+    "enemy_id": "boss_pitch_supervisor",
+    "phase_entries": [
+      {
+        "id": "pg_boss_pitch_supervisor_p01",
+        "name": "期权加码",
+        "order": 1,
+        "threshold_pct": 0.66,
+        "actions": [
+          {
+            "action_type": "pollute",
+            "amount": 1,
+            "card_id": "card_status_option_promise",
+            "destination": "hand"
+          },
+          {
+            "action_type": "block",
+            "amount": 10
+          }
+        ]
+      },
+      {
+        "id": "pg_boss_pitch_supervisor_p02",
+        "name": "明年一定",
+        "order": 2,
+        "threshold_pct": 0.33,
+        "actions": [
+          {
+            "action_type": "pollute",
+            "amount": 1,
+            "card_id": "card_curse_next_year_promotion",
+            "destination": "draw"
+          },
+          {
+            "action_type": "force_intent",
+            "intent": {
+              "intent_type": "attack",
+              "amount": 18
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "pg_boss_mutant_hr",
+    "enemy_id": "boss_mutant_hr",
+    "phase_entries": [
+      {
+        "id": "pg_boss_mutant_hr_p01",
+        "name": "绩效面谈升级",
+        "order": 1,
+        "threshold_pct": 0.66,
+        "actions": [
+          {
+            "action_type": "cleanse_player",
+            "amount": 2
+          },
+          {
+            "action_type": "debuff_player",
+            "amount": 1,
+            "status_id": "overtime"
+          },
+          {
+            "action_type": "block",
+            "amount": 10
+          }
+        ]
+      },
+      {
+        "id": "pg_boss_mutant_hr_p02",
+        "name": "优化名单扩散",
+        "order": 2,
+        "threshold_pct": 0.33,
+        "actions": [
+          {
+            "action_type": "pollute",
+            "amount": 2,
+            "card_id": "card_status_meeting_minutes",
+            "destination": "discard"
+          },
+          {
+            "action_type": "force_intent",
+            "intent": {
+              "intent_type": "debuff",
+              "amount": 3,
+              "status_id": "overtime"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "pg_boss_mutant_ceo",
+    "enemy_id": "boss_mutant_ceo",
+    "phase_entries": [
+      {
+        "id": "pg_boss_mutant_ceo_p01",
+        "name": "季度会启动",
+        "order": 1,
+        "threshold_pct": 0.7,
+        "actions": [
+          {
+            "action_type": "spawn",
+            "amount": 1,
+            "enemy_id": "enemy_meeting_maniac",
+            "max_allies": 4
+          },
+          {
+            "action_type": "block",
+            "amount": 12
+          }
+        ]
+      },
+      {
+        "id": "pg_boss_mutant_ceo_p02",
+        "name": "资本意志压顶",
+        "order": 2,
+        "threshold_pct": 0.4,
+        "actions": [
+          {
+            "action_type": "pollute",
+            "amount": 2,
+            "card_id": "card_status_meeting_minutes",
+            "destination": "discard"
+          },
+          {
+            "action_type": "force_intent",
+            "intent": {
+              "intent_type": "multi_attack",
+              "amount": 8,
+              "hits": 3
+            }
+          }
+        ]
+      },
+      {
+        "id": "pg_boss_mutant_ceo_p03",
+        "name": "全员大会",
+        "order": 3,
+        "threshold_pct": 0.2,
+        "actions": [
+          {
+            "action_type": "spawn",
+            "amount": 1,
+            "enemy_id": "enemy_process_specialist",
+            "max_allies": 5
+          },
+          {
+            "action_type": "pollute",
+            "amount": 1,
+            "card_id": "card_curse_next_year_promotion",
+            "destination": "draw"
+          },
+          {
+            "action_type": "block",
+            "amount": 20
+          }
+        ]
+      }
+    ]
+  }
+]

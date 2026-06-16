@@ -1,0 +1,211 @@
+[
+  {
+    "id": "enemy_slacker_coworker",
+    "name": "摸鱼同事",
+    "chapter_tags": [
+      1
+    ],
+    "base_hp": 34,
+    "intent_group_id": "ig_enemy_slacker_coworker",
+    "phase_group_id": "",
+    "reward_profile_id": "reward_default",
+    "description": "偶尔跳过攻击并叠防线",
+    "art_path": "res://Resources/Art/Generated/P0/enemies/enemy_slacker_coworker_v1/raw.png"
+  },
+  {
+    "id": "enemy_workaholic_coworker",
+    "name": "卷王同事",
+    "chapter_tags": [
+      1
+    ],
+    "base_hp": 38,
+    "intent_group_id": "ig_enemy_workaholic_coworker",
+    "phase_group_id": "",
+    "reward_profile_id": "reward_default",
+    "description": "高频多段攻击",
+    "art_path": "res://Resources/Art/Generated/P0/enemies/enemy_workaholic_coworker_v1/raw.png"
+  },
+  {
+    "id": "enemy_angry_cleaner",
+    "name": "暴躁保洁阿姨",
+    "chapter_tags": [
+      1
+    ],
+    "base_hp": 42,
+    "intent_group_id": "ig_enemy_angry_cleaner",
+    "phase_group_id": "",
+    "reward_profile_id": "reward_default",
+    "description": "高面板单次伤害",
+    "art_path": "res://Resources/Art/Generated/P0/enemies/enemy_angry_cleaner_v1/raw.png"
+  },
+  {
+    "id": "enemy_salesman",
+    "name": "西装推销员",
+    "chapter_tags": [
+      1
+    ],
+    "base_hp": 36,
+    "intent_group_id": "ig_enemy_salesman",
+    "phase_group_id": "",
+    "reward_profile_id": "reward_default",
+    "description": "向牌组塞低价值污染",
+    "art_path": "res://Resources/Art/Generated/P0/enemies/enemy_salesman_v1/raw.png"
+  },
+  {
+    "id": "enemy_process_specialist",
+    "name": "流程专员",
+    "chapter_tags": [
+      2
+    ],
+    "base_hp": 48,
+    "intent_group_id": "ig_enemy_process_specialist",
+    "phase_group_id": "",
+    "reward_profile_id": "reward_default",
+    "description": "频繁获得防线与增益",
+    "art_path": ""
+  },
+  {
+    "id": "enemy_performance_inspector",
+    "name": "绩效监察",
+    "chapter_tags": [
+      2
+    ],
+    "base_hp": 52,
+    "intent_group_id": "ig_enemy_performance_inspector",
+    "phase_group_id": "",
+    "reward_profile_id": "reward_default",
+    "description": "惩罚拖回合与手牌膨胀",
+    "art_path": ""
+  },
+  {
+    "id": "enemy_meeting_maniac",
+    "name": "开会狂人",
+    "chapter_tags": [
+      2
+    ],
+    "base_hp": 46,
+    "intent_group_id": "ig_enemy_meeting_maniac",
+    "phase_group_id": "",
+    "reward_profile_id": "reward_default",
+    "description": "通过议程召唤衍生物",
+    "art_path": ""
+  },
+  {
+    "id": "enemy_airdrop_director",
+    "name": "空降总监",
+    "chapter_tags": [
+      3
+    ],
+    "base_hp": 58,
+    "intent_group_id": "ig_enemy_airdrop_director",
+    "phase_group_id": "pg_enemy_airdrop_director",
+    "reward_profile_id": "reward_default",
+    "description": "切换姿态压迫节奏",
+    "art_path": ""
+  },
+  {
+    "id": "enemy_compliance_judge",
+    "name": "合规审判官",
+    "chapter_tags": [
+      3
+    ],
+    "base_hp": 60,
+    "intent_group_id": "ig_enemy_compliance_judge",
+    "phase_group_id": "",
+    "reward_profile_id": "reward_default",
+    "description": "清除玩家增益并塞入污染",
+    "art_path": ""
+  },
+  {
+    "id": "elite_airdrop_project_lead",
+    "name": "空降项目组长",
+    "chapter_tags": [
+      1
+    ],
+    "base_hp": 78,
+    "intent_group_id": "ig_elite_airdrop_project_lead",
+    "phase_group_id": "pg_elite_airdrop_project_lead",
+    "reward_profile_id": "reward_default",
+    "description": "Deadline 倒计时",
+    "art_path": "res://Resources/Art/Generated/P0/enemies/elite_airdrop_project_lead_v1/raw.png"
+  },
+  {
+    "id": "elite_outsource_manager",
+    "name": "外包统筹经理",
+    "chapter_tags": [
+      1,
+      2
+    ],
+    "base_hp": 82,
+    "intent_group_id": "ig_elite_outsource_manager",
+    "phase_group_id": "pg_elite_outsource_manager",
+    "reward_profile_id": "reward_default",
+    "description": "召唤杂兵并强化协同",
+    "art_path": ""
+  },
+  {
+    "id": "elite_budget_gatekeeper",
+    "name": "预算守门人",
+    "chapter_tags": [
+      2
+    ],
+    "base_hp": 88,
+    "intent_group_id": "ig_elite_budget_gatekeeper",
+    "phase_group_id": "",
+    "reward_profile_id": "reward_default",
+    "description": "压缩绩效点收益",
+    "art_path": ""
+  },
+  {
+    "id": "elite_approval_eye",
+    "name": "审批流之眼",
+    "chapter_tags": [
+      3
+    ],
+    "base_hp": 96,
+    "intent_group_id": "ig_elite_approval_eye",
+    "phase_group_id": "pg_elite_approval_eye",
+    "reward_profile_id": "reward_default",
+    "description": "冻结高费牌并扭曲顺序",
+    "art_path": ""
+  },
+  {
+    "id": "boss_pitch_supervisor",
+    "name": "画饼主管",
+    "chapter_tags": [
+      1
+    ],
+    "base_hp": 120,
+    "intent_group_id": "ig_boss_pitch_supervisor",
+    "phase_group_id": "pg_boss_pitch_supervisor",
+    "reward_profile_id": "reward_default",
+    "description": "塞入期权与明年提拔你",
+    "art_path": "res://Resources/Art/Generated/P0/characters/boss_pitch_supervisor_v1.png"
+  },
+  {
+    "id": "boss_mutant_hr",
+    "name": "变异HR",
+    "chapter_tags": [
+      2
+    ],
+    "base_hp": 150,
+    "intent_group_id": "ig_boss_mutant_hr",
+    "phase_group_id": "pg_boss_mutant_hr",
+    "reward_profile_id": "reward_default",
+    "description": "压缩续航、惩罚冗余手牌",
+    "art_path": ""
+  },
+  {
+    "id": "boss_mutant_ceo",
+    "name": "变异总裁",
+    "chapter_tags": [
+      3
+    ],
+    "base_hp": 190,
+    "intent_group_id": "ig_boss_mutant_ceo",
+    "phase_group_id": "pg_boss_mutant_ceo",
+    "reward_profile_id": "reward_default",
+    "description": "多阶段、多意图、召唤会议纪要",
+    "art_path": ""
+  }
+]

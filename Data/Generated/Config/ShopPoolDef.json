@@ -1,0 +1,12 @@
+[
+  {
+    "id": "shop_default",
+    "card_pool_refs": [
+      "class_and_shared"
+    ],
+    "relic_pool_refs": [
+      "available"
+    ],
+    "refresh_cost": 20
+  }
+]

@@ -1,10 +1,10 @@
-id,chapter,node_type,weight,can_repeat,reward_profile_id
-string,int,string,int,bool,string
-c,c,c,c,c,c
-## id,## chapter,## node_type,## weight,## can_repeat,## reward_profile_id
-node_normal,0,normal_battle,45,true,reward_default
-node_elite,0,elite_battle,12,true,reward_default
-node_rest,0,rest,14,true,reward_default
-node_shop,0,shop,12,true,reward_default
-node_event,0,event,17,true,reward_default
-node_boss,0,boss,1,true,reward_default
+##var,id,chapter,node_type,weight,can_repeat,reward_profile_id
+##type,string,int,string,int,bool,string
+##group,c,c,c,c,c,c
+##comment,id,chapter,node_type,weight,can_repeat,reward_profile_id
+,node_normal,0,normal_battle,45,true,reward_default
+,node_elite,0,elite_battle,12,true,reward_default
+,node_rest,0,rest,14,true,reward_default
+,node_shop,0,shop,12,true,reward_default
+,node_event,0,event,17,true,reward_default
+,node_boss,0,boss,1,true,reward_default

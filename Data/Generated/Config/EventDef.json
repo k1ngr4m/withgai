@@ -1,0 +1,368 @@
+[
+  {
+    "id": "event_unlocked_office",
+    "name": "老板办公室门没锁",
+    "chapter_tags": [
+      1,
+      2,
+      3
+    ],
+    "allowed_classes": [
+      "backend",
+      "frontend",
+      "tester",
+      "algorithm",
+      "product_manager"
+    ],
+    "text": "现金抽屉与待签文件都在。",
+    "options": [
+      {
+        "text": "拿走绩效点",
+        "effects": [
+          {
+            "effect_type": "gain_currency",
+            "target_type": "self",
+            "params": {
+              "amount": 45
+            }
+          }
+        ]
+      },
+      {
+        "text": "偷改一份文件",
+        "effects": [
+          {
+            "effect_type": "upgrade_card",
+            "target_type": "self",
+            "params": {
+              "amount": 1
+            }
+          }
+        ]
+      }
+    ],
+    "weight": 10
+  },
+  {
+    "id": "event_wrong_email",
+    "name": "内网邮件误抄送",
+    "chapter_tags": [
+      1,
+      2,
+      3
+    ],
+    "allowed_classes": [
+      "backend",
+      "frontend",
+      "tester",
+      "algorithm",
+      "product_manager"
+    ],
+    "text": "你被卷入敏感链路。",
+    "options": [
+      {
+        "text": "顺手归档",
+        "effects": [
+          {
+            "effect_type": "draw_cards",
+            "target_type": "self",
+            "params": {
+              "amount": 1
+            }
+          }
+        ]
+      },
+      {
+        "text": "假装没看见",
+        "effects": [
+          {
+            "effect_type": "gain_currency",
+            "target_type": "self",
+            "params": {
+              "amount": 20
+            }
+          }
+        ]
+      }
+    ],
+    "weight": 9
+  },
+  {
+    "id": "event_pantry_gossip",
+    "name": "茶水间八卦",
+    "chapter_tags": [
+      1,
+      2,
+      3
+    ],
+    "allowed_classes": [
+      "backend",
+      "frontend",
+      "tester",
+      "algorithm",
+      "product_manager"
+    ],
+    "text": "同事共享了一批黑料。",
+    "options": [
+      {
+        "text": "休息一下",
+        "effects": [
+          {
+            "effect_type": "recover_spirit",
+            "target_type": "self",
+            "params": {
+              "amount": 12
+            }
+          }
+        ]
+      },
+      {
+        "text": "删掉废牌",
+        "effects": [
+          {
+            "effect_type": "remove_card",
+            "target_type": "self",
+            "params": {
+              "amount": 1
+            }
+          }
+        ]
+      }
+    ],
+    "weight": 8
+  },
+  {
+    "id": "event_vending_bug",
+    "name": "深夜自动贩卖机故障",
+    "chapter_tags": [
+      1,
+      2,
+      3
+    ],
+    "allowed_classes": [
+      "backend",
+      "frontend",
+      "tester",
+      "algorithm",
+      "product_manager"
+    ],
+    "text": "机器疯狂吐货。",
+    "options": [
+      {
+        "text": "低价购买",
+        "effects": [
+          {
+            "effect_type": "gain_currency",
+            "target_type": "self",
+            "params": {
+              "amount": -20
+            }
+          },
+          {
+            "effect_type": "add_random_card",
+            "target_type": "self",
+            "params": {
+              "amount": 1
+            }
+          }
+        ]
+      },
+      {
+        "text": "强拿",
+        "effects": [
+          {
+            "effect_type": "gain_currency",
+            "target_type": "self",
+            "params": {
+              "amount": 35
+            }
+          }
+        ]
+      }
+    ],
+    "weight": 10
+  },
+  {
+    "id": "event_intern_blame",
+    "name": "帮实习生背锅",
+    "chapter_tags": [
+      1,
+      2,
+      3
+    ],
+    "allowed_classes": [
+      "backend",
+      "frontend",
+      "tester",
+      "algorithm",
+      "product_manager"
+    ],
+    "text": "临时承担压力。",
+    "options": [
+      {
+        "text": "接下压力",
+        "effects": [
+          {
+            "effect_type": "lose_spirit",
+            "target_type": "self",
+            "params": {
+              "amount": 8
+            }
+          },
+          {
+            "effect_type": "add_random_card",
+            "target_type": "self",
+            "params": {
+              "amount": 1
+            }
+          }
+        ]
+      },
+      {
+        "text": "流程转交",
+        "effects": [
+          {
+            "effect_type": "gain_currency",
+            "target_type": "self",
+            "params": {
+              "amount": 15
+            }
+          }
+        ]
+      }
+    ],
+    "weight": 9
+  },
+  {
+    "id": "event_lottery",
+    "name": "年会抽奖预演",
+    "chapter_tags": [
+      1,
+      2,
+      3
+    ],
+    "allowed_classes": [
+      "backend",
+      "frontend",
+      "tester",
+      "algorithm",
+      "product_manager"
+    ],
+    "text": "一个赌博式收益机会。",
+    "options": [
+      {
+        "text": "抽奖",
+        "effects": [
+          {
+            "effect_type": "gain_currency",
+            "target_type": "self",
+            "params": {
+              "amount": 50
+            }
+          }
+        ]
+      },
+      {
+        "text": "不参与",
+        "effects": [
+          {
+            "effect_type": "recover_spirit",
+            "target_type": "self",
+            "params": {
+              "amount": 6
+            }
+          }
+        ]
+      }
+    ],
+    "weight": 8
+  },
+  {
+    "id": "event_private_talk",
+    "name": "领导单独谈话",
+    "chapter_tags": [
+      1,
+      2,
+      3
+    ],
+    "allowed_classes": [
+      "backend",
+      "frontend",
+      "tester",
+      "algorithm",
+      "product_manager"
+    ],
+    "text": "资源与代价摆在眼前。",
+    "options": [
+      {
+        "text": "接受承诺",
+        "effects": [
+          {
+            "effect_type": "gain_currency",
+            "target_type": "self",
+            "params": {
+              "amount": 30
+            }
+          }
+        ]
+      },
+      {
+        "text": "要求资源",
+        "effects": [
+          {
+            "effect_type": "add_random_relic",
+            "target_type": "self",
+            "params": {
+              "amount": 1
+            }
+          }
+        ]
+      }
+    ],
+    "weight": 10
+  },
+  {
+    "id": "event_layoff_rumor",
+    "name": "裁员传闻",
+    "chapter_tags": [
+      1,
+      2,
+      3
+    ],
+    "allowed_classes": [
+      "backend",
+      "frontend",
+      "tester",
+      "algorithm",
+      "product_manager"
+    ],
+    "text": "整层楼开始恐慌。",
+    "options": [
+      {
+        "text": "稳住心态",
+        "effects": [
+          {
+            "effect_type": "recover_spirit",
+            "target_type": "self",
+            "params": {
+              "amount": 10
+            }
+          }
+        ]
+      },
+      {
+        "text": "趁乱套利",
+        "effects": [
+          {
+            "effect_type": "gain_currency",
+            "target_type": "self",
+            "params": {
+              "amount": 40
+            }
+          }
+        ]
+      }
+    ],
+    "weight": 9
+  }
+]

@@ -36,15 +36,28 @@ func _class_card(cls: Dictionary) -> Control:
 	box.add_child(UiFactory.label("%s  难度 %d" % [cls.get("name", class_id), int(cls.get("recommended_difficulty", 1))], 22))
 	box.add_child(UiFactory.label(cls.get("summary", ""), 15, Color(0.85, 0.9, 0.92)))
 	box.add_child(UiFactory.label("初始遗物：%s" % AppRoot.config_service.get_def("relics", cls.get("starter_relic_id", "")).get("name", "无"), 14, Color(0.75, 0.88, 0.9)))
+	box.add_child(UiFactory.label("状态：%s" % AppRoot.meta_service.class_availability_label(cls), 14, _availability_color(cls)))
+	box.add_child(UiFactory.label("条件：%s" % AppRoot.meta_service.class_unlock_label(cls), 13, Color(0.72, 0.83, 0.86)))
+	box.add_child(UiFactory.label("进度：%s" % AppRoot.meta_service.class_unlock_progress(cls), 13, Color(0.72, 0.83, 0.86)))
 	var button := UiFactory.button("开始")
-	var locked := not AppRoot.meta_service.is_class_unlocked(class_id)
-	var disabled: bool = locked or not bool(cls.get("enabled_in_first_playable", false))
+	var disabled := not AppRoot.meta_service.is_class_playable(class_id)
 	button.disabled = disabled
 	if disabled:
-		button.text = "未开放" if class_id == "hr" else "未解锁"
+		button.text = AppRoot.meta_service.class_availability_label(cls)
 	button.pressed.connect(func(): _start_class(class_id))
 	box.add_child(button)
 	return panel
+
+func _availability_color(cls: Dictionary) -> Color:
+	match AppRoot.meta_service.class_availability_label(cls):
+		"可出战":
+			return Color(0.58, 0.95, 0.74)
+		"未解锁":
+			return Color(0.95, 0.75, 0.42)
+		"扩展占位":
+			return Color(0.74, 0.78, 0.84)
+		_:
+			return Color(0.68, 0.72, 0.76)
 
 func _start_class(class_id: String) -> void:
 	AppRoot.run_session.create_new_run(class_id)

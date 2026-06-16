@@ -1,0 +1,155 @@
+[
+  {
+    "id": "meta_chair",
+    "type": "global_upgrade",
+    "name": "人体工学椅",
+    "cost_curve": [
+      20,
+      40,
+      80
+    ],
+    "max_level": 3,
+    "effect_group_id": "",
+    "prerequisite_ids": [],
+    "description": "开局最大精神状态提升。"
+  },
+  {
+    "id": "meta_privacy_screen",
+    "type": "global_upgrade",
+    "name": "防窥膜",
+    "cost_curve": [
+      20,
+      45,
+      90
+    ],
+    "max_level": 3,
+    "effect_group_id": "",
+    "prerequisite_ids": [],
+    "description": "战斗开始获得少量防线。"
+  },
+  {
+    "id": "meta_coffee_beans",
+    "type": "global_upgrade",
+    "name": "极品咖啡豆",
+    "cost_curve": [
+      30,
+      60
+    ],
+    "max_level": 2,
+    "effect_group_id": "",
+    "prerequisite_ids": [],
+    "description": "首回合精力表现提升。"
+  },
+  {
+    "id": "meta_hard_drive",
+    "type": "global_upgrade",
+    "name": "扩容硬盘",
+    "cost_curve": [
+      30,
+      60
+    ],
+    "max_level": 2,
+    "effect_group_id": "",
+    "prerequisite_ids": [],
+    "description": "首回合额外抽牌。"
+  },
+  {
+    "id": "meta_nap_bed",
+    "type": "global_upgrade",
+    "name": "午休折叠床",
+    "cost_curve": [
+      20,
+      45,
+      90
+    ],
+    "max_level": 3,
+    "effect_group_id": "",
+    "prerequisite_ids": [],
+    "description": "休息处恢复量增加。"
+  },
+  {
+    "id": "meta_canteen_card",
+    "type": "global_upgrade",
+    "name": "员工食堂月卡",
+    "cost_curve": [
+      25,
+      50
+    ],
+    "max_level": 2,
+    "effect_group_id": "",
+    "prerequisite_ids": [],
+    "description": "商店首次消费折扣。"
+  },
+  {
+    "id": "unlock_backend",
+    "type": "career_unlock",
+    "name": "后端",
+    "cost_curve": [
+      0
+    ],
+    "max_level": 1,
+    "effect_group_id": "",
+    "prerequisite_ids": [],
+    "description": "默认开放。"
+  },
+  {
+    "id": "unlock_frontend",
+    "type": "career_unlock",
+    "name": "前端",
+    "cost_curve": [
+      0
+    ],
+    "max_level": 1,
+    "effect_group_id": "",
+    "prerequisite_ids": [],
+    "description": "First Playable 开放。"
+  },
+  {
+    "id": "unlock_tester",
+    "type": "career_unlock",
+    "name": "测试",
+    "cost_curve": [
+      0
+    ],
+    "max_level": 1,
+    "effect_group_id": "",
+    "prerequisite_ids": [],
+    "description": "First Playable 开放。"
+  },
+  {
+    "id": "unlock_algorithm",
+    "type": "career_unlock",
+    "name": "算法",
+    "cost_curve": [
+      0
+    ],
+    "max_level": 1,
+    "effect_group_id": "",
+    "prerequisite_ids": [],
+    "description": "First Playable 开放。"
+  },
+  {
+    "id": "unlock_product_manager",
+    "type": "career_unlock",
+    "name": "产品经理",
+    "cost_curve": [
+      0
+    ],
+    "max_level": 1,
+    "effect_group_id": "",
+    "prerequisite_ids": [],
+    "description": "First Playable 开放。"
+  },
+  {
+    "id": "unlock_hr",
+    "type": "career_unlock",
+    "name": "HR",
+    "cost_curve": [
+      999
+    ],
+    "max_level": 1,
+    "effect_group_id": "",
+    "prerequisite_ids": [],
+    "description": "扩展职业，当前只展示。"
+  }
+]
