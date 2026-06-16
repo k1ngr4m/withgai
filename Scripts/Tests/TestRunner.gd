@@ -30,6 +30,7 @@ func _init() -> void:
 	run_session.call("setup", config, map, meta)
 	var reward_service = RewardServiceScript.new()
 	reward_service.call("setup", content, map, meta)
+	_validate_main_menu_scene()
 	_validate_config_references(config, content)
 	for class_id in ["backend", "frontend", "tester", "algorithm", "product_manager"]:
 		var run := run_session.create_new_run(class_id)
@@ -50,6 +51,31 @@ func _init() -> void:
 	_validate_boss_progression(config, map, meta, reward_service)
 	print("TEST_RESULT: %s" % ("FAILED" if failed else "PASSED"))
 	quit(1 if failed else 0)
+
+func _validate_main_menu_scene() -> void:
+	var packed: PackedScene = load("res://Scenes/MainMenuScene.tscn")
+	_check(packed != null, "main menu scene loads")
+	var source := FileAccess.get_file_as_string("res://Scripts/UI/MainMenuScene.gd")
+	_check(source.contains("MAIN_BG"), "main menu background configured")
+	_check(source.contains("ClassSpotlightPanel"), "main menu class spotlight configured")
+	_check(source.contains("SpotlightClassArt"), "main menu spotlight art configured")
+	_check(source.contains("SpotlightClassTabs"), "main menu spotlight tabs configured")
+	_check(source.contains("ShiftBoardPanel"), "main menu duty board configured")
+	_check(source.contains("CareerDossierStrip"), "main menu career dossiers configured")
+	_check(source.contains("NewGameButton"), "main menu new game button configured")
+	_check(source.contains("ContinueButton"), "main menu continue button configured")
+	_check(source.contains("MetaButton"), "main menu meta button configured")
+	_check(source.contains("ExitButton"), "main menu exit button configured")
+	var main_menu_assets := [
+		"res://Resources/Art/Generated/P0/backgrounds/ui_main_menu_bg_v1.png",
+		"res://Resources/Art/Generated/P0/characters/char_backend_keyart_v1.png",
+		"res://Resources/Art/Generated/P0/characters/char_frontend_keyart_v1.png",
+		"res://Resources/Art/Generated/P0/characters/char_tester_keyart_v1.png",
+		"res://Resources/Art/Generated/P0/characters/char_algorithm_keyart_v1.png",
+		"res://Resources/Art/Generated/P0/characters/char_product_manager_keyart_v1.png",
+	]
+	for asset_path in main_menu_assets:
+		_check(load(asset_path) != null, "%s main menu asset loads" % asset_path)
 
 func _validate_config_references(config, content) -> void:
 	_check(not config.get_def("classes", "hr").get("enabled_in_first_playable", true), "hr remains placeholder")

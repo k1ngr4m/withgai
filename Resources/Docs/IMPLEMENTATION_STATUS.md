@@ -116,9 +116,10 @@
   - full-screen generated office background with dark readability overlay
   - animated office-grid atmosphere, elevator-lobby route panel, title, subtitle, playable-content counters, current suspend-save status
   - dynamic building broadcast strip and KPI risk chip give the opening screen a live game-menu feel
+  - rotating class spotlight panel uses existing profession keyart, class colors, resource labels, live card-pool counts, and clickable class tabs
   - right-side action panel for new run, continue, meta progression, and exit
   - bottom career dossier strip using existing class portrait assets, class colors, core resource labels, difficulty, and live card-pool counts
-  - dynamic nodes now expose spec-aligned names such as `Root`, `TitlePanel`, `PrimaryActions`, `NewGameButton`, `ContinueButton`, `MetaButton`, and `ExitButton`
+  - dynamic nodes now expose spec-aligned names such as `Root`, `TitlePanel`, `ClassSpotlightPanel`, `PrimaryActions`, `NewGameButton`, `ContinueButton`, `MetaButton`, and `ExitButton`
   - the first screen includes a compact duty board for playable career count, suspend-save presence, and current meta currency
   - continue action text and tooltip now reflect whether a valid suspend save exists
 - Career unlock tree presentation now has reusable `MetaProgressionService` helpers for class availability, unlock condition text, and milestone progress.
@@ -271,6 +272,7 @@ Result:
 - Godot test runner now explicitly checks all 10 tester P0 card illustrations are configured through `CardDef.art_path` and load successfully.
 - Godot test runner now explicitly checks all 10 algorithm and all 10 product manager P0 card illustrations are configured through `CardDef.art_path` and load successfully.
 - Godot test runner now explicitly checks all 12 programmer shared P0 card illustrations are configured through `CardDef.art_path` and load successfully.
+- Godot test runner now verifies the main menu scene loads, key source-declared UI sections exist, the four spec-required action buttons are configured, and all main-menu background/keyart assets load.
 - Godot MCP `get_project_info` reports Godot `4.6.1.stable.official.14d19694e`, 11 scenes, and 25 scripts.
 - Godot MCP `run_project` + `get_debug_output` verified project startup with empty `errors`.
 

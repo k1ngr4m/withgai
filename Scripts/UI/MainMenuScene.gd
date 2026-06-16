@@ -8,6 +8,7 @@ const MENU_WIDTH := 384.0
 const DESKTOP_MARGIN := 44
 const COMPACT_MARGIN := 22
 const BROADCAST_INTERVAL := 4.2
+const SPOTLIGHT_INTERVAL := 5.0
 
 const CLASS_ART := {
 	"backend": "res://Resources/Art/Generated/P0/characters/char_backend_head_icon_v1/final.png",
@@ -15,6 +16,13 @@ const CLASS_ART := {
 	"tester": "res://Resources/Art/Generated/P0/characters/char_tester_head_icon_v1/final.png",
 	"algorithm": "res://Resources/Art/Generated/P0/characters/char_algorithm_head_icon_v1/final.png",
 	"product_manager": "res://Resources/Art/Generated/P0/characters/char_product_manager_head_icon_v1/final.png",
+}
+const CLASS_KEY_ART := {
+	"backend": "res://Resources/Art/Generated/P0/characters/char_backend_keyart_v1.png",
+	"frontend": "res://Resources/Art/Generated/P0/characters/char_frontend_keyart_v1.png",
+	"tester": "res://Resources/Art/Generated/P0/characters/char_tester_keyart_v1.png",
+	"algorithm": "res://Resources/Art/Generated/P0/characters/char_algorithm_keyart_v1.png",
+	"product_manager": "res://Resources/Art/Generated/P0/characters/char_product_manager_keyart_v1.png",
 }
 const CLASS_SHORT_LABELS := {
 	"backend": "后端",
@@ -63,9 +71,22 @@ var _broadcast_label: Label
 var _ambient_lines: Array = []
 var _pulse_nodes: Array = []
 var _menu_buttons: Array = []
+var _spotlight_timer := 0.0
+var _spotlight_index := 0
+var _spotlight_items: Array = []
+var _spotlight_art_rect: TextureRect
+var _spotlight_name_label: Label
+var _spotlight_summary_label: Label
+var _spotlight_resource_label: Label
+var _spotlight_card_count_label: Label
+var _spotlight_difficulty_label: Label
+var _spotlight_accent_bar: ColorRect
+var _spotlight_tab_buttons: Array = []
+var _app_root_node
 
 
 func _ready() -> void:
+	_app_root()
 	UiFactory.fill(self)
 	UiFactory.add_background(self, MAIN_BG)
 	_add_readability_scrims()
@@ -98,6 +119,10 @@ func _process(delta: float) -> void:
 			continue
 		var pulse := 0.88 + 0.12 * (0.5 + 0.5 * sin(_ambient_time * 1.5 + float(index) * 0.65))
 		node.modulate = Color(1, 1, 1, pulse)
+	if _spotlight_items.size() > 1:
+		_spotlight_timer += delta
+		if _spotlight_timer >= SPOTLIGHT_INTERVAL:
+			_set_spotlight_index((_spotlight_index + 1) % _spotlight_items.size(), true)
 
 
 func _build_menu() -> void:
@@ -106,6 +131,15 @@ func _build_menu() -> void:
 	_pulse_nodes.clear()
 	_menu_buttons.clear()
 	_broadcast_label = null
+	_spotlight_items.clear()
+	_spotlight_art_rect = null
+	_spotlight_name_label = null
+	_spotlight_summary_label = null
+	_spotlight_resource_label = null
+	_spotlight_card_count_label = null
+	_spotlight_difficulty_label = null
+	_spotlight_accent_bar = null
+	_spotlight_tab_buttons.clear()
 	for child in _content_layer.get_children():
 		_content_layer.remove_child(child)
 		child.queue_free()
@@ -246,6 +280,10 @@ func _hero_block(compact := false) -> Control:
 	broadcast.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	box.add_child(broadcast)
 
+	var spotlight := _spotlight_panel(compact)
+	spotlight.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	box.add_child(spotlight)
+
 	var shift_board := _shift_board_panel(compact)
 	shift_board.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	box.add_child(shift_board)
@@ -291,7 +329,7 @@ func _menu_panel(compact := false) -> PanelContainer:
 	var new_button := _menu_button("开始爬楼", true, "new_run")
 	new_button.name = "NewGameButton"
 	new_button.tooltip_text = "进入职业选择界面"
-	new_button.pressed.connect(func(): AppRoot.flow_controller.show_scene("class_select"))
+	new_button.pressed.connect(func(): _show_scene("class_select"))
 	actions.add_child(new_button)
 	new_button.call_deferred("grab_focus")
 
@@ -305,7 +343,7 @@ func _menu_panel(compact := false) -> PanelContainer:
 	var meta_button := _menu_button("工位成长", false, "meta")
 	meta_button.name = "MetaButton"
 	meta_button.tooltip_text = "打开局外成长和职业解锁树"
-	meta_button.pressed.connect(func(): AppRoot.flow_controller.show_scene("meta"))
+	meta_button.pressed.connect(func(): _show_scene("meta"))
 	actions.add_child(meta_button)
 
 	var filler := Control.new()
@@ -331,14 +369,19 @@ func _save_status_card() -> PanelContainer:
 	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	pad.add_child(box)
 
-	var meta := AppRoot.meta_service.meta_state
+	var app = _app_root()
+	var meta: Dictionary = {}
+	if app != null and app.meta_service != null:
+		meta = app.meta_service.meta_state
 	var currency := int(meta.get("owned_discomfort_currency", 0))
 	var floor_record := int(meta.get("highest_floor_reached", 1))
 	box.add_child(_label("当前存档", 16, Color(0.86, 0.95, 0.98)))
 
 	var line := "没有中断档"
 	var detail := "新开一局会从 1F 前台重新排队。"
-	var suspend := AppRoot.save_service.load_suspend() if AppRoot.save_service.has_suspend() else {}
+	var suspend: Dictionary = {}
+	if app != null and app.save_service != null and app.save_service.has_suspend():
+		suspend = app.save_service.load_suspend()
 	var run_state := _suspend_run_state(suspend)
 	if not run_state.is_empty():
 		var career_name := _class_name(String(run_state.get("selected_class_id", "")))
@@ -379,6 +422,194 @@ func _broadcast_strip(compact := false) -> PanelContainer:
 	_broadcast_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	row.add_child(_broadcast_label)
 	return panel
+
+
+func _spotlight_panel(compact := false) -> PanelContainer:
+	var panel := _panel(Color(0.026, 0.045, 0.052, 0.82), Color(0.50, 0.82, 0.82, 0.46), 7)
+	panel.name = "ClassSpotlightPanel"
+	var pad := _pad(14)
+	panel.add_child(pad)
+
+	var narrow := compact and get_viewport_rect().size.x < 620
+	var root: Container
+	if narrow:
+		root = UiFactory.vbox(12)
+	else:
+		root = UiFactory.hbox(14)
+	root.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	pad.add_child(root)
+
+	var art_frame := _panel(Color(0.04, 0.060, 0.066, 0.84), Color(0.55, 0.80, 0.82, 0.48), 7)
+	art_frame.name = "SpotlightArtFrame"
+	art_frame.custom_minimum_size = Vector2(206 if narrow else 238, 164 if narrow else 184)
+	art_frame.size_flags_horizontal = Control.SIZE_EXPAND_FILL if narrow else Control.SIZE_SHRINK_BEGIN
+	root.add_child(art_frame)
+
+	var art_pad := _pad(8)
+	art_frame.add_child(art_pad)
+	_spotlight_art_rect = TextureRect.new()
+	_spotlight_art_rect.name = "SpotlightClassArt"
+	_spotlight_art_rect.custom_minimum_size = Vector2(190 if narrow else 222, 148 if narrow else 168)
+	_spotlight_art_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_spotlight_art_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	art_pad.add_child(_spotlight_art_rect)
+
+	var info := UiFactory.vbox(8)
+	info.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	info.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	root.add_child(info)
+
+	var header := UiFactory.hbox(8)
+	header.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	info.add_child(header)
+
+	_spotlight_accent_bar = ColorRect.new()
+	_spotlight_accent_bar.custom_minimum_size = Vector2(5, 30)
+	header.add_child(_spotlight_accent_bar)
+
+	var title_box := UiFactory.vbox(1)
+	title_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	header.add_child(title_box)
+	title_box.add_child(_label("今日值班职业", 11, Color(0.62, 0.76, 0.78)))
+	_spotlight_name_label = _label("", 22 if compact else 25, Color(0.95, 1.0, 1.0))
+	_spotlight_name_label.autowrap_mode = TextServer.AUTOWRAP_OFF
+	_spotlight_name_label.clip_text = true
+	_spotlight_name_label.custom_minimum_size = Vector2(190, 30)
+	title_box.add_child(_spotlight_name_label)
+
+	_spotlight_summary_label = _label("", 12 if compact else 13, Color(0.72, 0.84, 0.86))
+	_spotlight_summary_label.custom_minimum_size = Vector2(220, 38 if compact else 42)
+	_spotlight_summary_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	info.add_child(_spotlight_summary_label)
+
+	var stats := UiFactory.hbox(7)
+	stats.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	info.add_child(stats)
+	_spotlight_resource_label = _spotlight_chip("资源", "")
+	_spotlight_card_count_label = _spotlight_chip("牌池", "")
+	_spotlight_difficulty_label = _spotlight_chip("难度", "")
+	stats.add_child(_spotlight_resource_label)
+	stats.add_child(_spotlight_card_count_label)
+	stats.add_child(_spotlight_difficulty_label)
+
+	var tabs := UiFactory.hbox(6)
+	tabs.name = "SpotlightClassTabs"
+	tabs.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	info.add_child(tabs)
+
+	_spotlight_items = _playable_class_preview_items()
+	for index in range(_spotlight_items.size()):
+		var item: Dictionary = _spotlight_items[index]
+		var tab := Button.new()
+		tab.name = "SpotlightTab%s" % String(item.get("id", "")).capitalize()
+		tab.text = String(item.get("short_name", item.get("name", "")))
+		tab.custom_minimum_size = Vector2(48, 32)
+		tab.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		tab.add_theme_font_size_override("font_size", 12)
+		tab.add_theme_color_override("font_color", Color(0.88, 0.96, 0.98))
+		tab.add_theme_color_override("font_hover_color", Color(0.98, 1.0, 1.0))
+		var captured_index := index
+		tab.pressed.connect(func(): _set_spotlight_index(captured_index, true))
+		_spotlight_tab_buttons.append(tab)
+		tabs.add_child(tab)
+
+	if _spotlight_items.is_empty():
+		_spotlight_items.append({
+			"id": "",
+			"name": "职业数据加载中",
+			"short_name": "加载中",
+			"color": Color(0.58, 0.86, 0.86),
+			"art": "",
+			"key_art": "",
+			"summary": "等待配置表完成加载。",
+			"difficulty": 1,
+			"resource_label": "资源",
+		})
+	_spotlight_index = clampi(_spotlight_index, 0, max(0, _spotlight_items.size() - 1))
+	_set_spotlight_index(_spotlight_index, false)
+	return panel
+
+
+func _spotlight_chip(label_text: String, value_text: String) -> Label:
+	var label := _label("%s %s" % [label_text, value_text], 11, Color(0.80, 0.92, 0.94))
+	label.autowrap_mode = TextServer.AUTOWRAP_OFF
+	label.clip_text = true
+	label.custom_minimum_size = Vector2(70, 22)
+	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	return label
+
+
+func _playable_class_preview_items() -> Array:
+	var items: Array = []
+	var app = _app_root()
+	if app == null or app.config_service == null:
+		return items
+	for cls in app.config_service.first_playable_classes(false):
+		if bool(cls.get("enabled_in_first_playable", false)):
+			items.append(_class_preview_item(cls))
+	return items
+
+
+func _set_spotlight_index(index: int, reset_timer := false) -> void:
+	if _spotlight_items.is_empty():
+		return
+	if reset_timer:
+		_spotlight_timer = 0.0
+	_spotlight_index = clampi(index, 0, _spotlight_items.size() - 1)
+	var item: Dictionary = _spotlight_items[_spotlight_index]
+	var accent: Color = item.get("color", Color(0.58, 0.86, 0.86))
+	var class_id := String(item.get("id", ""))
+
+	if _spotlight_accent_bar != null and is_instance_valid(_spotlight_accent_bar):
+		_spotlight_accent_bar.color = accent
+	if _spotlight_name_label != null and is_instance_valid(_spotlight_name_label):
+		_spotlight_name_label.text = String(item.get("name", ""))
+		_spotlight_name_label.add_theme_color_override("font_color", accent.lightened(0.24))
+	if _spotlight_summary_label != null and is_instance_valid(_spotlight_summary_label):
+		_spotlight_summary_label.text = String(item.get("summary", ""))
+	if _spotlight_resource_label != null and is_instance_valid(_spotlight_resource_label):
+		_spotlight_resource_label.text = "资源 %s" % String(item.get("resource_label", ""))
+	if _spotlight_card_count_label != null and is_instance_valid(_spotlight_card_count_label):
+		_spotlight_card_count_label.text = "牌池 %d" % _class_card_count(class_id)
+	if _spotlight_difficulty_label != null and is_instance_valid(_spotlight_difficulty_label):
+		_spotlight_difficulty_label.text = "难度 %s" % _difficulty_marks(int(item.get("difficulty", 1)))
+	if _spotlight_art_rect != null and is_instance_valid(_spotlight_art_rect):
+		var art_path := String(item.get("key_art", ""))
+		var texture = load(art_path) if not art_path.is_empty() else null
+		if texture == null:
+			art_path = String(item.get("art", ""))
+			texture = load(art_path) if not art_path.is_empty() else null
+		_spotlight_art_rect.texture = texture
+		_spotlight_art_rect.modulate = Color(1, 1, 1, 0.95 if texture != null else 0.45)
+
+	for tab_index in range(_spotlight_tab_buttons.size()):
+		var tab: Button = _spotlight_tab_buttons[tab_index]
+		if not is_instance_valid(tab):
+			continue
+		var tab_item: Dictionary = _spotlight_items[tab_index]
+		var tab_accent: Color = tab_item.get("color", accent)
+		var active := tab_index == _spotlight_index
+		tab.add_theme_stylebox_override("normal", _spotlight_tab_style(active, tab_accent, false))
+		tab.add_theme_stylebox_override("hover", _spotlight_tab_style(active, tab_accent, true))
+		tab.add_theme_stylebox_override("pressed", _spotlight_tab_style(true, tab_accent, true))
+		tab.add_theme_stylebox_override("focus", _spotlight_tab_style(true, tab_accent, true))
+
+
+func _spotlight_tab_style(active: bool, accent: Color, hover := false) -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color(0.046, 0.066, 0.072, 0.86)
+	style.border_color = Color(accent.r, accent.g, accent.b, 0.36)
+	if active:
+		style.bg_color = Color(accent.r * 0.32, accent.g * 0.32, accent.b * 0.32, 0.94)
+		style.border_color = Color(accent.r, accent.g, accent.b, 0.82)
+	if hover:
+		style.bg_color = style.bg_color.lightened(0.08)
+		style.border_color = style.border_color.lightened(0.10)
+	style.set_border_width_all(1)
+	style.set_corner_radius_all(6)
+	style.content_margin_left = 8
+	style.content_margin_right = 8
+	return style
 
 
 func _shift_board_panel(compact := false) -> PanelContainer:
@@ -508,9 +739,8 @@ func _career_dossier_strip(compact := false) -> Control:
 	row.name = "CareerDossierStrip"
 	row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 
-	for cls in AppRoot.config_service.first_playable_classes(false):
-		if bool(cls.get("enabled_in_first_playable", false)):
-			row.add_child(_class_dossier(_class_preview_item(cls), compact))
+	for item in _playable_class_preview_items():
+		row.add_child(_class_dossier(item, compact))
 	return row
 
 
@@ -571,6 +801,7 @@ func _class_preview_item(cls: Dictionary) -> Dictionary:
 		"short_name": String(CLASS_SHORT_LABELS.get(class_id, cls.get("name", class_id))),
 		"color": Color(String(cls.get("color", "#ffffff"))),
 		"art": String(CLASS_ART.get(class_id, "")),
+		"key_art": String(CLASS_KEY_ART.get(class_id, "")),
 		"summary": String(cls.get("summary", "")),
 		"difficulty": int(cls.get("recommended_difficulty", 1)),
 		"resource_label": String(CLASS_RESOURCE_LABELS.get(class_id, "")),
@@ -691,7 +922,10 @@ func _status_chip(text: String) -> PanelContainer:
 func _risk_chip(compact := false) -> PanelContainer:
 	var risk := "稳定"
 	var accent := Color(0.58, 0.96, 0.82)
-	var suspend := AppRoot.save_service.load_suspend() if AppRoot.save_service.has_suspend() else {}
+	var app = _app_root()
+	var suspend: Dictionary = {}
+	if app != null and app.save_service != null and app.save_service.has_suspend():
+		suspend = app.save_service.load_suspend()
 	var run_state := _suspend_run_state(suspend)
 	if not run_state.is_empty():
 		var hp := int(run_state.get("current_hp", run_state.get("player_hp", 72)))
@@ -719,20 +953,42 @@ func _label(text: String, font_size := 18, color := Color.WHITE) -> Label:
 	return label
 
 
+func _app_root():
+	if _app_root_node != null and is_instance_valid(_app_root_node):
+		return _app_root_node
+	if not is_inside_tree():
+		return null
+	var tree := get_tree()
+	if tree == null or tree.root == null:
+		return null
+	_app_root_node = tree.root.get_node_or_null("AppRoot")
+	if _app_root_node != null and _app_root_node.has_method("boot"):
+		_app_root_node.call("boot")
+	return _app_root_node
+
+
+func _show_scene(tag: String) -> void:
+	var app = _app_root()
+	if app != null and app.flow_controller != null:
+		app.flow_controller.show_scene(tag)
+
+
 func _playable_class_count() -> int:
 	var count := 0
-	if AppRoot.config_service == null:
+	var app = _app_root()
+	if app == null or app.config_service == null:
 		return count
-	for cls in AppRoot.config_service.first_playable_classes(false):
+	for cls in app.config_service.first_playable_classes(false):
 		if bool(cls.get("enabled_in_first_playable", false)):
 			count += 1
 	return count
 
 
 func _meta_currency() -> int:
-	if AppRoot.meta_service == null:
+	var app = _app_root()
+	if app == null or app.meta_service == null:
 		return 0
-	return int(AppRoot.meta_service.meta_state.get("owned_discomfort_currency", 0))
+	return int(app.meta_service.meta_state.get("owned_discomfort_currency", 0))
 
 
 func _continue_button_text() -> String:
@@ -753,9 +1009,10 @@ func _save_resume_summary() -> String:
 
 
 func _class_card_count(class_id: String) -> int:
-	if class_id.is_empty() or AppRoot.config_service == null:
+	var app = _app_root()
+	if class_id.is_empty() or app == null or app.config_service == null:
 		return 0
-	return AppRoot.config_service.cards_for_class(class_id, true).size()
+	return app.config_service.cards_for_class(class_id, true).size()
 
 
 func _difficulty_marks(value: int) -> String:
@@ -772,15 +1029,17 @@ func _has_valid_suspend() -> bool:
 
 func _suspend_run_state(save_state: Dictionary = {}) -> Dictionary:
 	if save_state.is_empty():
-		if not AppRoot.save_service.has_suspend():
+		var app = _app_root()
+		if app == null or app.save_service == null or not app.save_service.has_suspend():
 			return {}
-		save_state = AppRoot.save_service.load_suspend()
+		save_state = app.save_service.load_suspend()
 	var run_state = save_state.get("serialized_run_state", {})
 	return run_state if typeof(run_state) == TYPE_DICTIONARY else {}
 
 
 func _class_name(class_id: String) -> String:
-	var cls: Dictionary = AppRoot.config_service.get_def("classes", class_id)
+	var app = _app_root()
+	var cls: Dictionary = app.config_service.get_def("classes", class_id) if app != null and app.config_service != null else {}
 	return String(cls.get("name", class_id if not class_id.is_empty() else "未知职业"))
 
 
@@ -885,9 +1144,12 @@ func _pad(margin_size: int) -> MarginContainer:
 
 
 func _continue_run() -> void:
-	if AppRoot.run_session.restore_from_suspend(AppRoot.save_service.load_suspend()):
-		var tag: String = String(AppRoot.run_session.run_state.get("current_scene_tag", "map"))
-		if tag == "battle" and not AppRoot.battle_service.restore_battle(AppRoot.run_session.run_state):
+	var app = _app_root()
+	if app == null or app.run_session == null or app.save_service == null:
+		return
+	if app.run_session.restore_from_suspend(app.save_service.load_suspend()):
+		var tag: String = String(app.run_session.run_state.get("current_scene_tag", "map"))
+		if tag == "battle" and not app.battle_service.restore_battle(app.run_session.run_state):
 			tag = "map"
-			AppRoot.run_session.run_state["current_scene_tag"] = "map"
-		AppRoot.flow_controller.show_scene(tag)
+			app.run_session.run_state["current_scene_tag"] = "map"
+		_show_scene(tag)
