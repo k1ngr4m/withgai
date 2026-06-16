@@ -6,6 +6,8 @@
     <var name="spirit_loss" type="int?"/>
     <var name="intent_amount_reduction" type="int?"/>
     <var name="consume_per_action" type="int?"/>
+    <var name="trigger_play_count" type="int?"/>
+    <var name="style_layer_amount" type="int?"/>
     <var name="component_amount" type="int?"/>
     <var name="spread_amount" type="int?"/>
   </bean>

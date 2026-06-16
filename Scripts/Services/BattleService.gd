@@ -6,6 +6,7 @@ const PLAYER_POSITIVE_STATUS_IDS := [
 	"cache",
 	"component",
 	"style_layer",
+	"state_boost",
 	"vue_suite",
 	"case_mark",
 	"diff",
@@ -170,6 +171,7 @@ func play_card(run_state: Dictionary, hand_index: int, target_index := 0) -> voi
 	player["current_energy"] = int(player.get("current_energy", 0)) - cost
 	hand.remove_at(hand_index)
 	player["cards_played_this_turn"] = int(player.get("cards_played_this_turn", 0)) + 1
+	_apply_frontend_card_played_statuses(player)
 	var upgraded := _is_card_upgraded(card_id)
 	battle_state["log"].append("打出：%s%s" % [card.get("name", card_id), "+" if upgraded else ""])
 	battle_state["last_play_context"] = {
@@ -252,6 +254,19 @@ func _apply_card_relics(run_state: Dictionary, card: Dictionary) -> void:
 		effect_executor.execute([{ "effect_type": "draw_cards", "target_type": "self", "params": { "amount": 1 } }], battle_state, run_state, 0, battle_state["log"])
 		flags["gray_release_draw"] = true
 	player["relic_runtime_flags"] = flags
+
+func _apply_frontend_card_played_statuses(player: Dictionary) -> void:
+	var statuses: Dictionary = player.get("status_list", {})
+	var state_boost_stacks: int = int(statuses.get("state_boost", 0))
+	if state_boost_stacks <= 0:
+		return
+	var params: Dictionary = _status_params("state_boost")
+	var trigger_play_count: int = int(max(1, int(params.get("trigger_play_count", 4))))
+	if int(player.get("cards_played_this_turn", 0)) != trigger_play_count:
+		return
+	var gain_amount: int = int(max(1, int(params.get("style_layer_amount", 1)))) * state_boost_stacks
+	_adjust_player_class_resource("style_layers", gain_amount)
+	battle_state["log"].append("状态提升：第 %d 张牌获得样式层 +%d" % [trigger_play_count, gain_amount])
 
 func end_turn(run_state: Dictionary) -> void:
 	if battle_state.get("phase", "") != "player":

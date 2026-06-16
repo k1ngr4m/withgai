@@ -114,6 +114,13 @@ func _validate_config_references(config, content) -> void:
 		if entry.get("effect_type", "") == "add_component" and bool(params.get("requires_existing_component", false)) and bool(params.get("draw_if_success", false)):
 			component_reuse_requires_component = true
 	_check(component_reuse_requires_component, "frontend component reuse requires component and draws")
+	var state_boost_entries: Array = content.effect_entries(content.card_def("card_frontend_state_boost").get("effect_group_id", ""))
+	var state_boost_applies_status := false
+	for entry in state_boost_entries:
+		var params: Dictionary = entry.get("params", {})
+		if entry.get("effect_type", "") == "apply_status" and params.get("status_id", "") == "state_boost":
+			state_boost_applies_status = true
+	_check(state_boost_applies_status, "frontend state boost applies state boost status")
 	var vue_suite_entries: Array = content.effect_entries(content.card_def("card_frontend_vue_suite").get("effect_group_id", ""))
 	var vue_suite_applies_status := false
 	for entry in vue_suite_entries:
@@ -226,6 +233,10 @@ func _validate_config_references(config, content) -> void:
 	_check(config.get_def("statuses", "weak").get("timing_hooks", []).has("deal_damage"), "weak declares damage hook")
 	_check(config.get_def("statuses", "vulnerable").get("timing_hooks", []).has("damage_taken"), "vulnerable declares damage taken hook")
 	_check(config.get_def("statuses", "style_layer").get("timing_hooks", []).has("deal_damage"), "style layer declares damage hook")
+	_check(config.get_def("statuses", "state_boost").get("timing_hooks", []).has("card_played"), "state boost declares card played hook")
+	var state_boost_params: Dictionary = config.get_def("statuses", "state_boost").get("params", {})
+	_check(int(state_boost_params.get("trigger_play_count", 0)) == 4, "state boost config has fourth-card trigger")
+	_check(int(state_boost_params.get("style_layer_amount", 0)) > 0, "state boost config grants style layer")
 	_check(config.get_def("statuses", "vue_suite").get("timing_hooks", []).has("round_start"), "vue suite declares round start hook")
 	var vue_params: Dictionary = config.get_def("statuses", "vue_suite").get("params", {})
 	_check(int(vue_params.get("component_amount", 0)) > 0, "vue suite config has component amount")
@@ -385,6 +396,24 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	battle.play_card(run, 0, 0)
 	_check(int(player.get("class_resource_state", {}).get("components", 0)) == 0, "frontend component reuse needs an existing component")
 	_check(not player.get("hand", []).has("card_frontend_pixel_tap"), "frontend component reuse does not draw without copy")
+
+	run = run_session.create_new_run("frontend")
+	run["owned_relic_ids"] = []
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	var state_boost_enemy: Dictionary = battle.battle_state.get("enemies", [])[0]
+	state_boost_enemy["current_hp"] = 50
+	state_boost_enemy["current_block"] = 0
+	player["hand"] = ["card_frontend_pixel_tap"]
+	player["draw_pile"] = []
+	player["discard_pile"] = []
+	player["current_energy"] = 3
+	player["cards_played_this_turn"] = 3
+	player["class_resource_state"]["style_layers"] = 0
+	player["status_list"] = { "state_boost": 1 }
+	battle.play_card(run, 0, 0)
+	_check(int(state_boost_enemy.get("current_hp", 0)) == 39, "frontend state boost buffs the fourth card")
+	_check(int(player.get("class_resource_state", {}).get("style_layers", 0)) == 0, "frontend state boost style layer is consumed by attack")
 
 	run = run_session.create_new_run("frontend")
 	battle = _start_first_battle(run, content, map, executor)

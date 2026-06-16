@@ -778,7 +778,7 @@
     "effect_group_id": "eg_card_frontend_state_boost",
     "upgrade_to": "card_frontend_state_boost_plus",
     "enabled_in_first_playable": true,
-    "description": "状态提升：建立长期收益。",
+    "description": "状态提升：建立长期状态，每回合第 4 张牌获得样式层增伤。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_frontend_state_boost_v1/final.png"
   },
   {

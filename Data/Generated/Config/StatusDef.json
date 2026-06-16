@@ -111,6 +111,22 @@
     "type": "class"
   },
   {
+    "id": "state_boost",
+    "name": "状态提升",
+    "stack_rule": "stack",
+    "timing_hooks": [
+      "card_played"
+    ],
+    "params": {
+      "trigger_play_count": 4,
+      "style_layer_amount": 1
+    },
+    "effect_group_id": "",
+    "max_stack": 99,
+    "is_hidden": false,
+    "type": "class"
+  },
+  {
     "id": "vue_suite",
     "name": "Vue三件套",
     "stack_rule": "stack",
