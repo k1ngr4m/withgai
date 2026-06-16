@@ -375,6 +375,14 @@ func _validate_config_references(config, content) -> void:
 		if entry.get("effect_type", "") == "apply_status" and params.get("status_id", "") == "auto_regression":
 			auto_regression_applies_status = true
 	_check(auto_regression_applies_status, "tester auto regression applies auto regression status")
+	_check(content.card_def("card_tester_bug_upgrade").get("target_type", "") == "selected", "tester bug upgrade targets selected enemy")
+	var bug_upgrade_entries: Array = content.effect_entries(content.card_def("card_tester_bug_upgrade").get("effect_group_id", ""))
+	var bug_upgrade_upgrades_bug := false
+	for entry in bug_upgrade_entries:
+		var params: Dictionary = entry.get("params", {})
+		if entry.get("effect_type", "") == "upgrade_bug" and entry.get("target_type", "") == "selected" and int(params.get("amount", 0)) > 0:
+			bug_upgrade_upgrades_bug = true
+	_check(bug_upgrade_upgrades_bug, "tester bug upgrade upgrades existing bug")
 	var case_matrix_entries: Array = content.effect_entries(content.card_def("card_tester_case_matrix").get("effect_group_id", ""))
 	var case_matrix_applies_status := false
 	for entry in case_matrix_entries:
@@ -865,6 +873,27 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(regression_enemy.get("current_hp", 0)) == 36, "tester auto regression triggers bug damage at round end")
 	_check(int(regression_enemy.get("status_list", {}).get("case_mark", 0)) == 1, "tester auto regression adds case to bugged target")
 	_check(int(player.get("class_resource_state", {}).get("cases", 0)) == 1, "tester auto regression syncs case resource")
+
+	run = run_session.create_new_run("tester")
+	run["owned_relic_ids"] = []
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	var upgrade_enemy: Dictionary = battle.battle_state.get("enemies", [])[0]
+	upgrade_enemy["status_list"] = { "bug": 1 }
+	upgrade_enemy["intent"] = { "intent_type": "attack", "amount": 8 }
+	player["class_resource_state"]["bugs"] = 1
+	player["hand"] = ["card_tester_bug_upgrade"]
+	player["current_energy"] = 3
+	player["current_block"] = 0
+	battle.play_card(run, 0, 0)
+	_check(int(player.get("current_block", 0)) >= 6, "tester bug upgrade grants block")
+	_check(int(upgrade_enemy.get("status_list", {}).get("bug", 0)) == 2, "tester bug upgrade adds bug to existing bug")
+	_check(int(player.get("class_resource_state", {}).get("bugs", 0)) == 2, "tester bug upgrade syncs bug resource")
+	_check(int(upgrade_enemy.get("intent", {}).get("amount", 0)) == 6, "tester bug upgrade weakens intent by upgraded bug")
+	upgrade_enemy["status_list"] = {}
+	player["class_resource_state"]["bugs"] = 0
+	executor.execute([{ "effect_type": "upgrade_bug", "target_type": "selected", "params": { "amount": 1 } }], battle.battle_state, run, 0, battle.battle_state["log"])
+	_check(int(upgrade_enemy.get("status_list", {}).get("bug", 0)) == 0, "tester bug upgrade needs an existing bug")
 
 	run = run_session.create_new_run("tester")
 	battle = _start_first_battle(run, content, map, executor)

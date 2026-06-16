@@ -1451,12 +1451,12 @@
       "rarity": "uncommon",
       "type": "skill",
       "cost": 1,
-      "target_type": "self",
+      "target_type": "selected",
       "keywords": [],
       "effect_group_id": "eg_card_tester_bug_upgrade",
       "upgrade_to": "card_tester_bug_upgrade_plus",
       "enabled_in_first_playable": true,
-      "description": "缺陷升级：获得防线并触发职业资源。",
+      "description": "缺陷升级：获得防线；若目标已有 Bug，则追加 Bug 并进一步削弱意图。",
       "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_tester_bug_upgrade_v1/final.png"
     },
     "card_tester_case_matrix": {
@@ -6848,11 +6848,11 @@
           "effect_type": "gain_block",
           "target_type": "self",
           "params": {
-            "amount": 10
+            "amount": 6
           }
         },
         {
-          "effect_type": "add_diff",
+          "effect_type": "upgrade_bug",
           "target_type": "selected",
           "params": {
             "amount": 1
@@ -10849,14 +10849,14 @@
       "effect_type": "gain_block",
       "target_type": "self",
       "params": {
-        "amount": 10
+        "amount": 6
       }
     },
     "eg_card_tester_bug_upgrade_e02": {
       "id": "eg_card_tester_bug_upgrade_e02",
       "effect_group_id": "eg_card_tester_bug_upgrade",
       "order": 2,
-      "effect_type": "add_diff",
+      "effect_type": "upgrade_bug",
       "target_type": "selected",
       "params": {
         "amount": 1

@@ -1430,14 +1430,14 @@
     "effect_type": "gain_block",
     "target_type": "self",
     "params": {
-      "amount": 10
+      "amount": 6
     }
   },
   {
     "id": "eg_card_tester_bug_upgrade_e02",
     "effect_group_id": "eg_card_tester_bug_upgrade",
     "order": 2,
-    "effect_type": "add_diff",
+    "effect_type": "upgrade_bug",
     "target_type": "selected",
     "params": {
       "amount": 1

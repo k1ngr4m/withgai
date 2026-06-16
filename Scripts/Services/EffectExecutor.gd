@@ -50,6 +50,8 @@ func _execute_entry(entry: Dictionary, battle_state: Dictionary, run_state: Dict
 				var bug_amount := _bug_amount_with_diff(enemy, battle_state, max(1, amount), battle_log)
 				_enemy_status(enemy, battle_state, run_state, "bug", bug_amount, battle_log)
 				_modify_intent(enemy, battle_state, run_state, -2 * bug_amount, battle_log)
+		"upgrade_bug":
+			_upgrade_bug(entry.get("target_type", "selected"), battle_state, run_state, target_index, max(1, amount), battle_log)
 		"add_case":
 			for enemy in _target_enemies(entry.get("target_type", "selected"), battle_state, target_index):
 				_enemy_status(enemy, battle_state, run_state, "case_mark", max(1, amount), battle_log)
@@ -282,6 +284,16 @@ func _bug_amount_with_diff(enemy: Dictionary, battle_state: Dictionary, base_amo
 	_sync_status_resource(battle_state, "diff", -1, battle_log)
 	battle_log.append("%s 的 Diff 被复现，Bug +1" % enemy.get("name", "敌人"))
 	return base_amount + 1
+
+func _upgrade_bug(target_type: String, battle_state: Dictionary, run_state: Dictionary, target_index: int, amount: int, battle_log: Array) -> void:
+	for enemy in _target_enemies(target_type, battle_state, target_index):
+		var statuses: Dictionary = enemy.get("status_list", {})
+		if int(statuses.get("bug", 0)) <= 0:
+			battle_log.append("%s 没有可升级 Bug" % enemy.get("name", "敌人"))
+			continue
+		_enemy_status(enemy, battle_state, run_state, "bug", amount, battle_log)
+		_modify_intent(enemy, battle_state, run_state, -2 * amount, battle_log)
+		battle_log.append("%s 的 Bug 升级 +%d" % [enemy.get("name", "敌人"), amount])
 
 func _draw_cards(battle_state: Dictionary, amount: int, battle_log: Array) -> void:
 	var player := _player(battle_state)
