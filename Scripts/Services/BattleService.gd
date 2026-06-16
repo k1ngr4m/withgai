@@ -505,6 +505,7 @@ func _start_player_turn(run_state: Dictionary, first_turn := false) -> void:
 	if not first_turn:
 		player["current_block"] = 0
 	player["relic_runtime_flags"]["standing_desk_block_used"] = false
+	player["relic_runtime_flags"]["meeting_room_claim_used_this_turn"] = false
 	player["current_energy"] = int(player.get("base_energy", 3))
 	_round_start_triggers(run_state, first_turn)
 	_roll_enemy_intents()

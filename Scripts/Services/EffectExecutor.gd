@@ -418,6 +418,13 @@ func _apply_status_relics(battle_state: Dictionary, run_state: Dictionary, enemy
 	if status_id == "bug" and relics.has("relic_error_log_repo"):
 		_damage_enemy(enemy, battle_state, run_state, 3 * max(1, amount), battle_log)
 		battle_log.append("报错日志仓库追加惩罚")
+	if status_id == "requirement_change" and relics.has("relic_pm_meeting_room_claim") and not flags.get("meeting_room_claim_used_this_turn", false):
+		flags["meeting_room_claim_used_this_turn"] = true
+		var statuses: Dictionary = enemy.get("status_list", {})
+		statuses["requirement_change"] = int(statuses.get("requirement_change", 0)) + 1
+		enemy["status_list"] = statuses
+		_sync_status_resource(battle_state, status_id, 1, battle_log, run_state)
+		battle_log.append("会议室占用权追加 1 层需求变更")
 	if status_id == "requirement_change" and relics.has("relic_pm_review_minutes") and not flags.get("pm_review_minutes_used", false):
 		flags["pm_review_minutes_used"] = true
 		player["relic_runtime_flags"] = flags

@@ -120,6 +120,10 @@ func _validate_config_references(config, content) -> void:
 	_check(not gpu_relic.is_empty(), "gpu training card relic resolves")
 	_check(gpu_relic.get("allowed_classes", []).has("algorithm"), "gpu training card belongs to algorithm")
 	_check(gpu_relic.get("trigger_list", []).has("add_compute"), "gpu training card declares compute trigger")
+	var meeting_room_relic: Dictionary = content.relic_def("relic_pm_meeting_room_claim")
+	_check(not meeting_room_relic.is_empty(), "meeting room claim relic resolves")
+	_check(meeting_room_relic.get("allowed_classes", []).has("product_manager"), "meeting room claim belongs to product manager")
+	_check(meeting_room_relic.get("trigger_list", []).has("apply_status"), "meeting room claim declares status trigger")
 	var frontend_card_art_slugs := {
 		"card_frontend_component_reuse": "frontend_component_reuse",
 		"card_frontend_state_boost": "frontend_state_boost",
@@ -361,6 +365,25 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	executor.execute([{ "effect_type": "modify_intent", "target_type": "selected", "params": { "amount": -2 } }], battle.battle_state, run, 0, battle.battle_state["log"])
 	_check(gantt_hand_after_first == 1, "gantt roadmap draws on first intent change")
 	_check(int(player.get("hand", []).size()) == 1, "gantt roadmap triggers only once")
+
+	run = run_session.create_new_run("product_manager")
+	run["owned_relic_ids"] = ["relic_pm_meeting_room_claim"]
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	var claim_enemy: Dictionary = battle.battle_state.get("enemies", [])[0]
+	claim_enemy["status_list"] = {}
+	player["class_resource_state"]["requirement_change_marks"] = 0
+	executor.execute([{ "effect_type": "apply_status", "target_type": "selected", "params": { "status_id": "requirement_change", "amount": 1 } }], battle.battle_state, run, 0, battle.battle_state["log"])
+	_check(int(claim_enemy.get("status_list", {}).get("requirement_change", 0)) == 2, "meeting room claim strengthens first requirement change")
+	_check(int(player.get("class_resource_state", {}).get("requirement_change_marks", 0)) == 2, "meeting room claim syncs boosted requirement resource")
+	executor.execute([{ "effect_type": "apply_status", "target_type": "selected", "params": { "status_id": "requirement_change", "amount": 1 } }], battle.battle_state, run, 0, battle.battle_state["log"])
+	_check(int(claim_enemy.get("status_list", {}).get("requirement_change", 0)) == 3, "meeting room claim triggers only once per turn")
+	player["draw_pile"] = []
+	player["discard_pile"] = []
+	player["hand"] = []
+	battle.call("_start_player_turn", run, false)
+	executor.execute([{ "effect_type": "apply_status", "target_type": "selected", "params": { "status_id": "requirement_change", "amount": 1 } }], battle.battle_state, run, 0, battle.battle_state["log"])
+	_check(int(claim_enemy.get("status_list", {}).get("requirement_change", 0)) == 5, "meeting room claim resets on next turn")
 
 	run = run_session.create_new_run("algorithm")
 	run["owned_relic_ids"] = ["relic_paper_citation"]

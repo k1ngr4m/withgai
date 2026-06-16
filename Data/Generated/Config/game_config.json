@@ -3775,6 +3775,21 @@
       "description": "首次重置意图后抽牌。",
       "art_path": "res://Resources/Art/Generated/P0/icons/relic_icon_gantt_roadmap_v1/prop.png"
     },
+    "relic_pm_meeting_room_claim": {
+      "id": "relic_pm_meeting_room_claim",
+      "name": "会议室占用权",
+      "allowed_classes": [
+        "product_manager"
+      ],
+      "rarity": "uncommon",
+      "trigger_list": [
+        "apply_status"
+      ],
+      "effect_group_id": "",
+      "shop_weight": 10,
+      "description": "每回合第一次施加需求变更时额外追加 1 层。",
+      "art_path": "res://Resources/Art/Generated/P0/icons/relic_icon_meeting_room_claim_v1/prop.png"
+    },
     "relic_gpu_training_card": {
       "id": "relic_gpu_training_card",
       "name": "GPU训练卡",
