@@ -1,0 +1,4 @@
+Asset id: card_illust_pm_review_v1
+Card theme: 需求评审
+Pipeline: generate2dmap baked_scene_mode, vertical 1024x1536 non-playable flat card illustration; informed by generate2dsprite single-action clarity rules. Preserve the product manager identity from char_product_manager_keyart_v1: confident female PM, glasses, gray-white coat, blue shirt, business navy trousers, route arrows, roadmap cards, priority panels, warning orange accents, modern office meeting environment. Clean commercial semi-realistic 2D card-game art, simplified office background. Constraints: no readable text, no letters, no numbers, no labels, no logos, no watermark, no speech bubbles, no cluttered whiteboard, no card frame, no extra main characters.
+Scene/action: 角色在评审桌前重排需求卡，第一次变更带来抽牌和防线收益。

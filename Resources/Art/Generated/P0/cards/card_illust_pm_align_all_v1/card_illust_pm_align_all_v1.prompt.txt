@@ -1,0 +1,4 @@
+Asset id: card_illust_pm_align_all_v1
+Card theme: 全员对齐
+Pipeline: generate2dmap baked_scene_mode, vertical 1024x1536 non-playable flat card illustration; informed by generate2dsprite single-action clarity rules. Preserve the product manager identity from char_product_manager_keyart_v1: confident female PM, glasses, gray-white coat, blue shirt, business navy trousers, route arrows, roadmap cards, priority panels, warning orange accents, modern office meeting environment. Clean commercial semi-realistic 2D card-game art, simplified office background. Constraints: no readable text, no letters, no numbers, no labels, no logos, no watermark, no speech bubbles, no cluttered whiteboard, no card frame, no extra main characters.
+Scene/action: 角色重置多条敌方行动路线，形成全场同步控制。

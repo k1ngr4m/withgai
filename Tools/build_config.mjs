@@ -86,6 +86,7 @@ const targetForCard = (type, id) => {
 const cardArtSlugAliases = {
   card_frontend_pixel_align: "frontend_pixel_alignment",
   card_frontend_first_screen: "frontend_first_screen_opt",
+  card_pm_change_wording: "pm_change_request",
 };
 
 const specialCardDescriptions = {

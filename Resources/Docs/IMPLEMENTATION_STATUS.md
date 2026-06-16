@@ -16,6 +16,10 @@
   - generated config gives it Bug, case, and Diff damage multipliers
   - Bug and Diff now declare `deal_damage` timing hooks
   - runtime damage reads the selected enemy's Bug / case / Diff stacks
+- Algorithm and product manager P0 card-art batches are now wired into runtime config:
+  - 10 accepted algorithm illustrations plus contact sheet and validation manifest
+  - 10 accepted product manager illustrations plus contact sheet and validation manifest
+  - `Tools/build_config.mjs` maps the product manager `card_pm_change_wording` card to the generated `pm_change_request` asset slug
 - Main menu has been upgraded from a plain button list to a full first-screen UI:
   - full-screen generated office background with dark readability overlay
   - title, subtitle, playable-content counters, current suspend-save status
@@ -51,11 +55,11 @@
 - `EffectExecutor` now executes run-state reward/deck effects directly for `add_random_card`, `add_random_relic`, `upgrade_card`, and `remove_card`, so these no longer degrade to placeholder logs outside event handling.
 - Card illustration presentation now uses `CardDef.art_path` in reusable UI card buttons for battle hands, reward choices, shop stock, and shop removal picks.
 - `card_frontend_component_reuse` now has a generated P0 card illustration wired through `Tools/build_config.mjs`, Luban CSV/JSON output, and runtime config.
-- `Tools/build_config.mjs` now auto-wires matching `Resources/Art/Generated/P0/cards/card_illust_<card_id>_v1/final.png` assets into `CardDef.art_path`; current generated config exposes 19 card illustrations.
+- `Tools/build_config.mjs` now auto-wires matching `Resources/Art/Generated/P0/cards/card_illust_<card_id>_v1/final.png` assets into `CardDef.art_path`; current generated config exposes 49 card illustrations.
 - The first frontend P0 card-art batch is now committed and wired into runtime config:
   - 10 accepted frontend card illustrations plus contact sheet and validation manifest.
   - `Tools/build_config.mjs` includes explicit art-slug aliases for generated asset IDs that intentionally differ from card IDs.
-  - Generated config now exposes 19 card illustrations in total across backend and frontend cards.
+  - Generated config now exposes the complete frontend P0 set plus existing backend card illustrations.
 - The first tester P0 card-art batch is now wired into runtime config:
   - 10 accepted tester card illustrations plus contact sheet and validation manifest.
   - Matching `card_illust_tester_*_v1/final.png` assets are auto-wired into `CardDef.art_path` through the existing config build pipeline.
@@ -98,6 +102,7 @@ Result:
 - Godot test runner now checks bulk card-art auto-wiring through an existing backend card illustration and a minimum configured-card-art count.
 - Godot test runner now explicitly checks all 10 frontend P0 card illustrations are configured through `CardDef.art_path` and load successfully.
 - Godot test runner now explicitly checks all 10 tester P0 card illustrations are configured through `CardDef.art_path` and load successfully.
+- Godot test runner now explicitly checks all 10 algorithm and all 10 product manager P0 card illustrations are configured through `CardDef.art_path` and load successfully.
 - Godot MCP `get_project_info` reports Godot `4.6.1.stable.official.14d19694e`, 11 scenes, and 25 scripts.
 - Godot MCP `run_project` + `get_debug_output` verified project startup with empty `errors`.
 
@@ -208,4 +213,4 @@ Godot MCP verified:
 ### Remaining Gaps Toward Full Game
 
 - Combat balance, full status hook matrix, and full visual polish remain prototype-level.
-- Missing P0 representative card illustrations are still represented by placeholder card UI.
+- Remaining card illustration gaps are outside the currently wired backend/frontend/tester/algorithm/product-manager P0 batches and still use placeholder card UI.

@@ -1,0 +1,120 @@
+{
+  "bundle": "algorithm_cards_v1",
+  "asset_type": "card_illustration_batch",
+  "priority": "P0",
+  "accepted": true,
+  "asset_count": 10,
+  "items": [
+    {
+      "id": "card_illust_algo_heuristic_search_v1",
+      "final": "Resources/Art/Generated/P0/cards/card_illust_algo_heuristic_search_v1/final.png",
+      "raw": "Resources/Art/Generated/P0/cards/card_illust_algo_heuristic_search_v1/raw.png",
+      "prompt": "Resources/Art/Generated/P0/cards/card_illust_algo_heuristic_search_v1/card_illust_algo_heuristic_search_v1.prompt.txt",
+      "size": [
+        1024,
+        1536
+      ],
+      "accepted": true
+    },
+    {
+      "id": "card_illust_algo_dynamic_programming_v1",
+      "final": "Resources/Art/Generated/P0/cards/card_illust_algo_dynamic_programming_v1/final.png",
+      "raw": "Resources/Art/Generated/P0/cards/card_illust_algo_dynamic_programming_v1/raw.png",
+      "prompt": "Resources/Art/Generated/P0/cards/card_illust_algo_dynamic_programming_v1/card_illust_algo_dynamic_programming_v1.prompt.txt",
+      "size": [
+        1024,
+        1536
+      ],
+      "accepted": true
+    },
+    {
+      "id": "card_illust_algo_complexity_burst_v1",
+      "final": "Resources/Art/Generated/P0/cards/card_illust_algo_complexity_burst_v1/final.png",
+      "raw": "Resources/Art/Generated/P0/cards/card_illust_algo_complexity_burst_v1/raw.png",
+      "prompt": "Resources/Art/Generated/P0/cards/card_illust_algo_complexity_burst_v1/card_illust_algo_complexity_burst_v1.prompt.txt",
+      "size": [
+        1024,
+        1536
+      ],
+      "accepted": true
+    },
+    {
+      "id": "card_illust_algo_pruning_v1",
+      "final": "Resources/Art/Generated/P0/cards/card_illust_algo_pruning_v1/final.png",
+      "raw": "Resources/Art/Generated/P0/cards/card_illust_algo_pruning_v1/raw.png",
+      "prompt": "Resources/Art/Generated/P0/cards/card_illust_algo_pruning_v1/card_illust_algo_pruning_v1.prompt.txt",
+      "size": [
+        1024,
+        1536
+      ],
+      "accepted": true
+    },
+    {
+      "id": "card_illust_algo_local_opt_v1",
+      "final": "Resources/Art/Generated/P0/cards/card_illust_algo_local_opt_v1/final.png",
+      "raw": "Resources/Art/Generated/P0/cards/card_illust_algo_local_opt_v1/raw.png",
+      "prompt": "Resources/Art/Generated/P0/cards/card_illust_algo_local_opt_v1/card_illust_algo_local_opt_v1.prompt.txt",
+      "size": [
+        1024,
+        1536
+      ],
+      "accepted": true
+    },
+    {
+      "id": "card_illust_algo_big_o_compress_v1",
+      "final": "Resources/Art/Generated/P0/cards/card_illust_algo_big_o_compress_v1/final.png",
+      "raw": "Resources/Art/Generated/P0/cards/card_illust_algo_big_o_compress_v1/raw.png",
+      "prompt": "Resources/Art/Generated/P0/cards/card_illust_algo_big_o_compress_v1/card_illust_algo_big_o_compress_v1.prompt.txt",
+      "size": [
+        1024,
+        1536
+      ],
+      "accepted": true
+    },
+    {
+      "id": "card_illust_algo_monte_carlo_v1",
+      "final": "Resources/Art/Generated/P0/cards/card_illust_algo_monte_carlo_v1/final.png",
+      "raw": "Resources/Art/Generated/P0/cards/card_illust_algo_monte_carlo_v1/raw.png",
+      "prompt": "Resources/Art/Generated/P0/cards/card_illust_algo_monte_carlo_v1/card_illust_algo_monte_carlo_v1.prompt.txt",
+      "size": [
+        1024,
+        1536
+      ],
+      "accepted": true
+    },
+    {
+      "id": "card_illust_algo_matrix_mul_v1",
+      "final": "Resources/Art/Generated/P0/cards/card_illust_algo_matrix_mul_v1/final.png",
+      "raw": "Resources/Art/Generated/P0/cards/card_illust_algo_matrix_mul_v1/raw.png",
+      "prompt": "Resources/Art/Generated/P0/cards/card_illust_algo_matrix_mul_v1/card_illust_algo_matrix_mul_v1.prompt.txt",
+      "size": [
+        1024,
+        1536
+      ],
+      "accepted": true
+    },
+    {
+      "id": "card_illust_algo_astar_v1",
+      "final": "Resources/Art/Generated/P0/cards/card_illust_algo_astar_v1/final.png",
+      "raw": "Resources/Art/Generated/P0/cards/card_illust_algo_astar_v1/raw.png",
+      "prompt": "Resources/Art/Generated/P0/cards/card_illust_algo_astar_v1/card_illust_algo_astar_v1.prompt.txt",
+      "size": [
+        1024,
+        1536
+      ],
+      "accepted": true
+    },
+    {
+      "id": "card_illust_algo_global_optimum_v1",
+      "final": "Resources/Art/Generated/P0/cards/card_illust_algo_global_optimum_v1/final.png",
+      "raw": "Resources/Art/Generated/P0/cards/card_illust_algo_global_optimum_v1/raw.png",
+      "prompt": "Resources/Art/Generated/P0/cards/card_illust_algo_global_optimum_v1/card_illust_algo_global_optimum_v1.prompt.txt",
+      "size": [
+        1024,
+        1536
+      ],
+      "accepted": true
+    }
+  ],
+  "contact_sheet": "Resources/Art/Generated/P0/cards/algorithm_cards_contact_sheet_v1.png"
+}

@@ -1578,7 +1578,7 @@
     "upgrade_to": "card_algo_heuristic_search_plus",
     "enabled_in_first_playable": true,
     "description": "启发式搜索：获得防线并触发职业资源。",
-    "art_path": ""
+    "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_algo_heuristic_search_v1/final.png"
   },
   {
     "id": "card_algo_local_opt",
@@ -1595,7 +1595,7 @@
     "upgrade_to": "card_algo_local_opt_plus",
     "enabled_in_first_playable": true,
     "description": "局部最优：获得防线并触发职业资源。",
-    "art_path": ""
+    "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_algo_local_opt_v1/final.png"
   },
   {
     "id": "card_algo_greedy_sample",
@@ -1629,7 +1629,7 @@
     "upgrade_to": "card_algo_pruning_plus",
     "enabled_in_first_playable": true,
     "description": "剪枝优化：获得防线并触发职业资源。",
-    "art_path": ""
+    "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_algo_pruning_v1/final.png"
   },
   {
     "id": "card_algo_recursion",
@@ -1782,7 +1782,7 @@
     "upgrade_to": "card_algo_dynamic_programming_plus",
     "enabled_in_first_playable": true,
     "description": "动态规划：建立长期收益。",
-    "art_path": ""
+    "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_algo_dynamic_programming_v1/final.png"
   },
   {
     "id": "card_algo_complexity_burst",
@@ -1799,7 +1799,7 @@
     "upgrade_to": "card_algo_complexity_burst_plus",
     "enabled_in_first_playable": true,
     "description": "复杂度爆炸：造成伤害。",
-    "art_path": ""
+    "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_algo_complexity_burst_v1/final.png"
   },
   {
     "id": "card_algo_big_o_compress",
@@ -1816,7 +1816,7 @@
     "upgrade_to": "card_algo_big_o_compress_plus",
     "enabled_in_first_playable": true,
     "description": "大O压缩：获得防线并触发职业资源。",
-    "art_path": ""
+    "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_algo_big_o_compress_v1/final.png"
   },
   {
     "id": "card_algo_monte_carlo",
@@ -1833,7 +1833,7 @@
     "upgrade_to": "card_algo_monte_carlo_plus",
     "enabled_in_first_playable": true,
     "description": "蒙特卡洛试投：获得防线并触发职业资源。",
-    "art_path": ""
+    "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_algo_monte_carlo_v1/final.png"
   },
   {
     "id": "card_algo_astar",
@@ -1850,7 +1850,7 @@
     "upgrade_to": "card_algo_astar_plus",
     "enabled_in_first_playable": true,
     "description": "A星寻路：获得防线并触发职业资源。",
-    "art_path": ""
+    "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_algo_astar_v1/final.png"
   },
   {
     "id": "card_algo_convolution",
@@ -1952,7 +1952,7 @@
     "upgrade_to": "card_algo_global_optimum_plus",
     "enabled_in_first_playable": true,
     "description": "全局最优解：消耗全部精力与算力，按投入造成高额伤害。",
-    "art_path": ""
+    "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_algo_global_optimum_v1/final.png"
   },
   {
     "id": "card_algo_matrix_mul",
@@ -1969,7 +1969,7 @@
     "upgrade_to": "card_algo_matrix_mul_plus",
     "enabled_in_first_playable": true,
     "description": "矩阵乘法：造成伤害。",
-    "art_path": ""
+    "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_algo_matrix_mul_v1/final.png"
   },
   {
     "id": "card_algo_distill",
@@ -2054,7 +2054,7 @@
     "upgrade_to": "card_pm_change_wording_plus",
     "enabled_in_first_playable": true,
     "description": "需求改口：获得防线并触发职业资源。",
-    "art_path": ""
+    "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_pm_change_request_v1/final.png"
   },
   {
     "id": "card_pm_priority_shuffle",
@@ -2122,7 +2122,7 @@
     "upgrade_to": "card_pm_message_align_plus",
     "enabled_in_first_playable": true,
     "description": "口径统一：获得防线并触发职业资源。",
-    "art_path": ""
+    "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_pm_message_align_v1/final.png"
   },
   {
     "id": "card_pm_schedule_compress",
@@ -2241,7 +2241,7 @@
     "upgrade_to": "card_pm_extra_requirement_plus",
     "enabled_in_first_playable": true,
     "description": "临时加需求：获得防线并触发职业资源。",
-    "art_path": ""
+    "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_pm_extra_requirement_v1/final.png"
   },
   {
     "id": "card_pm_sync_conclusion",
@@ -2292,7 +2292,7 @@
     "upgrade_to": "card_pm_review_plus",
     "enabled_in_first_playable": true,
     "description": "需求评审：建立长期收益。",
-    "art_path": ""
+    "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_pm_review_v1/final.png"
   },
   {
     "id": "card_pm_delay_meeting",
@@ -2309,7 +2309,7 @@
     "upgrade_to": "card_pm_delay_meeting_plus",
     "enabled_in_first_playable": true,
     "description": "会议延期：获得防线并触发职业资源。",
-    "art_path": ""
+    "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_pm_delay_meeting_v1/final.png"
   },
   {
     "id": "card_pm_priority_top",
@@ -2326,7 +2326,7 @@
     "upgrade_to": "card_pm_priority_top_plus",
     "enabled_in_first_playable": true,
     "description": "优先级置顶：获得防线并触发职业资源。",
-    "art_path": ""
+    "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_pm_priority_top_v1/final.png"
   },
   {
     "id": "card_pm_milestone_split",
@@ -2343,7 +2343,7 @@
     "upgrade_to": "card_pm_milestone_split_plus",
     "enabled_in_first_playable": true,
     "description": "里程碑拆分：获得防线并触发职业资源。",
-    "art_path": ""
+    "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_pm_milestone_split_v1/final.png"
   },
   {
     "id": "card_pm_scope_spread",
@@ -2360,7 +2360,7 @@
     "upgrade_to": "card_pm_scope_spread_plus",
     "enabled_in_first_playable": true,
     "description": "范围蔓延：建立长期收益。",
-    "art_path": ""
+    "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_pm_scope_spread_v1/final.png"
   },
   {
     "id": "card_pm_department_align",
@@ -2462,7 +2462,7 @@
     "upgrade_to": "card_pm_align_all_plus",
     "enabled_in_first_playable": true,
     "description": "全员对齐：获得防线并触发职业资源。",
-    "art_path": ""
+    "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_pm_align_all_v1/final.png"
   },
   {
     "id": "card_pm_roadmap",
@@ -2479,7 +2479,7 @@
     "upgrade_to": "card_pm_roadmap_plus",
     "enabled_in_first_playable": true,
     "description": "版本路线图：造成伤害。",
-    "art_path": ""
+    "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_pm_roadmap_v1/final.png"
   },
   {
     "id": "card_pm_snowball",

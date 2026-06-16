@@ -153,6 +153,39 @@ func _validate_config_references(config, content) -> void:
 		var art_path := String(content.card_def(tester_card_id).get("art_path", ""))
 		_check(art_path.ends_with("card_illust_%s_v1/final.png" % tester_card_id.trim_prefix("card_")), "%s tester card art configured" % tester_card_id)
 		_check(load(art_path) != null, "%s tester card art loads" % tester_card_id)
+	var algorithm_card_art_slugs := [
+		"card_algo_heuristic_search",
+		"card_algo_dynamic_programming",
+		"card_algo_complexity_burst",
+		"card_algo_pruning",
+		"card_algo_local_opt",
+		"card_algo_big_o_compress",
+		"card_algo_monte_carlo",
+		"card_algo_matrix_mul",
+		"card_algo_astar",
+		"card_algo_global_optimum",
+	]
+	for card_id in algorithm_card_art_slugs:
+		var algorithm_card_id := String(card_id)
+		var art_path := String(content.card_def(algorithm_card_id).get("art_path", ""))
+		_check(art_path.ends_with("card_illust_%s_v1/final.png" % algorithm_card_id.trim_prefix("card_")), "%s algorithm card art configured" % algorithm_card_id)
+		_check(load(art_path) != null, "%s algorithm card art loads" % algorithm_card_id)
+	var product_manager_card_art_slugs := {
+		"card_pm_change_wording": "pm_change_request",
+		"card_pm_review": "pm_review",
+		"card_pm_delay_meeting": "pm_delay_meeting",
+		"card_pm_priority_top": "pm_priority_top",
+		"card_pm_milestone_split": "pm_milestone_split",
+		"card_pm_scope_spread": "pm_scope_spread",
+		"card_pm_message_align": "pm_message_align",
+		"card_pm_extra_requirement": "pm_extra_requirement",
+		"card_pm_align_all": "pm_align_all",
+		"card_pm_roadmap": "pm_roadmap",
+	}
+	for card_id in product_manager_card_art_slugs.keys():
+		var art_path := String(content.card_def(card_id).get("art_path", ""))
+		_check(art_path.ends_with("card_illust_%s_v1/final.png" % String(product_manager_card_art_slugs[card_id])), "%s product manager card art configured" % card_id)
+		_check(load(art_path) != null, "%s product manager card art loads" % card_id)
 	var cards_with_art := 0
 	var missing_card_art_paths := 0
 	for card in config.all_defs("cards"):
@@ -161,7 +194,7 @@ func _validate_config_references(config, content) -> void:
 			cards_with_art += 1
 			if load(art_path) == null:
 				missing_card_art_paths += 1
-	_check(cards_with_art >= 10, "existing matching card art assets are wired")
+	_check(cards_with_art >= 49, "existing matching card art assets are wired")
 	_check(missing_card_art_paths == 0, "configured card art paths load")
 	_check(config.get_def("statuses", "anxiety").get("timing_hooks", []).has("round_start"), "anxiety declares round start hook")
 	_check(config.get_def("statuses", "overtime").get("timing_hooks", []).has("round_start"), "overtime declares round start hook")
