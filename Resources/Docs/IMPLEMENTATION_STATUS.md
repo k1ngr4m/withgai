@@ -36,6 +36,9 @@
   - 10 accepted algorithm illustrations plus contact sheet and validation manifest
   - 10 accepted product manager illustrations plus contact sheet and validation manifest
   - `Tools/build_config.mjs` maps the product manager `card_pm_change_wording` card to the generated `pm_change_request` asset slug
+- All 16 EnemyDef rows now have visible runtime battle art:
+  - existing chapter 1 enemy/Boss scene art stays in place
+  - chapter 2/3 enemies, later elites, `boss_mutant_hr`, and `boss_mutant_ceo` now use the generated enemy portrait final set
 - Main menu has been upgraded into a polished first-screen UI:
   - full-screen generated office background with dark readability overlay
   - animated office-grid atmosphere, elevator-lobby route panel, title, subtitle, playable-content counters, current suspend-save status
@@ -120,6 +123,7 @@ Result:
 - `DataTables/gen_client.sh` completed through real Luban generation using `Tools/Luban/Luban.dll` and `.NET SDK 8`.
 - Godot test runner completed with `TEST_RESULT: PASSED`.
 - Godot test runner now checks `StatusDef.timing_hooks` declarations for anxiety, overtime, weak, vulnerable, and service online.
+- Godot test runner now checks every EnemyDef has a configured and loadable `art_path`.
 - Godot test runner now checks the live `service_online` round-start and round-end hooks.
 - Godot test runner now checks frontend `style_layer` damage bonus and consumption from both resource-sourced and status-sourced stacks.
 - Godot test runner now checks frontend `card_frontend_component_reuse` generated params, copy-on-existing-component behavior, draw-on-success behavior, and no-copy/no-draw behavior without an existing component.

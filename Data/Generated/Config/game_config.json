@@ -3885,7 +3885,7 @@
       "phase_group_id": "",
       "reward_profile_id": "reward_default",
       "description": "频繁获得防线与增益",
-      "art_path": ""
+      "art_path": "res://Resources/Art/Generated/P0/icons/enemy_portrait_icon_set_v1/enemy_portrait_final-5.png"
     },
     "enemy_performance_inspector": {
       "id": "enemy_performance_inspector",
@@ -3898,7 +3898,7 @@
       "phase_group_id": "",
       "reward_profile_id": "reward_default",
       "description": "惩罚拖回合与手牌膨胀",
-      "art_path": ""
+      "art_path": "res://Resources/Art/Generated/P0/icons/enemy_portrait_icon_set_v1/enemy_portrait_final-6.png"
     },
     "enemy_meeting_maniac": {
       "id": "enemy_meeting_maniac",
@@ -3911,7 +3911,7 @@
       "phase_group_id": "",
       "reward_profile_id": "reward_default",
       "description": "通过议程召唤衍生物",
-      "art_path": ""
+      "art_path": "res://Resources/Art/Generated/P0/icons/enemy_portrait_icon_set_v1/enemy_portrait_final-7.png"
     },
     "enemy_airdrop_director": {
       "id": "enemy_airdrop_director",
@@ -3924,7 +3924,7 @@
       "phase_group_id": "pg_enemy_airdrop_director",
       "reward_profile_id": "reward_default",
       "description": "切换姿态压迫节奏",
-      "art_path": ""
+      "art_path": "res://Resources/Art/Generated/P0/icons/enemy_portrait_icon_set_v1/enemy_portrait_final-8.png"
     },
     "enemy_compliance_judge": {
       "id": "enemy_compliance_judge",
@@ -3937,7 +3937,7 @@
       "phase_group_id": "",
       "reward_profile_id": "reward_default",
       "description": "清除玩家增益并塞入污染",
-      "art_path": ""
+      "art_path": "res://Resources/Art/Generated/P0/icons/enemy_portrait_icon_set_v1/enemy_portrait_final-13.png"
     },
     "elite_airdrop_project_lead": {
       "id": "elite_airdrop_project_lead",
@@ -3964,7 +3964,7 @@
       "phase_group_id": "pg_elite_outsource_manager",
       "reward_profile_id": "reward_default",
       "description": "召唤杂兵并强化协同",
-      "art_path": ""
+      "art_path": "res://Resources/Art/Generated/P0/icons/enemy_portrait_icon_set_v1/enemy_portrait_final-11.png"
     },
     "elite_budget_gatekeeper": {
       "id": "elite_budget_gatekeeper",
@@ -3977,7 +3977,7 @@
       "phase_group_id": "",
       "reward_profile_id": "reward_default",
       "description": "压缩绩效点收益",
-      "art_path": ""
+      "art_path": "res://Resources/Art/Generated/P0/icons/enemy_portrait_icon_set_v1/enemy_portrait_final-12.png"
     },
     "elite_approval_eye": {
       "id": "elite_approval_eye",
@@ -3990,7 +3990,7 @@
       "phase_group_id": "pg_elite_approval_eye",
       "reward_profile_id": "reward_default",
       "description": "冻结高费牌并扭曲顺序",
-      "art_path": ""
+      "art_path": "res://Resources/Art/Generated/P0/icons/enemy_portrait_icon_set_v1/enemy_portrait_final-14.png"
     },
     "boss_pitch_supervisor": {
       "id": "boss_pitch_supervisor",
@@ -4016,7 +4016,7 @@
       "phase_group_id": "pg_boss_mutant_hr",
       "reward_profile_id": "reward_default",
       "description": "压缩续航、惩罚冗余手牌",
-      "art_path": ""
+      "art_path": "res://Resources/Art/Generated/P0/icons/enemy_portrait_icon_set_v1/enemy_portrait_final-15.png"
     },
     "boss_mutant_ceo": {
       "id": "boss_mutant_ceo",
@@ -4029,7 +4029,7 @@
       "phase_group_id": "pg_boss_mutant_ceo",
       "reward_profile_id": "reward_default",
       "description": "多阶段、多意图、召唤会议纪要",
-      "art_path": ""
+      "art_path": "res://Resources/Art/Generated/P0/icons/enemy_portrait_icon_set_v1/enemy_portrait_final-16.png"
     }
   },
   "encounters": {

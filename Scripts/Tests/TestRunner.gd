@@ -88,13 +88,22 @@ func _validate_config_references(config, content) -> void:
 	_check(orphan_effect_entries == 0, "effect entries resolve parent groups")
 	var enemies_missing_intents := 0
 	var enemies_missing_rewards := 0
+	var enemies_missing_art := 0
+	var enemies_unloadable_art := 0
 	for enemy in config.all_defs("enemies"):
 		if content.intent_entries_for_enemy(enemy.get("id", "")).is_empty():
 			enemies_missing_intents += 1
 		if content.reward_profile(enemy.get("reward_profile_id", "")).is_empty():
 			enemies_missing_rewards += 1
+		var enemy_art_path := String(enemy.get("art_path", ""))
+		if enemy_art_path.is_empty():
+			enemies_missing_art += 1
+		elif load(enemy_art_path) == null:
+			enemies_unloadable_art += 1
 	_check(enemies_missing_intents == 0, "enemy intent groups resolve")
 	_check(enemies_missing_rewards == 0, "enemy reward profiles resolve")
+	_check(enemies_missing_art == 0, "enemy art paths configured")
+	_check(enemies_unloadable_art == 0, "enemy art paths load")
 	var encounter_missing_enemies := 0
 	for encounter in config.all_defs("encounters"):
 		for enemy_id in encounter.get("enemy_ids", []):

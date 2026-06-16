@@ -6,15 +6,15 @@
 ,enemy_workaholic_coworker,卷王同事,[1],38,ig_enemy_workaholic_coworker,,reward_default,高频多段攻击,res://Resources/Art/Generated/P0/enemies/enemy_workaholic_coworker_v1/raw.png
 ,enemy_angry_cleaner,暴躁保洁阿姨,[1],42,ig_enemy_angry_cleaner,,reward_default,高面板单次伤害,res://Resources/Art/Generated/P0/enemies/enemy_angry_cleaner_v1/raw.png
 ,enemy_salesman,西装推销员,[1],36,ig_enemy_salesman,,reward_default,向牌组塞低价值污染,res://Resources/Art/Generated/P0/enemies/enemy_salesman_v1/raw.png
-,enemy_process_specialist,流程专员,[2],48,ig_enemy_process_specialist,,reward_default,频繁获得防线与增益,
-,enemy_performance_inspector,绩效监察,[2],52,ig_enemy_performance_inspector,,reward_default,惩罚拖回合与手牌膨胀,
-,enemy_meeting_maniac,开会狂人,[2],46,ig_enemy_meeting_maniac,,reward_default,通过议程召唤衍生物,
-,enemy_airdrop_director,空降总监,[3],58,ig_enemy_airdrop_director,pg_enemy_airdrop_director,reward_default,切换姿态压迫节奏,
-,enemy_compliance_judge,合规审判官,[3],60,ig_enemy_compliance_judge,,reward_default,清除玩家增益并塞入污染,
+,enemy_process_specialist,流程专员,[2],48,ig_enemy_process_specialist,,reward_default,频繁获得防线与增益,res://Resources/Art/Generated/P0/icons/enemy_portrait_icon_set_v1/enemy_portrait_final-5.png
+,enemy_performance_inspector,绩效监察,[2],52,ig_enemy_performance_inspector,,reward_default,惩罚拖回合与手牌膨胀,res://Resources/Art/Generated/P0/icons/enemy_portrait_icon_set_v1/enemy_portrait_final-6.png
+,enemy_meeting_maniac,开会狂人,[2],46,ig_enemy_meeting_maniac,,reward_default,通过议程召唤衍生物,res://Resources/Art/Generated/P0/icons/enemy_portrait_icon_set_v1/enemy_portrait_final-7.png
+,enemy_airdrop_director,空降总监,[3],58,ig_enemy_airdrop_director,pg_enemy_airdrop_director,reward_default,切换姿态压迫节奏,res://Resources/Art/Generated/P0/icons/enemy_portrait_icon_set_v1/enemy_portrait_final-8.png
+,enemy_compliance_judge,合规审判官,[3],60,ig_enemy_compliance_judge,,reward_default,清除玩家增益并塞入污染,res://Resources/Art/Generated/P0/icons/enemy_portrait_icon_set_v1/enemy_portrait_final-13.png
 ,elite_airdrop_project_lead,空降项目组长,[1],78,ig_elite_airdrop_project_lead,pg_elite_airdrop_project_lead,reward_default,Deadline 倒计时,res://Resources/Art/Generated/P0/enemies/elite_airdrop_project_lead_v1/raw.png
-,elite_outsource_manager,外包统筹经理,"[1,2]",82,ig_elite_outsource_manager,pg_elite_outsource_manager,reward_default,召唤杂兵并强化协同,
-,elite_budget_gatekeeper,预算守门人,[2],88,ig_elite_budget_gatekeeper,,reward_default,压缩绩效点收益,
-,elite_approval_eye,审批流之眼,[3],96,ig_elite_approval_eye,pg_elite_approval_eye,reward_default,冻结高费牌并扭曲顺序,
+,elite_outsource_manager,外包统筹经理,"[1,2]",82,ig_elite_outsource_manager,pg_elite_outsource_manager,reward_default,召唤杂兵并强化协同,res://Resources/Art/Generated/P0/icons/enemy_portrait_icon_set_v1/enemy_portrait_final-11.png
+,elite_budget_gatekeeper,预算守门人,[2],88,ig_elite_budget_gatekeeper,,reward_default,压缩绩效点收益,res://Resources/Art/Generated/P0/icons/enemy_portrait_icon_set_v1/enemy_portrait_final-12.png
+,elite_approval_eye,审批流之眼,[3],96,ig_elite_approval_eye,pg_elite_approval_eye,reward_default,冻结高费牌并扭曲顺序,res://Resources/Art/Generated/P0/icons/enemy_portrait_icon_set_v1/enemy_portrait_final-14.png
 ,boss_pitch_supervisor,画饼主管,[1],120,ig_boss_pitch_supervisor,pg_boss_pitch_supervisor,reward_default,塞入期权与明年提拔你,res://Resources/Art/Generated/P0/characters/boss_pitch_supervisor_v1.png
-,boss_mutant_hr,变异HR,[2],150,ig_boss_mutant_hr,pg_boss_mutant_hr,reward_default,压缩续航、惩罚冗余手牌,
-,boss_mutant_ceo,变异总裁,[3],190,ig_boss_mutant_ceo,pg_boss_mutant_ceo,reward_default,多阶段、多意图、召唤会议纪要,
+,boss_mutant_hr,变异HR,[2],150,ig_boss_mutant_hr,pg_boss_mutant_hr,reward_default,压缩续航、惩罚冗余手牌,res://Resources/Art/Generated/P0/icons/enemy_portrait_icon_set_v1/enemy_portrait_final-15.png
+,boss_mutant_ceo,变异总裁,[3],190,ig_boss_mutant_ceo,pg_boss_mutant_ceo,reward_default,多阶段、多意图、召唤会议纪要,res://Resources/Art/Generated/P0/icons/enemy_portrait_icon_set_v1/enemy_portrait_final-16.png
