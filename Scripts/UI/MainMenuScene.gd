@@ -4,6 +4,12 @@ const MAIN_BG := "res://Resources/Art/Generated/P0/backgrounds/ui_main_menu_bg_v
 const COMPACT_BREAKPOINT := 1060.0
 const SHORT_BREAKPOINT := 760.0
 const BUILD_LABEL := "First Playable"
+const ELEVATOR_STOPS := [
+	{"floor": "1F", "name": "开放工位", "state": "当前入口"},
+	{"floor": "6F", "name": "画饼主管", "state": "章末 Boss"},
+	{"floor": "12F", "name": "变异 HR", "state": "中层封锁"},
+	{"floor": "18F", "name": "总裁办公室", "state": "最终汇报"},
+]
 const CLASS_ART := {
 	"backend": "res://Resources/Art/Generated/P0/characters/char_backend_head_icon_v1/final.png",
 	"frontend": "res://Resources/Art/Generated/P0/characters/char_frontend_head_icon_v1/final.png",
@@ -16,6 +22,14 @@ const MENU_ICONS := {
 	"continue": "res://Resources/Art/Generated/P0/icons/node_icon_combat_set_v1/processed/sheet-2.png",
 	"meta": "res://Resources/Art/Generated/P0/icons/node_icon_combat_set_v1/processed/sheet-5.png",
 	"quit": "res://Resources/Art/Generated/P0/icons/node_icon_combat_set_v1/processed/sheet-6.png",
+}
+const CLASS_RESOURCE_LABELS := {
+	"backend": "服务 / 缓存",
+	"frontend": "组件 / 样式层",
+	"tester": "Bug / 用例",
+	"algorithm": "算力 / 复杂度",
+	"product_manager": "需求 / 优先级",
+	"hr": "绩效 / 优化名单",
 }
 const SCENE_LABELS := {
 	"map": "楼层路线",
@@ -31,21 +45,41 @@ const SCENE_LABELS := {
 
 var _content_layer: Control
 var _rebuild_queued := false
+var _ambient_time := 0.0
+var _ambient_lines: Array = []
+var _pulse_nodes: Array = []
 
 func _ready() -> void:
 	UiFactory.fill(self)
 	UiFactory.add_background(self, MAIN_BG)
 	_add_scrim(Color(0.02, 0.03, 0.04, 0.42))
-	_add_floor_overlay()
+	_add_atmosphere_overlay()
 	_content_layer = Control.new()
 	UiFactory.fill(_content_layer)
 	add_child(_content_layer)
 	_build_menu()
 	get_viewport().size_changed.connect(_queue_rebuild)
+	set_process(true)
+
+func _process(delta: float) -> void:
+	_ambient_time += delta
+	for index in range(_ambient_lines.size()):
+		var line = _ambient_lines[index]
+		if not is_instance_valid(line):
+			continue
+		var alpha := 0.028 + 0.026 * (0.5 + 0.5 * sin(_ambient_time * 1.25 + float(index) * 0.8))
+		line.color = Color(line.color.r, line.color.g, line.color.b, alpha)
+	for index in range(_pulse_nodes.size()):
+		var node = _pulse_nodes[index]
+		if not is_instance_valid(node):
+			continue
+		var pulse := 0.82 + 0.18 * (0.5 + 0.5 * sin(_ambient_time * 1.6 + float(index) * 0.55))
+		node.modulate = Color(1, 1, 1, pulse)
 
 func _build_menu() -> void:
 	if _content_layer == null:
 		return
+	_pulse_nodes.clear()
 	for child in _content_layer.get_children():
 		_content_layer.remove_child(child)
 		child.queue_free()
@@ -177,10 +211,23 @@ func _hero_section(compact := false) -> Control:
 	stats.add_child(_metric_chip("3", "章流程"))
 	hero.add_child(stats)
 
+	var dashboard: BoxContainer
+	if compact:
+		dashboard = UiFactory.vbox(12)
+	else:
+		dashboard = UiFactory.hbox(12)
+	dashboard.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	hero.add_child(dashboard)
+
 	var board := _operations_board()
-	board.custom_minimum_size = Vector2(0 if compact else 560, 132)
+	board.custom_minimum_size = Vector2(0 if compact else 330, 142)
 	board.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	hero.add_child(board)
+	dashboard.add_child(board)
+
+	var elevator := _elevator_panel(compact)
+	elevator.custom_minimum_size = Vector2(0 if compact else 230, 142)
+	elevator.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	dashboard.add_child(elevator)
 
 	var save_info := _save_info_panel()
 	save_info.custom_minimum_size = Vector2(0 if compact else 560, 104)
@@ -198,8 +245,8 @@ func _menu_panel(compact := false) -> PanelContainer:
 	box.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	pad.add_child(box)
 
-	box.add_child(UiFactory.label("开始值班", 26 if compact else 30, Color(0.95, 0.98, 1.0)))
-	box.add_child(UiFactory.label("选择一条职业路线，进入今天的办公楼异常处理。", 16, Color(0.72, 0.80, 0.82)))
+	box.add_child(UiFactory.label("异常办公入口", 26 if compact else 30, Color(0.95, 0.98, 1.0)))
+	box.add_child(UiFactory.label("选择职业、恢复中断档，或先去工位树把椅子坐热。", 16, Color(0.72, 0.80, 0.82)))
 
 	var spacer_top := Control.new()
 	spacer_top.custom_minimum_size = Vector2(1, 10)
@@ -280,7 +327,7 @@ func _class_preview(item: Dictionary, compact := false) -> PanelContainer:
 	var accent: Color = item.get("color", Color.WHITE)
 	var panel := _panel(Color(0.07, 0.09, 0.11, 0.84), accent.darkened(0.18), 7)
 	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	panel.custom_minimum_size = Vector2(240 if compact else 150, 116 if compact else 112)
+	panel.custom_minimum_size = Vector2(240 if compact else 174, 126 if compact else 118)
 
 	var pad := _pad(10)
 	panel.add_child(pad)
@@ -303,7 +350,11 @@ func _class_preview(item: Dictionary, compact := false) -> PanelContainer:
 	text.add_child(title_row)
 
 	text.add_child(UiFactory.label(String(item.get("summary", "")), 13, Color(0.76, 0.84, 0.86)))
-	text.add_child(UiFactory.label("推荐难度 %d" % int(item.get("difficulty", 1)), 12, Color(0.54, 0.65, 0.68)))
+	var meta_row := UiFactory.hbox(6)
+	meta_row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	meta_row.add_child(_mini_status(String(item.get("resource", "")), accent))
+	meta_row.add_child(UiFactory.label("难度 %d / %d 牌" % [int(item.get("difficulty", 1)), int(item.get("card_count", 0))], 12, Color(0.54, 0.65, 0.68)))
+	text.add_child(meta_row)
 	return panel
 
 func _save_info_panel() -> PanelContainer:
@@ -341,6 +392,54 @@ func _operations_board() -> PanelContainer:
 	box.add_child(_board_row("当前规则", "五职业可玩，HR 档案只在局外展示"))
 	return panel
 
+func _elevator_panel(compact := false) -> PanelContainer:
+	var panel := _panel(Color(0.025, 0.04, 0.052, 0.72), Color(0.56, 0.78, 0.84, 0.46), 8)
+	var pad := _pad(14 if compact else 16)
+	panel.add_child(pad)
+
+	var box := UiFactory.vbox(8)
+	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	pad.add_child(box)
+
+	var header := UiFactory.hbox(8)
+	header.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	header.add_child(UiFactory.label("电梯大厅", 18, Color(0.86, 0.95, 0.98)))
+	var header_spacer := Control.new()
+	header_spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	header.add_child(header_spacer)
+	var live := _status_chip("待命")
+	_register_pulse(live)
+	header.add_child(live)
+	box.add_child(header)
+
+	for index in range(ELEVATOR_STOPS.size()):
+		var stop: Dictionary = ELEVATOR_STOPS[index]
+		box.add_child(_elevator_stop_row(stop, index == 0))
+	return panel
+
+func _elevator_stop_row(stop: Dictionary, active: bool) -> Control:
+	var row := UiFactory.hbox(8)
+	row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	row.add_child(_floor_marker(active))
+
+	var floor_label := UiFactory.label(String(stop.get("floor", "")), 13, Color(0.78, 0.95, 0.96) if active else Color(0.48, 0.62, 0.66))
+	floor_label.custom_minimum_size = Vector2(34, 0)
+	row.add_child(floor_label)
+
+	var stop_name := UiFactory.label(String(stop.get("name", "")), 13, Color(0.84, 0.91, 0.92))
+	stop_name.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	row.add_child(stop_name)
+	row.add_child(UiFactory.label(String(stop.get("state", "")), 12, Color(0.50, 0.63, 0.67)))
+	return row
+
+func _floor_marker(active: bool) -> PanelContainer:
+	var color := Color(0.53, 0.98, 0.90, 0.94) if active else Color(0.22, 0.34, 0.37, 0.92)
+	var panel := _panel(color, color.lightened(0.18), 4)
+	panel.custom_minimum_size = Vector2(12, 12)
+	if active:
+		_register_pulse(panel)
+	return panel
+
 func _board_row(label_text: String, value_text: String) -> Control:
 	var row := UiFactory.hbox(10)
 	row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -361,8 +460,10 @@ func _class_preview_item(cls: Dictionary) -> Dictionary:
 		"summary": String(cls.get("summary", "")),
 		"color": Color(String(cls.get("color", "#ffffff"))),
 		"art": String(CLASS_ART.get(class_id, "")),
+		"resource": String(CLASS_RESOURCE_LABELS.get(class_id, "职业资源")),
 		"status": status,
 		"difficulty": int(cls.get("recommended_difficulty", 1)),
+		"card_count": _class_card_count(class_id),
 	}
 
 func _class_portrait(item: Dictionary, accent: Color) -> Control:
@@ -484,6 +585,11 @@ func _playable_class_count() -> int:
 			count += 1
 	return count
 
+func _class_card_count(class_id: String) -> int:
+	if AppRoot.config_service == null or class_id == "hr":
+		return 0
+	return AppRoot.config_service.cards_for_class(class_id, true).size()
+
 func _has_valid_suspend() -> bool:
 	return not _suspend_run_state().is_empty()
 
@@ -520,11 +626,12 @@ func _add_scrim(color: Color) -> void:
 	scrim.color = color
 	add_child(scrim)
 
-func _add_floor_overlay() -> void:
+func _add_atmosphere_overlay() -> void:
 	var overlay := Control.new()
 	UiFactory.fill(overlay)
 	overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(overlay)
+	_ambient_lines.clear()
 
 	for index in range(8):
 		var x := 0.09 + float(index) * 0.115
@@ -536,6 +643,7 @@ func _add_floor_overlay() -> void:
 		line.anchor_bottom = 1.0
 		line.offset_right = 1.0
 		overlay.add_child(line)
+		_ambient_lines.append(line)
 
 	for index in range(5):
 		var y := 0.18 + float(index) * 0.15
@@ -547,6 +655,21 @@ func _add_floor_overlay() -> void:
 		line.anchor_bottom = y
 		line.offset_bottom = 1.0
 		overlay.add_child(line)
+		_ambient_lines.append(line)
+
+	for index in range(4):
+		var glow := ColorRect.new()
+		glow.color = Color(0.20, 0.70, 0.74, 0.05)
+		glow.anchor_left = 0.0
+		glow.anchor_right = 1.0
+		glow.anchor_top = 0.16 + float(index) * 0.20
+		glow.anchor_bottom = glow.anchor_top
+		glow.offset_bottom = 2.0
+		overlay.add_child(glow)
+		_ambient_lines.append(glow)
+
+func _register_pulse(node: CanvasItem) -> void:
+	_pulse_nodes.append(node)
 
 func _panel(bg_color: Color, border_color: Color, radius: int) -> PanelContainer:
 	var panel := PanelContainer.new()

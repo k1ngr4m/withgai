@@ -36,11 +36,11 @@
   - 10 accepted algorithm illustrations plus contact sheet and validation manifest
   - 10 accepted product manager illustrations plus contact sheet and validation manifest
   - `Tools/build_config.mjs` maps the product manager `card_pm_change_wording` card to the generated `pm_change_request` asset slug
-- Main menu has been upgraded from a plain button list to a full first-screen UI:
+- Main menu has been upgraded into a polished first-screen UI:
   - full-screen generated office background with dark readability overlay
-  - title, subtitle, playable-content counters, current suspend-save status
+  - animated office-grid atmosphere, elevator-lobby route panel, title, subtitle, playable-content counters, current suspend-save status
   - right-side action panel for new run, continue, meta progression, and exit
-  - bottom five-class preview strip using existing class portrait assets and class colors
+  - bottom career dossier strip using existing class portrait assets, class colors, core resource labels, difficulty, and live card-pool counts
 - Career unlock tree presentation now has reusable `MetaProgressionService` helpers for class availability, unlock condition text, and milestone progress.
 - `ClassSelectScene` now shows each class status, unlock condition, and current progress while keeping HR visible but not battle-playable.
 - `MetaProgressionScene` now renders the career tree as readable class nodes with difficulty, summary, unlock condition, current progress, and HR expansion-placeholder messaging.
