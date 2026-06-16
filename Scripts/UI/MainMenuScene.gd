@@ -23,6 +23,13 @@ const CLASS_ART := {
 	"algorithm": "res://Resources/Art/Generated/P0/characters/char_algorithm_head_icon_v1/final.png",
 	"product_manager": "res://Resources/Art/Generated/P0/characters/char_product_manager_head_icon_v1/final.png",
 }
+const CLASS_KEY_ART := {
+	"backend": "res://Resources/Art/Generated/P0/characters/char_backend_keyart_v1.png",
+	"frontend": "res://Resources/Art/Generated/P0/characters/char_frontend_keyart_v1.png",
+	"tester": "res://Resources/Art/Generated/P0/characters/char_tester_keyart_v1.png",
+	"algorithm": "res://Resources/Art/Generated/P0/characters/char_algorithm_keyart_v1.png",
+	"product_manager": "res://Resources/Art/Generated/P0/characters/char_product_manager_keyart_v1.png",
+}
 const MENU_ICONS := {
 	"new_run": "res://Resources/Art/Generated/P0/icons/node_icon_combat_set_v1/processed/sheet-1.png",
 	"continue": "res://Resources/Art/Generated/P0/icons/node_icon_combat_set_v1/processed/sheet-2.png",
@@ -224,6 +231,11 @@ func _hero_section(compact := false) -> Control:
 	copy.custom_minimum_size = Vector2(0 if compact else 560, 0)
 	copy.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	hero.add_child(copy)
+
+	var crew := _crew_showcase(compact)
+	crew.custom_minimum_size = Vector2(0 if compact else 560, 172 if compact else 184)
+	crew.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	hero.add_child(crew)
 
 	var stats := UiFactory.hbox(10)
 	stats.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -478,6 +490,81 @@ func _elevator_stop_row(stop: Dictionary, active: bool) -> Control:
 	row.add_child(UiFactory.label(String(stop.get("state", "")), 12, Color(0.50, 0.63, 0.67)))
 	return row
 
+func _crew_showcase(compact := false) -> PanelContainer:
+	var panel := _panel(Color(0.025, 0.038, 0.048, 0.74), Color(0.50, 0.70, 0.76, 0.46), 8)
+	var pad := _pad(14 if compact else 16)
+	panel.add_child(pad)
+
+	var box := UiFactory.vbox(10)
+	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	pad.add_child(box)
+
+	var header := UiFactory.hbox(8)
+	header.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	header.add_child(UiFactory.label("今夜值班小队", 18, Color(0.88, 0.96, 0.98)))
+	var header_spacer := Control.new()
+	header_spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	header.add_child(header_spacer)
+	header.add_child(_status_chip("五职业出战"))
+	box.add_child(header)
+
+	var row := UiFactory.hbox(10)
+	row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	if compact:
+		row.custom_minimum_size = Vector2(720, 0)
+		var scroll := ScrollContainer.new()
+		scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
+		scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+		scroll.custom_minimum_size = Vector2(0, 126)
+		scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		scroll.add_child(row)
+		box.add_child(scroll)
+	else:
+		box.add_child(row)
+
+	for cls in AppRoot.config_service.first_playable_classes(false):
+		if bool(cls.get("enabled_in_first_playable", false)):
+			row.add_child(_crew_card(_class_preview_item(cls), compact))
+	return panel
+
+func _crew_card(item: Dictionary, compact := false) -> PanelContainer:
+	var accent: Color = item.get("color", Color.WHITE)
+	var panel := _panel(Color(0.055, 0.070, 0.082, 0.86), Color(accent.r, accent.g, accent.b, 0.46), 7)
+	panel.custom_minimum_size = Vector2(134 if compact else 0, 116)
+	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+
+	var pad := _pad(7)
+	panel.add_child(pad)
+	var box := UiFactory.vbox(5)
+	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	pad.add_child(box)
+
+	var art_frame := _panel(Color(0.01, 0.018, 0.024, 0.82), Color(accent.r, accent.g, accent.b, 0.34), 6)
+	art_frame.custom_minimum_size = Vector2(112, 66)
+	art_frame.clip_contents = true
+	box.add_child(art_frame)
+
+	var art := TextureRect.new()
+	UiFactory.fill(art)
+	art.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	art.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	art.modulate = Color(1, 1, 1, 0.92)
+	var tex = load(String(item.get("key_art", "")))
+	if tex != null:
+		art.texture = tex
+	art_frame.add_child(art)
+
+	var class_name_label := UiFactory.label(String(item.get("name", "")), 14, accent.lightened(0.20))
+	class_name_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	class_name_label.clip_text = true
+	box.add_child(class_name_label)
+
+	var resource := UiFactory.label(String(item.get("resource", "")), 11, Color(0.63, 0.73, 0.76))
+	resource.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	resource.clip_text = true
+	box.add_child(resource)
+	return panel
+
 func _floor_marker(active: bool) -> PanelContainer:
 	var color := Color(0.53, 0.98, 0.90, 0.94) if active else Color(0.22, 0.34, 0.37, 0.92)
 	var panel := _panel(color, color.lightened(0.18), 4)
@@ -506,6 +593,7 @@ func _class_preview_item(cls: Dictionary) -> Dictionary:
 		"summary": String(cls.get("summary", "")),
 		"color": Color(String(cls.get("color", "#ffffff"))),
 		"art": String(CLASS_ART.get(class_id, "")),
+		"key_art": String(CLASS_KEY_ART.get(class_id, "")),
 		"resource": String(CLASS_RESOURCE_LABELS.get(class_id, "职业资源")),
 		"status": status,
 		"difficulty": int(cls.get("recommended_difficulty", 1)),
