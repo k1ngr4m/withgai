@@ -119,6 +119,21 @@
     "type": "class"
   },
   {
+    "id": "request_queue",
+    "name": "请求",
+    "stack_rule": "stack",
+    "timing_hooks": [
+      "round_end"
+    ],
+    "params": {
+      "damage_per_request": 3
+    },
+    "effect_group_id": "",
+    "max_stack": 99,
+    "is_hidden": false,
+    "type": "class"
+  },
+  {
     "id": "cache",
     "name": "缓存",
     "stack_rule": "stack",

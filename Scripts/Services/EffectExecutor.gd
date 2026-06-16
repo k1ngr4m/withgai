@@ -366,6 +366,9 @@ func _sync_status_resource(battle_state: Dictionary, status_id: String, amount: 
 		"cache":
 			resource_key = "cache"
 			label = "缓存"
+		"request_queue":
+			resource_key = "requests"
+			label = "请求"
 		"component":
 			resource_key = "components"
 			label = "组件"

@@ -3,6 +3,7 @@ extends Control
 const RESOURCE_LABELS := {
 	"services": "服务",
 	"cache": "缓存",
+	"requests": "请求",
 	"components": "组件",
 	"style_layers": "样式层",
 	"bugs": "Bug",

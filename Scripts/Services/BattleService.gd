@@ -6,6 +6,7 @@ const PLAYER_POSITIVE_STATUS_IDS := [
 	"api_gateway",
 	"redis_warmup",
 	"cost_reduction",
+	"request_queue",
 	"cache",
 	"component",
 	"style_layer",
@@ -91,7 +92,7 @@ func _persist_battle(run_state: Dictionary) -> void:
 func _initial_class_resources(class_id: String) -> Dictionary:
 	match class_id:
 		"backend":
-			return { "services": 0, "cache": 0 }
+			return { "services": 0, "cache": 0, "requests": 0 }
 		"frontend":
 			return { "components": 0, "style_layers": 0 }
 		"tester":
@@ -684,17 +685,47 @@ func _round_start_triggers(run_state: Dictionary, first_turn: bool) -> void:
 
 func _round_end_triggers(run_state: Dictionary) -> void:
 	var player: Dictionary = battle_state.get("player", {})
-	var services := _service_online_count(player)
-	if services > 0:
-		var damage := services * 2
+	var triggered_damage := false
+	var requests := _request_queue_count(player)
+	if requests > 0:
+		var params: Dictionary = _status_params("request_queue")
+		var request_damage: int = requests * max(1, int(params.get("damage_per_request", 3)))
 		for enemy in battle_state.get("enemies", []):
 			if int(enemy.get("current_hp", 0)) <= 0:
 				continue
-			enemy["current_hp"] = max(0, int(enemy.get("current_hp", 0)) - damage)
-			battle_state["log"].append("服务巡检对 %s 造成 %d 伤害" % [enemy.get("name", "敌人"), damage])
+			enemy["current_hp"] = max(0, int(enemy.get("current_hp", 0)) - request_damage)
+			battle_state["log"].append("消息队列对 %s 造成 %d 伤害" % [enemy.get("name", "敌人"), request_damage])
+		_consume_request_queue(player, requests)
+		triggered_damage = true
+	var services := _service_online_count(player)
+	if services > 0:
+		var service_damage := services * 2
+		for enemy in battle_state.get("enemies", []):
+			if int(enemy.get("current_hp", 0)) <= 0:
+				continue
+			enemy["current_hp"] = max(0, int(enemy.get("current_hp", 0)) - service_damage)
+			battle_state["log"].append("服务巡检对 %s 造成 %d 伤害" % [enemy.get("name", "敌人"), service_damage])
+		triggered_damage = true
+	if triggered_damage:
 		_check_enemy_phase_triggers(run_state)
 		_collect_defeated_enemies(run_state)
 	_tick_player_turn_end_statuses(player)
+
+func _request_queue_count(player: Dictionary) -> int:
+	var resources: Dictionary = player.get("class_resource_state", {})
+	var statuses: Dictionary = player.get("status_list", {})
+	return max(int(resources.get("requests", 0)), int(statuses.get("request_queue", 0)))
+
+func _consume_request_queue(player: Dictionary, amount: int) -> void:
+	var resources: Dictionary = player.get("class_resource_state", {})
+	var statuses: Dictionary = player.get("status_list", {})
+	if int(resources.get("requests", 0)) > 0:
+		resources["requests"] = max(0, int(resources.get("requests", 0)) - amount)
+	if int(statuses.get("request_queue", 0)) > 0:
+		statuses["request_queue"] = max(0, int(statuses.get("request_queue", 0)) - amount)
+	player["class_resource_state"] = resources
+	player["status_list"] = statuses
+	battle_state["log"].append("请求结算 %d" % amount)
 
 func _service_online_count(player: Dictionary) -> int:
 	var resources: Dictionary = player.get("class_resource_state", {})

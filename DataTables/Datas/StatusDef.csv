@@ -10,6 +10,7 @@
 ,api_gateway,API网关,stack,"[""round_start""]","{""block_amount"":4,""service_threshold"":2,""draw_amount"":1}",,99,false,class
 ,redis_warmup,Redis预热,stack,"[""round_start""]","{""cost_reduction_amount"":1}",,99,true,class
 ,cost_reduction,减费,stack,"[""card_cost""]",{},,99,true,class
+,request_queue,请求,stack,"[""round_end""]","{""damage_per_request"":3}",,99,false,class
 ,cache,缓存,stack,"[""deal_damage""]",{},,99,false,class
 ,component,组件,stack,[],{},,99,false,class
 ,style_layer,样式层,stack,"[""deal_damage""]",{},,99,false,class

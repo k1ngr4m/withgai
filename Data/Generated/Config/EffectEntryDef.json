@@ -335,20 +335,11 @@
     "id": "eg_card_backend_message_queue_e01",
     "effect_group_id": "eg_card_backend_message_queue",
     "order": 1,
-    "effect_type": "gain_block",
+    "effect_type": "apply_status",
     "target_type": "self",
     "params": {
-      "amount": 10
-    }
-  },
-  {
-    "id": "eg_card_backend_message_queue_e02",
-    "effect_group_id": "eg_card_backend_message_queue",
-    "order": 2,
-    "effect_type": "add_cache",
-    "target_type": "self",
-    "params": {
-      "amount": 1
+      "amount": 3,
+      "status_id": "request_queue"
     }
   },
   {

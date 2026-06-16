@@ -124,14 +124,21 @@ func _validate_config_references(config, content) -> void:
 	var redis_entries: Array = content.effect_entries(content.card_def("card_backend_redis_warmup").get("effect_group_id", ""))
 	var redis_adds_cache := false
 	var redis_applies_warmup := false
-	for entry in redis_entries:
-		var params: Dictionary = entry.get("params", {})
-		if entry.get("effect_type", "") == "add_cache" and int(params.get("amount", 0)) >= 3:
+	for redis_entry in redis_entries:
+		var redis_entry_params: Dictionary = redis_entry.get("params", {})
+		if redis_entry.get("effect_type", "") == "add_cache" and int(redis_entry_params.get("amount", 0)) >= 3:
 			redis_adds_cache = true
-		if entry.get("effect_type", "") == "apply_status" and params.get("status_id", "") == "redis_warmup":
+		if redis_entry.get("effect_type", "") == "apply_status" and redis_entry_params.get("status_id", "") == "redis_warmup":
 			redis_applies_warmup = true
 	_check(redis_adds_cache, "backend redis warmup adds large cache")
 	_check(redis_applies_warmup, "backend redis warmup applies next-turn warmup status")
+	var message_queue_entries: Array = content.effect_entries(content.card_def("card_backend_message_queue").get("effect_group_id", ""))
+	var message_queue_applies_requests := false
+	for message_queue_entry in message_queue_entries:
+		var message_queue_params: Dictionary = message_queue_entry.get("params", {})
+		if message_queue_entry.get("effect_type", "") == "apply_status" and message_queue_params.get("status_id", "") == "request_queue" and int(message_queue_params.get("amount", 0)) >= 3:
+			message_queue_applies_requests = true
+	_check(message_queue_applies_requests, "backend message queue applies request queue")
 	var component_reuse_art := String(content.card_def("card_frontend_component_reuse").get("art_path", ""))
 	_check(component_reuse_art.ends_with("card_illust_frontend_component_reuse_v1/final.png"), "frontend component reuse card art configured")
 	var component_reuse_entries: Array = content.effect_entries(content.card_def("card_frontend_component_reuse").get("effect_group_id", ""))
@@ -288,6 +295,9 @@ func _validate_config_references(config, content) -> void:
 	var redis_params: Dictionary = config.get_def("statuses", "redis_warmup").get("params", {})
 	_check(int(redis_params.get("cost_reduction_amount", 0)) > 0, "redis warmup config has cost reduction amount")
 	_check(config.get_def("statuses", "cost_reduction").get("timing_hooks", []).has("card_cost"), "cost reduction declares card cost hook")
+	_check(config.get_def("statuses", "request_queue").get("timing_hooks", []).has("round_end"), "request queue declares round end hook")
+	var request_params: Dictionary = config.get_def("statuses", "request_queue").get("params", {})
+	_check(int(request_params.get("damage_per_request", 0)) > 0, "request queue config has damage per request")
 	_check(config.get_def("statuses", "state_boost").get("timing_hooks", []).has("card_played"), "state boost declares card played hook")
 	var state_boost_params: Dictionary = config.get_def("statuses", "state_boost").get("params", {})
 	_check(int(state_boost_params.get("trigger_play_count", 0)) == 4, "state boost config has fourth-card trigger")
@@ -639,6 +649,29 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	battle.play_card(run, 0, 0)
 	_check(int(player.get("current_energy", 0)) == 0, "backend redis warmup charges discounted cost")
 	_check(int(player.get("status_list", {}).get("cost_reduction", 0)) == 0, "backend redis warmup discount is consumed")
+
+	run = run_session.create_new_run("backend")
+	run["owned_relic_ids"] = []
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	for mq_enemy in battle.battle_state.get("enemies", []):
+		mq_enemy["current_hp"] = 50
+		mq_enemy["current_block"] = 0
+	player["hand"] = ["card_backend_message_queue"]
+	player["current_energy"] = 3
+	player["class_resource_state"]["requests"] = 0
+	player["status_list"] = {}
+	battle.play_card(run, 0, 0)
+	_check(int(player.get("class_resource_state", {}).get("requests", 0)) == 3, "backend message queue stores request resource")
+	_check(int(player.get("status_list", {}).get("request_queue", 0)) == 3, "backend message queue stores request status")
+	battle.call("_round_end_triggers", run)
+	var request_damage_ok := true
+	for mq_enemy in battle.battle_state.get("enemies", []):
+		if int(mq_enemy.get("current_hp", 0)) != 41:
+			request_damage_ok = false
+	_check(request_damage_ok, "backend message queue damages all enemies at round end")
+	_check(int(player.get("class_resource_state", {}).get("requests", 0)) == 0, "backend message queue consumes request resource")
+	_check(int(player.get("status_list", {}).get("request_queue", 0)) == 0, "backend message queue consumes request status")
 
 	run = run_session.create_new_run("backend")
 	battle = _start_first_battle(run, content, map, executor)

@@ -453,7 +453,7 @@
       "effect_group_id": "eg_card_backend_message_queue",
       "upgrade_to": "card_backend_message_queue_plus",
       "enabled_in_first_playable": true,
-      "description": "消息队列堆积：获得防线并触发职业资源。",
+      "description": "消息队列堆积：生成请求计数，回合末按请求数对所有敌人造成伤害。",
       "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_backend_message_queue_v1/final.png"
     },
     "card_backend_sharding": {
@@ -4739,6 +4739,21 @@
       "is_hidden": true,
       "type": "class"
     },
+    "request_queue": {
+      "id": "request_queue",
+      "name": "请求",
+      "stack_rule": "stack",
+      "timing_hooks": [
+        "round_end"
+      ],
+      "params": {
+        "damage_per_request": 3
+      },
+      "effect_group_id": "",
+      "max_stack": 99,
+      "is_hidden": false,
+      "type": "class"
+    },
     "cache": {
       "id": "cache",
       "name": "缓存",
@@ -5488,22 +5503,15 @@
     "eg_card_backend_message_queue": {
       "id": "eg_card_backend_message_queue",
       "entry_ids": [
-        "eg_card_backend_message_queue_e01",
-        "eg_card_backend_message_queue_e02"
+        "eg_card_backend_message_queue_e01"
       ],
       "entries": [
         {
-          "effect_type": "gain_block",
+          "effect_type": "apply_status",
           "target_type": "self",
           "params": {
-            "amount": 10
-          }
-        },
-        {
-          "effect_type": "add_cache",
-          "target_type": "self",
-          "params": {
-            "amount": 1
+            "amount": 3,
+            "status_id": "request_queue"
           }
         }
       ]
@@ -9722,20 +9730,11 @@
       "id": "eg_card_backend_message_queue_e01",
       "effect_group_id": "eg_card_backend_message_queue",
       "order": 1,
-      "effect_type": "gain_block",
+      "effect_type": "apply_status",
       "target_type": "self",
       "params": {
-        "amount": 10
-      }
-    },
-    "eg_card_backend_message_queue_e02": {
-      "id": "eg_card_backend_message_queue_e02",
-      "effect_group_id": "eg_card_backend_message_queue",
-      "order": 2,
-      "effect_type": "add_cache",
-      "target_type": "self",
-      "params": {
-        "amount": 1
+        "amount": 3,
+        "status_id": "request_queue"
       }
     },
     "eg_card_backend_sharding_e01": {
