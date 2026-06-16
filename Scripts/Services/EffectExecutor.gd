@@ -58,7 +58,7 @@ func _execute_entry(entry: Dictionary, battle_state: Dictionary, run_state: Dict
 			for enemy in _target_enemies(entry.get("target_type", "selected"), battle_state, target_index):
 				_enemy_status(enemy, battle_state, run_state, "diff", max(1, amount), battle_log)
 		"add_compute":
-			_add_class_resource(battle_state, "compute", amount, battle_log, "算力")
+			_add_compute(battle_state, run_state, amount, battle_log)
 		"modify_complexity":
 			_add_class_resource(battle_state, "complexity", amount, battle_log, "复杂度")
 		"modify_intent":
@@ -252,7 +252,7 @@ func _apply_status(target_type: String, battle_state: Dictionary, run_state: Dic
 		var statuses: Dictionary = player.get("status_list", {})
 		statuses[status_id] = int(statuses.get(status_id, 0)) + amount
 		player["status_list"] = statuses
-		_sync_status_resource(battle_state, status_id, amount, battle_log)
+		_sync_status_resource(battle_state, status_id, amount, battle_log, run_state)
 	else:
 		for enemy in _target_enemies(target_type, battle_state, target_index):
 			_enemy_status(enemy, battle_state, run_state, status_id, amount, battle_log)
@@ -270,10 +270,10 @@ func _enemy_status(enemy: Dictionary, battle_state: Dictionary, run_state: Dicti
 	statuses[status_id] = int(statuses.get(status_id, 0)) + amount
 	enemy["status_list"] = statuses
 	battle_log.append("%s 获得 %s x%d" % [enemy.get("name", "敌人"), status_id, amount])
-	_sync_status_resource(battle_state, status_id, amount, battle_log)
+	_sync_status_resource(battle_state, status_id, amount, battle_log, run_state)
 	_apply_status_relics(battle_state, run_state, enemy, status_id, amount, battle_log)
 
-func _sync_status_resource(battle_state: Dictionary, status_id: String, amount: int, battle_log: Array) -> void:
+func _sync_status_resource(battle_state: Dictionary, status_id: String, amount: int, battle_log: Array, run_state: Dictionary = {}) -> void:
 	var resource_key := ""
 	var label := ""
 	match status_id:
@@ -318,7 +318,15 @@ func _sync_status_resource(battle_state: Dictionary, status_id: String, amount: 
 			label = "优化名单"
 	if resource_key.is_empty():
 		return
+	if resource_key == "compute":
+		_add_compute(battle_state, run_state, amount, battle_log)
+		return
 	_add_class_resource(battle_state, resource_key, amount, battle_log, label)
+
+func _add_compute(battle_state: Dictionary, run_state: Dictionary, amount: int, battle_log: Array) -> void:
+	_add_class_resource(battle_state, "compute", amount, battle_log, "算力")
+	if amount > 0:
+		_apply_compute_relics(battle_state, run_state, battle_log)
 
 func _add_class_resource(battle_state: Dictionary, key: String, amount: int, battle_log: Array, label: String) -> void:
 	var player := _player(battle_state)
@@ -381,6 +389,14 @@ func _apply_component_relics(battle_state: Dictionary, run_state: Dictionary, ba
 	if run_state.get("owned_relic_ids", []).has("relic_figma_library") and not flags.get("figma_library_used", false):
 		flags["figma_library_used"] = true
 		_add_class_resource(battle_state, "components", 1, battle_log, "Figma组件库复制组件")
+	player["relic_runtime_flags"] = flags
+
+func _apply_compute_relics(battle_state: Dictionary, run_state: Dictionary, battle_log: Array) -> void:
+	var player := _player(battle_state)
+	var flags: Dictionary = player.get("relic_runtime_flags", {})
+	if run_state.get("owned_relic_ids", []).has("relic_gpu_training_card") and not flags.get("gpu_training_card_used", false):
+		flags["gpu_training_card_used"] = true
+		_add_class_resource(battle_state, "compute", 1, battle_log, "GPU训练卡追加算力")
 	player["relic_runtime_flags"] = flags
 
 func _create_card(battle_state: Dictionary, card_id: String, destination: String, amount: int, battle_log: Array) -> void:

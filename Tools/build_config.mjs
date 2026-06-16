@@ -271,6 +271,7 @@ function relicTriggers(id) {
     relic_figma_library: ["add_component"],
     relic_read_replica: ["damage_taken"],
     relic_gantt_roadmap: ["modify_intent"],
+    relic_gpu_training_card: ["add_compute"],
     relic_paper_citation: ["deal_damage"],
   };
   return triggers[id] ?? [];
@@ -294,6 +295,7 @@ const relics = [
   ["relic_figma_library", "Figma组件库", ["frontend"], "uncommon", "首次生成组件时额外复制。", "res://Resources/Art/Generated/P0/icons/relic_icon_figma_library_v1/prop.png"],
   ["relic_read_replica", "只读从库快照", ["backend"], "uncommon", "首次承压时返还资源。", "res://Resources/Art/Generated/P0/icons/relic_icon_read_replica_v1/prop.png"],
   ["relic_gantt_roadmap", "路线图甘特图", ["product_manager"], "uncommon", "首次重置意图后抽牌。", "res://Resources/Art/Generated/P0/icons/relic_icon_gantt_roadmap_v1/prop.png"],
+  ["relic_gpu_training_card", "GPU训练卡", ["algorithm"], "uncommon", "首次获得算力时额外获得 1 算力。", "res://Resources/Art/Generated/P0/icons/relic_icon_gpu_card_v1/prop.png"],
   ["relic_paper_citation", "论文引用榜", ["algorithm"], "uncommon", "高复杂度时终结牌更强。", "res://Resources/Art/Generated/P0/icons/relic_icon_paper_citation_v1/prop.png"],
 ].map(([id, name, allowed_classes, rarity, description, art_path]) => ({
   id, name, allowed_classes, rarity, trigger_list: relicTriggers(id), effect_group_id: "", shop_weight: rarity === "starter" ? 0 : 10, description, art_path,

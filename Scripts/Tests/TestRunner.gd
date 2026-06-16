@@ -109,6 +109,10 @@ func _validate_config_references(config, content) -> void:
 	_check(component_reuse_art.ends_with("card_illust_frontend_component_reuse_v1/final.png"), "frontend component reuse card art configured")
 	var circuit_breaker_art := String(content.card_def("card_backend_circuit_breaker").get("art_path", ""))
 	_check(circuit_breaker_art.ends_with("card_illust_backend_circuit_breaker_v1/final.png"), "backend circuit breaker card art auto configured")
+	var gpu_relic: Dictionary = content.relic_def("relic_gpu_training_card")
+	_check(not gpu_relic.is_empty(), "gpu training card relic resolves")
+	_check(gpu_relic.get("allowed_classes", []).has("algorithm"), "gpu training card belongs to algorithm")
+	_check(gpu_relic.get("trigger_list", []).has("add_compute"), "gpu training card declares compute trigger")
 	var frontend_card_art_slugs := {
 		"card_frontend_component_reuse": "frontend_component_reuse",
 		"card_frontend_state_boost": "frontend_state_boost",
@@ -278,6 +282,16 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	paper_enemy["current_hp"] = 50
 	executor.execute([{ "effect_type": "deal_damage", "target_type": "selected", "params": { "amount": 5 } }], battle.battle_state, run, 0, battle.battle_state["log"])
 	_check(int(paper_enemy.get("current_hp", 0)) == 42, "paper citation adds damage at high complexity")
+
+	run = run_session.create_new_run("algorithm")
+	run["owned_relic_ids"].append("relic_gpu_training_card")
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	executor.execute([{ "effect_type": "add_compute", "target_type": "self", "params": { "amount": 1 } }], battle.battle_state, run, 0, battle.battle_state["log"])
+	var compute_after_gpu := int(player.get("class_resource_state", {}).get("compute", 0))
+	executor.execute([{ "effect_type": "add_compute", "target_type": "self", "params": { "amount": 1 } }], battle.battle_state, run, 0, battle.battle_state["log"])
+	_check(compute_after_gpu == 2, "gpu training card adds compute on first gain")
+	_check(int(player.get("class_resource_state", {}).get("compute", 0)) == 3, "gpu training card triggers only once")
 
 	run = run_session.create_new_run("backend")
 	battle = _start_first_battle(run, content, map, executor)
