@@ -99,6 +99,7 @@ const specialCardDescriptions = {
   card_backend_message_queue: "消息队列堆积：生成请求计数，回合末按请求数对所有敌人造成伤害。",
   card_backend_sharding: "分库分表：建立长期状态，每回合第一次获得缓存时额外获得 1。",
   card_backend_traffic_shaping: "流量削峰：获得防线，并把本回合承受的压力折算为缓存。",
+  card_backend_service_degrade: "服务降级：降低所有敌方攻击意图，按已有服务获得额外防线并保留服务。",
   card_backend_flush_all: "全量回写：消耗全部缓存并按缓存层数造成高额伤害。",
   card_frontend_component_reuse: "组件复用：若已有组件，复制 1 个组件并抽牌。",
   card_frontend_state_boost: "状态提升：建立长期状态，每回合第 4 张牌获得样式层增伤。",
@@ -199,6 +200,11 @@ function cardEffects(classId, cardId, type, cost, idx) {
     return [
       { effect_type: "gain_block", target_type: "self", params: { amount: 6 } },
       { effect_type: "add_cache", target_type: "self", params: { amount: 0, from_damage_taken_this_turn: true, damage_taken_divisor: 2 } },
+    ];
+  }
+  if (cardId === "card_backend_service_degrade") {
+    return [
+      { effect_type: "service_degrade", target_type: "all_enemies", params: { amount: 4, block_amount: 4, block_per_service: 2, cache_if_service: 1 } },
     ];
   }
   if (cardId === "card_frontend_component_reuse") {
@@ -863,6 +869,9 @@ const lubanDefines = `<module name="">
     <var name="draw_if_success" type="bool?"/>
     <var name="draw_amount" type="int?"/>
     <var name="bonus_amount" type="int?"/>
+    <var name="block_amount" type="int?"/>
+    <var name="block_per_service" type="int?"/>
+    <var name="cache_if_service" type="int?"/>
     <var name="low_hp_percent" type="int?"/>
     <var name="high_attack_threshold" type="int?"/>
     <var name="from_damage_taken_this_turn" type="bool?"/>

@@ -132,7 +132,7 @@
     "effect_group_id": "eg_card_backend_service_degrade",
     "upgrade_to": "card_backend_service_degrade_plus",
     "enabled_in_first_playable": true,
-    "description": "服务降级：获得防线并触发职业资源。",
+    "description": "服务降级：降低所有敌方攻击意图，按已有服务获得额外防线并保留服务。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_backend_service_degrade_v1/final.png"
   },
   {

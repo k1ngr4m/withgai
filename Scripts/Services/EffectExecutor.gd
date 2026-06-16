@@ -41,6 +41,8 @@ func _execute_entry(entry: Dictionary, battle_state: Dictionary, run_state: Dict
 			_add_class_resource(battle_state, "services", max(1, amount), battle_log, "部署服务")
 		"add_cache":
 			_add_cache(battle_state, amount, params, battle_log)
+		"service_degrade":
+			_service_degrade(battle_state, run_state, params, battle_log)
 		"add_component":
 			_add_component(battle_state, run_state, amount, params, battle_log)
 		"add_style_layer":
@@ -274,6 +276,11 @@ func _complexity_count(player: Dictionary) -> int:
 	var resources: Dictionary = player.get("class_resource_state", {})
 	var statuses: Dictionary = player.get("status_list", {})
 	return max(int(resources.get("complexity", 0)), int(statuses.get("complexity", 0)))
+
+func _service_count(player: Dictionary) -> int:
+	var resources: Dictionary = player.get("class_resource_state", {})
+	var statuses: Dictionary = player.get("status_list", {})
+	return max(int(resources.get("services", 0)), int(statuses.get("service_online", 0)))
 
 func _consume_compute(player: Dictionary, amount: int, battle_log: Array) -> void:
 	var resources: Dictionary = player.get("class_resource_state", {})
@@ -565,6 +572,36 @@ func _cache_from_damage_taken(battle_state: Dictionary, effect_params: Dictionar
 		return 0
 	var divisor: int = max(1, int(effect_params.get("damage_taken_divisor", 1)))
 	return int(floor(float(damage_taken) / float(divisor)))
+
+func _service_degrade(battle_state: Dictionary, run_state: Dictionary, params: Dictionary, battle_log: Array) -> void:
+	var player := _player(battle_state)
+	var services: int = _service_count(player)
+	var reduction: int = max(0, int(params.get("amount", 0)))
+	var reduced_total: int = 0
+	for enemy in _alive_enemies(battle_state):
+		var intent: Dictionary = enemy.get("intent", {})
+		var intent_type := String(intent.get("intent_type", ""))
+		if not ["attack", "multi_attack"].has(intent_type):
+			continue
+		var before_amount: int = int(intent.get("amount", 0))
+		var after_amount: int = max(0, before_amount - reduction)
+		if after_amount == before_amount:
+			continue
+		intent["amount"] = after_amount
+		enemy["intent"] = intent
+		var hits: int = max(1, int(intent.get("hits", 1))) if intent_type == "multi_attack" else 1
+		reduced_total += (before_amount - after_amount) * hits
+		battle_log.append("%s 服务降级，%s 意图 -%d" % [enemy.get("name", "敌人"), intent_type, before_amount - after_amount])
+	if reduction > 0 and reduced_total <= 0:
+		battle_log.append("服务降级：本回合没有攻击意图可降低")
+	var block_amount: int = max(0, int(params.get("block_amount", 0))) + services * max(0, int(params.get("block_per_service", 0)))
+	if block_amount > 0:
+		_gain_block(battle_state, run_state, block_amount, battle_log)
+	var cache_gain: int = max(0, int(params.get("cache_if_service", 0))) if services > 0 else 0
+	if cache_gain > 0:
+		_add_cache(battle_state, cache_gain, {}, battle_log)
+	if services > 0:
+		battle_log.append("服务降级保住 %d 个服务" % services)
 
 func _add_compute_complexity(battle_state: Dictionary, amount: int, battle_log: Array) -> void:
 	var params: Dictionary = config_service.get_def("statuses", "complexity").get("params", {})

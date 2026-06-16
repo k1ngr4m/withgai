@@ -300,7 +300,7 @@
       "effect_group_id": "eg_card_backend_service_degrade",
       "upgrade_to": "card_backend_service_degrade_plus",
       "enabled_in_first_playable": true,
-      "description": "服务降级：获得防线并触发职业资源。",
+      "description": "服务降级：降低所有敌方攻击意图，按已有服务获得额外防线并保留服务。",
       "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_backend_service_degrade_v1/final.png"
     },
     "card_backend_traffic_shaping": {
@@ -5340,30 +5340,17 @@
     "eg_card_backend_service_degrade": {
       "id": "eg_card_backend_service_degrade",
       "entry_ids": [
-        "eg_card_backend_service_degrade_e01",
-        "eg_card_backend_service_degrade_e02",
-        "eg_card_backend_service_degrade_e03"
+        "eg_card_backend_service_degrade_e01"
       ],
       "entries": [
         {
-          "effect_type": "gain_block",
-          "target_type": "self",
+          "effect_type": "service_degrade",
+          "target_type": "all_enemies",
           "params": {
-            "amount": 5
-          }
-        },
-        {
-          "effect_type": "draw_cards",
-          "target_type": "self",
-          "params": {
-            "amount": 1
-          }
-        },
-        {
-          "effect_type": "add_cache",
-          "target_type": "self",
-          "params": {
-            "amount": 1
+            "amount": 4,
+            "block_amount": 4,
+            "block_per_service": 2,
+            "cache_if_service": 1
           }
         }
       ]
@@ -9525,30 +9512,13 @@
       "id": "eg_card_backend_service_degrade_e01",
       "effect_group_id": "eg_card_backend_service_degrade",
       "order": 1,
-      "effect_type": "gain_block",
-      "target_type": "self",
+      "effect_type": "service_degrade",
+      "target_type": "all_enemies",
       "params": {
-        "amount": 5
-      }
-    },
-    "eg_card_backend_service_degrade_e02": {
-      "id": "eg_card_backend_service_degrade_e02",
-      "effect_group_id": "eg_card_backend_service_degrade",
-      "order": 2,
-      "effect_type": "draw_cards",
-      "target_type": "self",
-      "params": {
-        "amount": 1
-      }
-    },
-    "eg_card_backend_service_degrade_e03": {
-      "id": "eg_card_backend_service_degrade_e03",
-      "effect_group_id": "eg_card_backend_service_degrade",
-      "order": 3,
-      "effect_type": "add_cache",
-      "target_type": "self",
-      "params": {
-        "amount": 1
+        "amount": 4,
+        "block_amount": 4,
+        "block_per_service": 2,
+        "cache_if_service": 1
       }
     },
     "eg_card_backend_traffic_shaping_e01": {

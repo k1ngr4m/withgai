@@ -25,6 +25,10 @@
   - generated config gives the card a block effect plus an `add_cache` effect driven by `damage_taken_this_turn`
   - `EffectParams` now supports `from_damage_taken_this_turn` and `damage_taken_divisor` for data-driven pressure conversion
   - runtime folds converted cache into the normal `add_cache` path, so sharding and other cache hooks can react to it
+- Backend `card_backend_service_degrade` now works as the designed service-preserving mitigation skill:
+  - generated config uses a dedicated `service_degrade` effect instead of generic block/draw/cache filler
+  - runtime lowers all visible attack and multi-attack enemy intents, then gains block from existing service count without consuming services
+  - if any service is online, the card preserves tempo by adding a small cache reward through the normal cache path
 - Backend `card_backend_flush_all` now works as the designed cache finisher:
   - generated config marks `cache` as a `deal_damage` hook
   - the card consumes all stored cache and converts each stack into bonus single-target damage
@@ -187,6 +191,7 @@ Result:
 - Godot test runner now checks `request_queue` config, `card_backend_message_queue` generated effect, request resource/status sync, round-end all-enemy damage, and request consumption.
 - Godot test runner now checks `sharding` config, `card_backend_sharding` generated effect, status application, first-cache bonus, once-per-turn gating, and next-turn reset.
 - Godot test runner now checks `card_backend_traffic_shaping` generated pressure-conversion params, block gain, and live conversion from `damage_taken_this_turn` into cache.
+- Godot test runner now checks `card_backend_service_degrade` generated mitigation params, attack intent reduction, multi-attack intent reduction, service-scaled block, cache preservation, unchanged service count, and zero-cost play.
 - Godot test runner now checks the live `service_online` round-start and round-end hooks.
 - Godot test runner now checks frontend `style_layer` damage bonus and consumption from both resource-sourced and status-sourced stacks.
 - Godot test runner now checks frontend `card_frontend_component_reuse` generated params, copy-on-existing-component behavior, draw-on-success behavior, and no-copy/no-draw behavior without an existing component.

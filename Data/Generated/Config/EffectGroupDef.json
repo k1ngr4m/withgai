@@ -52,9 +52,7 @@
   {
     "id": "eg_card_backend_service_degrade",
     "entry_ids": [
-      "eg_card_backend_service_degrade_e01",
-      "eg_card_backend_service_degrade_e02",
-      "eg_card_backend_service_degrade_e03"
+      "eg_card_backend_service_degrade_e01"
     ]
   },
   {

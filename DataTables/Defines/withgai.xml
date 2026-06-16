@@ -32,6 +32,9 @@
     <var name="draw_if_success" type="bool?"/>
     <var name="draw_amount" type="int?"/>
     <var name="bonus_amount" type="int?"/>
+    <var name="block_amount" type="int?"/>
+    <var name="block_per_service" type="int?"/>
+    <var name="cache_if_service" type="int?"/>
     <var name="low_hp_percent" type="int?"/>
     <var name="high_attack_threshold" type="int?"/>
     <var name="from_damage_taken_this_turn" type="bool?"/>

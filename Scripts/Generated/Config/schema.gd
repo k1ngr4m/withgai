@@ -150,6 +150,9 @@ class EffectParams:
     var draw_if_success: bool
     var draw_amount: int
     var bonus_amount: int
+    var block_amount: int
+    var block_per_service: int
+    var cache_if_service: int
     var low_hp_percent: int
     var high_attack_threshold: int
     var from_damage_taken_this_turn: bool
@@ -184,6 +187,9 @@ class EffectParams:
         if _json_.get('draw_if_success') != null: self.draw_if_success = _json_["draw_if_success"]
         if _json_.get('draw_amount') != null: self.draw_amount = _json_["draw_amount"]
         if _json_.get('bonus_amount') != null: self.bonus_amount = _json_["bonus_amount"]
+        if _json_.get('block_amount') != null: self.block_amount = _json_["block_amount"]
+        if _json_.get('block_per_service') != null: self.block_per_service = _json_["block_per_service"]
+        if _json_.get('cache_if_service') != null: self.cache_if_service = _json_["cache_if_service"]
         if _json_.get('low_hp_percent') != null: self.low_hp_percent = _json_["low_hp_percent"]
         if _json_.get('high_attack_threshold') != null: self.high_attack_threshold = _json_["high_attack_threshold"]
         if _json_.get('from_damage_taken_this_turn') != null: self.from_damage_taken_this_turn = _json_["from_damage_taken_this_turn"]
