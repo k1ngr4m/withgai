@@ -114,6 +114,13 @@ func _validate_config_references(config, content) -> void:
 		var pollution_card: Dictionary = content.card_def(card_id)
 		_check(not pollution_card.is_empty(), "%s pollution card resolves" % card_id)
 		_check(not content.effect_entries(pollution_card.get("effect_group_id", "")).is_empty(), "%s pollution card has effects" % card_id)
+	var api_gateway_entries: Array = content.effect_entries(content.card_def("card_backend_api_gateway").get("effect_group_id", ""))
+	var api_gateway_applies_status := false
+	for entry in api_gateway_entries:
+		var params: Dictionary = entry.get("params", {})
+		if entry.get("effect_type", "") == "apply_status" and params.get("status_id", "") == "api_gateway":
+			api_gateway_applies_status = true
+	_check(api_gateway_applies_status, "backend api gateway applies api gateway status")
 	var component_reuse_art := String(content.card_def("card_frontend_component_reuse").get("art_path", ""))
 	_check(component_reuse_art.ends_with("card_illust_frontend_component_reuse_v1/final.png"), "frontend component reuse card art configured")
 	var component_reuse_entries: Array = content.effect_entries(content.card_def("card_frontend_component_reuse").get("effect_group_id", ""))
@@ -261,6 +268,11 @@ func _validate_config_references(config, content) -> void:
 	_check(config.get_def("statuses", "weak").get("timing_hooks", []).has("deal_damage"), "weak declares damage hook")
 	_check(config.get_def("statuses", "vulnerable").get("timing_hooks", []).has("damage_taken"), "vulnerable declares damage taken hook")
 	_check(config.get_def("statuses", "style_layer").get("timing_hooks", []).has("deal_damage"), "style layer declares damage hook")
+	_check(config.get_def("statuses", "api_gateway").get("timing_hooks", []).has("round_start"), "api gateway declares round start hook")
+	var api_gateway_params: Dictionary = config.get_def("statuses", "api_gateway").get("params", {})
+	_check(int(api_gateway_params.get("block_amount", 0)) > 0, "api gateway config has block amount")
+	_check(int(api_gateway_params.get("service_threshold", 0)) == 2, "api gateway config has service threshold")
+	_check(int(api_gateway_params.get("draw_amount", 0)) > 0, "api gateway config has draw amount")
 	_check(config.get_def("statuses", "state_boost").get("timing_hooks", []).has("card_played"), "state boost declares card played hook")
 	var state_boost_params: Dictionary = config.get_def("statuses", "state_boost").get("params", {})
 	_check(int(state_boost_params.get("trigger_play_count", 0)) == 4, "state boost config has fourth-card trigger")
@@ -379,6 +391,33 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(player.get("max_spirit", 0)) == base_max_spirit + 6, "hair shampoo increases max spirit")
 	_check(int(player.get("current_spirit", 0)) == base_current_spirit + 6, "hair shampoo increases current spirit")
 	_check(int(player.get("current_block", 0)) >= 4, "lumbar cushion grants opening block")
+
+	run = run_session.create_new_run("backend")
+	run["owned_relic_ids"] = []
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	player["hand"] = ["card_backend_api_gateway"]
+	player["draw_pile"] = []
+	player["discard_pile"] = []
+	player["current_energy"] = 3
+	player["status_list"] = {}
+	battle.play_card(run, 0, 0)
+	_check(int(player.get("status_list", {}).get("api_gateway", 0)) == 1, "backend api gateway status is applied")
+	player["hand"] = []
+	player["draw_pile"] = ["card_backend_interface_probe"]
+	player["discard_pile"] = []
+	player["class_resource_state"] = { "services": 0, "cache": 0 }
+	player["current_block"] = 0
+	battle.call("_round_start_triggers", run, false)
+	_check(int(player.get("current_block", 0)) == 4, "backend api gateway grants block on round start")
+	_check(not player.get("hand", []).has("card_backend_interface_probe"), "backend api gateway needs services to draw")
+	player["hand"] = []
+	player["draw_pile"] = ["card_backend_interface_probe"]
+	player["discard_pile"] = []
+	player["class_resource_state"] = { "services": 2, "cache": 0 }
+	player["current_block"] = 0
+	battle.call("_round_start_triggers", run, false)
+	_check(player.get("hand", []).has("card_backend_interface_probe"), "backend api gateway draws with enough services")
 
 	run = run_session.create_new_run("frontend")
 	battle = _start_first_battle(run, content, map, executor)

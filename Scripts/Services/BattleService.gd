@@ -3,6 +3,7 @@ extends RefCounted
 
 const PLAYER_POSITIVE_STATUS_IDS := [
 	"service_online",
+	"api_gateway",
 	"cache",
 	"component",
 	"style_layer",
@@ -606,6 +607,28 @@ func _round_start_triggers(run_state: Dictionary, first_turn: bool) -> void:
 			battle_state["log"]
 		)
 		battle_state["log"].append("Vue三件套在回合开始生成组件")
+	var api_gateway_stacks: int = _api_gateway_count(player)
+	if api_gateway_stacks > 0 and effect_executor != null:
+		var params: Dictionary = _status_params("api_gateway")
+		var block_amount: int = max(1, int(params.get("block_amount", 4))) * api_gateway_stacks
+		effect_executor.execute(
+			[{ "effect_type": "gain_block", "target_type": "self", "params": { "amount": block_amount } }],
+			battle_state,
+			run_state,
+			0,
+			battle_state["log"]
+		)
+		var service_threshold: int = max(1, int(params.get("service_threshold", 2)))
+		var draw_amount: int = max(0, int(params.get("draw_amount", 1))) * api_gateway_stacks
+		if draw_amount > 0 and _service_online_count(player) >= service_threshold:
+			effect_executor.execute(
+				[{ "effect_type": "draw_cards", "target_type": "self", "params": { "amount": draw_amount } }],
+				battle_state,
+				run_state,
+				0,
+				battle_state["log"]
+			)
+			battle_state["log"].append("API网关检测到服务集群，额外抽牌")
 	var resources: Dictionary = player.get("class_resource_state", {})
 	var services := _service_online_count(player)
 	if services > 0:
@@ -663,6 +686,10 @@ func _complexity_count(player: Dictionary) -> int:
 func _vue_suite_count(player: Dictionary) -> int:
 	var statuses: Dictionary = player.get("status_list", {})
 	return int(statuses.get("vue_suite", 0))
+
+func _api_gateway_count(player: Dictionary) -> int:
+	var statuses: Dictionary = player.get("status_list", {})
+	return int(statuses.get("api_gateway", 0))
 
 func _status_params(status_id: String) -> Dictionary:
 	if content_resolver == null or content_resolver.config_service == null:

@@ -552,6 +552,9 @@ class StatusParams:
     var spirit_loss: int
     var intent_amount_reduction: int
     var consume_per_action: int
+    var block_amount: int
+    var service_threshold: int
+    var draw_amount: int
     var trigger_play_count: int
     var style_layer_amount: int
     var component_amount: int
@@ -564,6 +567,9 @@ class StatusParams:
         if _json_.get('spirit_loss') != null: self.spirit_loss = _json_["spirit_loss"]
         if _json_.get('intent_amount_reduction') != null: self.intent_amount_reduction = _json_["intent_amount_reduction"]
         if _json_.get('consume_per_action') != null: self.consume_per_action = _json_["consume_per_action"]
+        if _json_.get('block_amount') != null: self.block_amount = _json_["block_amount"]
+        if _json_.get('service_threshold') != null: self.service_threshold = _json_["service_threshold"]
+        if _json_.get('draw_amount') != null: self.draw_amount = _json_["draw_amount"]
         if _json_.get('trigger_play_count') != null: self.trigger_play_count = _json_["trigger_play_count"]
         if _json_.get('style_layer_amount') != null: self.style_layer_amount = _json_["style_layer_amount"]
         if _json_.get('component_amount') != null: self.component_amount = _json_["component_amount"]

@@ -16,7 +16,7 @@
 ,card_backend_session_keep,会话保持,"[""backend""]",common,skill,1,self,[],eg_card_backend_session_keep,card_backend_session_keep_plus,true,会话保持：获得防线并触发职业资源。,
 ,card_backend_pool_maintain,连接池维护,"[""backend""]",common,skill,1,self,[],eg_card_backend_pool_maintain,card_backend_pool_maintain_plus,true,连接池维护：获得防线并触发职业资源。,
 ,card_backend_read_replica,只读副本,"[""backend""]",common,skill,1,self,[],eg_card_backend_read_replica,card_backend_read_replica_plus,true,只读副本：获得防线并触发职业资源。,
-,card_backend_api_gateway,API网关,"[""backend""]",uncommon,power,2,self,[],eg_card_backend_api_gateway,card_backend_api_gateway_plus,true,API网关：建立长期收益。,res://Resources/Art/Generated/P0/cards/card_illust_backend_api_gateway_v1/final.png
+,card_backend_api_gateway,API网关,"[""backend""]",uncommon,power,2,self,[],eg_card_backend_api_gateway,card_backend_api_gateway_plus,true,API网关：建立长期状态，每回合开始获得防线；若服务不少于 2 个则额外抽牌。,res://Resources/Art/Generated/P0/cards/card_illust_backend_api_gateway_v1/final.png
 ,card_backend_redis_warmup,Redis预热,"[""backend""]",uncommon,skill,1,self,[],eg_card_backend_redis_warmup,card_backend_redis_warmup_plus,true,Redis预热：获得防线并触发职业资源。,res://Resources/Art/Generated/P0/cards/card_illust_backend_redis_warmup_v1/final.png
 ,card_backend_message_queue,消息队列堆积,"[""backend""]",uncommon,skill,1,self,[],eg_card_backend_message_queue,card_backend_message_queue_plus,true,消息队列堆积：获得防线并触发职业资源。,res://Resources/Art/Generated/P0/cards/card_illust_backend_message_queue_v1/final.png
 ,card_backend_sharding,分库分表,"[""backend""]",uncommon,power,2,self,[],eg_card_backend_sharding,card_backend_sharding_plus,true,分库分表：建立长期收益。,res://Resources/Art/Generated/P0/cards/card_illust_backend_sharding_v1/final.png

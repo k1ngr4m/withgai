@@ -7,6 +7,7 @@
 ,vulnerable,易伤,stack,"[""damage_taken"",""round_end"",""enemy_action_end"",""expire""]",{},,99,false,debuff
 ,weak,脆弱,stack,"[""deal_damage"",""round_end"",""enemy_action_end"",""expire""]",{},,99,false,debuff
 ,service_online,服务在线,stack,"[""round_start"",""round_end""]",{},,99,false,class
+,api_gateway,API网关,stack,"[""round_start""]","{""block_amount"":4,""service_threshold"":2,""draw_amount"":1}",,99,false,class
 ,cache,缓存,stack,"[""deal_damage""]",{},,99,false,class
 ,component,组件,stack,[],{},,99,false,class
 ,style_layer,样式层,stack,"[""deal_damage""]",{},,99,false,class

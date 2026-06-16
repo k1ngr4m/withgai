@@ -419,7 +419,7 @@
       "effect_group_id": "eg_card_backend_api_gateway",
       "upgrade_to": "card_backend_api_gateway_plus",
       "enabled_in_first_playable": true,
-      "description": "API网关：建立长期收益。",
+      "description": "API网关：建立长期状态，每回合开始获得防线；若服务不少于 2 个则额外抽牌。",
       "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_backend_api_gateway_v1/final.png"
     },
     "card_backend_redis_warmup": {
@@ -4694,6 +4694,23 @@
       "is_hidden": false,
       "type": "class"
     },
+    "api_gateway": {
+      "id": "api_gateway",
+      "name": "API网关",
+      "stack_rule": "stack",
+      "timing_hooks": [
+        "round_start"
+      ],
+      "params": {
+        "block_amount": 4,
+        "service_threshold": 2,
+        "draw_amount": 1
+      },
+      "effect_group_id": "",
+      "max_stack": 99,
+      "is_hidden": false,
+      "type": "class"
+    },
     "cache": {
       "id": "cache",
       "name": "缓存",
@@ -5403,8 +5420,7 @@
     "eg_card_backend_api_gateway": {
       "id": "eg_card_backend_api_gateway",
       "entry_ids": [
-        "eg_card_backend_api_gateway_e01",
-        "eg_card_backend_api_gateway_e02"
+        "eg_card_backend_api_gateway_e01"
       ],
       "entries": [
         {
@@ -5412,14 +5428,7 @@
           "target_type": "self",
           "params": {
             "amount": 1,
-            "status_id": "service_online"
-          }
-        },
-        {
-          "effect_type": "draw_cards",
-          "target_type": "self",
-          "params": {
-            "amount": 1
+            "status_id": "api_gateway"
           }
         }
       ]
@@ -9656,17 +9665,7 @@
       "target_type": "self",
       "params": {
         "amount": 1,
-        "status_id": "service_online"
-      }
-    },
-    "eg_card_backend_api_gateway_e02": {
-      "id": "eg_card_backend_api_gateway_e02",
-      "effect_group_id": "eg_card_backend_api_gateway",
-      "order": 2,
-      "effect_type": "draw_cards",
-      "target_type": "self",
-      "params": {
-        "amount": 1
+        "status_id": "api_gateway"
       }
     },
     "eg_card_backend_redis_warmup_e01": {

@@ -10,6 +10,12 @@ const ELEVATOR_STOPS := [
 	{"floor": "12F", "name": "变异 HR", "state": "中层封锁"},
 	{"floor": "18F", "name": "总裁办公室", "state": "最终汇报"},
 ]
+const SHIFT_SIGNALS := [
+	"22:40  电梯异常：会议日程正在增殖",
+	"23:05  茶水间补给：咖啡机短暂恢复理智",
+	"23:30  楼层警报：需求范围出现不明膨胀",
+	"00:10  HR 广播：请保持微笑并继续爬楼",
+]
 const CLASS_ART := {
 	"backend": "res://Resources/Art/Generated/P0/characters/char_backend_head_icon_v1/final.png",
 	"frontend": "res://Resources/Art/Generated/P0/characters/char_frontend_head_icon_v1/final.png",
@@ -46,6 +52,9 @@ const SCENE_LABELS := {
 var _content_layer: Control
 var _rebuild_queued := false
 var _ambient_time := 0.0
+var _signal_elapsed := 0.0
+var _signal_index := 0
+var _signal_label: Label
 var _ambient_lines: Array = []
 var _pulse_nodes: Array = []
 
@@ -63,6 +72,12 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	_ambient_time += delta
+	_signal_elapsed += delta
+	if _signal_elapsed >= 3.6:
+		_signal_elapsed = 0.0
+		_signal_index = (_signal_index + 1) % SHIFT_SIGNALS.size()
+		if is_instance_valid(_signal_label):
+			_signal_label.text = String(SHIFT_SIGNALS[_signal_index])
 	for index in range(_ambient_lines.size()):
 		var line = _ambient_lines[index]
 		if not is_instance_valid(line):
@@ -79,6 +94,7 @@ func _process(delta: float) -> void:
 func _build_menu() -> void:
 	if _content_layer == null:
 		return
+	_signal_label = null
 	_pulse_nodes.clear()
 	for child in _content_layer.get_children():
 		_content_layer.remove_child(child)
@@ -198,6 +214,11 @@ func _hero_section(compact := false) -> Control:
 	subtitle.add_theme_constant_override("outline_size", 3)
 	subtitle.add_theme_color_override("font_outline_color", Color(0.03, 0.04, 0.05, 0.92))
 	hero.add_child(subtitle)
+
+	var signal_strip := _signal_strip(compact)
+	signal_strip.custom_minimum_size = Vector2(0 if compact else 560, 0)
+	signal_strip.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	hero.add_child(signal_strip)
 
 	var copy := UiFactory.label("从开放工位一路打到 CEO 楼层。抽牌、加班、甩锅，然后活着下班。", 17 if compact else 20, Color(0.78, 0.86, 0.88))
 	copy.custom_minimum_size = Vector2(0 if compact else 560, 0)
@@ -392,6 +413,31 @@ func _operations_board() -> PanelContainer:
 	box.add_child(_board_row("当前规则", "五职业可玩，HR 档案只在局外展示"))
 	return panel
 
+func _signal_strip(compact := false) -> PanelContainer:
+	var panel := _panel(Color(0.015, 0.03, 0.035, 0.78), Color(0.47, 0.86, 0.82, 0.52), 8)
+	var pad := _pad(12)
+	panel.add_child(pad)
+
+	var row: BoxContainer
+	if compact:
+		row = UiFactory.vbox(8)
+	else:
+		row = UiFactory.hbox(10)
+	row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	pad.add_child(row)
+
+	var broadcast := _status_chip("楼宇广播")
+	_register_pulse(broadcast)
+	row.add_child(broadcast)
+
+	_signal_label = UiFactory.label(String(SHIFT_SIGNALS[_signal_index]), 14, Color(0.77, 0.91, 0.90))
+	_signal_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	row.add_child(_signal_label)
+
+	if not compact:
+		row.add_child(_risk_chip("KPI 风险", "中"))
+	return panel
+
 func _elevator_panel(compact := false) -> PanelContainer:
 	var panel := _panel(Color(0.025, 0.04, 0.052, 0.72), Color(0.56, 0.78, 0.84, 0.46), 8)
 	var pad := _pad(14 if compact else 16)
@@ -569,6 +615,15 @@ func _status_chip(text: String) -> PanelContainer:
 	var pad := _pad(8)
 	chip.add_child(pad)
 	pad.add_child(UiFactory.label(text, 13, Color(0.75, 0.86, 0.88)))
+	return chip
+
+func _risk_chip(label_text: String, value_text: String) -> PanelContainer:
+	var chip := _panel(Color(0.30, 0.12, 0.08, 0.76), Color(0.94, 0.54, 0.28, 0.58), 6)
+	var pad := _pad(8)
+	chip.add_child(pad)
+	var text := UiFactory.label("%s %s" % [label_text, value_text], 13, Color(1.0, 0.82, 0.62))
+	text.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	pad.add_child(text)
 	return chip
 
 func _table_count(table_name: String) -> int:

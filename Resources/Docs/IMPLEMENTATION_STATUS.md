@@ -4,6 +4,10 @@
 
 ### Implemented
 
+- Backend `card_backend_api_gateway` now works as the designed round-start service payoff:
+  - generated config applies a new `api_gateway` self status instead of the generic service placeholder
+  - `api_gateway` declares a `round_start` hook with configurable block amount, service threshold, and draw amount
+  - runtime grants block each player round start and draws extra cards when the backend has at least 2 services online
 - Backend `card_backend_flush_all` now works as the designed cache finisher:
   - generated config marks `cache` as a `deal_damage` hook
   - the card consumes all stored cache and converts each stack into bonus single-target damage
@@ -42,6 +46,7 @@
 - Main menu has been upgraded into a polished first-screen UI:
   - full-screen generated office background with dark readability overlay
   - animated office-grid atmosphere, elevator-lobby route panel, title, subtitle, playable-content counters, current suspend-save status
+  - dynamic building broadcast strip and KPI risk chip give the opening screen a live game-menu feel
   - right-side action panel for new run, continue, meta progression, and exit
   - bottom career dossier strip using existing class portrait assets, class colors, core resource labels, difficulty, and live card-pool counts
 - Career unlock tree presentation now has reusable `MetaProgressionService` helpers for class availability, unlock condition text, and milestone progress.
@@ -124,6 +129,7 @@ Result:
 - Godot test runner completed with `TEST_RESULT: PASSED`.
 - Godot test runner now checks `StatusDef.timing_hooks` declarations for anxiety, overtime, weak, vulnerable, and service online.
 - Godot test runner now checks every EnemyDef has a configured and loadable `art_path`.
+- Godot test runner now checks `api_gateway` config, `card_backend_api_gateway` generated effect, status application, round-start block, and service-threshold draw.
 - Godot test runner now checks the live `service_online` round-start and round-end hooks.
 - Godot test runner now checks frontend `style_layer` damage bonus and consumption from both resource-sourced and status-sourced stacks.
 - Godot test runner now checks frontend `card_frontend_component_reuse` generated params, copy-on-existing-component behavior, draw-on-success behavior, and no-copy/no-draw behavior without an existing component.

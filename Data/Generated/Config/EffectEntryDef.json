@@ -307,17 +307,7 @@
     "target_type": "self",
     "params": {
       "amount": 1,
-      "status_id": "service_online"
-    }
-  },
-  {
-    "id": "eg_card_backend_api_gateway_e02",
-    "effect_group_id": "eg_card_backend_api_gateway",
-    "order": 2,
-    "effect_type": "draw_cards",
-    "target_type": "self",
-    "params": {
-      "amount": 1
+      "status_id": "api_gateway"
     }
   },
   {
