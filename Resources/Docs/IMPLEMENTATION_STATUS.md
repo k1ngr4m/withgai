@@ -20,6 +20,11 @@
   - repacks the generated tables into the runtime `Data/Generated/Config/game_config.json` through `Tools/pack_luban_config.mjs`
 - `StatusDef.timing_hooks` now declares live runtime hooks for core debuffs and representative class statuses, including anxiety/overtime round-start hooks, weak/vulnerable damage hooks, service round hooks, and targeting/status-resource hooks.
 - Automated combat coverage now verifies anxiety round-start energy loss and decay in addition to weak, vulnerable, and overtime behavior.
+- Automated meta-progression coverage now verifies all six global workstation upgrades through their live runtime paths:
+  - `meta_chair`, `meta_coffee_beans`, `meta_privacy_screen`, and `meta_hard_drive` at run start
+  - `meta_nap_bed` at rest recovery
+  - `meta_canteen_card` at first shop purchase
+  - workstation purchase cost/level validation and career-unlock purchase rejection
 - Programmer shared utility cards now have concrete data-driven effects:
   - `card_shared_rollback` gains block and clears weak, vulnerable, and anxiety while leaving heavier statuses intact.
   - `card_shared_standup` gains block, draws a replacement card, and refunds energy.
@@ -43,6 +48,7 @@ Result:
 - Godot test runner completed with `TEST_RESULT: PASSED`.
 - Godot test runner now checks `StatusDef.timing_hooks` declarations for anxiety, overtime, weak, vulnerable, and service online.
 - Godot test runner now checks career-tree labels, HR non-playable status, and milestone progress text.
+- Godot test runner now checks global workstation upgrade purchases plus run-start, rest, and shop effects for every implemented upgrade.
 - Godot MCP `get_project_info` reports Godot `4.6.1.stable.official.14d19694e`, 11 scenes, and 25 scripts.
 - Godot MCP `run_project` + `get_debug_output` verified project startup with empty `errors`.
 

@@ -46,6 +46,7 @@ func _init() -> void:
 	_validate_reward_economy(config, map, meta, reward_service)
 	_validate_save_roundtrip(config, map, meta, save)
 	_validate_meta_settlement(config, map, meta)
+	_validate_meta_upgrades(config, map, meta, reward_service)
 	_validate_boss_progression(config, map, meta, reward_service)
 	print("TEST_RESULT: %s" % ("FAILED" if failed else "PASSED"))
 	quit(1 if failed else 0)
@@ -849,6 +850,56 @@ func _validate_meta_settlement(config, map, meta) -> void:
 	_check(victory_earned >= 80, "victory settlement includes victory bonus")
 	_check(bool(run.get("settlement_state", {}).get("victory", false)), "settlement summary stores victory")
 	_check(int(run.get("settlement_state", {}).get("boss_count", 0)) == 3, "settlement summary stores boss count")
+
+func _validate_meta_upgrades(config, map, meta, reward_service) -> void:
+	meta.meta_state = meta.default_meta_state()
+	meta.meta_state["owned_discomfort_currency"] = 100
+	var chair_cost := int(config.get_def("meta_upgrades", "meta_chair").get("cost_curve", [0])[0])
+	_check(meta.buy_upgrade("meta_chair"), "meta upgrade purchase succeeds")
+	_check(meta.get_upgrade_level("meta_chair") == 1, "meta upgrade level increases")
+	_check(int(meta.meta_state.get("owned_discomfort_currency", 0)) == 100 - chair_cost, "meta upgrade purchase charges currency")
+	_check(not meta.buy_upgrade("unlock_hr"), "career unlock cannot be bought as workstation upgrade")
+
+	meta.meta_state = meta.default_meta_state()
+	meta.meta_state["meta_upgrade_levels"] = {
+		"meta_chair": 2,
+		"meta_privacy_screen": 3,
+		"meta_coffee_beans": 2,
+		"meta_hard_drive": 2,
+	}
+	var run_session = RunSessionScript.new()
+	run_session.call("setup", config, map, meta)
+	var run := run_session.create_new_run("backend")
+	var ps: Dictionary = run.get("player_state", {})
+	_check(int(ps.get("max_spirit", 0)) == 80, "meta chair raises run max spirit")
+	_check(int(ps.get("current_spirit", 0)) == 80, "meta chair raises run current spirit")
+	_check(int(ps.get("base_energy", 0)) == 4, "meta coffee beans raises base energy at max level")
+	_check(int(ps.get("opening_block_bonus", 0)) == 6, "meta privacy screen grants opening block bonus")
+	_check(int(ps.get("opening_draw_bonus", 0)) == 2, "meta hard drive grants opening draw bonus")
+
+	meta.meta_state = meta.default_meta_state()
+	meta.meta_state["meta_upgrade_levels"] = { "meta_nap_bed": 3 }
+	run = run_session.create_new_run("algorithm")
+	ps = run.get("player_state", {})
+	ps["max_spirit"] = 100
+	ps["current_spirit"] = 40
+	run["player_state"] = ps
+	run["current_node_id"] = _first_node_of_type(run, "rest")
+	reward_service.rest_recover(run)
+	_check(int(run.get("player_state", {}).get("current_spirit", 0)) == 82, "meta nap bed increases rest recovery")
+
+	meta.meta_state = meta.default_meta_state()
+	meta.meta_state["meta_upgrade_levels"] = { "meta_canteen_card": 2 }
+	run = run_session.create_new_run("frontend")
+	run["currency_perf_points"] = 100
+	reward_service.prepare_shop_stock(run)
+	var card_id := String(run.get("shop_state", {}).get("card_stock", [])[0])
+	var discounted_cost: int = reward_service.card_cost(run)
+	_check(discounted_cost == RewardService.CARD_COST - 10, "meta canteen card discounts first shop purchase")
+	reward_service.buy_shop_card(run, card_id)
+	_check(int(run.get("currency_perf_points", 0)) == 100 - discounted_cost, "meta canteen card discounted purchase charges correctly")
+	_check(reward_service.card_cost(run) == RewardService.CARD_COST, "meta canteen card discount is consumed")
+	meta.meta_state = meta.default_meta_state()
 
 func _validate_boss_progression(config, map, meta, reward_service) -> void:
 	var run_session = RunSessionScript.new()
