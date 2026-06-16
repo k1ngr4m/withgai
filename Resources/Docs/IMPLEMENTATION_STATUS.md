@@ -93,6 +93,10 @@
   - generated config applies a new `auto_regression` self status instead of generic case/draw power filler
   - `auto_regression` declares a `round_end` hook with configurable trigger damage and case gain
   - runtime finds a live enemy with Bug at player round end, triggers regression damage, and syncs the added case resource
+- Tester `card_tester_smoke_test` now works as the designed starter scouting defense:
+  - generated config grants block and uses `observe_intent` instead of incorrectly adding Diff
+  - runtime previews each live enemy's next intent and stores that preview in enemy runtime flags
+  - the next enemy intent refresh consumes the preview, making the UI prediction accurate rather than decorative
 - Tester `card_tester_boundary_check` now works as the designed boundary-case skill:
   - generated config marks the card as a selected-target skill with data-driven low-HP and high-attack thresholds
   - runtime `boundary_check` applies base cases and adds bonus cases when the selected target is low on HP or showing a high attack / multi-attack intent
@@ -259,6 +263,7 @@ Result:
 - Godot test runner now checks `card_frontend_motion_overload` generated play-count scaling params and live damage based on the current turn's played-card count.
 - Godot test runner now checks `card_frontend_first_screen` generated hidden status, two separate next-card discounts, per-card stack consumption, no third-card discount, and turn-end expiry.
 - Godot test runner now checks `card_frontend_crash_animation` generated style-layer finisher params, style-layer-to-extra-hit conversion, and full style-layer consumption.
+- Godot test runner now checks tester `card_tester_smoke_test` generated block/observe effects, no-Diff behavior, live next-intent preview storage, readable preview text, and preview consumption on intent refresh.
 - Godot test runner now checks tester `card_tester_auto_regression` generated status hook/params, status application, round-end Bug trigger damage, and case/resource sync.
 - Godot test runner now checks tester `card_tester_boundary_check` selected targeting, generated `boundary_check` params, low-HP bonus, high-attack bonus, base no-boundary behavior, and case resource sync.
 - Godot test runner now checks tester `card_tester_bug_upgrade` selected targeting, generated `upgrade_bug` effect, block gain, existing-Bug upgrade, resource sync, intent weakening, and no-Bug no-op behavior.

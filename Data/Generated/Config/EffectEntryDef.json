@@ -1069,8 +1069,8 @@
     "id": "eg_card_tester_smoke_test_e02",
     "effect_group_id": "eg_card_tester_smoke_test",
     "order": 2,
-    "effect_type": "add_diff",
-    "target_type": "selected",
+    "effect_type": "observe_intent",
+    "target_type": "all_enemies",
     "params": {
       "amount": 1
     }

@@ -155,6 +155,15 @@ func _roll_enemy_intents() -> void:
 	for enemy in battle_state.get("enemies", []):
 		if int(enemy.get("current_hp", 0)) <= 0:
 			continue
+		var flags: Dictionary = enemy.get("runtime_flags", {})
+		var observed_next_intent: Dictionary = flags.get("observed_next_intent", {})
+		if not observed_next_intent.is_empty():
+			enemy["intent"] = observed_next_intent.duplicate(true)
+			flags.erase("observed_next_intent")
+			flags.erase("observed_next_intent_text")
+			enemy["runtime_flags"] = flags
+			battle_state["log"].append("%s 按冒烟测试预判行动：%s" % [enemy.get("name", "敌人"), enemy["intent"].get("intent_type", "")])
+			continue
 		var intents: Array = content_resolver.intent_entries_for_enemy(enemy.get("enemy_def_id", ""))
 		enemy["intent"] = content_resolver.weighted_pick(intents, rng).duplicate(true)
 

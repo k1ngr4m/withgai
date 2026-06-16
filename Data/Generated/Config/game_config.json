@@ -1218,7 +1218,7 @@
       "effect_group_id": "eg_card_tester_smoke_test",
       "upgrade_to": "card_tester_smoke_test_plus",
       "enabled_in_first_playable": true,
-      "description": "冒烟测试：获得防线并触发职业资源。",
+      "description": "冒烟测试：获得防线并预判敌方下一步意图。",
       "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_tester_smoke_test_v1/final.png"
     },
     "card_tester_repro_steps": {
@@ -6508,8 +6508,8 @@
           }
         },
         {
-          "effect_type": "add_diff",
-          "target_type": "selected",
+          "effect_type": "observe_intent",
+          "target_type": "all_enemies",
           "params": {
             "amount": 1
           }
@@ -10412,8 +10412,8 @@
       "id": "eg_card_tester_smoke_test_e02",
       "effect_group_id": "eg_card_tester_smoke_test",
       "order": 2,
-      "effect_type": "add_diff",
-      "target_type": "selected",
+      "effect_type": "observe_intent",
+      "target_type": "all_enemies",
       "params": {
         "amount": 1
       }

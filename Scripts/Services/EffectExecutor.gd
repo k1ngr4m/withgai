@@ -65,6 +65,8 @@ func _execute_entry(entry: Dictionary, battle_state: Dictionary, run_state: Dict
 			_confirm_regression(entry.get("target_type", "selected"), battle_state, run_state, target_index, max(1, amount), int(params.get("draw_amount", 1)), battle_log)
 		"boundary_check":
 			_boundary_check(entry.get("target_type", "selected"), battle_state, run_state, target_index, params, battle_log)
+		"observe_intent":
+			_observe_intents(entry.get("target_type", "selected"), battle_state, target_index, battle_log)
 		"add_case":
 			for enemy in _target_enemies(entry.get("target_type", "selected"), battle_state, target_index):
 				_enemy_status(enemy, battle_state, run_state, "case_mark", max(1, amount), battle_log)
@@ -428,6 +430,34 @@ func _boundary_check_bonus_applies(enemy: Dictionary, params: Dictionary) -> boo
 	var intent: Dictionary = enemy.get("intent", {})
 	return _enemy_intent_attack_amount(intent) >= high_attack_threshold
 
+func _observe_intents(target_type: String, battle_state: Dictionary, target_index: int, battle_log: Array) -> void:
+	var targets := _target_enemies(target_type, battle_state, target_index)
+	if targets.is_empty():
+		battle_log.append("冒烟测试：没有可观察目标")
+		return
+	for enemy in targets:
+		var next_intent := _roll_preview_intent(enemy)
+		if next_intent.is_empty():
+			battle_log.append("%s 没有可预判意图" % enemy.get("name", "敌人"))
+			continue
+		var flags: Dictionary = enemy.get("runtime_flags", {})
+		flags["observed_next_intent"] = next_intent
+		flags["observed_next_intent_text"] = _intent_text(next_intent)
+		enemy["runtime_flags"] = flags
+		battle_log.append("冒烟测试预判 %s 下一步：%s" % [enemy.get("name", "敌人"), flags["observed_next_intent_text"]])
+
+func _roll_preview_intent(enemy: Dictionary) -> Dictionary:
+	if config_service == null:
+		return {}
+	var enemy_def: Dictionary = config_service.get_def("enemies", String(enemy.get("enemy_def_id", "")))
+	var intent_group: Dictionary = config_service.get_def("intent_groups", String(enemy_def.get("intent_group_id", "")))
+	var intent_entries: Array = intent_group.get("intent_entries", [])
+	if intent_entries.is_empty():
+		return {}
+	var rng := RandomNumberGenerator.new()
+	rng.randomize()
+	return config_service.random_weighted(intent_entries, rng).duplicate(true)
+
 func _enemy_intent_attack_amount(intent: Dictionary) -> int:
 	match String(intent.get("intent_type", "")):
 		"attack":
@@ -435,6 +465,28 @@ func _enemy_intent_attack_amount(intent: Dictionary) -> int:
 		"multi_attack":
 			return int(intent.get("amount", 0)) * max(1, int(intent.get("hits", 1)))
 	return 0
+
+func _intent_text(intent: Dictionary) -> String:
+	var intent_type := String(intent.get("intent_type", ""))
+	match intent_type:
+		"attack":
+			return "攻击 %d" % int(intent.get("amount", 0))
+		"multi_attack":
+			return "多段攻击 %d x%d" % [int(intent.get("amount", 0)), int(intent.get("hits", 1))]
+		"block":
+			return "防守 %d" % int(intent.get("amount", 0))
+		"debuff":
+			return "负面 %s x%d" % [String(intent.get("status_id", "")), int(intent.get("amount", 1))]
+		"pollute":
+			return "污染 x%d" % int(intent.get("amount", 1))
+		"spawn":
+			return "增援 %s" % String(intent.get("enemy_id", ""))
+		"cleanse_player":
+			return "清理增益 %d" % int(intent.get("amount", 1))
+		"phase_shift":
+			return "阶段切换"
+		_:
+			return intent_type
 
 func _draw_cards(battle_state: Dictionary, amount: int, battle_log: Array) -> void:
 	var player := _player(battle_state)

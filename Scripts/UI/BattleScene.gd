@@ -86,6 +86,9 @@ func _enemy_panel(enemy: Dictionary, enemy_index: int) -> Control:
 	var selected := enemy_index == AppRoot.battle_service.selected_target_index()
 	box.add_child(UiFactory.label("%s%s  HP %d/%d  防线 %d" % ["▶ " if selected else "", enemy.get("name", ""), int(enemy.get("current_hp", 0)), int(enemy.get("max_hp", 0)), int(enemy.get("current_block", 0))], 18))
 	box.add_child(UiFactory.label("意图：%s %s" % [intent.get("intent_type", ""), str(intent.get("amount", ""))], 15, Color(1.0, 0.82, 0.55)))
+	var preview_text := String(enemy.get("runtime_flags", {}).get("observed_next_intent_text", ""))
+	if not preview_text.is_empty():
+		box.add_child(UiFactory.label("预判：%s" % preview_text, 13, Color(0.62, 0.86, 1.0)))
 	box.add_child(UiFactory.label("状态：%s" % _status_text(enemy.get("status_list", {})), 13, Color(0.74, 0.9, 0.92)))
 	var target := UiFactory.button("设为目标")
 	target.disabled = int(enemy.get("current_hp", 0)) <= 0

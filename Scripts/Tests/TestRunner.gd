@@ -140,6 +140,20 @@ func _validate_config_references(config, content) -> void:
 		var pollution_card: Dictionary = content.card_def(card_id)
 		_check(not pollution_card.is_empty(), "%s pollution card resolves" % card_id)
 		_check(not content.effect_entries(pollution_card.get("effect_group_id", "")).is_empty(), "%s pollution card has effects" % card_id)
+	var smoke_test_entries: Array = content.effect_entries(content.card_def("card_tester_smoke_test").get("effect_group_id", ""))
+	var smoke_test_blocks := false
+	var smoke_test_observes := false
+	var smoke_test_adds_diff := false
+	for smoke_test_entry in smoke_test_entries:
+		if smoke_test_entry.get("effect_type", "") == "gain_block" and int(smoke_test_entry.get("params", {}).get("amount", 0)) > 0:
+			smoke_test_blocks = true
+		if smoke_test_entry.get("effect_type", "") == "observe_intent" and smoke_test_entry.get("target_type", "") == "all_enemies":
+			smoke_test_observes = true
+		if smoke_test_entry.get("effect_type", "") == "add_diff":
+			smoke_test_adds_diff = true
+	_check(smoke_test_blocks, "tester smoke test grants block")
+	_check(smoke_test_observes, "tester smoke test observes next intent")
+	_check(not smoke_test_adds_diff, "tester smoke test does not add diff")
 	var circuit_breaker_entries: Array = content.effect_entries(content.card_def("card_backend_circuit_breaker").get("effect_group_id", ""))
 	var circuit_breaker_scales := false
 	for entry in circuit_breaker_entries:
@@ -1480,6 +1494,31 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	executor.execute([{ "effect_type": "confirm_regression", "target_type": "selected", "params": { "amount": 1, "draw_amount": 1 } }], battle.battle_state, run, 0, battle.battle_state["log"])
 	_check(int(confirm_enemy.get("status_list", {}).get("diff", 0)) == 0, "tester regression confirm needs an existing case")
 	_check(int(player.get("hand", []).size()) == confirm_hand_size, "tester regression confirm does not draw without case")
+
+	run = run_session.create_new_run("tester")
+	run["owned_relic_ids"] = []
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	var smoke_enemy: Dictionary = battle.battle_state.get("enemies", [])[0]
+	smoke_enemy["status_list"] = {}
+	player["hand"] = ["card_tester_smoke_test"]
+	player["draw_pile"] = []
+	player["discard_pile"] = []
+	player["current_energy"] = 3
+	player["current_block"] = 0
+	player["class_resource_state"]["diff_tags"] = 0
+	battle.play_card(run, 0, 0)
+	var smoke_flags: Dictionary = smoke_enemy.get("runtime_flags", {})
+	var observed_intent: Dictionary = smoke_flags.get("observed_next_intent", {}).duplicate(true)
+	_check(int(player.get("current_block", 0)) >= 8, "tester smoke test grants configured block")
+	_check(not observed_intent.is_empty(), "tester smoke test stores next intent preview")
+	_check(not String(smoke_flags.get("observed_next_intent_text", "")).is_empty(), "tester smoke test stores readable preview")
+	_check(int(smoke_enemy.get("status_list", {}).get("diff", 0)) == 0, "tester smoke test does not add diff in combat")
+	_check(int(player.get("class_resource_state", {}).get("diff_tags", 0)) == 0, "tester smoke test does not sync diff resource")
+	if not observed_intent.is_empty():
+		battle.call("_roll_enemy_intents")
+		_check(smoke_enemy.get("intent", {}) == observed_intent, "tester smoke test next intent resolves from preview")
+		_check(not smoke_enemy.get("runtime_flags", {}).has("observed_next_intent"), "tester smoke test preview is consumed")
 
 	run = run_session.create_new_run("tester")
 	battle = _start_first_battle(run, content, map, executor)

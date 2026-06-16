@@ -116,6 +116,7 @@ const specialCardDescriptions = {
   card_frontend_vue_suite: "Vue三件套：建立长期状态，每回合开始生成 1 个组件。",
   card_frontend_crash_animation: "崩溃动画：消耗全部样式层，将样式层转化为多段爆发伤害。",
   card_tester_auto_regression: "自动化回归：建立长期状态，回合结束时触发一个已挂 Bug 并补充用例。",
+  card_tester_smoke_test: "冒烟测试：获得防线并预判敌方下一步意图。",
   card_tester_repro_steps: "复现步骤：向选定目标注入 Bug；若目标已有 Diff 则额外追加 Bug。",
   card_tester_boundary_check: "边界值校验：施加用例；目标低生命或高攻击时额外施加用例。",
   card_tester_bug_upgrade: "缺陷升级：获得防线；若目标已有 Bug，则追加 Bug 并进一步削弱意图。",
@@ -300,6 +301,12 @@ function cardEffects(classId, cardId, type, cost, idx) {
   if (cardId === "card_tester_repro_steps") {
     return [
       { effect_type: "inject_bug", target_type: "selected", params: { amount: 1 } },
+    ];
+  }
+  if (cardId === "card_tester_smoke_test") {
+    return [
+      { effect_type: "gain_block", target_type: "self", params: { amount: 8 } },
+      { effect_type: "observe_intent", target_type: "all_enemies", params: { amount: 1 } },
     ];
   }
   if (cardId === "card_tester_boundary_check") {

@@ -1050,7 +1050,7 @@
     "effect_group_id": "eg_card_tester_smoke_test",
     "upgrade_to": "card_tester_smoke_test_plus",
     "enabled_in_first_playable": true,
-    "description": "冒烟测试：获得防线并触发职业资源。",
+    "description": "冒烟测试：获得防线并预判敌方下一步意图。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_tester_smoke_test_v1/final.png"
   },
   {
