@@ -79,7 +79,7 @@ const cardNames = {
 const rarityByIndex = (i) => (i < 14 ? "common" : i < 24 ? "uncommon" : "rare");
 const targetForType = (type) => (type === "attack" ? "single_enemy" : "self");
 const priorityTargetCards = new Set(["card_pm_schedule_compress", "card_pm_roadmap", "card_pm_snowball"]);
-const selectedTargetCards = new Set(["card_shared_meeting_mute", "card_tester_bug_upgrade", "card_tester_regression_confirm"]);
+const selectedTargetCards = new Set(["card_shared_meeting_mute", "card_tester_boundary_check", "card_tester_bug_upgrade", "card_tester_regression_confirm"]);
 const targetForCard = (type, id) => {
   if (priorityTargetCards.has(id)) return "highest_priority_enemy";
   return selectedTargetCards.has(id) ? "selected" : targetForType(type);
@@ -106,6 +106,7 @@ const specialCardDescriptions = {
   card_frontend_vue_suite: "Vue三件套：建立长期状态，每回合开始生成 1 个组件。",
   card_frontend_crash_animation: "崩溃动画：消耗全部样式层，将样式层转化为多段爆发伤害。",
   card_tester_auto_regression: "自动化回归：建立长期状态，回合结束时触发一个已挂 Bug 并补充用例。",
+  card_tester_boundary_check: "边界值校验：施加用例；目标低生命或高攻击时额外施加用例。",
   card_tester_bug_upgrade: "缺陷升级：获得防线；若目标已有 Bug，则追加 Bug 并进一步削弱意图。",
   card_tester_case_matrix: "用例矩阵：建立长期状态，每回合首次施加用例时额外施加用例。",
   card_tester_regression_confirm: "回归确认：若目标已有用例，抽牌并施加 Diff。",
@@ -224,6 +225,11 @@ function cardEffects(classId, cardId, type, cost, idx) {
   if (cardId === "card_tester_auto_regression") {
     return [
       { effect_type: "apply_status", target_type: "self", params: { status_id: "auto_regression", amount: 1 } },
+    ];
+  }
+  if (cardId === "card_tester_boundary_check") {
+    return [
+      { effect_type: "boundary_check", target_type: "selected", params: { amount: 1, bonus_amount: 1, low_hp_percent: 50, high_attack_threshold: 10 } },
     ];
   }
   if (cardId === "card_tester_bug_upgrade") {
@@ -831,6 +837,9 @@ const lubanDefines = `<module name="">
     <var name="requires_existing_component" type="bool?"/>
     <var name="draw_if_success" type="bool?"/>
     <var name="draw_amount" type="int?"/>
+    <var name="bonus_amount" type="int?"/>
+    <var name="low_hp_percent" type="int?"/>
+    <var name="high_attack_threshold" type="int?"/>
     <var name="from_damage_taken_this_turn" type="bool?"/>
     <var name="damage_taken_divisor" type="int?"/>
     <var name="bug_multiplier" type="int?"/>

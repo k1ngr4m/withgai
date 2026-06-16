@@ -31,6 +31,9 @@
     <var name="requires_existing_component" type="bool?"/>
     <var name="draw_if_success" type="bool?"/>
     <var name="draw_amount" type="int?"/>
+    <var name="bonus_amount" type="int?"/>
+    <var name="low_hp_percent" type="int?"/>
+    <var name="high_attack_threshold" type="int?"/>
     <var name="from_damage_taken_this_turn" type="bool?"/>
     <var name="damage_taken_divisor" type="int?"/>
     <var name="bug_multiplier" type="int?"/>

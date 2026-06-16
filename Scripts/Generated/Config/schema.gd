@@ -149,6 +149,9 @@ class EffectParams:
     var requires_existing_component: bool
     var draw_if_success: bool
     var draw_amount: int
+    var bonus_amount: int
+    var low_hp_percent: int
+    var high_attack_threshold: int
     var from_damage_taken_this_turn: bool
     var damage_taken_divisor: int
     var bug_multiplier: int
@@ -177,6 +180,9 @@ class EffectParams:
         if _json_.get('requires_existing_component') != null: self.requires_existing_component = _json_["requires_existing_component"]
         if _json_.get('draw_if_success') != null: self.draw_if_success = _json_["draw_if_success"]
         if _json_.get('draw_amount') != null: self.draw_amount = _json_["draw_amount"]
+        if _json_.get('bonus_amount') != null: self.bonus_amount = _json_["bonus_amount"]
+        if _json_.get('low_hp_percent') != null: self.low_hp_percent = _json_["low_hp_percent"]
+        if _json_.get('high_attack_threshold') != null: self.high_attack_threshold = _json_["high_attack_threshold"]
         if _json_.get('from_damage_taken_this_turn') != null: self.from_damage_taken_this_turn = _json_["from_damage_taken_this_turn"]
         if _json_.get('damage_taken_divisor') != null: self.damage_taken_divisor = _json_["damage_taken_divisor"]
         if _json_.get('bug_multiplier') != null: self.bug_multiplier = _json_["bug_multiplier"]

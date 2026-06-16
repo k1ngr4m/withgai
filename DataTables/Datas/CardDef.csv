@@ -67,7 +67,7 @@
 ,card_tester_repro_steps,复现步骤,"[""tester""]",common,skill,1,self,[],eg_card_tester_repro_steps,card_tester_repro_steps_plus,true,复现步骤：获得防线并触发职业资源。,res://Resources/Art/Generated/P0/cards/card_illust_tester_repro_steps_v1/final.png
 ,card_tester_regression_confirm,回归确认,"[""tester""]",common,skill,0,selected,[],eg_card_tester_regression_confirm,card_tester_regression_confirm_plus,true,回归确认：若目标已有用例，抽牌并施加 Diff。,res://Resources/Art/Generated/P0/cards/card_illust_tester_regression_confirm_v1/final.png
 ,card_tester_assert_fail,断言失败,"[""tester""]",common,attack,1,single_enemy,[],eg_card_tester_assert_fail,card_tester_assert_fail_plus,true,断言失败：造成伤害。,
-,card_tester_boundary_check,边界值校验,"[""tester""]",common,skill,0,self,[],eg_card_tester_boundary_check,card_tester_boundary_check_plus,true,边界值校验：获得防线并触发职业资源。,res://Resources/Art/Generated/P0/cards/card_illust_tester_boundary_check_v1/final.png
+,card_tester_boundary_check,边界值校验,"[""tester""]",common,skill,0,selected,[],eg_card_tester_boundary_check,card_tester_boundary_check_plus,true,边界值校验：施加用例；目标低生命或高攻击时额外施加用例。,res://Resources/Art/Generated/P0/cards/card_illust_tester_boundary_check_v1/final.png
 ,card_tester_log_screenshot,日志截图,"[""tester""]",common,skill,1,self,[],eg_card_tester_log_screenshot,card_tester_log_screenshot_plus,true,日志截图：获得防线并触发职业资源。,
 ,card_tester_env_reset,环境重置,"[""tester""]",common,skill,1,self,[],eg_card_tester_env_reset,card_tester_env_reset_plus,true,环境重置：获得防线并触发职业资源。,
 ,card_tester_version_compare,版本比对,"[""tester""]",common,skill,1,self,[],eg_card_tester_version_compare,card_tester_version_compare_plus,true,版本比对：获得防线并触发职业资源。,

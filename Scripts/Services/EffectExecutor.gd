@@ -54,6 +54,8 @@ func _execute_entry(entry: Dictionary, battle_state: Dictionary, run_state: Dict
 			_upgrade_bug(entry.get("target_type", "selected"), battle_state, run_state, target_index, max(1, amount), battle_log)
 		"confirm_regression":
 			_confirm_regression(entry.get("target_type", "selected"), battle_state, run_state, target_index, max(1, amount), int(params.get("draw_amount", 1)), battle_log)
+		"boundary_check":
+			_boundary_check(entry.get("target_type", "selected"), battle_state, run_state, target_index, params, battle_log)
 		"add_case":
 			for enemy in _target_enemies(entry.get("target_type", "selected"), battle_state, target_index):
 				_enemy_status(enemy, battle_state, run_state, "case_mark", max(1, amount), battle_log)
@@ -306,6 +308,34 @@ func _confirm_regression(target_type: String, battle_state: Dictionary, run_stat
 		_enemy_status(enemy, battle_state, run_state, "diff", diff_amount, battle_log)
 		_draw_cards(battle_state, max(0, draw_amount), battle_log)
 		battle_log.append("%s 回归确认通过，Diff +%d" % [enemy.get("name", "敌人"), diff_amount])
+
+func _boundary_check(target_type: String, battle_state: Dictionary, run_state: Dictionary, target_index: int, params: Dictionary, battle_log: Array) -> void:
+	for enemy in _target_enemies(target_type, battle_state, target_index):
+		var base_cases: int = max(1, int(params.get("amount", 1)))
+		var extra_cases := 0
+		if _boundary_check_bonus_applies(enemy, params):
+			extra_cases = max(0, int(params.get("bonus_amount", 1)))
+		_enemy_status(enemy, battle_state, run_state, "case_mark", base_cases + extra_cases, battle_log)
+		if extra_cases > 0:
+			battle_log.append("%s 命中边界条件，用例 +%d" % [enemy.get("name", "敌人"), extra_cases])
+
+func _boundary_check_bonus_applies(enemy: Dictionary, params: Dictionary) -> bool:
+	var max_hp: int = max(1, int(enemy.get("max_hp", enemy.get("current_hp", 1))))
+	var current_hp: int = int(enemy.get("current_hp", max_hp))
+	var low_hp_percent: int = clamp(int(params.get("low_hp_percent", 50)), 1, 100)
+	if current_hp * 100 <= max_hp * low_hp_percent:
+		return true
+	var high_attack_threshold: int = max(1, int(params.get("high_attack_threshold", 10)))
+	var intent: Dictionary = enemy.get("intent", {})
+	return _enemy_intent_attack_amount(intent) >= high_attack_threshold
+
+func _enemy_intent_attack_amount(intent: Dictionary) -> int:
+	match String(intent.get("intent_type", "")):
+		"attack":
+			return int(intent.get("amount", 0))
+		"multi_attack":
+			return int(intent.get("amount", 0)) * max(1, int(intent.get("hits", 1)))
+	return 0
 
 func _draw_cards(battle_state: Dictionary, amount: int, battle_log: Array) -> void:
 	var player := _player(battle_state)

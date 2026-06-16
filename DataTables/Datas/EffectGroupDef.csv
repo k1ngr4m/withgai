@@ -67,7 +67,7 @@
 ,eg_card_tester_repro_steps,"[""eg_card_tester_repro_steps_e01"",""eg_card_tester_repro_steps_e02""]"
 ,eg_card_tester_regression_confirm,"[""eg_card_tester_regression_confirm_e01""]"
 ,eg_card_tester_assert_fail,"[""eg_card_tester_assert_fail_e01"",""eg_card_tester_assert_fail_e02""]"
-,eg_card_tester_boundary_check,"[""eg_card_tester_boundary_check_e01"",""eg_card_tester_boundary_check_e02"",""eg_card_tester_boundary_check_e03""]"
+,eg_card_tester_boundary_check,"[""eg_card_tester_boundary_check_e01""]"
 ,eg_card_tester_log_screenshot,"[""eg_card_tester_log_screenshot_e01"",""eg_card_tester_log_screenshot_e02""]"
 ,eg_card_tester_env_reset,"[""eg_card_tester_env_reset_e01"",""eg_card_tester_env_reset_e02""]"
 ,eg_card_tester_version_compare,"[""eg_card_tester_version_compare_e01"",""eg_card_tester_version_compare_e02""]"

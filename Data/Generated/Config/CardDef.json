@@ -1113,12 +1113,12 @@
     "rarity": "common",
     "type": "skill",
     "cost": 0,
-    "target_type": "self",
+    "target_type": "selected",
     "keywords": [],
     "effect_group_id": "eg_card_tester_boundary_check",
     "upgrade_to": "card_tester_boundary_check_plus",
     "enabled_in_first_playable": true,
-    "description": "边界值校验：获得防线并触发职业资源。",
+    "description": "边界值校验：施加用例；目标低生命或高攻击时额外施加用例。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_tester_boundary_check_v1/final.png"
   },
   {

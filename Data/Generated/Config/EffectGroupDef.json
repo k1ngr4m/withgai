@@ -445,9 +445,7 @@
   {
     "id": "eg_card_tester_boundary_check",
     "entry_ids": [
-      "eg_card_tester_boundary_check_e01",
-      "eg_card_tester_boundary_check_e02",
-      "eg_card_tester_boundary_check_e03"
+      "eg_card_tester_boundary_check_e01"
     ]
   },
   {

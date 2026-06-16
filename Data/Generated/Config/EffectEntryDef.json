@@ -1207,30 +1207,13 @@
     "id": "eg_card_tester_boundary_check_e01",
     "effect_group_id": "eg_card_tester_boundary_check",
     "order": 1,
-    "effect_type": "gain_block",
-    "target_type": "self",
-    "params": {
-      "amount": 5
-    }
-  },
-  {
-    "id": "eg_card_tester_boundary_check_e02",
-    "effect_group_id": "eg_card_tester_boundary_check",
-    "order": 2,
-    "effect_type": "draw_cards",
-    "target_type": "self",
-    "params": {
-      "amount": 1
-    }
-  },
-  {
-    "id": "eg_card_tester_boundary_check_e03",
-    "effect_group_id": "eg_card_tester_boundary_check",
-    "order": 3,
-    "effect_type": "add_diff",
+    "effect_type": "boundary_check",
     "target_type": "selected",
     "params": {
-      "amount": 1
+      "amount": 1,
+      "bonus_amount": 1,
+      "low_hp_percent": 50,
+      "high_attack_threshold": 10
     }
   },
   {

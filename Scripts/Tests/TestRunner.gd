@@ -375,6 +375,14 @@ func _validate_config_references(config, content) -> void:
 		if entry.get("effect_type", "") == "apply_status" and params.get("status_id", "") == "auto_regression":
 			auto_regression_applies_status = true
 	_check(auto_regression_applies_status, "tester auto regression applies auto regression status")
+	_check(content.card_def("card_tester_boundary_check").get("target_type", "") == "selected", "tester boundary check targets selected enemy")
+	var boundary_check_entries: Array = content.effect_entries(content.card_def("card_tester_boundary_check").get("effect_group_id", ""))
+	var boundary_check_has_params := false
+	for entry in boundary_check_entries:
+		var params: Dictionary = entry.get("params", {})
+		if entry.get("effect_type", "") == "boundary_check" and entry.get("target_type", "") == "selected" and int(params.get("amount", 0)) > 0 and int(params.get("bonus_amount", 0)) > 0 and int(params.get("low_hp_percent", 0)) == 50 and int(params.get("high_attack_threshold", 0)) == 10:
+			boundary_check_has_params = true
+	_check(boundary_check_has_params, "tester boundary check has selected target thresholds")
 	_check(content.card_def("card_tester_bug_upgrade").get("target_type", "") == "selected", "tester bug upgrade targets selected enemy")
 	var bug_upgrade_entries: Array = content.effect_entries(content.card_def("card_tester_bug_upgrade").get("effect_group_id", ""))
 	var bug_upgrade_upgrades_bug := false
@@ -852,6 +860,36 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(status.get("diff", 0)) == 1, "diff is consumed by bug reproduction")
 	_check(int(tester_resources.get("diff_tags", 0)) == 1, "diff resource decrements after reproduction")
 	_check(int(battle.battle_state["enemies"][0].get("intent", {}).get("amount", 0)) == 4, "diff-boosted bug weakens intent by final bug amount")
+
+	run = run_session.create_new_run("tester")
+	run["owned_relic_ids"] = []
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	var boundary_enemy: Dictionary = battle.battle_state.get("enemies", [])[0]
+	boundary_enemy["max_hp"] = 40
+	boundary_enemy["current_hp"] = 18
+	boundary_enemy["current_block"] = 0
+	boundary_enemy["status_list"] = {}
+	boundary_enemy["intent"] = { "intent_type": "attack", "amount": 4 }
+	player["class_resource_state"]["cases"] = 0
+	player["hand"] = ["card_tester_boundary_check"]
+	player["current_energy"] = 3
+	battle.play_card(run, 0, 0)
+	_check(int(boundary_enemy.get("status_list", {}).get("case_mark", 0)) == 2, "tester boundary check adds bonus case to low hp target")
+	_check(int(player.get("class_resource_state", {}).get("cases", 0)) == 2, "tester boundary check syncs low hp bonus cases")
+	boundary_enemy["current_hp"] = 40
+	boundary_enemy["status_list"] = {}
+	boundary_enemy["intent"] = { "intent_type": "attack", "amount": 4 }
+	player["class_resource_state"]["cases"] = 0
+	executor.execute([{ "effect_type": "boundary_check", "target_type": "selected", "params": { "amount": 1, "bonus_amount": 1, "low_hp_percent": 50, "high_attack_threshold": 10 } }], battle.battle_state, run, 0, battle.battle_state["log"])
+	_check(int(boundary_enemy.get("status_list", {}).get("case_mark", 0)) == 1, "tester boundary check adds base case without boundary")
+	_check(int(player.get("class_resource_state", {}).get("cases", 0)) == 1, "tester boundary check syncs base cases")
+	boundary_enemy["status_list"] = {}
+	boundary_enemy["intent"] = { "intent_type": "multi_attack", "amount": 4, "hits": 3 }
+	player["class_resource_state"]["cases"] = 0
+	executor.execute([{ "effect_type": "boundary_check", "target_type": "selected", "params": { "amount": 1, "bonus_amount": 1, "low_hp_percent": 50, "high_attack_threshold": 10 } }], battle.battle_state, run, 0, battle.battle_state["log"])
+	_check(int(boundary_enemy.get("status_list", {}).get("case_mark", 0)) == 2, "tester boundary check adds bonus case to high attack target")
+	_check(int(player.get("class_resource_state", {}).get("cases", 0)) == 2, "tester boundary check syncs high attack bonus cases")
 
 	run = run_session.create_new_run("tester")
 	battle = _start_first_battle(run, content, map, executor)

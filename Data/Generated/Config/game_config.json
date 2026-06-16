@@ -1281,12 +1281,12 @@
       "rarity": "common",
       "type": "skill",
       "cost": 0,
-      "target_type": "self",
+      "target_type": "selected",
       "keywords": [],
       "effect_group_id": "eg_card_tester_boundary_check",
       "upgrade_to": "card_tester_boundary_check_plus",
       "enabled_in_first_playable": true,
-      "description": "边界值校验：获得防线并触发职业资源。",
+      "description": "边界值校验：施加用例；目标低生命或高攻击时额外施加用例。",
       "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_tester_boundary_check_v1/final.png"
     },
     "card_tester_log_screenshot": {
@@ -6594,30 +6594,17 @@
     "eg_card_tester_boundary_check": {
       "id": "eg_card_tester_boundary_check",
       "entry_ids": [
-        "eg_card_tester_boundary_check_e01",
-        "eg_card_tester_boundary_check_e02",
-        "eg_card_tester_boundary_check_e03"
+        "eg_card_tester_boundary_check_e01"
       ],
       "entries": [
         {
-          "effect_type": "gain_block",
-          "target_type": "self",
-          "params": {
-            "amount": 5
-          }
-        },
-        {
-          "effect_type": "draw_cards",
-          "target_type": "self",
-          "params": {
-            "amount": 1
-          }
-        },
-        {
-          "effect_type": "add_diff",
+          "effect_type": "boundary_check",
           "target_type": "selected",
           "params": {
-            "amount": 1
+            "amount": 1,
+            "bonus_amount": 1,
+            "low_hp_percent": 50,
+            "high_attack_threshold": 10
           }
         }
       ]
@@ -10611,30 +10598,13 @@
       "id": "eg_card_tester_boundary_check_e01",
       "effect_group_id": "eg_card_tester_boundary_check",
       "order": 1,
-      "effect_type": "gain_block",
-      "target_type": "self",
-      "params": {
-        "amount": 5
-      }
-    },
-    "eg_card_tester_boundary_check_e02": {
-      "id": "eg_card_tester_boundary_check_e02",
-      "effect_group_id": "eg_card_tester_boundary_check",
-      "order": 2,
-      "effect_type": "draw_cards",
-      "target_type": "self",
-      "params": {
-        "amount": 1
-      }
-    },
-    "eg_card_tester_boundary_check_e03": {
-      "id": "eg_card_tester_boundary_check_e03",
-      "effect_group_id": "eg_card_tester_boundary_check",
-      "order": 3,
-      "effect_type": "add_diff",
+      "effect_type": "boundary_check",
       "target_type": "selected",
       "params": {
-        "amount": 1
+        "amount": 1,
+        "bonus_amount": 1,
+        "low_hp_percent": 50,
+        "high_attack_threshold": 10
       }
     },
     "eg_card_tester_log_screenshot_e01": {
