@@ -109,6 +109,7 @@
     "timing_hooks": [
       "enemy_before_action",
       "enemy_action_end",
+      "deal_damage",
       "expire"
     ],
     "effect_group_id": "",
@@ -133,7 +134,8 @@
     "name": "Diff",
     "stack_rule": "stack",
     "timing_hooks": [
-      "inject_bug"
+      "inject_bug",
+      "deal_damage"
     ],
     "effect_group_id": "",
     "max_stack": 99,

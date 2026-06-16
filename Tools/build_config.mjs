@@ -94,6 +94,7 @@ const specialCardDescriptions = {
   card_shared_meeting_mute: "会议静音：获得防线并削弱目标攻击意图。",
   card_backend_flush_all: "全量回写：消耗全部缓存并按缓存层数造成高额伤害。",
   card_frontend_component_reuse: "组件复用：若已有组件，复制 1 个组件并抽牌。",
+  card_tester_report_lock: "测试报告封板：按目标 Bug、用例和 Diff 层数结算高额伤害。",
   card_algo_global_optimum: "全局最优解：消耗全部精力与算力，按投入造成高额伤害。",
 };
 
@@ -155,6 +156,11 @@ function cardEffects(classId, cardId, type, cost, idx) {
   if (cardId === "card_frontend_component_reuse") {
     return [
       { effect_type: "add_component", target_type: "self", params: { amount: 1, requires_existing_component: true, draw_if_success: true } },
+    ];
+  }
+  if (cardId === "card_tester_report_lock") {
+    return [
+      { effect_type: "deal_damage", target_type: "single_enemy", params: { amount: 8, bug_multiplier: 2, case_multiplier: 2, diff_multiplier: 3 } },
     ];
   }
   if (cardId === "card_algo_global_optimum") {
@@ -485,9 +491,9 @@ const statusTimingHooks = {
   service_online: ["round_start", "round_end"],
   cache: ["deal_damage"],
   style_layer: ["deal_damage"],
-  bug: ["enemy_before_action", "enemy_action_end", "expire"],
+  bug: ["enemy_before_action", "enemy_action_end", "deal_damage", "expire"],
   case_mark: ["deal_damage"],
-  diff: ["inject_bug"],
+  diff: ["inject_bug", "deal_damage"],
   compute: ["deal_damage"],
   priority: ["target_resolution"],
   requirement_change: ["apply_status", "modify_intent"],
@@ -656,6 +662,9 @@ const lubanDefines = `<module name="">
     <var name="requires_existing_component" type="bool?"/>
     <var name="draw_if_success" type="bool?"/>
     <var name="draw_amount" type="int?"/>
+    <var name="bug_multiplier" type="int?"/>
+    <var name="case_multiplier" type="int?"/>
+    <var name="diff_multiplier" type="int?"/>
     <var name="x_energy_scaling" type="bool?"/>
     <var name="x_energy_multiplier" type="int?"/>
     <var name="consume_cache" type="bool?"/>

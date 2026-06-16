@@ -1682,17 +1682,10 @@
     "effect_type": "deal_damage",
     "target_type": "single_enemy",
     "params": {
-      "amount": 18
-    }
-  },
-  {
-    "id": "eg_card_tester_report_lock_e02",
-    "effect_group_id": "eg_card_tester_report_lock",
-    "order": 2,
-    "effect_type": "add_case",
-    "target_type": "selected",
-    "params": {
-      "amount": 2
+      "amount": 8,
+      "bug_multiplier": 2,
+      "case_multiplier": 2,
+      "diff_multiplier": 3
     }
   },
   {

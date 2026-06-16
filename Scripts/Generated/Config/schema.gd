@@ -149,6 +149,9 @@ class EffectParams:
     var requires_existing_component: bool
     var draw_if_success: bool
     var draw_amount: int
+    var bug_multiplier: int
+    var case_multiplier: int
+    var diff_multiplier: int
     var x_energy_scaling: bool
     var x_energy_multiplier: int
     var consume_cache: bool
@@ -168,6 +171,9 @@ class EffectParams:
         if _json_.get('requires_existing_component') != null: self.requires_existing_component = _json_["requires_existing_component"]
         if _json_.get('draw_if_success') != null: self.draw_if_success = _json_["draw_if_success"]
         if _json_.get('draw_amount') != null: self.draw_amount = _json_["draw_amount"]
+        if _json_.get('bug_multiplier') != null: self.bug_multiplier = _json_["bug_multiplier"]
+        if _json_.get('case_multiplier') != null: self.case_multiplier = _json_["case_multiplier"]
+        if _json_.get('diff_multiplier') != null: self.diff_multiplier = _json_["diff_multiplier"]
         if _json_.get('x_energy_scaling') != null: self.x_energy_scaling = _json_["x_energy_scaling"]
         if _json_.get('x_energy_multiplier') != null: self.x_energy_multiplier = _json_["x_energy_multiplier"]
         if _json_.get('consume_cache') != null: self.consume_cache = _json_["consume_cache"]

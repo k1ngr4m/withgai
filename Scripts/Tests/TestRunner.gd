@@ -168,7 +168,9 @@ func _validate_config_references(config, content) -> void:
 	_check(config.get_def("statuses", "weak").get("timing_hooks", []).has("deal_damage"), "weak declares damage hook")
 	_check(config.get_def("statuses", "vulnerable").get("timing_hooks", []).has("damage_taken"), "vulnerable declares damage taken hook")
 	_check(config.get_def("statuses", "style_layer").get("timing_hooks", []).has("deal_damage"), "style layer declares damage hook")
+	_check(config.get_def("statuses", "bug").get("timing_hooks", []).has("deal_damage"), "bug declares damage hook")
 	_check(config.get_def("statuses", "diff").get("timing_hooks", []).has("inject_bug"), "diff declares bug injection hook")
+	_check(config.get_def("statuses", "diff").get("timing_hooks", []).has("deal_damage"), "diff declares damage hook")
 	_check(config.get_def("statuses", "cache").get("timing_hooks", []).has("deal_damage"), "cache declares damage hook")
 	_check(config.get_def("statuses", "compute").get("timing_hooks", []).has("deal_damage"), "compute declares damage hook")
 	_check(config.get_def("statuses", "service_online").get("timing_hooks", []).has("round_end"), "service online declares round end hook")
@@ -179,6 +181,13 @@ func _validate_config_references(config, content) -> void:
 		if bool(params.get("consume_cache", false)) and int(params.get("cache_multiplier", 0)) >= 3:
 			flush_consumes_cache = true
 	_check(flush_consumes_cache, "backend flush all consumes cache")
+	var report_entries: Array = content.effect_entries(content.card_def("card_tester_report_lock").get("effect_group_id", ""))
+	var report_lock_scales_status := false
+	for entry in report_entries:
+		var params: Dictionary = entry.get("params", {})
+		if entry.get("effect_type", "") == "deal_damage" and int(params.get("bug_multiplier", 0)) >= 2 and int(params.get("case_multiplier", 0)) >= 2 and int(params.get("diff_multiplier", 0)) >= 3:
+			report_lock_scales_status = true
+	_check(report_lock_scales_status, "tester report lock scales target statuses")
 	_check(content.card_def("card_pm_schedule_compress").get("target_type", "") == "highest_priority_enemy", "pm schedule compress targets priority")
 	_check(_has_intent_type(content.intent_entries_for_enemy("enemy_salesman"), "pollute"), "salesman has pollute intent")
 	_check(_has_intent_type(content.intent_entries_for_enemy("enemy_workaholic_coworker"), "multi_attack"), "workaholic has multi attack intent")
@@ -430,6 +439,18 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(status.get("diff", 0)) == 1, "diff is consumed by bug reproduction")
 	_check(int(tester_resources.get("diff_tags", 0)) == 1, "diff resource decrements after reproduction")
 	_check(int(battle.battle_state["enemies"][0].get("intent", {}).get("amount", 0)) == 4, "diff-boosted bug weakens intent by final bug amount")
+
+	run = run_session.create_new_run("tester")
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	var report_enemy: Dictionary = battle.battle_state.get("enemies", [])[0]
+	report_enemy["current_hp"] = 80
+	report_enemy["current_block"] = 0
+	report_enemy["status_list"] = { "bug": 3, "case_mark": 2, "diff": 1 }
+	player["hand"] = ["card_tester_report_lock"]
+	player["current_energy"] = 3
+	battle.play_card(run, 0, 0)
+	_check(int(report_enemy.get("current_hp", 0)) == 57, "tester report lock scales bug case and diff damage")
 
 	run = run_session.create_new_run("frontend")
 	battle = _start_first_battle(run, content, map, executor)

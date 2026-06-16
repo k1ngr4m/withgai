@@ -147,7 +147,7 @@ func _damage_enemies(target_type: String, battle_state: Dictionary, run_state: D
 	var algorithm_context := _algorithm_damage_context(player, battle_state, params)
 	var resource_bonus := int(backend_context.get("bonus", 0)) + int(algorithm_context.get("bonus", 0))
 	for enemy in targets:
-		_damage_enemy(enemy, battle_state, run_state, amount, battle_log, style_layer_bonus, resource_bonus)
+		_damage_enemy(enemy, battle_state, run_state, amount, battle_log, style_layer_bonus, resource_bonus, params)
 	if not targets.is_empty() and style_layer_bonus > 0:
 		_consume_style_layer(player, battle_log)
 	if not targets.is_empty() and int(backend_context.get("consume_cache", 0)) > 0:
@@ -155,12 +155,12 @@ func _damage_enemies(target_type: String, battle_state: Dictionary, run_state: D
 	if not targets.is_empty() and int(algorithm_context.get("consume_compute", 0)) > 0:
 		_consume_compute(player, int(algorithm_context.get("consume_compute", 0)), battle_log)
 
-func _damage_enemy(enemy: Dictionary, battle_state: Dictionary, run_state: Dictionary, amount: int, battle_log: Array, style_layer_bonus := 0, resource_bonus := 0) -> void:
+func _damage_enemy(enemy: Dictionary, battle_state: Dictionary, run_state: Dictionary, amount: int, battle_log: Array, style_layer_bonus := 0, resource_bonus := 0, params: Dictionary = {}) -> void:
 	if enemy.is_empty():
 		return
 	var player := _player(battle_state)
 	var resources: Dictionary = player.get("class_resource_state", {})
-	var bonus := style_layer_bonus + resource_bonus + int(enemy.get("status_list", {}).get("case_mark", 0))
+	var bonus := style_layer_bonus + resource_bonus + int(enemy.get("status_list", {}).get("case_mark", 0)) + _target_status_damage_bonus(enemy, params)
 	if run_state.get("owned_relic_ids", []).has("relic_paper_citation") and int(resources.get("complexity", 0)) >= 3:
 		bonus += 3
 	var damage := int(max(0, amount + bonus))
@@ -173,6 +173,14 @@ func _damage_enemy(enemy: Dictionary, battle_state: Dictionary, run_state: Dicti
 	enemy["current_block"] = block - blocked
 	enemy["current_hp"] = max(0, int(enemy.get("current_hp", 0)) - (damage - blocked))
 	battle_log.append("对 %s 造成 %d 伤害" % [enemy.get("name", "敌人"), damage])
+
+func _target_status_damage_bonus(enemy: Dictionary, params: Dictionary) -> int:
+	var statuses: Dictionary = enemy.get("status_list", {})
+	var bonus := 0
+	bonus += int(statuses.get("bug", 0)) * int(params.get("bug_multiplier", 0))
+	bonus += int(statuses.get("case_mark", 0)) * int(params.get("case_multiplier", 0))
+	bonus += int(statuses.get("diff", 0)) * int(params.get("diff_multiplier", 0))
+	return bonus
 
 func _style_layer_count(player: Dictionary) -> int:
 	var resources: Dictionary = player.get("class_resource_state", {})
