@@ -107,11 +107,17 @@ func _validate_config_references(config, content) -> void:
 		_check(not content.effect_entries(pollution_card.get("effect_group_id", "")).is_empty(), "%s pollution card has effects" % card_id)
 	var component_reuse_art := String(content.card_def("card_frontend_component_reuse").get("art_path", ""))
 	_check(component_reuse_art.ends_with("card_illust_frontend_component_reuse_v1/final.png"), "frontend component reuse card art configured")
+	var circuit_breaker_art := String(content.card_def("card_backend_circuit_breaker").get("art_path", ""))
+	_check(circuit_breaker_art.ends_with("card_illust_backend_circuit_breaker_v1/final.png"), "backend circuit breaker card art auto configured")
+	var cards_with_art := 0
 	var missing_card_art_paths := 0
 	for card in config.all_defs("cards"):
 		var art_path := String(card.get("art_path", ""))
-		if not art_path.is_empty() and load(art_path) == null:
-			missing_card_art_paths += 1
+		if not art_path.is_empty():
+			cards_with_art += 1
+			if load(art_path) == null:
+				missing_card_art_paths += 1
+	_check(cards_with_art >= 10, "existing matching card art assets are wired")
 	_check(missing_card_art_paths == 0, "configured card art paths load")
 	_check(config.get_def("statuses", "anxiety").get("timing_hooks", []).has("round_start"), "anxiety declares round start hook")
 	_check(config.get_def("statuses", "overtime").get("timing_hooks", []).has("round_start"), "overtime declares round start hook")

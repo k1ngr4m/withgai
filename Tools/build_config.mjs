@@ -177,10 +177,11 @@ function cardEffects(classId, cardId, type, cost, idx) {
 }
 
 const cards = [];
-const cardArtPaths = {
-  card_backend_publish_script: "res://Resources/Art/Generated/P0/cards/card_illust_backend_publish_script_v1/final.png",
-  card_frontend_component_reuse: "res://Resources/Art/Generated/P0/cards/card_illust_frontend_component_reuse_v1/final.png",
-};
+function cardArtPath(cardId) {
+  const slug = cardId.replace(/^card_/, "");
+  const relativePath = path.join("Resources", "Art", "Generated", "P0", "cards", `card_illust_${slug}_v1`, "final.png");
+  return fs.existsSync(path.join(root, relativePath)) ? `res://${relativePath.split(path.sep).join("/")}` : "";
+}
 for (const [classId, names] of Object.entries(cardNames)) {
   for (let i = 0; i < names.length; i++) {
     const [id, name, type, cost] = names[i];
@@ -189,7 +190,7 @@ for (const [classId, names] of Object.entries(cardNames)) {
       id, name, class_tags: isShared ? ["programmer_shared"] : [classId], rarity: isShared ? "common" : rarityByIndex(i),
       type, cost, target_type: targetForCard(type, id), keywords: [], effect_group_id: `eg_${id}`, upgrade_to: `${id}_plus`,
       enabled_in_first_playable: !["hr"].includes(classId), description: descriptionForCard(id, name, type),
-      art_path: cardArtPaths[id] ?? "",
+      art_path: cardArtPath(id),
     });
   }
 }

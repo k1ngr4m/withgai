@@ -199,7 +199,7 @@
       "upgrade_to": "card_backend_circuit_breaker_plus",
       "enabled_in_first_playable": true,
       "description": "熔断保护：获得防线并触发职业资源。",
-      "art_path": ""
+      "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_backend_circuit_breaker_v1/final.png"
     },
     "card_backend_publish_script": {
       "id": "card_backend_publish_script",
@@ -301,7 +301,7 @@
       "upgrade_to": "card_backend_service_degrade_plus",
       "enabled_in_first_playable": true,
       "description": "服务降级：获得防线并触发职业资源。",
-      "art_path": ""
+      "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_backend_service_degrade_v1/final.png"
     },
     "card_backend_traffic_shaping": {
       "id": "card_backend_traffic_shaping",
@@ -318,7 +318,7 @@
       "upgrade_to": "card_backend_traffic_shaping_plus",
       "enabled_in_first_playable": true,
       "description": "流量削峰：获得防线并触发职业资源。",
-      "art_path": ""
+      "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_backend_traffic_shaping_v1/final.png"
     },
     "card_backend_request_merge": {
       "id": "card_backend_request_merge",
@@ -420,7 +420,7 @@
       "upgrade_to": "card_backend_api_gateway_plus",
       "enabled_in_first_playable": true,
       "description": "API网关：建立长期收益。",
-      "art_path": ""
+      "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_backend_api_gateway_v1/final.png"
     },
     "card_backend_redis_warmup": {
       "id": "card_backend_redis_warmup",
@@ -437,7 +437,7 @@
       "upgrade_to": "card_backend_redis_warmup_plus",
       "enabled_in_first_playable": true,
       "description": "Redis预热：获得防线并触发职业资源。",
-      "art_path": ""
+      "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_backend_redis_warmup_v1/final.png"
     },
     "card_backend_message_queue": {
       "id": "card_backend_message_queue",
@@ -454,7 +454,7 @@
       "upgrade_to": "card_backend_message_queue_plus",
       "enabled_in_first_playable": true,
       "description": "消息队列堆积：获得防线并触发职业资源。",
-      "art_path": ""
+      "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_backend_message_queue_v1/final.png"
     },
     "card_backend_sharding": {
       "id": "card_backend_sharding",
@@ -471,7 +471,7 @@
       "upgrade_to": "card_backend_sharding_plus",
       "enabled_in_first_playable": true,
       "description": "分库分表：建立长期收益。",
-      "art_path": ""
+      "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_backend_sharding_v1/final.png"
     },
     "card_backend_gray_cutover": {
       "id": "card_backend_gray_cutover",
@@ -590,7 +590,7 @@
       "upgrade_to": "card_backend_flush_all_plus",
       "enabled_in_first_playable": true,
       "description": "全量回写：造成伤害。",
-      "art_path": ""
+      "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_backend_flush_all_v1/final.png"
     },
     "card_backend_cluster_scale": {
       "id": "card_backend_cluster_scale",
