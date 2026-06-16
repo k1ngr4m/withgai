@@ -1,47 +1,35 @@
 extends Control
 
 const MAIN_BG := "res://Resources/Art/Generated/P0/backgrounds/ui_main_menu_bg_v1.png"
-const CLASS_PREVIEWS := [
-	{
-		"name": "后端",
-		"summary": "稳健、防守、服务引擎",
-		"color": Color("#3AA7A3"),
-		"art": "res://Resources/Art/Generated/P0/characters/char_backend_head_icon_v1/final.png",
-	},
-	{
-		"name": "前端",
-		"summary": "连击、组件、样式层",
-		"color": Color("#E676AF"),
-		"art": "res://Resources/Art/Generated/P0/characters/char_frontend_head_icon_v1/final.png",
-	},
-	{
-		"name": "测试",
-		"summary": "Bug、用例、Diff 锁场",
-		"color": Color("#F0B64D"),
-		"art": "res://Resources/Art/Generated/P0/characters/char_tester_head_icon_v1/final.png",
-	},
-	{
-		"name": "算法",
-		"summary": "算力、复杂度、高爆发",
-		"color": Color("#8B7FF5"),
-		"art": "res://Resources/Art/Generated/P0/characters/char_algorithm_head_icon_v1/final.png",
-	},
-	{
-		"name": "产品经理",
-		"summary": "需求变更、意图操控",
-		"color": Color("#6BB7F0"),
-		"art": "res://Resources/Art/Generated/P0/characters/char_product_manager_head_icon_v1/final.png",
-	},
-]
+const CLASS_ART := {
+	"backend": "res://Resources/Art/Generated/P0/characters/char_backend_head_icon_v1/final.png",
+	"frontend": "res://Resources/Art/Generated/P0/characters/char_frontend_head_icon_v1/final.png",
+	"tester": "res://Resources/Art/Generated/P0/characters/char_tester_head_icon_v1/final.png",
+	"algorithm": "res://Resources/Art/Generated/P0/characters/char_algorithm_head_icon_v1/final.png",
+	"product_manager": "res://Resources/Art/Generated/P0/characters/char_product_manager_head_icon_v1/final.png",
+}
+const SCENE_LABELS := {
+	"map": "楼层路线",
+	"battle": "冲突处理中",
+	"reward": "战后奖励",
+	"shop": "自动贩卖机",
+	"event": "随机事件",
+	"rest": "茶水间休息",
+	"run_result": "复盘结算",
+	"class_select": "职业选择",
+	"meta": "工位成长",
+}
 
 func _ready() -> void:
 	UiFactory.fill(self)
 	UiFactory.add_background(self, MAIN_BG)
 	_add_scrim(Color(0.02, 0.03, 0.04, 0.42))
+	_add_floor_overlay()
 	_build_menu()
 
 func _build_menu() -> void:
-	var margin := UiFactory.margin(self, 44)
+	var margin_size := 32 if get_viewport_rect().size.x < 1120.0 else 44
+	var margin := UiFactory.margin(self, margin_size)
 	var root := UiFactory.vbox(24)
 	root.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	root.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -61,6 +49,7 @@ func _build_menu() -> void:
 
 	var menu := _menu_panel()
 	menu.custom_minimum_size = Vector2(380, 0)
+	menu.size_flags_horizontal = Control.SIZE_SHRINK_END
 	menu.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	main.add_child(menu)
 
@@ -79,14 +68,14 @@ func _top_bar() -> Control:
 	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	top.add_child(spacer)
 
-	top.add_child(_status_chip("夜班版本"))
-	top.add_child(_status_chip("五组值班"))
-	top.add_child(_status_chip("HR 档案封存"))
+	top.add_child(_status_chip("First Playable"))
+	top.add_child(_status_chip("%d 组值班" % _playable_class_count()))
+	top.add_child(_status_chip("HR 解锁树占位"))
 	return top
 
 func _hero_section() -> Control:
 	var hero := VBoxContainer.new()
-	hero.add_theme_constant_override("separation", 18)
+	hero.add_theme_constant_override("separation", 16)
 	hero.alignment = BoxContainer.ALIGNMENT_CENTER
 
 	var title := UiFactory.label("withgai", 78, Color(0.95, 0.99, 1.0))
@@ -104,10 +93,14 @@ func _hero_section() -> Control:
 	hero.add_child(copy)
 
 	var stats := UiFactory.hbox(10)
-	stats.add_child(_metric_chip("195", "张卡牌"))
-	stats.add_child(_metric_chip("16", "名敌人"))
+	stats.add_child(_metric_chip(str(_table_count("cards")), "张卡牌"))
+	stats.add_child(_metric_chip(str(_table_count("enemies")), "名敌人"))
 	stats.add_child(_metric_chip("3", "章流程"))
 	hero.add_child(stats)
+
+	var board := _operations_board()
+	board.custom_minimum_size = Vector2(560, 132)
+	hero.add_child(board)
 
 	var save_info := _save_info_panel()
 	save_info.custom_minimum_size = Vector2(560, 104)
@@ -132,15 +125,18 @@ func _menu_panel() -> PanelContainer:
 	box.add_child(spacer_top)
 
 	var new_button := _menu_button("新开一局", true)
+	new_button.tooltip_text = "进入职业选择界面"
 	new_button.pressed.connect(func(): AppRoot.flow_controller.show_scene("class_select"))
 	box.add_child(new_button)
 
 	var continue_button := _menu_button("继续中断档", false)
-	continue_button.disabled = not AppRoot.save_service.has_suspend()
+	continue_button.disabled = not _has_valid_suspend()
+	continue_button.tooltip_text = "从最近一次中断的楼层继续"
 	continue_button.pressed.connect(_continue_run)
 	box.add_child(continue_button)
 
 	var meta_button := _menu_button("工位成长", false)
+	meta_button.tooltip_text = "打开局外成长和职业解锁树"
 	meta_button.pressed.connect(func(): AppRoot.flow_controller.show_scene("meta"))
 	box.add_child(meta_button)
 
@@ -151,8 +147,9 @@ func _menu_panel() -> PanelContainer:
 	var meta := AppRoot.meta_service.meta_state
 	var currency := int(meta.get("owned_discomfort_currency", 0))
 	var floor_record := int(meta.get("highest_floor_reached", 1))
-	box.add_child(_record_row("不适点", str(currency)))
-	box.add_child(_record_row("最高楼层", str(floor_record)))
+	box.add_child(_record_row("窝囊费", str(currency)))
+	box.add_child(_record_row("最高楼层", "%dF" % floor_record))
+	box.add_child(_record_row("可出战职业", "%d/5" % _playable_class_count()))
 
 	var quit_button := _menu_button("退出", false)
 	quit_button.pressed.connect(func(): get_tree().quit())
@@ -164,34 +161,54 @@ func _class_strip() -> PanelContainer:
 	var pad := _pad(14)
 	panel.add_child(pad)
 
+	var box := UiFactory.vbox(10)
+	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	pad.add_child(box)
+
+	var header := UiFactory.hbox(10)
+	header.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	header.add_child(UiFactory.label("值班职业", 18, Color(0.88, 0.96, 0.98)))
+	var header_spacer := Control.new()
+	header_spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	header.add_child(header_spacer)
+	header.add_child(UiFactory.label("五职业可玩，HR 仅展示解锁树占位", 13, Color(0.58, 0.69, 0.72)))
+	box.add_child(header)
+
 	var row := UiFactory.hbox(12)
 	row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	pad.add_child(row)
-	for item in CLASS_PREVIEWS:
-		row.add_child(_class_preview(item))
+	box.add_child(row)
+	for cls in AppRoot.config_service.first_playable_classes(true):
+		row.add_child(_class_preview(_class_preview_item(cls)))
 	return panel
 
 func _class_preview(item: Dictionary) -> PanelContainer:
 	var accent: Color = item.get("color", Color.WHITE)
 	var panel := _panel(Color(0.07, 0.09, 0.11, 0.84), accent.darkened(0.18), 7)
 	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	panel.custom_minimum_size = Vector2(150, 96)
+	panel.custom_minimum_size = Vector2(150, 112)
 
 	var pad := _pad(10)
 	panel.add_child(pad)
 	var row := UiFactory.hbox(10)
 	pad.add_child(row)
 
-	var portrait := UiFactory.texture(String(item.get("art", "")), Vector2(62, 62))
-	portrait.modulate = Color(1, 1, 1, 0.94)
-	row.add_child(portrait)
+	row.add_child(_class_portrait(item, accent))
 
 	var text := UiFactory.vbox(4)
 	text.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	row.add_child(text)
 
-	text.add_child(UiFactory.label(String(item.get("name", "")), 18, accent.lightened(0.18)))
+	var title_row := UiFactory.hbox(6)
+	title_row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	title_row.add_child(UiFactory.label(String(item.get("name", "")), 17, accent.lightened(0.18)))
+	var title_spacer := Control.new()
+	title_spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	title_row.add_child(title_spacer)
+	title_row.add_child(_mini_status(String(item.get("status", "")), accent))
+	text.add_child(title_row)
+
 	text.add_child(UiFactory.label(String(item.get("summary", "")), 13, Color(0.76, 0.84, 0.86)))
+	text.add_child(UiFactory.label("推荐难度 %d" % int(item.get("difficulty", 1)), 12, Color(0.54, 0.65, 0.68)))
 	return panel
 
 func _save_info_panel() -> PanelContainer:
@@ -203,12 +220,78 @@ func _save_info_panel() -> PanelContainer:
 	pad.add_child(box)
 	box.add_child(UiFactory.label("当前存档", 18, Color(0.86, 0.95, 0.98)))
 	var line := "没有中断档"
-	if AppRoot.save_service.has_suspend():
-		var suspend := AppRoot.save_service.load_suspend()
-		line = "%s / 第 %d 层" % [String(suspend.get("selected_class_id", "未知职业")), int(suspend.get("current_floor", 1))]
+	var detail := "新开一局会从 1F 前台重新排队。"
+	var suspend := AppRoot.save_service.load_suspend() if AppRoot.save_service.has_suspend() else {}
+	var run_state := _suspend_run_state(suspend)
+	if not run_state.is_empty():
+		var career_name := _class_name(String(run_state.get("selected_class_id", "")))
+		var scene_tag := String(run_state.get("current_scene_tag", suspend.get("scene_tag", "map")))
+		line = "%s / %dF / %s" % [career_name, int(run_state.get("current_floor", 1)), _scene_label(scene_tag)]
+		detail = _format_save_time(int(suspend.get("timestamp", 0)))
 	box.add_child(UiFactory.label(line, 16, Color(0.70, 0.80, 0.83)))
-	box.add_child(UiFactory.label("今天的楼层记录、工位状态和未处理事项都在这里汇总。", 14, Color(0.55, 0.65, 0.68)))
+	box.add_child(UiFactory.label(detail, 14, Color(0.55, 0.65, 0.68)))
 	return panel
+
+func _operations_board() -> PanelContainer:
+	var panel := _panel(Color(0.02, 0.035, 0.045, 0.70), Color(0.52, 0.68, 0.74, 0.42), 8)
+	var pad := _pad(18)
+	panel.add_child(pad)
+
+	var box := UiFactory.vbox(8)
+	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	pad.add_child(box)
+	box.add_child(UiFactory.label("夜班看板", 18, Color(0.86, 0.95, 0.98)))
+	box.add_child(_board_row("今日路线", "普通冲突 -> 奖励 -> 楼层选择"))
+	box.add_child(_board_row("晋升目标", "三章爬楼，抵达总裁办公室"))
+	box.add_child(_board_row("当前规则", "五职业可玩，HR 档案只在局外展示"))
+	return panel
+
+func _board_row(label_text: String, value_text: String) -> Control:
+	var row := UiFactory.hbox(10)
+	row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var label := UiFactory.label(label_text, 13, Color(0.50, 0.64, 0.68))
+	label.custom_minimum_size = Vector2(78, 0)
+	row.add_child(label)
+	row.add_child(UiFactory.label(value_text, 14, Color(0.76, 0.86, 0.88)))
+	return row
+
+func _class_preview_item(cls: Dictionary) -> Dictionary:
+	var class_id := String(cls.get("id", ""))
+	var status := AppRoot.meta_service.class_availability_label(cls)
+	if class_id == "hr":
+		status = "解锁树占位"
+	return {
+		"id": class_id,
+		"name": String(cls.get("name", class_id)),
+		"summary": String(cls.get("summary", "")),
+		"color": Color(String(cls.get("color", "#ffffff"))),
+		"art": String(CLASS_ART.get(class_id, "")),
+		"status": status,
+		"difficulty": int(cls.get("recommended_difficulty", 1)),
+	}
+
+func _class_portrait(item: Dictionary, accent: Color) -> Control:
+	var art_path := String(item.get("art", ""))
+	if not art_path.is_empty():
+		var portrait := UiFactory.texture(art_path, Vector2(58, 58))
+		portrait.modulate = Color(1, 1, 1, 0.94)
+		return portrait
+	var fallback := _panel(accent.darkened(0.42), accent.lightened(0.12), 7)
+	fallback.custom_minimum_size = Vector2(58, 58)
+	var center := CenterContainer.new()
+	fallback.add_child(center)
+	var display_name := String(item.get("name", "?"))
+	center.add_child(UiFactory.label(display_name.substr(0, 1), 24, Color(0.93, 0.98, 0.94)))
+	return fallback
+
+func _mini_status(text: String, accent: Color) -> PanelContainer:
+	var chip := _panel(Color(accent.r, accent.g, accent.b, 0.13), Color(accent.r, accent.g, accent.b, 0.38), 5)
+	var pad := _pad(5)
+	chip.add_child(pad)
+	var label := UiFactory.label(text, 11, accent.lightened(0.22))
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	pad.add_child(label)
+	return chip
 
 func _menu_button(text: String, primary := false) -> Button:
 	var button := Button.new()
@@ -224,6 +307,7 @@ func _menu_button(text: String, primary := false) -> Button:
 	button.add_theme_stylebox_override("normal", normal)
 	button.add_theme_stylebox_override("hover", hover)
 	button.add_theme_stylebox_override("pressed", hover)
+	button.add_theme_stylebox_override("focus", hover)
 	button.add_theme_stylebox_override("disabled", disabled)
 	button.add_theme_color_override("font_color", Color(0.94, 0.98, 1.0))
 	button.add_theme_color_override("font_disabled_color", Color(0.50, 0.56, 0.58))
@@ -273,11 +357,83 @@ func _status_chip(text: String) -> PanelContainer:
 	pad.add_child(UiFactory.label(text, 13, Color(0.75, 0.86, 0.88)))
 	return chip
 
+func _table_count(table_name: String) -> int:
+	if AppRoot.config_service == null:
+		return 0
+	return AppRoot.config_service.all_defs(table_name).size()
+
+func _playable_class_count() -> int:
+	var count := 0
+	if AppRoot.config_service == null:
+		return count
+	for cls in AppRoot.config_service.first_playable_classes(false):
+		if bool(cls.get("enabled_in_first_playable", false)):
+			count += 1
+	return count
+
+func _has_valid_suspend() -> bool:
+	return not _suspend_run_state().is_empty()
+
+func _suspend_run_state(save_state: Dictionary = {}) -> Dictionary:
+	if save_state.is_empty():
+		if not AppRoot.save_service.has_suspend():
+			return {}
+		save_state = AppRoot.save_service.load_suspend()
+	var run_state = save_state.get("serialized_run_state", {})
+	return run_state if typeof(run_state) == TYPE_DICTIONARY else {}
+
+func _class_name(class_id: String) -> String:
+	var cls: Dictionary = AppRoot.config_service.get_def("classes", class_id)
+	return String(cls.get("name", class_id if not class_id.is_empty() else "未知职业"))
+
+func _scene_label(scene_tag: String) -> String:
+	return String(SCENE_LABELS.get(scene_tag, scene_tag))
+
+func _format_save_time(timestamp: int) -> String:
+	if timestamp <= 0:
+		return "保存时间未知"
+	var dt := Time.get_datetime_dict_from_unix_time(timestamp)
+	return "保存于 %04d-%02d-%02d %02d:%02d" % [
+		int(dt.get("year", 0)),
+		int(dt.get("month", 0)),
+		int(dt.get("day", 0)),
+		int(dt.get("hour", 0)),
+		int(dt.get("minute", 0)),
+	]
+
 func _add_scrim(color: Color) -> void:
 	var scrim := ColorRect.new()
 	UiFactory.fill(scrim)
 	scrim.color = color
 	add_child(scrim)
+
+func _add_floor_overlay() -> void:
+	var overlay := Control.new()
+	UiFactory.fill(overlay)
+	overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(overlay)
+
+	for index in range(8):
+		var x := 0.09 + float(index) * 0.115
+		var line := ColorRect.new()
+		line.color = Color(0.60, 0.82, 0.88, 0.045)
+		line.anchor_left = x
+		line.anchor_right = x
+		line.anchor_top = 0.0
+		line.anchor_bottom = 1.0
+		line.offset_right = 1.0
+		overlay.add_child(line)
+
+	for index in range(5):
+		var y := 0.18 + float(index) * 0.15
+		var line := ColorRect.new()
+		line.color = Color(0.60, 0.82, 0.88, 0.04)
+		line.anchor_left = 0.0
+		line.anchor_right = 1.0
+		line.anchor_top = y
+		line.anchor_bottom = y
+		line.offset_bottom = 1.0
+		overlay.add_child(line)
 
 func _panel(bg_color: Color, border_color: Color, radius: int) -> PanelContainer:
 	var panel := PanelContainer.new()
