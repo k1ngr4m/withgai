@@ -92,10 +92,10 @@
 ,card_tester_shutdown_verify,停服验证,"[""tester""]",rare,skill,2,self,[],eg_card_tester_shutdown_verify,card_tester_shutdown_verify_plus,true,停服验证：获得防线并触发职业资源。,
 ,card_tester_zero_bug_fantasy,零缺陷幻想,"[""tester""]",rare,power,2,self,[],eg_card_tester_zero_bug_fantasy,card_tester_zero_bug_fantasy_plus,true,零缺陷幻想：建立长期收益。,
 ,card_tester_release_block,上线拦截,"[""tester""]",rare,skill,2,self,[],eg_card_tester_release_block,card_tester_release_block_plus,true,上线拦截：获得防线并触发职业资源。,
-,card_algo_linear_probe,线性试探,"[""algorithm""]",common,attack,1,single_enemy,[],eg_card_algo_linear_probe,card_algo_linear_probe_plus,true,线性试探：造成伤害。,
-,card_algo_complexity_compress,复杂度压缩,"[""algorithm""]",common,skill,1,self,[],eg_card_algo_complexity_compress,card_algo_complexity_compress_plus,true,复杂度压缩：获得防线并触发职业资源。,
-,card_algo_heuristic_search,启发式搜索,"[""algorithm""]",common,skill,1,self,[],eg_card_algo_heuristic_search,card_algo_heuristic_search_plus,true,启发式搜索：获得防线并触发职业资源。,res://Resources/Art/Generated/P0/cards/card_illust_algo_heuristic_search_v1/final.png
-,card_algo_local_opt,局部最优,"[""algorithm""]",common,skill,0,self,[],eg_card_algo_local_opt,card_algo_local_opt_plus,true,局部最优：获得防线并触发职业资源。,res://Resources/Art/Generated/P0/cards/card_illust_algo_local_opt_v1/final.png
+,card_algo_linear_probe,线性试探,"[""algorithm""]",common,attack,1,single_enemy,[],eg_card_algo_linear_probe,card_algo_linear_probe_plus,true,线性试探：造成基础伤害并获得少量算力。,
+,card_algo_complexity_compress,复杂度压缩,"[""algorithm""]",common,skill,1,self,[],eg_card_algo_complexity_compress,card_algo_complexity_compress_plus,true,复杂度压缩：获得防线并降低复杂度。,
+,card_algo_heuristic_search,启发式搜索,"[""algorithm""]",common,skill,1,self,[],eg_card_algo_heuristic_search,card_algo_heuristic_search_plus,true,启发式搜索：抽牌并获得算力。,res://Resources/Art/Generated/P0/cards/card_illust_algo_heuristic_search_v1/final.png
+,card_algo_local_opt,局部最优,"[""algorithm""]",common,skill,0,self,[],eg_card_algo_local_opt,card_algo_local_opt_plus,true,局部最优：降低复杂度，并让下一张牌费用降低。,res://Resources/Art/Generated/P0/cards/card_illust_algo_local_opt_v1/final.png
 ,card_algo_greedy_sample,贪心取样,"[""algorithm""]",common,attack,1,single_enemy,[],eg_card_algo_greedy_sample,card_algo_greedy_sample_plus,true,贪心取样：造成伤害。,
 ,card_algo_pruning,剪枝优化,"[""algorithm""]",common,skill,1,self,[],eg_card_algo_pruning,card_algo_pruning_plus,true,剪枝优化：降低复杂度，并让下一张牌费用降低。,res://Resources/Art/Generated/P0/cards/card_illust_algo_pruning_v1/final.png
 ,card_algo_recursion,递归下钻,"[""algorithm""]",common,attack,1,single_enemy,[],eg_card_algo_recursion,card_algo_recursion_plus,true,递归下钻：造成伤害。,

@@ -124,6 +124,10 @@ const specialCardDescriptions = {
   card_tester_regression_confirm: "回归确认：若目标已有用例，抽牌并施加 Diff。",
   card_tester_92_bugs: "提交92个致命Bug：向目标连续注入多段 Bug。",
   card_tester_report_lock: "测试报告封板：按目标 Bug、用例和 Diff 层数结算高额伤害。",
+  card_algo_linear_probe: "线性试探：造成基础伤害并获得少量算力。",
+  card_algo_complexity_compress: "复杂度压缩：获得防线并降低复杂度。",
+  card_algo_heuristic_search: "启发式搜索：抽牌并获得算力。",
+  card_algo_local_opt: "局部最优：降低复杂度，并让下一张牌费用降低。",
   card_algo_complexity_burst: "复杂度爆炸：按当前复杂度追加高额伤害。",
   card_algo_big_o_compress: "大O压缩：将复杂度转换成算力和防线。",
   card_algo_pruning: "剪枝优化：降低复杂度，并让下一张牌费用降低。",
@@ -338,6 +342,30 @@ function cardEffects(classId, cardId, type, cost, idx) {
   if (cardId === "card_tester_report_lock") {
     return [
       { effect_type: "deal_damage", target_type: "single_enemy", params: { amount: 8, bug_multiplier: 2, case_multiplier: 2, diff_multiplier: 3 } },
+    ];
+  }
+  if (cardId === "card_algo_linear_probe") {
+    return [
+      { effect_type: "deal_damage", target_type: "single_enemy", params: { amount: 10 } },
+      { effect_type: "add_compute", target_type: "self", params: { amount: 1 } },
+    ];
+  }
+  if (cardId === "card_algo_complexity_compress") {
+    return [
+      { effect_type: "gain_block", target_type: "self", params: { amount: 8 } },
+      { effect_type: "modify_complexity", target_type: "self", params: { amount: -2 } },
+    ];
+  }
+  if (cardId === "card_algo_heuristic_search") {
+    return [
+      { effect_type: "draw_cards", target_type: "self", params: { amount: 1 } },
+      { effect_type: "add_compute", target_type: "self", params: { amount: 1 } },
+    ];
+  }
+  if (cardId === "card_algo_local_opt") {
+    return [
+      { effect_type: "modify_complexity", target_type: "self", params: { amount: -1 } },
+      { effect_type: "apply_status", target_type: "self", params: { status_id: "cost_reduction", amount: 1 } },
     ];
   }
   if (cardId === "card_algo_complexity_burst") {

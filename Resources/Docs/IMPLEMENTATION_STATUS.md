@@ -158,6 +158,11 @@
 - Frontend `style_layer` now has live damage-hook behavior: `deal_damage` reads either the frontend resource stack or visible status stack, adds the layer count as damage bonus, and consumes one layer after a successful damage effect without double-counting synced resource/status values.
 - Tester `Diff` now has a live bug-injection hook: targets with Diff gain an extra Bug when `inject_bug` resolves, consume one Diff stack, sync the tester `diff_tags` resource downward, and reduce attack intent using the final Bug amount.
 - Algorithm `compute` now has live X-finisher behavior: `card_algo_global_optimum` scales damage from paid X energy and stored compute, consumes the spent compute, and still works with the starter relic's first X-card energy refund.
+- Algorithm starter cards now work as designed resource-management tools instead of generic skill fillers:
+  - `card_algo_linear_probe` deals starter damage and gains compute
+  - `card_algo_complexity_compress` grants block and lowers complexity
+  - `card_algo_heuristic_search` draws a card and gains compute without generic block
+  - `card_algo_local_opt` lowers complexity and discounts the next card
 - Algorithm `card_algo_complexity_burst` now works as the designed complexity-scaling attack:
   - generated config gives it a data-driven `complexity_multiplier` instead of the generic attack-plus-compute filler
   - runtime damage reads the higher of complexity resource/status stacks and adds that scaled bonus without consuming complexity
@@ -276,6 +281,7 @@ Result:
 - Godot test runner now checks backend `cache` damage-hook declaration, `card_backend_flush_all` generated params, cache-scaled damage, and cache consumption.
 - Godot test runner now checks frontend `card_frontend_pixel_tap` generated played-card threshold bonus plus live base damage and post-card light damage.
 - Godot test runner now checks algorithm `compute` damage-hook declaration, X-finisher damage scaling, compute consumption, and local-cluster energy refund.
+- Godot test runner now checks all four algorithm starter cards for generated effects and live combat behavior: linear damage/compute, complexity compression, heuristic draw/compute, and local-optimum next-card discount.
 - Godot test runner now checks algorithm `card_algo_complexity_burst` generated complexity-scaling params, live complexity-based bonus damage, no generic compute gain, and preserved complexity.
 - Godot test runner now checks algorithm `card_algo_big_o_compress` generated conversion params, live complexity consumption, compute conversion, block conversion, and card-cost charge.
 - Godot test runner now checks algorithm `card_algo_pruning` generated complexity-reduction/discount params, live complexity reduction, discounted next-card preview/play validation, reduced energy charge, and discount consumption.

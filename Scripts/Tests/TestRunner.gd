@@ -486,6 +486,51 @@ func _validate_config_references(config, content) -> void:
 	var complexity_params: Dictionary = config.get_def("statuses", "complexity").get("params", {})
 	_check(int(complexity_params.get("compute_complexity_gain", 0)) > 0, "complexity config gains from compute")
 	_check(int(complexity_params.get("pressure_threshold", 0)) > 0, "complexity config has pressure threshold")
+	var linear_probe_entries: Array = content.effect_entries(content.card_def("card_algo_linear_probe").get("effect_group_id", ""))
+	var linear_probe_damages := false
+	var linear_probe_adds_compute := false
+	for entry in linear_probe_entries:
+		if entry.get("effect_type", "") == "deal_damage" and int(entry.get("params", {}).get("amount", 0)) > 0:
+			linear_probe_damages = true
+		if entry.get("effect_type", "") == "add_compute" and int(entry.get("params", {}).get("amount", 0)) > 0:
+			linear_probe_adds_compute = true
+	_check(linear_probe_damages, "algorithm linear probe deals damage")
+	_check(linear_probe_adds_compute, "algorithm linear probe adds compute")
+	var starter_compress_entries: Array = content.effect_entries(content.card_def("card_algo_complexity_compress").get("effect_group_id", ""))
+	var starter_compress_blocks := false
+	var starter_compress_reduces := false
+	for entry in starter_compress_entries:
+		if entry.get("effect_type", "") == "gain_block" and int(entry.get("params", {}).get("amount", 0)) > 0:
+			starter_compress_blocks = true
+		if entry.get("effect_type", "") == "modify_complexity" and int(entry.get("params", {}).get("amount", 0)) < 0:
+			starter_compress_reduces = true
+	_check(starter_compress_blocks, "algorithm starter complexity compress grants block")
+	_check(starter_compress_reduces, "algorithm starter complexity compress lowers complexity")
+	var heuristic_entries: Array = content.effect_entries(content.card_def("card_algo_heuristic_search").get("effect_group_id", ""))
+	var heuristic_draws := false
+	var heuristic_adds_compute := false
+	var heuristic_blocks := false
+	for entry in heuristic_entries:
+		if entry.get("effect_type", "") == "draw_cards":
+			heuristic_draws = true
+		if entry.get("effect_type", "") == "add_compute" and int(entry.get("params", {}).get("amount", 0)) > 0:
+			heuristic_adds_compute = true
+		if entry.get("effect_type", "") == "gain_block":
+			heuristic_blocks = true
+	_check(heuristic_draws, "algorithm heuristic search draws")
+	_check(heuristic_adds_compute, "algorithm heuristic search adds compute")
+	_check(not heuristic_blocks, "algorithm heuristic search does not use generic block")
+	var local_opt_entries: Array = content.effect_entries(content.card_def("card_algo_local_opt").get("effect_group_id", ""))
+	var local_opt_reduces := false
+	var local_opt_discounts := false
+	for entry in local_opt_entries:
+		var params: Dictionary = entry.get("params", {})
+		if entry.get("effect_type", "") == "modify_complexity" and int(params.get("amount", 0)) < 0:
+			local_opt_reduces = true
+		if entry.get("effect_type", "") == "apply_status" and params.get("status_id", "") == "cost_reduction":
+			local_opt_discounts = true
+	_check(local_opt_reduces, "algorithm local optimum lowers complexity")
+	_check(local_opt_discounts, "algorithm local optimum discounts next card")
 	var complexity_burst_entries: Array = content.effect_entries(content.card_def("card_algo_complexity_burst").get("effect_group_id", ""))
 	var complexity_burst_scales := false
 	for entry in complexity_burst_entries:
@@ -1684,6 +1729,72 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(spread_enemies[0].get("status_list", {}).get("requirement_change", 0)) == 1, "scope spread keeps original requirement target")
 	_check(int(spread_enemies[1].get("status_list", {}).get("requirement_change", 0)) == 1, "scope spread adds requirement change to another enemy")
 	_check(int(player.get("class_resource_state", {}).get("requirement_change_marks", 0)) >= 2, "scope spread syncs spread requirement resource")
+
+	run = run_session.create_new_run("algorithm")
+	run["owned_relic_ids"] = []
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	var linear_enemy: Dictionary = battle.battle_state.get("enemies", [])[0]
+	linear_enemy["current_hp"] = 40
+	linear_enemy["current_block"] = 0
+	player["hand"] = ["card_algo_linear_probe"]
+	player["current_energy"] = 3
+	player["class_resource_state"]["compute"] = 0
+	player["class_resource_state"]["complexity"] = 0
+	battle.play_card(run, 0, 0)
+	_check(int(linear_enemy.get("current_hp", 0)) == 30, "algorithm linear probe deals starter damage")
+	_check(int(player.get("class_resource_state", {}).get("compute", 0)) == 1, "algorithm linear probe gains compute")
+	_check(int(player.get("class_resource_state", {}).get("complexity", 0)) == 1, "algorithm linear probe compute raises complexity")
+
+	run = run_session.create_new_run("algorithm")
+	run["owned_relic_ids"] = []
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	player["hand"] = ["card_algo_complexity_compress"]
+	player["current_energy"] = 3
+	player["current_block"] = 0
+	player["class_resource_state"]["complexity"] = 4
+	battle.play_card(run, 0, 0)
+	_check(int(player.get("current_block", 0)) >= 8, "algorithm starter complexity compress grants block")
+	_check(int(player.get("class_resource_state", {}).get("complexity", 0)) == 2, "algorithm starter complexity compress reduces complexity")
+
+	run = run_session.create_new_run("algorithm")
+	run["owned_relic_ids"] = []
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	player["hand"] = ["card_algo_heuristic_search"]
+	player["draw_pile"] = ["card_algo_linear_probe"]
+	player["discard_pile"] = []
+	player["current_energy"] = 3
+	player["current_block"] = 0
+	player["class_resource_state"]["compute"] = 0
+	player["class_resource_state"]["complexity"] = 0
+	battle.play_card(run, 0, 0)
+	_check(player.get("hand", []).has("card_algo_linear_probe"), "algorithm heuristic search draws a card")
+	_check(int(player.get("class_resource_state", {}).get("compute", 0)) == 1, "algorithm heuristic search gains compute")
+	_check(int(player.get("class_resource_state", {}).get("complexity", 0)) == 1, "algorithm heuristic search compute raises complexity")
+	_check(int(player.get("current_block", 0)) == 0, "algorithm heuristic search does not grant generic block")
+
+	run = run_session.create_new_run("algorithm")
+	run["owned_relic_ids"] = []
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	var local_opt_enemy: Dictionary = battle.battle_state.get("enemies", [])[0]
+	local_opt_enemy["current_hp"] = 60
+	local_opt_enemy["current_block"] = 0
+	player["hand"] = ["card_algo_local_opt", "card_algo_complexity_burst"]
+	player["current_energy"] = 1
+	player["class_resource_state"]["complexity"] = 3
+	player["status_list"] = {}
+	battle.play_card(run, 0, 0)
+	_check(int(player.get("class_resource_state", {}).get("complexity", 0)) == 2, "algorithm local optimum reduces complexity")
+	_check(int(player.get("status_list", {}).get("cost_reduction", 0)) == 1, "algorithm local optimum grants next-card discount")
+	_check(battle.hand_card_cost(0) == 1, "algorithm local optimum previews discounted next card")
+	_check(battle.can_play_card(0), "algorithm local optimum enables discounted next card")
+	battle.play_card(run, 0, 0)
+	_check(int(local_opt_enemy.get("current_hp", 0)) == 44, "algorithm local optimum discount lets next card resolve")
+	_check(int(player.get("current_energy", 0)) == 0, "algorithm local optimum discount charges reduced cost")
+	_check(int(player.get("status_list", {}).get("cost_reduction", 0)) == 0, "algorithm local optimum discount is consumed")
 
 	run = run_session.create_new_run("algorithm")
 	battle = _start_first_battle(run, content, map, executor)
