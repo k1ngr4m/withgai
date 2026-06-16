@@ -1796,7 +1796,7 @@
       "effect_group_id": "eg_card_algo_pruning",
       "upgrade_to": "card_algo_pruning_plus",
       "enabled_in_first_playable": true,
-      "description": "剪枝优化：获得防线并触发职业资源。",
+      "description": "剪枝优化：降低复杂度，并让下一张牌费用降低。",
       "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_algo_pruning_v1/final.png"
     },
     "card_algo_recursion": {
@@ -7267,17 +7267,18 @@
       ],
       "entries": [
         {
-          "effect_type": "gain_block",
-          "target_type": "self",
-          "params": {
-            "amount": 8
-          }
-        },
-        {
           "effect_type": "modify_complexity",
           "target_type": "self",
           "params": {
-            "amount": -1
+            "amount": -2
+          }
+        },
+        {
+          "effect_type": "apply_status",
+          "target_type": "self",
+          "params": {
+            "amount": 1,
+            "status_id": "cost_reduction"
           }
         }
       ]
@@ -11154,20 +11155,21 @@
       "id": "eg_card_algo_pruning_e01",
       "effect_group_id": "eg_card_algo_pruning",
       "order": 1,
-      "effect_type": "gain_block",
+      "effect_type": "modify_complexity",
       "target_type": "self",
       "params": {
-        "amount": 8
+        "amount": -2
       }
     },
     "eg_card_algo_pruning_e02": {
       "id": "eg_card_algo_pruning_e02",
       "effect_group_id": "eg_card_algo_pruning",
       "order": 2,
-      "effect_type": "modify_complexity",
+      "effect_type": "apply_status",
       "target_type": "self",
       "params": {
-        "amount": -1
+        "amount": 1,
+        "status_id": "cost_reduction"
       }
     },
     "eg_card_algo_recursion_e01": {

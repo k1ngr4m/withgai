@@ -110,6 +110,10 @@
   - generated config gives it a data-driven `complexity_multiplier` instead of the generic attack-plus-compute filler
   - runtime damage reads the higher of complexity resource/status stacks and adds that scaled bonus without consuming complexity
   - the card now rewards high-complexity setup while preserving complexity for later pressure/compression decisions
+- Algorithm `card_algo_pruning` now works as the designed pruning tempo skill:
+  - generated config lowers complexity and applies the existing hidden `cost_reduction` status instead of generic block filler
+  - the next non-X card receives the discount in both UI-facing cost preview and play validation
+  - the discount is consumed when that next card resolves, keeping the existing card-cost hook path shared with Redis warmup
 - Algorithm `relic_gpu_training_card` now exists in the generated relic pool and adds one extra compute the first time compute is gained each battle.
 - Algorithm `complexity` is now a real pressure resource instead of a passive counter:
   - `StatusDef.params` is now available in Luban CSV/JSON/GDScript output for status-specific tuning.
@@ -197,6 +201,7 @@ Result:
 - Godot test runner now checks backend `cache` damage-hook declaration, `card_backend_flush_all` generated params, cache-scaled damage, and cache consumption.
 - Godot test runner now checks algorithm `compute` damage-hook declaration, X-finisher damage scaling, compute consumption, and local-cluster energy refund.
 - Godot test runner now checks algorithm `card_algo_complexity_burst` generated complexity-scaling params, live complexity-based bonus damage, no generic compute gain, and preserved complexity.
+- Godot test runner now checks algorithm `card_algo_pruning` generated complexity-reduction/discount params, live complexity reduction, discounted next-card preview/play validation, reduced energy charge, and discount consumption.
 - Godot test runner now checks `relic_gpu_training_card` config, algorithm ownership, compute trigger declaration, first compute bonus, and one-shot behavior.
 - Godot test runner now checks `complexity` status params, compute-to-complexity gain, GPU bonus complexity gain, high-complexity round-start pressure, and resource/status no-double-count behavior.
 - Godot test runner now checks product manager priority target routing, including ignored low-priority selected targets and requirement-change marking on the resolved target.

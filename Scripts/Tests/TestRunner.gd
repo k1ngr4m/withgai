@@ -346,6 +346,17 @@ func _validate_config_references(config, content) -> void:
 		if entry.get("effect_type", "") == "deal_damage" and int(params.get("complexity_multiplier", 0)) > 0:
 			complexity_burst_scales = true
 	_check(complexity_burst_scales, "algorithm complexity burst scales with complexity")
+	var pruning_entries: Array = content.effect_entries(content.card_def("card_algo_pruning").get("effect_group_id", ""))
+	var pruning_reduces_complexity := false
+	var pruning_discounts_next_card := false
+	for entry in pruning_entries:
+		var params: Dictionary = entry.get("params", {})
+		if entry.get("effect_type", "") == "modify_complexity" and int(params.get("amount", 0)) < 0:
+			pruning_reduces_complexity = true
+		if entry.get("effect_type", "") == "apply_status" and params.get("status_id", "") == "cost_reduction" and int(params.get("amount", 0)) > 0:
+			pruning_discounts_next_card = true
+	_check(pruning_reduces_complexity, "algorithm pruning lowers complexity")
+	_check(pruning_discounts_next_card, "algorithm pruning discounts next card")
 	_check(config.get_def("statuses", "requirement_change").get("timing_hooks", []).has("enemy_before_action"), "requirement change declares enemy action hook")
 	var requirement_params: Dictionary = config.get_def("statuses", "requirement_change").get("params", {})
 	_check(int(requirement_params.get("intent_amount_reduction", 0)) > 0, "requirement change config reduces intent amount")
@@ -1128,6 +1139,27 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(burst_enemy.get("current_hp", 0)) == 32, "algorithm complexity burst scales damage from complexity")
 	_check(int(player.get("class_resource_state", {}).get("complexity", 0)) == 5, "algorithm complexity burst keeps complexity")
 	_check(int(player.get("class_resource_state", {}).get("compute", 0)) == 0, "algorithm complexity burst does not add generic compute")
+
+	run = run_session.create_new_run("algorithm")
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	var pruning_enemy: Dictionary = battle.battle_state.get("enemies", [])[0]
+	pruning_enemy["current_hp"] = 60
+	pruning_enemy["current_block"] = 0
+	player["hand"] = ["card_algo_pruning", "card_algo_complexity_burst"]
+	player["current_energy"] = 2
+	player["class_resource_state"]["compute"] = 0
+	player["class_resource_state"]["complexity"] = 3
+	player["status_list"] = {}
+	battle.play_card(run, 0, 0)
+	_check(int(player.get("class_resource_state", {}).get("complexity", 0)) == 1, "algorithm pruning reduces complexity")
+	_check(int(player.get("status_list", {}).get("cost_reduction", 0)) == 1, "algorithm pruning grants next-card discount")
+	_check(battle.hand_card_cost(0) == 1, "algorithm pruning previews discounted next card")
+	_check(battle.can_play_card(0), "algorithm pruning enables discounted next card")
+	battle.play_card(run, 0, 0)
+	_check(int(pruning_enemy.get("current_hp", 0)) == 48, "algorithm pruning discount lets next card resolve")
+	_check(int(player.get("current_energy", 0)) == 0, "algorithm pruning discount charges reduced cost")
+	_check(int(player.get("status_list", {}).get("cost_reduction", 0)) == 0, "algorithm pruning discount is consumed")
 
 	run = run_session.create_new_run("backend")
 	run["owned_relic_ids"].append("relic_cold_brew_bucket")

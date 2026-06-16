@@ -97,7 +97,7 @@
 ,card_algo_heuristic_search,启发式搜索,"[""algorithm""]",common,skill,1,self,[],eg_card_algo_heuristic_search,card_algo_heuristic_search_plus,true,启发式搜索：获得防线并触发职业资源。,res://Resources/Art/Generated/P0/cards/card_illust_algo_heuristic_search_v1/final.png
 ,card_algo_local_opt,局部最优,"[""algorithm""]",common,skill,0,self,[],eg_card_algo_local_opt,card_algo_local_opt_plus,true,局部最优：获得防线并触发职业资源。,res://Resources/Art/Generated/P0/cards/card_illust_algo_local_opt_v1/final.png
 ,card_algo_greedy_sample,贪心取样,"[""algorithm""]",common,attack,1,single_enemy,[],eg_card_algo_greedy_sample,card_algo_greedy_sample_plus,true,贪心取样：造成伤害。,
-,card_algo_pruning,剪枝优化,"[""algorithm""]",common,skill,1,self,[],eg_card_algo_pruning,card_algo_pruning_plus,true,剪枝优化：获得防线并触发职业资源。,res://Resources/Art/Generated/P0/cards/card_illust_algo_pruning_v1/final.png
+,card_algo_pruning,剪枝优化,"[""algorithm""]",common,skill,1,self,[],eg_card_algo_pruning,card_algo_pruning_plus,true,剪枝优化：降低复杂度，并让下一张牌费用降低。,res://Resources/Art/Generated/P0/cards/card_illust_algo_pruning_v1/final.png
 ,card_algo_recursion,递归下钻,"[""algorithm""]",common,attack,1,single_enemy,[],eg_card_algo_recursion,card_algo_recursion_plus,true,递归下钻：造成伤害。,
 ,card_algo_state_compress,状态压缩,"[""algorithm""]",common,skill,1,self,[],eg_card_algo_state_compress,card_algo_state_compress_plus,true,状态压缩：获得防线并触发职业资源。,
 ,card_algo_hash_accel,哈希加速,"[""algorithm""]",common,skill,1,self,[],eg_card_algo_hash_accel,card_algo_hash_accel_plus,true,哈希加速：获得防线并触发职业资源。,

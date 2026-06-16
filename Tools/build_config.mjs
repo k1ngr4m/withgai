@@ -113,6 +113,7 @@ const specialCardDescriptions = {
   card_tester_92_bugs: "提交92个致命Bug：向目标连续注入多段 Bug。",
   card_tester_report_lock: "测试报告封板：按目标 Bug、用例和 Diff 层数结算高额伤害。",
   card_algo_complexity_burst: "复杂度爆炸：按当前复杂度追加高额伤害。",
+  card_algo_pruning: "剪枝优化：降低复杂度，并让下一张牌费用降低。",
   card_algo_global_optimum: "全局最优解：消耗全部精力与算力，按投入造成高额伤害。",
   card_pm_scope_spread: "范围蔓延：建立长期状态，使每次需求变更额外影响另一个敌人。",
 };
@@ -263,6 +264,12 @@ function cardEffects(classId, cardId, type, cost, idx) {
   if (cardId === "card_algo_complexity_burst") {
     return [
       { effect_type: "deal_damage", target_type: "single_enemy", params: { amount: 8, complexity_multiplier: 4 } },
+    ];
+  }
+  if (cardId === "card_algo_pruning") {
+    return [
+      { effect_type: "modify_complexity", target_type: "self", params: { amount: -2 } },
+      { effect_type: "apply_status", target_type: "self", params: { status_id: "cost_reduction", amount: 1 } },
     ];
   }
   if (cardId === "card_algo_global_optimum") {
