@@ -78,7 +78,11 @@ const cardNames = {
 
 const rarityByIndex = (i) => (i < 14 ? "common" : i < 24 ? "uncommon" : "rare");
 const targetForType = (type) => (type === "attack" ? "single_enemy" : "self");
-const targetForCard = (type, id) => (id === "card_shared_meeting_mute" ? "selected" : targetForType(type));
+const priorityTargetCards = new Set(["card_pm_schedule_compress", "card_pm_roadmap", "card_pm_snowball"]);
+const targetForCard = (type, id) => {
+  if (priorityTargetCards.has(id)) return "highest_priority_enemy";
+  return id === "card_shared_meeting_mute" ? "selected" : targetForType(type);
+};
 const cardArtSlugAliases = {
   card_frontend_pixel_align: "frontend_pixel_alignment",
   card_frontend_first_screen: "frontend_first_screen_opt",
@@ -142,11 +146,12 @@ function cardEffects(classId, cardId, type, cost, idx) {
   }
   if (type === "attack") {
     const damage = cost < 0 ? 10 : 6 + n * 4 + rareBoost;
-    const effects = [{ effect_type: "deal_damage", target_type: "selected", params: { amount: damage } }];
+    const attackTarget = targetForCard(type, cardId);
+    const effects = [{ effect_type: "deal_damage", target_type: attackTarget, params: { amount: damage } }];
     if (classId === "backend") effects.push({ effect_type: "add_cache", target_type: "self", params: { amount: 1 + Math.floor(idx / 14) } });
     if (classId === "tester") effects.push({ effect_type: "add_case", target_type: "selected", params: { amount: 1 + Math.floor(idx / 14) } });
     if (classId === "algorithm") effects.push({ effect_type: "add_compute", target_type: "self", params: { amount: 1 + Math.floor(idx / 14) } });
-    if (classId === "product_manager") effects.push({ effect_type: "apply_status", target_type: "selected", params: { status_id: "requirement_change", amount: 1 } });
+    if (classId === "product_manager") effects.push({ effect_type: "apply_status", target_type: attackTarget, params: { status_id: "requirement_change", amount: 1 } });
     return effects;
   }
   if (type === "power") {

@@ -140,6 +140,7 @@ func _validate_config_references(config, content) -> void:
 	_check(config.get_def("statuses", "weak").get("timing_hooks", []).has("deal_damage"), "weak declares damage hook")
 	_check(config.get_def("statuses", "vulnerable").get("timing_hooks", []).has("damage_taken"), "vulnerable declares damage taken hook")
 	_check(config.get_def("statuses", "service_online").get("timing_hooks", []).has("round_end"), "service online declares round end hook")
+	_check(content.card_def("card_pm_schedule_compress").get("target_type", "") == "highest_priority_enemy", "pm schedule compress targets priority")
 	_check(_has_intent_type(content.intent_entries_for_enemy("enemy_salesman"), "pollute"), "salesman has pollute intent")
 	_check(_has_intent_type(content.intent_entries_for_enemy("enemy_workaholic_coworker"), "multi_attack"), "workaholic has multi attack intent")
 	_check(_has_intent_type(content.intent_entries_for_enemy("enemy_meeting_maniac"), "spawn"), "meeting maniac has spawn intent")
@@ -344,6 +345,25 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	executor.execute([{ "effect_type": "apply_status", "target_type": "self", "params": { "status_id": "priority", "amount": 2 } }], battle.battle_state, run, 0, battle.battle_state["log"])
 	pm_resources = player.get("class_resource_state", {})
 	_check(int(pm_resources.get("priority_targets", 0)) >= 2, "pm priority status syncs resource")
+	_check(not battle.card_needs_target("card_pm_schedule_compress"), "pm priority attack auto resolves target")
+	var pm_enemies: Array = battle.battle_state.get("enemies", [])
+	if pm_enemies.size() == 1:
+		pm_enemies.append(pm_enemies[0].duplicate(true))
+		pm_enemies[1]["name"] = "高优先级目标"
+	pm_enemies[0]["current_hp"] = 50
+	pm_enemies[0]["current_block"] = 0
+	pm_enemies[0]["status_list"] = {}
+	pm_enemies[1]["current_hp"] = 50
+	pm_enemies[1]["current_block"] = 0
+	pm_enemies[1]["status_list"] = { "priority": 3 }
+	battle.battle_state["enemies"] = pm_enemies
+	player["hand"] = ["card_pm_schedule_compress"]
+	player["current_energy"] = 3
+	battle.select_target(0)
+	battle.play_card(run, 0, 0)
+	_check(int(battle.battle_state["enemies"][0].get("current_hp", 0)) == 50, "pm priority attack ignores selected low priority target")
+	_check(int(battle.battle_state["enemies"][1].get("current_hp", 0)) < 50, "pm priority attack hits highest priority target")
+	_check(int(battle.battle_state["enemies"][1].get("status_list", {}).get("requirement_change", 0)) >= 1, "pm priority attack marks hit target")
 
 	run = run_session.create_new_run("algorithm")
 	battle = _start_first_battle(run, content, map, executor)

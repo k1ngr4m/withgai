@@ -22,6 +22,10 @@
 - Automated combat coverage now verifies anxiety round-start energy loss and decay in addition to weak, vulnerable, and overtime behavior.
 - `BattleService` now resolves backend `service_online` from either the visible status stack or backend `services` resource stack, using the higher value so synced status/resource values do not double count.
 - Automated combat coverage now verifies `service_online` round-start cache/block generation, resource+status no-double-count behavior, and round-end enemy damage.
+- Product manager priority now has a real target-resolution loop:
+  - `card_pm_schedule_compress`, `card_pm_roadmap`, and `card_pm_snowball` target the highest-priority enemy.
+  - Auto-resolved target cards no longer require manual enemy selection in battle UI.
+  - Requirement-change marks from those attacks are applied to the resolved priority target.
 - Automated meta-progression coverage now verifies all six global workstation upgrades through their live runtime paths:
   - `meta_chair`, `meta_coffee_beans`, `meta_privacy_screen`, and `meta_hard_drive` at run start
   - `meta_nap_bed` at rest recovery
@@ -59,6 +63,7 @@ Result:
 - Godot test runner completed with `TEST_RESULT: PASSED`.
 - Godot test runner now checks `StatusDef.timing_hooks` declarations for anxiety, overtime, weak, vulnerable, and service online.
 - Godot test runner now checks the live `service_online` round-start and round-end hooks.
+- Godot test runner now checks product manager priority target routing, including ignored low-priority selected targets and requirement-change marking on the resolved target.
 - Godot test runner now checks career-tree labels, HR non-playable status, and milestone progress text.
 - Godot test runner now checks global workstation upgrade purchases plus run-start, rest, and shop effects for every implemented upgrade.
 - Godot test runner now checks `move_card` named-card and top-card movement across combat piles.

@@ -198,7 +198,7 @@ func selected_target_index() -> int:
 func card_needs_target(card_id: String) -> bool:
 	var card: Dictionary = content_resolver.card_def(card_id)
 	var target_type := String(card.get("target_type", "self"))
-	return ["single_enemy", "selected", "all_enemies", "random_enemy", "lowest_hp_enemy", "highest_priority_enemy"].has(target_type)
+	return ["single_enemy", "selected"].has(target_type)
 
 func _actual_cost(card: Dictionary, card_id := "") -> int:
 	var cost: int = int(card.get("cost", 1))

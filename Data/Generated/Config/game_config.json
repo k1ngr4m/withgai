@@ -2301,7 +2301,7 @@
       "rarity": "common",
       "type": "attack",
       "cost": 1,
-      "target_type": "single_enemy",
+      "target_type": "highest_priority_enemy",
       "keywords": [],
       "effect_group_id": "eg_card_pm_schedule_compress",
       "upgrade_to": "card_pm_schedule_compress_plus",
@@ -2641,7 +2641,7 @@
       "rarity": "rare",
       "type": "attack",
       "cost": 2,
-      "target_type": "single_enemy",
+      "target_type": "highest_priority_enemy",
       "keywords": [],
       "effect_group_id": "eg_card_pm_roadmap",
       "upgrade_to": "card_pm_roadmap_plus",
@@ -2658,7 +2658,7 @@
       "rarity": "rare",
       "type": "attack",
       "cost": 3,
-      "target_type": "single_enemy",
+      "target_type": "highest_priority_enemy",
       "keywords": [],
       "effect_group_id": "eg_card_pm_snowball",
       "upgrade_to": "card_pm_snowball_plus",
@@ -4958,7 +4958,7 @@
       "entries": [
         {
           "effect_type": "deal_damage",
-          "target_type": "selected",
+          "target_type": "single_enemy",
           "params": {
             "amount": 10
           }
@@ -5104,7 +5104,7 @@
       "entries": [
         {
           "effect_type": "deal_damage",
-          "target_type": "selected",
+          "target_type": "single_enemy",
           "params": {
             "amount": 10
           }
@@ -5181,7 +5181,7 @@
       "entries": [
         {
           "effect_type": "deal_damage",
-          "target_type": "selected",
+          "target_type": "single_enemy",
           "params": {
             "amount": 10
           }
@@ -5459,7 +5459,7 @@
       "entries": [
         {
           "effect_type": "deal_damage",
-          "target_type": "selected",
+          "target_type": "single_enemy",
           "params": {
             "amount": 12
           }
@@ -5529,7 +5529,7 @@
       "entries": [
         {
           "effect_type": "deal_damage",
-          "target_type": "selected",
+          "target_type": "single_enemy",
           "params": {
             "amount": 18
           }
@@ -5668,7 +5668,7 @@
       "entries": [
         {
           "effect_type": "deal_damage",
-          "target_type": "selected",
+          "target_type": "single_enemy",
           "params": {
             "amount": 10
           }
@@ -5814,7 +5814,7 @@
       "entries": [
         {
           "effect_type": "deal_damage",
-          "target_type": "selected",
+          "target_type": "single_enemy",
           "params": {
             "amount": 10
           }
@@ -5898,7 +5898,7 @@
       "entries": [
         {
           "effect_type": "deal_damage",
-          "target_type": "selected",
+          "target_type": "single_enemy",
           "params": {
             "amount": 10
           }
@@ -5913,7 +5913,7 @@
       "entries": [
         {
           "effect_type": "deal_damage",
-          "target_type": "selected",
+          "target_type": "single_enemy",
           "params": {
             "amount": 10
           }
@@ -6021,7 +6021,7 @@
       "entries": [
         {
           "effect_type": "deal_damage",
-          "target_type": "selected",
+          "target_type": "single_enemy",
           "params": {
             "amount": 16
           }
@@ -6176,7 +6176,7 @@
       "entries": [
         {
           "effect_type": "deal_damage",
-          "target_type": "selected",
+          "target_type": "single_enemy",
           "params": {
             "amount": 16
           }
@@ -6191,7 +6191,7 @@
       "entries": [
         {
           "effect_type": "deal_damage",
-          "target_type": "selected",
+          "target_type": "single_enemy",
           "params": {
             "amount": 18
           }
@@ -6276,7 +6276,7 @@
       "entries": [
         {
           "effect_type": "deal_damage",
-          "target_type": "selected",
+          "target_type": "single_enemy",
           "params": {
             "amount": 22
           }
@@ -6316,7 +6316,7 @@
       "entries": [
         {
           "effect_type": "deal_damage",
-          "target_type": "selected",
+          "target_type": "single_enemy",
           "params": {
             "amount": 10
           }
@@ -6416,7 +6416,7 @@
       "entries": [
         {
           "effect_type": "deal_damage",
-          "target_type": "selected",
+          "target_type": "single_enemy",
           "params": {
             "amount": 10
           }
@@ -6539,7 +6539,7 @@
       "entries": [
         {
           "effect_type": "deal_damage",
-          "target_type": "selected",
+          "target_type": "single_enemy",
           "params": {
             "amount": 10
           }
@@ -6608,7 +6608,7 @@
       "entries": [
         {
           "effect_type": "deal_damage",
-          "target_type": "selected",
+          "target_type": "single_enemy",
           "params": {
             "amount": 10
           }
@@ -6631,7 +6631,7 @@
       "entries": [
         {
           "effect_type": "deal_damage",
-          "target_type": "selected",
+          "target_type": "single_enemy",
           "params": {
             "amount": 10
           }
@@ -6725,7 +6725,7 @@
       "entries": [
         {
           "effect_type": "deal_damage",
-          "target_type": "selected",
+          "target_type": "single_enemy",
           "params": {
             "amount": 16
           }
@@ -6909,7 +6909,7 @@
       "entries": [
         {
           "effect_type": "deal_damage",
-          "target_type": "selected",
+          "target_type": "single_enemy",
           "params": {
             "amount": 18
           }
@@ -6932,7 +6932,7 @@
       "entries": [
         {
           "effect_type": "deal_damage",
-          "target_type": "selected",
+          "target_type": "single_enemy",
           "params": {
             "amount": 22
           }
@@ -7025,7 +7025,7 @@
       "entries": [
         {
           "effect_type": "deal_damage",
-          "target_type": "selected",
+          "target_type": "single_enemy",
           "params": {
             "amount": 10
           }
@@ -7125,7 +7125,7 @@
       "entries": [
         {
           "effect_type": "deal_damage",
-          "target_type": "selected",
+          "target_type": "single_enemy",
           "params": {
             "amount": 10
           }
@@ -7171,7 +7171,7 @@
       "entries": [
         {
           "effect_type": "deal_damage",
-          "target_type": "selected",
+          "target_type": "single_enemy",
           "params": {
             "amount": 10
           }
@@ -7286,7 +7286,7 @@
       "entries": [
         {
           "effect_type": "deal_damage",
-          "target_type": "selected",
+          "target_type": "single_enemy",
           "params": {
             "amount": 10
           }
@@ -7379,7 +7379,7 @@
       "entries": [
         {
           "effect_type": "deal_damage",
-          "target_type": "selected",
+          "target_type": "single_enemy",
           "params": {
             "amount": 16
           }
@@ -7471,7 +7471,7 @@
       "entries": [
         {
           "effect_type": "deal_damage",
-          "target_type": "selected",
+          "target_type": "single_enemy",
           "params": {
             "amount": 16
           }
@@ -7518,7 +7518,7 @@
       "entries": [
         {
           "effect_type": "deal_damage",
-          "target_type": "selected",
+          "target_type": "single_enemy",
           "params": {
             "amount": 12
           }
@@ -7587,7 +7587,7 @@
       "entries": [
         {
           "effect_type": "deal_damage",
-          "target_type": "selected",
+          "target_type": "single_enemy",
           "params": {
             "amount": 10
           }
@@ -7610,7 +7610,7 @@
       "entries": [
         {
           "effect_type": "deal_damage",
-          "target_type": "selected",
+          "target_type": "single_enemy",
           "params": {
             "amount": 18
           }
@@ -7680,7 +7680,7 @@
       "entries": [
         {
           "effect_type": "deal_damage",
-          "target_type": "selected",
+          "target_type": "single_enemy",
           "params": {
             "amount": 18
           }
@@ -7868,14 +7868,14 @@
       "entries": [
         {
           "effect_type": "deal_damage",
-          "target_type": "selected",
+          "target_type": "highest_priority_enemy",
           "params": {
             "amount": 10
           }
         },
         {
           "effect_type": "apply_status",
-          "target_type": "selected",
+          "target_type": "highest_priority_enemy",
           "params": {
             "amount": 1,
             "status_id": "requirement_change"
@@ -7939,14 +7939,14 @@
       "entries": [
         {
           "effect_type": "deal_damage",
-          "target_type": "selected",
+          "target_type": "single_enemy",
           "params": {
             "amount": 10
           }
         },
         {
           "effect_type": "apply_status",
-          "target_type": "selected",
+          "target_type": "single_enemy",
           "params": {
             "amount": 1,
             "status_id": "requirement_change"
@@ -8288,14 +8288,14 @@
       "entries": [
         {
           "effect_type": "deal_damage",
-          "target_type": "selected",
+          "target_type": "single_enemy",
           "params": {
             "amount": 12
           }
         },
         {
           "effect_type": "apply_status",
-          "target_type": "selected",
+          "target_type": "single_enemy",
           "params": {
             "amount": 1,
             "status_id": "requirement_change"
@@ -8359,14 +8359,14 @@
       "entries": [
         {
           "effect_type": "deal_damage",
-          "target_type": "selected",
+          "target_type": "highest_priority_enemy",
           "params": {
             "amount": 18
           }
         },
         {
           "effect_type": "apply_status",
-          "target_type": "selected",
+          "target_type": "highest_priority_enemy",
           "params": {
             "amount": 1,
             "status_id": "requirement_change"
@@ -8383,14 +8383,14 @@
       "entries": [
         {
           "effect_type": "deal_damage",
-          "target_type": "selected",
+          "target_type": "highest_priority_enemy",
           "params": {
             "amount": 22
           }
         },
         {
           "effect_type": "apply_status",
-          "target_type": "selected",
+          "target_type": "highest_priority_enemy",
           "params": {
             "amount": 1,
             "status_id": "requirement_change"
@@ -8478,7 +8478,7 @@
       "entries": [
         {
           "effect_type": "deal_damage",
-          "target_type": "selected",
+          "target_type": "single_enemy",
           "params": {
             "amount": 10
           }
@@ -8561,7 +8561,7 @@
       "entries": [
         {
           "effect_type": "deal_damage",
-          "target_type": "selected",
+          "target_type": "single_enemy",
           "params": {
             "amount": 10
           }
@@ -8606,7 +8606,7 @@
       "entries": [
         {
           "effect_type": "deal_damage",
-          "target_type": "selected",
+          "target_type": "single_enemy",
           "params": {
             "amount": 10
           }
@@ -8681,7 +8681,7 @@
       "entries": [
         {
           "effect_type": "deal_damage",
-          "target_type": "selected",
+          "target_type": "single_enemy",
           "params": {
             "amount": 10
           }
@@ -8720,7 +8720,7 @@
       "entries": [
         {
           "effect_type": "deal_damage",
-          "target_type": "selected",
+          "target_type": "single_enemy",
           "params": {
             "amount": 16
           }
@@ -8834,7 +8834,7 @@
       "entries": [
         {
           "effect_type": "deal_damage",
-          "target_type": "selected",
+          "target_type": "single_enemy",
           "params": {
             "amount": 12
           }
@@ -8864,7 +8864,7 @@
       "entries": [
         {
           "effect_type": "deal_damage",
-          "target_type": "selected",
+          "target_type": "single_enemy",
           "params": {
             "amount": 10
           }
@@ -8903,7 +8903,7 @@
       "entries": [
         {
           "effect_type": "deal_damage",
-          "target_type": "selected",
+          "target_type": "single_enemy",
           "params": {
             "amount": 22
           }
@@ -8957,7 +8957,7 @@
       "entries": [
         {
           "effect_type": "deal_damage",
-          "target_type": "selected",
+          "target_type": "single_enemy",
           "params": {
             "amount": 22
           }
@@ -8972,7 +8972,7 @@
       "entries": [
         {
           "effect_type": "deal_damage",
-          "target_type": "selected",
+          "target_type": "single_enemy",
           "params": {
             "amount": 10
           }
@@ -8987,7 +8987,7 @@
       "entries": [
         {
           "effect_type": "deal_damage",
-          "target_type": "selected",
+          "target_type": "single_enemy",
           "params": {
             "amount": 10
           }
@@ -9178,7 +9178,7 @@
       "entries": [
         {
           "effect_type": "deal_damage",
-          "target_type": "selected",
+          "target_type": "single_enemy",
           "params": {
             "amount": 6
           }
@@ -9272,7 +9272,7 @@
       "effect_group_id": "eg_card_backend_interface_probe",
       "order": 1,
       "effect_type": "deal_damage",
-      "target_type": "selected",
+      "target_type": "single_enemy",
       "params": {
         "amount": 10
       }
@@ -9402,7 +9402,7 @@
       "effect_group_id": "eg_card_backend_timeout_retry",
       "order": 1,
       "effect_type": "deal_damage",
-      "target_type": "selected",
+      "target_type": "single_enemy",
       "params": {
         "amount": 10
       }
@@ -9472,7 +9472,7 @@
       "effect_group_id": "eg_card_backend_request_merge",
       "order": 1,
       "effect_type": "deal_damage",
-      "target_type": "selected",
+      "target_type": "single_enemy",
       "params": {
         "amount": 10
       }
@@ -9714,7 +9714,7 @@
       "effect_group_id": "eg_card_backend_slow_query",
       "order": 1,
       "effect_type": "deal_damage",
-      "target_type": "selected",
+      "target_type": "single_enemy",
       "params": {
         "amount": 12
       }
@@ -9775,7 +9775,7 @@
       "effect_group_id": "eg_card_backend_flush_all",
       "order": 1,
       "effect_type": "deal_damage",
-      "target_type": "selected",
+      "target_type": "single_enemy",
       "params": {
         "amount": 18
       }
@@ -9897,7 +9897,7 @@
       "effect_group_id": "eg_card_frontend_pixel_tap",
       "order": 1,
       "effect_type": "deal_damage",
-      "target_type": "selected",
+      "target_type": "single_enemy",
       "params": {
         "amount": 10
       }
@@ -10027,7 +10027,7 @@
       "effect_group_id": "eg_card_frontend_button_bounce",
       "order": 1,
       "effect_type": "deal_damage",
-      "target_type": "selected",
+      "target_type": "single_enemy",
       "params": {
         "amount": 10
       }
@@ -10097,7 +10097,7 @@
       "effect_group_id": "eg_card_frontend_grid_stretch",
       "order": 1,
       "effect_type": "deal_damage",
-      "target_type": "selected",
+      "target_type": "single_enemy",
       "params": {
         "amount": 10
       }
@@ -10107,7 +10107,7 @@
       "effect_group_id": "eg_card_frontend_event_bubble",
       "order": 1,
       "effect_type": "deal_damage",
-      "target_type": "selected",
+      "target_type": "single_enemy",
       "params": {
         "amount": 10
       }
@@ -10198,7 +10198,7 @@
       "effect_group_id": "eg_card_frontend_motion_overload",
       "order": 1,
       "effect_type": "deal_damage",
-      "target_type": "selected",
+      "target_type": "single_enemy",
       "params": {
         "amount": 16
       }
@@ -10330,7 +10330,7 @@
       "effect_group_id": "eg_card_frontend_animation_compose",
       "order": 1,
       "effect_type": "deal_damage",
-      "target_type": "selected",
+      "target_type": "single_enemy",
       "params": {
         "amount": 16
       }
@@ -10340,7 +10340,7 @@
       "effect_group_id": "eg_card_frontend_crash_animation",
       "order": 1,
       "effect_type": "deal_damage",
-      "target_type": "selected",
+      "target_type": "single_enemy",
       "params": {
         "amount": 18
       }
@@ -10411,7 +10411,7 @@
       "effect_group_id": "eg_card_frontend_visual_climax",
       "order": 1,
       "effect_type": "deal_damage",
-      "target_type": "selected",
+      "target_type": "single_enemy",
       "params": {
         "amount": 22
       }
@@ -10442,7 +10442,7 @@
       "effect_group_id": "eg_card_tester_defect_log",
       "order": 1,
       "effect_type": "deal_damage",
-      "target_type": "selected",
+      "target_type": "single_enemy",
       "params": {
         "amount": 10
       }
@@ -10532,7 +10532,7 @@
       "effect_group_id": "eg_card_tester_assert_fail",
       "order": 1,
       "effect_type": "deal_damage",
-      "target_type": "selected",
+      "target_type": "single_enemy",
       "params": {
         "amount": 10
       }
@@ -10642,7 +10642,7 @@
       "effect_group_id": "eg_card_tester_whitebox",
       "order": 1,
       "effect_type": "deal_damage",
-      "target_type": "selected",
+      "target_type": "single_enemy",
       "params": {
         "amount": 10
       }
@@ -10702,7 +10702,7 @@
       "effect_group_id": "eg_card_tester_missed_test",
       "order": 1,
       "effect_type": "deal_damage",
-      "target_type": "selected",
+      "target_type": "single_enemy",
       "params": {
         "amount": 10
       }
@@ -10722,7 +10722,7 @@
       "effect_group_id": "eg_card_tester_ticket_chase",
       "order": 1,
       "effect_type": "deal_damage",
-      "target_type": "selected",
+      "target_type": "single_enemy",
       "params": {
         "amount": 10
       }
@@ -10804,7 +10804,7 @@
       "effect_group_id": "eg_card_tester_stress_test",
       "order": 1,
       "effect_type": "deal_damage",
-      "target_type": "selected",
+      "target_type": "single_enemy",
       "params": {
         "amount": 16
       }
@@ -10964,7 +10964,7 @@
       "effect_group_id": "eg_card_tester_report_lock",
       "order": 1,
       "effect_type": "deal_damage",
-      "target_type": "selected",
+      "target_type": "single_enemy",
       "params": {
         "amount": 18
       }
@@ -10984,7 +10984,7 @@
       "effect_group_id": "eg_card_tester_full_chain",
       "order": 1,
       "effect_type": "deal_damage",
-      "target_type": "selected",
+      "target_type": "single_enemy",
       "params": {
         "amount": 22
       }
@@ -11065,7 +11065,7 @@
       "effect_group_id": "eg_card_algo_linear_probe",
       "order": 1,
       "effect_type": "deal_damage",
-      "target_type": "selected",
+      "target_type": "single_enemy",
       "params": {
         "amount": 10
       }
@@ -11155,7 +11155,7 @@
       "effect_group_id": "eg_card_algo_greedy_sample",
       "order": 1,
       "effect_type": "deal_damage",
-      "target_type": "selected",
+      "target_type": "single_enemy",
       "params": {
         "amount": 10
       }
@@ -11195,7 +11195,7 @@
       "effect_group_id": "eg_card_algo_recursion",
       "order": 1,
       "effect_type": "deal_damage",
-      "target_type": "selected",
+      "target_type": "single_enemy",
       "params": {
         "amount": 10
       }
@@ -11295,7 +11295,7 @@
       "effect_group_id": "eg_card_algo_backtrack",
       "order": 1,
       "effect_type": "deal_damage",
-      "target_type": "selected",
+      "target_type": "single_enemy",
       "params": {
         "amount": 10
       }
@@ -11376,7 +11376,7 @@
       "effect_group_id": "eg_card_algo_complexity_burst",
       "order": 1,
       "effect_type": "deal_damage",
-      "target_type": "selected",
+      "target_type": "single_enemy",
       "params": {
         "amount": 16
       }
@@ -11456,7 +11456,7 @@
       "effect_group_id": "eg_card_algo_convolution",
       "order": 1,
       "effect_type": "deal_damage",
-      "target_type": "selected",
+      "target_type": "single_enemy",
       "params": {
         "amount": 16
       }
@@ -11497,7 +11497,7 @@
       "effect_group_id": "eg_card_algo_binary_cut",
       "order": 1,
       "effect_type": "deal_damage",
-      "target_type": "selected",
+      "target_type": "single_enemy",
       "params": {
         "amount": 12
       }
@@ -11557,7 +11557,7 @@
       "effect_group_id": "eg_card_algo_global_optimum",
       "order": 1,
       "effect_type": "deal_damage",
-      "target_type": "selected",
+      "target_type": "single_enemy",
       "params": {
         "amount": 10
       }
@@ -11577,7 +11577,7 @@
       "effect_group_id": "eg_card_algo_matrix_mul",
       "order": 1,
       "effect_type": "deal_damage",
-      "target_type": "selected",
+      "target_type": "single_enemy",
       "params": {
         "amount": 18
       }
@@ -11638,7 +11638,7 @@
       "effect_group_id": "eg_card_algo_model_converge",
       "order": 1,
       "effect_type": "deal_damage",
-      "target_type": "selected",
+      "target_type": "single_enemy",
       "params": {
         "amount": 18
       }
@@ -11811,7 +11811,7 @@
       "effect_group_id": "eg_card_pm_schedule_compress",
       "order": 1,
       "effect_type": "deal_damage",
-      "target_type": "selected",
+      "target_type": "highest_priority_enemy",
       "params": {
         "amount": 10
       }
@@ -11821,7 +11821,7 @@
       "effect_group_id": "eg_card_pm_schedule_compress",
       "order": 2,
       "effect_type": "apply_status",
-      "target_type": "selected",
+      "target_type": "highest_priority_enemy",
       "params": {
         "amount": 1,
         "status_id": "requirement_change"
@@ -11873,7 +11873,7 @@
       "effect_group_id": "eg_card_pm_reopen_task",
       "order": 1,
       "effect_type": "deal_damage",
-      "target_type": "selected",
+      "target_type": "single_enemy",
       "params": {
         "amount": 10
       }
@@ -11883,7 +11883,7 @@
       "effect_group_id": "eg_card_pm_reopen_task",
       "order": 2,
       "effect_type": "apply_status",
-      "target_type": "selected",
+      "target_type": "single_enemy",
       "params": {
         "amount": 1,
         "status_id": "requirement_change"
@@ -12184,7 +12184,7 @@
       "effect_group_id": "eg_card_pm_urgent_schedule",
       "order": 1,
       "effect_type": "deal_damage",
-      "target_type": "selected",
+      "target_type": "single_enemy",
       "params": {
         "amount": 12
       }
@@ -12194,7 +12194,7 @@
       "effect_group_id": "eg_card_pm_urgent_schedule",
       "order": 2,
       "effect_type": "apply_status",
-      "target_type": "selected",
+      "target_type": "single_enemy",
       "params": {
         "amount": 1,
         "status_id": "requirement_change"
@@ -12246,7 +12246,7 @@
       "effect_group_id": "eg_card_pm_roadmap",
       "order": 1,
       "effect_type": "deal_damage",
-      "target_type": "selected",
+      "target_type": "highest_priority_enemy",
       "params": {
         "amount": 18
       }
@@ -12256,7 +12256,7 @@
       "effect_group_id": "eg_card_pm_roadmap",
       "order": 2,
       "effect_type": "apply_status",
-      "target_type": "selected",
+      "target_type": "highest_priority_enemy",
       "params": {
         "amount": 1,
         "status_id": "requirement_change"
@@ -12267,7 +12267,7 @@
       "effect_group_id": "eg_card_pm_snowball",
       "order": 1,
       "effect_type": "deal_damage",
-      "target_type": "selected",
+      "target_type": "highest_priority_enemy",
       "params": {
         "amount": 22
       }
@@ -12277,7 +12277,7 @@
       "effect_group_id": "eg_card_pm_snowball",
       "order": 2,
       "effect_type": "apply_status",
-      "target_type": "selected",
+      "target_type": "highest_priority_enemy",
       "params": {
         "amount": 1,
         "status_id": "requirement_change"
@@ -12351,7 +12351,7 @@
       "effect_group_id": "eg_card_hr_performance_talk",
       "order": 1,
       "effect_type": "deal_damage",
-      "target_type": "selected",
+      "target_type": "single_enemy",
       "params": {
         "amount": 10
       }
@@ -12411,7 +12411,7 @@
       "effect_group_id": "eg_card_hr_background_check",
       "order": 1,
       "effect_type": "deal_damage",
-      "target_type": "selected",
+      "target_type": "single_enemy",
       "params": {
         "amount": 10
       }
@@ -12441,7 +12441,7 @@
       "effect_group_id": "eg_card_hr_exit_interview",
       "order": 1,
       "effect_type": "deal_damage",
-      "target_type": "selected",
+      "target_type": "single_enemy",
       "params": {
         "amount": 10
       }
@@ -12491,7 +12491,7 @@
       "effect_group_id": "eg_card_hr_discipline_warning",
       "order": 1,
       "effect_type": "deal_damage",
-      "target_type": "selected",
+      "target_type": "single_enemy",
       "params": {
         "amount": 10
       }
@@ -12522,7 +12522,7 @@
       "effect_group_id": "eg_card_hr_last_place_cut",
       "order": 1,
       "effect_type": "deal_damage",
-      "target_type": "selected",
+      "target_type": "single_enemy",
       "params": {
         "amount": 16
       }
@@ -12603,7 +12603,7 @@
       "effect_group_id": "eg_card_hr_interview_bargain",
       "order": 1,
       "effect_type": "deal_damage",
-      "target_type": "selected",
+      "target_type": "single_enemy",
       "params": {
         "amount": 12
       }
@@ -12623,7 +12623,7 @@
       "effect_group_id": "eg_card_hr_nplusone",
       "order": 1,
       "effect_type": "deal_damage",
-      "target_type": "selected",
+      "target_type": "single_enemy",
       "params": {
         "amount": 10
       }
@@ -12654,7 +12654,7 @@
       "effect_group_id": "eg_card_hr_talent_extraction",
       "order": 1,
       "effect_type": "deal_damage",
-      "target_type": "selected",
+      "target_type": "single_enemy",
       "params": {
         "amount": 22
       }
@@ -12695,7 +12695,7 @@
       "effect_group_id": "eg_card_hr_optimization_storm",
       "order": 1,
       "effect_type": "deal_damage",
-      "target_type": "selected",
+      "target_type": "single_enemy",
       "params": {
         "amount": 22
       }
@@ -12705,7 +12705,7 @@
       "effect_group_id": "eg_card_shared_keyboard_smash",
       "order": 1,
       "effect_type": "deal_damage",
-      "target_type": "selected",
+      "target_type": "single_enemy",
       "params": {
         "amount": 10
       }
@@ -12715,7 +12715,7 @@
       "effect_group_id": "eg_card_shared_stapler_burst",
       "order": 1,
       "effect_type": "deal_damage",
-      "target_type": "selected",
+      "target_type": "single_enemy",
       "params": {
         "amount": 10
       }
@@ -12875,7 +12875,7 @@
       "effect_group_id": "eg_card_shared_badge_throw",
       "order": 1,
       "effect_type": "deal_damage",
-      "target_type": "selected",
+      "target_type": "single_enemy",
       "params": {
         "amount": 6
       }
