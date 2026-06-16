@@ -32,13 +32,16 @@ func _show_upgrade_choices() -> void:
 	main.add_child(UiFactory.label("选择要复盘升级的牌", 30))
 	var choices := UiFactory.vbox(6)
 	main.add_child(UiFactory.scroll(choices))
+	var deck_state: Dictionary = run.get("deck_state", {})
+	var master_deck: Array = deck_state.get("master_deck", [])
+	var upgraded_cards: Array = deck_state.get("upgraded_cards", [])
 	var seen: Array = []
-	for card_id in run.get("deck_state", {}).get("master_deck", []):
+	for card_id in master_deck:
 		if seen.has(card_id):
 			continue
 		seen.append(card_id)
 		var card: Dictionary = AppRoot.config_service.get_def("cards", card_id)
-		var upgraded := run.get("deck_state", {}).get("upgraded_cards", []).has(card_id)
+		var upgraded: bool = upgraded_cards.has(card_id)
 		var b := UiFactory.button("%s%s\n%s" % [card.get("name", card_id), " +" if upgraded else "", card.get("description", "")])
 		b.disabled = upgraded
 		b.pressed.connect(func(): _upgrade(card_id))
