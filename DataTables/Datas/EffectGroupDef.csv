@@ -46,7 +46,7 @@
 ,eg_card_frontend_event_bubble,"[""eg_card_frontend_event_bubble_e01""]"
 ,eg_card_frontend_breakpoint_adapt,"[""eg_card_frontend_breakpoint_adapt_e01"",""eg_card_frontend_breakpoint_adapt_e02""]"
 ,eg_card_frontend_tracking,"[""eg_card_frontend_tracking_e01"",""eg_card_frontend_tracking_e02""]"
-,eg_card_frontend_component_reuse,"[""eg_card_frontend_component_reuse_e01"",""eg_card_frontend_component_reuse_e02""]"
+,eg_card_frontend_component_reuse,"[""eg_card_frontend_component_reuse_e01""]"
 ,eg_card_frontend_state_boost,"[""eg_card_frontend_state_boost_e01"",""eg_card_frontend_state_boost_e02""]"
 ,eg_card_frontend_motion_overload,"[""eg_card_frontend_motion_overload_e01""]"
 ,eg_card_frontend_vue_suite,"[""eg_card_frontend_vue_suite_e01"",""eg_card_frontend_vue_suite_e02""]"

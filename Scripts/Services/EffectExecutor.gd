@@ -42,8 +42,7 @@ func _execute_entry(entry: Dictionary, battle_state: Dictionary, run_state: Dict
 		"add_cache":
 			_add_class_resource(battle_state, "cache", amount, battle_log, "缓存")
 		"add_component":
-			_add_class_resource(battle_state, "components", amount, battle_log, "组件")
-			_apply_component_relics(battle_state, run_state, battle_log)
+			_add_component(battle_state, run_state, amount, params, battle_log)
 		"add_style_layer":
 			_add_class_resource(battle_state, "style_layers", amount, battle_log, "样式层")
 		"inject_bug":
@@ -365,6 +364,21 @@ func _add_class_resource(battle_state: Dictionary, key: String, amount: int, bat
 	player["class_resource_state"] = resources
 	if amount != 0:
 		battle_log.append("%s %+d" % [label, amount])
+
+func _add_component(battle_state: Dictionary, run_state: Dictionary, amount: int, params: Dictionary, battle_log: Array) -> void:
+	var player := _player(battle_state)
+	if bool(params.get("requires_existing_component", false)) and _component_count(player) <= 0:
+		battle_log.append("没有组件可复用")
+		return
+	_add_class_resource(battle_state, "components", amount, battle_log, "组件")
+	_apply_component_relics(battle_state, run_state, battle_log)
+	if amount > 0 and bool(params.get("draw_if_success", false)):
+		_draw_cards(battle_state, int(params.get("draw_amount", 1)), battle_log)
+
+func _component_count(player: Dictionary) -> int:
+	var resources: Dictionary = player.get("class_resource_state", {})
+	var statuses: Dictionary = player.get("status_list", {})
+	return max(int(resources.get("components", 0)), int(statuses.get("component", 0)))
 
 func _modify_intents(target_type: String, battle_state: Dictionary, run_state: Dictionary, target_index: int, amount: int, battle_log: Array) -> void:
 	for enemy in _target_enemies(target_type, battle_state, target_index):

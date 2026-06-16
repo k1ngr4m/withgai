@@ -107,6 +107,13 @@ func _validate_config_references(config, content) -> void:
 		_check(not content.effect_entries(pollution_card.get("effect_group_id", "")).is_empty(), "%s pollution card has effects" % card_id)
 	var component_reuse_art := String(content.card_def("card_frontend_component_reuse").get("art_path", ""))
 	_check(component_reuse_art.ends_with("card_illust_frontend_component_reuse_v1/final.png"), "frontend component reuse card art configured")
+	var component_reuse_entries: Array = content.effect_entries(content.card_def("card_frontend_component_reuse").get("effect_group_id", ""))
+	var component_reuse_requires_component := false
+	for entry in component_reuse_entries:
+		var params: Dictionary = entry.get("params", {})
+		if entry.get("effect_type", "") == "add_component" and bool(params.get("requires_existing_component", false)) and bool(params.get("draw_if_success", false)):
+			component_reuse_requires_component = true
+	_check(component_reuse_requires_component, "frontend component reuse requires component and draws")
 	var circuit_breaker_art := String(content.card_def("card_backend_circuit_breaker").get("art_path", ""))
 	_check(circuit_breaker_art.ends_with("card_illust_backend_circuit_breaker_v1/final.png"), "backend circuit breaker card art auto configured")
 	var gpu_relic: Dictionary = content.relic_def("relic_gpu_training_card")
@@ -265,6 +272,30 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	executor.execute([{ "effect_type": "add_component", "target_type": "self", "params": { "amount": 1 } }], battle.battle_state, run, 0, battle.battle_state["log"])
 	_check(components_after_first == 2, "figma library duplicates first component")
 	_check(int(player.get("class_resource_state", {}).get("components", 0)) == 3, "figma library triggers only once")
+
+	run = run_session.create_new_run("frontend")
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	player["hand"] = ["card_frontend_component_reuse"]
+	player["draw_pile"] = ["card_frontend_pixel_tap"]
+	player["current_energy"] = 3
+	player["class_resource_state"]["components"] = 2
+	player["status_list"] = {}
+	battle.play_card(run, 0, 0)
+	_check(int(player.get("class_resource_state", {}).get("components", 0)) == 3, "frontend component reuse copies existing component")
+	_check(player.get("hand", []).has("card_frontend_pixel_tap"), "frontend component reuse draws after copy")
+
+	run = run_session.create_new_run("frontend")
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	player["hand"] = ["card_frontend_component_reuse"]
+	player["draw_pile"] = ["card_frontend_pixel_tap"]
+	player["current_energy"] = 3
+	player["class_resource_state"]["components"] = 0
+	player["status_list"] = {}
+	battle.play_card(run, 0, 0)
+	_check(int(player.get("class_resource_state", {}).get("components", 0)) == 0, "frontend component reuse needs an existing component")
+	_check(not player.get("hand", []).has("card_frontend_pixel_tap"), "frontend component reuse does not draw without copy")
 
 	run = run_session.create_new_run("product_manager")
 	run["owned_relic_ids"] = ["relic_gantt_roadmap"]

@@ -93,6 +93,7 @@ const specialCardDescriptions = {
   card_shared_standup: "晨会同步：获得防线，抽牌并返还精力。",
   card_shared_meeting_mute: "会议静音：获得防线并削弱目标攻击意图。",
   card_backend_flush_all: "全量回写：消耗全部缓存并按缓存层数造成高额伤害。",
+  card_frontend_component_reuse: "组件复用：若已有组件，复制 1 个组件并抽牌。",
   card_algo_global_optimum: "全局最优解：消耗全部精力与算力，按投入造成高额伤害。",
 };
 
@@ -149,6 +150,11 @@ function cardEffects(classId, cardId, type, cost, idx) {
   if (cardId === "card_backend_flush_all") {
     return [
       { effect_type: "deal_damage", target_type: "single_enemy", params: { amount: 14, consume_cache: true, cache_multiplier: 3 } },
+    ];
+  }
+  if (cardId === "card_frontend_component_reuse") {
+    return [
+      { effect_type: "add_component", target_type: "self", params: { amount: 1, requires_existing_component: true, draw_if_success: true } },
     ];
   }
   if (cardId === "card_algo_global_optimum") {
@@ -647,6 +653,9 @@ const lubanDefines = `<module name="">
     <var name="enemy_id" type="string?"/>
     <var name="max_allies" type="int?"/>
     <var name="hits" type="int?"/>
+    <var name="requires_existing_component" type="bool?"/>
+    <var name="draw_if_success" type="bool?"/>
+    <var name="draw_amount" type="int?"/>
     <var name="x_energy_scaling" type="bool?"/>
     <var name="x_energy_multiplier" type="int?"/>
     <var name="consume_cache" type="bool?"/>

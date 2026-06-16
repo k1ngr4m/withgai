@@ -761,7 +761,7 @@
     "effect_group_id": "eg_card_frontend_component_reuse",
     "upgrade_to": "card_frontend_component_reuse_plus",
     "enabled_in_first_playable": true,
-    "description": "组件复用：获得防线并触发职业资源。",
+    "description": "组件复用：若已有组件，复制 1 个组件并抽牌。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_frontend_component_reuse_v1/final.png"
   },
   {

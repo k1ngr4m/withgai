@@ -8,6 +8,10 @@
   - generated config marks `cache` as a `deal_damage` hook
   - the card consumes all stored cache and converts each stack into bonus single-target damage
   - runtime consumption keeps backend cache resource/status values synchronized downward
+- Frontend `card_frontend_component_reuse` now works as the designed component-combo card:
+  - generated config requires an existing component before copying
+  - successful reuse copies one component and draws a card
+  - failed reuse does not fabricate a component or draw
 - Main menu has been upgraded from a plain button list to a full first-screen UI:
   - full-screen generated office background with dark readability overlay
   - title, subtitle, playable-content counters, current suspend-save status
@@ -75,6 +79,7 @@ Result:
 - Godot test runner now checks `StatusDef.timing_hooks` declarations for anxiety, overtime, weak, vulnerable, and service online.
 - Godot test runner now checks the live `service_online` round-start and round-end hooks.
 - Godot test runner now checks frontend `style_layer` damage bonus and consumption from both resource-sourced and status-sourced stacks.
+- Godot test runner now checks frontend `card_frontend_component_reuse` generated params, copy-on-existing-component behavior, draw-on-success behavior, and no-copy/no-draw behavior without an existing component.
 - Godot test runner now checks tester `Diff` hook declaration, extra Bug injection, Diff consumption, `diff_tags` resource sync, and final intent reduction.
 - Godot test runner now checks backend `cache` damage-hook declaration, `card_backend_flush_all` generated params, cache-scaled damage, and cache consumption.
 - Godot test runner now checks algorithm `compute` damage-hook declaration, X-finisher damage scaling, compute consumption, and local-cluster energy refund.

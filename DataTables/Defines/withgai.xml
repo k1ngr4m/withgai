@@ -8,6 +8,9 @@
     <var name="enemy_id" type="string?"/>
     <var name="max_allies" type="int?"/>
     <var name="hits" type="int?"/>
+    <var name="requires_existing_component" type="bool?"/>
+    <var name="draw_if_success" type="bool?"/>
+    <var name="draw_amount" type="int?"/>
     <var name="x_energy_scaling" type="bool?"/>
     <var name="x_energy_multiplier" type="int?"/>
     <var name="consume_cache" type="bool?"/>
