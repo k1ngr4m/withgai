@@ -139,6 +139,7 @@ func _validate_config_references(config, content) -> void:
 	_check(config.get_def("statuses", "overtime").get("timing_hooks", []).has("round_start"), "overtime declares round start hook")
 	_check(config.get_def("statuses", "weak").get("timing_hooks", []).has("deal_damage"), "weak declares damage hook")
 	_check(config.get_def("statuses", "vulnerable").get("timing_hooks", []).has("damage_taken"), "vulnerable declares damage taken hook")
+	_check(config.get_def("statuses", "style_layer").get("timing_hooks", []).has("deal_damage"), "style layer declares damage hook")
 	_check(config.get_def("statuses", "service_online").get("timing_hooks", []).has("round_end"), "service online declares round end hook")
 	_check(content.card_def("card_pm_schedule_compress").get("target_type", "") == "highest_priority_enemy", "pm schedule compress targets priority")
 	_check(_has_intent_type(content.intent_entries_for_enemy("enemy_salesman"), "pollute"), "salesman has pollute intent")
@@ -331,6 +332,25 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	var tester_resources: Dictionary = player.get("class_resource_state", {})
 	_check(int(tester_resources.get("bugs", 0)) >= 1, "tester bug status syncs resource")
 	_check(int(tester_resources.get("cases", 0)) >= 1, "tester case status syncs resource")
+
+	run = run_session.create_new_run("frontend")
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	var style_enemy: Dictionary = battle.battle_state.get("enemies", [])[0]
+	style_enemy["current_hp"] = 50
+	style_enemy["current_block"] = 0
+	style_enemy["status_list"] = {}
+	player["class_resource_state"]["style_layers"] = 2
+	player["status_list"] = {}
+	executor.execute([{ "effect_type": "deal_damage", "target_type": "selected", "params": { "amount": 5 } }], battle.battle_state, run, 0, battle.battle_state["log"])
+	_check(int(style_enemy.get("current_hp", 0)) == 43, "style layer resource boosts damage")
+	_check(int(player.get("class_resource_state", {}).get("style_layers", 0)) == 1, "style layer resource is consumed after damage")
+	style_enemy["current_hp"] = 50
+	player["class_resource_state"]["style_layers"] = 0
+	player["status_list"] = { "style_layer": 3 }
+	executor.execute([{ "effect_type": "deal_damage", "target_type": "selected", "params": { "amount": 5 } }], battle.battle_state, run, 0, battle.battle_state["log"])
+	_check(int(style_enemy.get("current_hp", 0)) == 42, "style layer status boosts damage")
+	_check(int(player.get("status_list", {}).get("style_layer", 0)) == 2, "style layer status is consumed after damage")
 
 	run = run_session.create_new_run("product_manager")
 	battle = _start_first_battle(run, content, map, executor)

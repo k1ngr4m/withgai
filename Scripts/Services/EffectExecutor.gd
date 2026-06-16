@@ -140,15 +140,19 @@ func _gain_block(battle_state: Dictionary, run_state: Dictionary, amount: int, b
 	battle_log.append("获得 %d 防线" % final_amount)
 
 func _damage_enemies(target_type: String, battle_state: Dictionary, run_state: Dictionary, target_index: int, amount: int, battle_log: Array) -> void:
-	for enemy in _target_enemies(target_type, battle_state, target_index):
-		_damage_enemy(enemy, battle_state, run_state, amount, battle_log)
+	var targets := _target_enemies(target_type, battle_state, target_index)
+	var style_layer_bonus := _style_layer_count(_player(battle_state))
+	for enemy in targets:
+		_damage_enemy(enemy, battle_state, run_state, amount, battle_log, style_layer_bonus)
+	if not targets.is_empty() and style_layer_bonus > 0:
+		_consume_style_layer(_player(battle_state), battle_log)
 
-func _damage_enemy(enemy: Dictionary, battle_state: Dictionary, run_state: Dictionary, amount: int, battle_log: Array) -> void:
+func _damage_enemy(enemy: Dictionary, battle_state: Dictionary, run_state: Dictionary, amount: int, battle_log: Array, style_layer_bonus := 0) -> void:
 	if enemy.is_empty():
 		return
 	var player := _player(battle_state)
 	var resources: Dictionary = player.get("class_resource_state", {})
-	var bonus := int(resources.get("style_layers", 0)) + int(enemy.get("status_list", {}).get("case_mark", 0))
+	var bonus := style_layer_bonus + int(enemy.get("status_list", {}).get("case_mark", 0))
 	if run_state.get("owned_relic_ids", []).has("relic_paper_citation") and int(resources.get("complexity", 0)) >= 3:
 		bonus += 3
 	var damage := int(max(0, amount + bonus))
@@ -161,6 +165,22 @@ func _damage_enemy(enemy: Dictionary, battle_state: Dictionary, run_state: Dicti
 	enemy["current_block"] = block - blocked
 	enemy["current_hp"] = max(0, int(enemy.get("current_hp", 0)) - (damage - blocked))
 	battle_log.append("对 %s 造成 %d 伤害" % [enemy.get("name", "敌人"), damage])
+
+func _style_layer_count(player: Dictionary) -> int:
+	var resources: Dictionary = player.get("class_resource_state", {})
+	var statuses: Dictionary = player.get("status_list", {})
+	return max(int(resources.get("style_layers", 0)), int(statuses.get("style_layer", 0)))
+
+func _consume_style_layer(player: Dictionary, battle_log: Array) -> void:
+	var resources: Dictionary = player.get("class_resource_state", {})
+	var statuses: Dictionary = player.get("status_list", {})
+	if int(resources.get("style_layers", 0)) > 0:
+		resources["style_layers"] = max(0, int(resources.get("style_layers", 0)) - 1)
+	if int(statuses.get("style_layer", 0)) > 0:
+		statuses["style_layer"] = max(0, int(statuses.get("style_layer", 0)) - 1)
+	player["class_resource_state"] = resources
+	player["status_list"] = statuses
+	battle_log.append("样式层消耗 1")
 
 func _draw_cards(battle_state: Dictionary, amount: int, battle_log: Array) -> void:
 	var player := _player(battle_state)
