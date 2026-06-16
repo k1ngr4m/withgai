@@ -177,6 +177,7 @@ class EffectParams:
     var style_layer_hits: bool
     var style_layer_hit_multiplier: int
     var consume_all_style_layers: bool
+    var clear_other_priority: bool
 
     func _init(_json_) -> void:
         if _json_.get('amount') != null: self.amount = _json_["amount"]
@@ -218,6 +219,7 @@ class EffectParams:
         if _json_.get('style_layer_hits') != null: self.style_layer_hits = _json_["style_layer_hits"]
         if _json_.get('style_layer_hit_multiplier') != null: self.style_layer_hit_multiplier = _json_["style_layer_hit_multiplier"]
         if _json_.get('consume_all_style_layers') != null: self.consume_all_style_layers = _json_["consume_all_style_layers"]
+        if _json_.get('clear_other_priority') != null: self.clear_other_priority = _json_["clear_other_priority"]
 
 
 class EffectSpec:

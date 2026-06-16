@@ -59,6 +59,7 @@
     <var name="style_layer_hits" type="bool?"/>
     <var name="style_layer_hit_multiplier" type="int?"/>
     <var name="consume_all_style_layers" type="bool?"/>
+    <var name="clear_other_priority" type="bool?"/>
   </bean>
   <bean name="EffectSpec">
     <var name="effect_type" type="string"/>

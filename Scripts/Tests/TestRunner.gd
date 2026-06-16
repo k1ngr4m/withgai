@@ -493,6 +493,18 @@ func _validate_config_references(config, content) -> void:
 			case_matrix_applies_status = true
 	_check(case_matrix_applies_status, "tester case matrix applies case matrix status")
 	_check(content.card_def("card_pm_schedule_compress").get("target_type", "") == "highest_priority_enemy", "pm schedule compress targets priority")
+	_check(content.card_def("card_pm_priority_top").get("target_type", "") == "selected", "pm priority top targets selected enemy")
+	var priority_top_entries: Array = content.effect_entries(content.card_def("card_pm_priority_top").get("effect_group_id", ""))
+	var priority_top_sets_target := false
+	var priority_top_draws := false
+	for entry in priority_top_entries:
+		var params: Dictionary = entry.get("params", {})
+		if entry.get("effect_type", "") == "set_priority_top" and entry.get("target_type", "") == "selected" and int(params.get("amount", 0)) >= 5 and bool(params.get("clear_other_priority", false)):
+			priority_top_sets_target = true
+		if entry.get("effect_type", "") == "draw_cards" and int(params.get("amount", 0)) > 0:
+			priority_top_draws = true
+	_check(priority_top_sets_target, "pm priority top sets a clear highest priority")
+	_check(priority_top_draws, "pm priority top preserves tempo with draw")
 	_check(_has_intent_type(content.intent_entries_for_enemy("enemy_salesman"), "pollute"), "salesman has pollute intent")
 	_check(_has_intent_type(content.intent_entries_for_enemy("enemy_workaholic_coworker"), "multi_attack"), "workaholic has multi attack intent")
 	_check(_has_intent_type(content.intent_entries_for_enemy("enemy_meeting_maniac"), "spawn"), "meeting maniac has spawn intent")
@@ -1310,6 +1322,35 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(battle.battle_state["enemies"][0].get("current_hp", 0)) == 50, "pm priority attack ignores selected low priority target")
 	_check(int(battle.battle_state["enemies"][1].get("current_hp", 0)) < 50, "pm priority attack hits highest priority target")
 	_check(int(battle.battle_state["enemies"][1].get("status_list", {}).get("requirement_change", 0)) >= 1, "pm priority attack marks hit target")
+
+	run = run_session.create_new_run("product_manager")
+	run["owned_relic_ids"] = []
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	var priority_top_enemies: Array = battle.battle_state.get("enemies", [])
+	if priority_top_enemies.size() == 1:
+		priority_top_enemies.append(priority_top_enemies[0].duplicate(true))
+		priority_top_enemies[1]["name"] = "原高优先级目标"
+	priority_top_enemies[0]["current_hp"] = 50
+	priority_top_enemies[0]["current_block"] = 0
+	priority_top_enemies[0]["status_list"] = {}
+	priority_top_enemies[1]["current_hp"] = 50
+	priority_top_enemies[1]["current_block"] = 0
+	priority_top_enemies[1]["status_list"] = { "priority": 4 }
+	battle.battle_state["enemies"] = priority_top_enemies
+	player["hand"] = ["card_pm_priority_top", "card_pm_schedule_compress"]
+	player["draw_pile"] = ["card_pm_change_wording"]
+	player["discard_pile"] = []
+	player["current_energy"] = 1
+	player["class_resource_state"]["priority_targets"] = 4
+	battle.play_card(run, 0, 0)
+	_check(int(priority_top_enemies[0].get("status_list", {}).get("priority", 0)) == 5, "pm priority top raises selected target above old priority")
+	_check(int(priority_top_enemies[1].get("status_list", {}).get("priority", 0)) == 0, "pm priority top clears old priority target")
+	_check(int(player.get("class_resource_state", {}).get("priority_targets", 0)) == 5, "pm priority top recomputes priority resource")
+	_check(player.get("hand", []).has("card_pm_change_wording"), "pm priority top draws a card")
+	battle.play_card(run, 0, 1)
+	_check(int(priority_top_enemies[0].get("current_hp", 0)) < 50, "pm priority top redirects next priority attack to selected target")
+	_check(int(priority_top_enemies[1].get("current_hp", 0)) == 50, "pm priority top prevents old target from staying highest priority")
 
 	run = run_session.create_new_run("product_manager")
 	battle = _start_first_battle(run, content, map, executor)

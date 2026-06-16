@@ -79,6 +79,8 @@ func _execute_entry(entry: Dictionary, battle_state: Dictionary, run_state: Dict
 			_compress_complexity(battle_state, run_state, params, battle_log)
 		"modify_intent":
 			_modify_intents(entry.get("target_type", "selected"), battle_state, run_state, target_index, amount, battle_log)
+		"set_priority_top":
+			_set_priority_top(entry.get("target_type", "selected"), battle_state, target_index, params, battle_log)
 		"create_card":
 			_create_card(battle_state, String(params.get("card_id", "")), String(params.get("destination", "discard")), max(1, amount), battle_log)
 		"move_card":
@@ -628,6 +630,21 @@ func _sync_status_resource(battle_state: Dictionary, status_id: String, amount: 
 		return
 	_add_class_resource(battle_state, resource_key, amount, battle_log, label)
 
+func _sync_enemy_priority_resource(battle_state: Dictionary) -> void:
+	var total: int = 0
+	for enemy in _alive_enemies(battle_state):
+		var statuses: Dictionary = enemy.get("status_list", {})
+		var priority: int = max(0, int(statuses.get("priority", 0)))
+		if priority <= 0:
+			statuses.erase("priority")
+			enemy["status_list"] = statuses
+			continue
+		total += priority
+	var player := _player(battle_state)
+	var resources: Dictionary = player.get("class_resource_state", {})
+	resources["priority_targets"] = total
+	player["class_resource_state"] = resources
+
 func _add_compute(battle_state: Dictionary, run_state: Dictionary, amount: int, battle_log: Array) -> void:
 	_add_class_resource(battle_state, "compute", amount, battle_log, "算力")
 	if amount > 0:
@@ -760,6 +777,24 @@ func _component_count(player: Dictionary) -> int:
 func _modify_intents(target_type: String, battle_state: Dictionary, run_state: Dictionary, target_index: int, amount: int, battle_log: Array) -> void:
 	for enemy in _target_enemies(target_type, battle_state, target_index):
 		_modify_intent(enemy, battle_state, run_state, amount, battle_log)
+
+func _set_priority_top(target_type: String, battle_state: Dictionary, target_index: int, params: Dictionary, battle_log: Array) -> void:
+	var targets := _target_enemies(target_type, battle_state, target_index)
+	if targets.is_empty():
+		battle_log.append("没有可置顶目标")
+		return
+	var target: Dictionary = targets[0]
+	var priority_amount: int = max(1, int(params.get("amount", 1)))
+	var clear_other_priority := bool(params.get("clear_other_priority", true))
+	for enemy in _alive_enemies(battle_state):
+		var statuses: Dictionary = enemy.get("status_list", {})
+		if is_same(enemy, target):
+			statuses["priority"] = priority_amount
+		elif clear_other_priority:
+			statuses.erase("priority")
+		enemy["status_list"] = statuses
+	_sync_enemy_priority_resource(battle_state)
+	battle_log.append("优先级置顶：%s x%d" % [target.get("name", "敌人"), priority_amount])
 
 func _modify_intent(enemy: Dictionary, battle_state: Dictionary, run_state: Dictionary, amount: int, battle_log: Array) -> void:
 	var intent: Dictionary = enemy.get("intent", {})

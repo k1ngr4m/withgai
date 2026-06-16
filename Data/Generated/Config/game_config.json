@@ -2488,12 +2488,12 @@
       "rarity": "uncommon",
       "type": "skill",
       "cost": 0,
-      "target_type": "self",
+      "target_type": "selected",
       "keywords": [],
       "effect_group_id": "eg_card_pm_priority_top",
       "upgrade_to": "card_pm_priority_top_plus",
       "enabled_in_first_playable": true,
-      "description": "优先级置顶：获得防线并触发职业资源。",
+      "description": "优先级置顶：将选定目标置为最高优先级，清空其他目标优先级并抽牌。",
       "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_pm_priority_top_v1/final.png"
     },
     "card_pm_milestone_split": {
@@ -8220,15 +8220,15 @@
       "id": "eg_card_pm_priority_top",
       "entry_ids": [
         "eg_card_pm_priority_top_e01",
-        "eg_card_pm_priority_top_e02",
-        "eg_card_pm_priority_top_e03"
+        "eg_card_pm_priority_top_e02"
       ],
       "entries": [
         {
-          "effect_type": "gain_block",
-          "target_type": "self",
+          "effect_type": "set_priority_top",
+          "target_type": "selected",
           "params": {
-            "amount": 7
+            "amount": 5,
+            "clear_other_priority": true
           }
         },
         {
@@ -8236,14 +8236,6 @@
           "target_type": "self",
           "params": {
             "amount": 1
-          }
-        },
-        {
-          "effect_type": "apply_status",
-          "target_type": "selected",
-          "params": {
-            "amount": 1,
-            "status_id": "priority"
           }
         }
       ]
@@ -11925,10 +11917,11 @@
       "id": "eg_card_pm_priority_top_e01",
       "effect_group_id": "eg_card_pm_priority_top",
       "order": 1,
-      "effect_type": "gain_block",
-      "target_type": "self",
+      "effect_type": "set_priority_top",
+      "target_type": "selected",
       "params": {
-        "amount": 7
+        "amount": 5,
+        "clear_other_priority": true
       }
     },
     "eg_card_pm_priority_top_e02": {
@@ -11939,17 +11932,6 @@
       "target_type": "self",
       "params": {
         "amount": 1
-      }
-    },
-    "eg_card_pm_priority_top_e03": {
-      "id": "eg_card_pm_priority_top_e03",
-      "effect_group_id": "eg_card_pm_priority_top",
-      "order": 3,
-      "effect_type": "apply_status",
-      "target_type": "selected",
-      "params": {
-        "amount": 1,
-        "status_id": "priority"
       }
     },
     "eg_card_pm_milestone_split_e01": {

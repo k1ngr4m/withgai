@@ -2569,10 +2569,11 @@
     "id": "eg_card_pm_priority_top_e01",
     "effect_group_id": "eg_card_pm_priority_top",
     "order": 1,
-    "effect_type": "gain_block",
-    "target_type": "self",
+    "effect_type": "set_priority_top",
+    "target_type": "selected",
     "params": {
-      "amount": 7
+      "amount": 5,
+      "clear_other_priority": true
     }
   },
   {
@@ -2583,17 +2584,6 @@
     "target_type": "self",
     "params": {
       "amount": 1
-    }
-  },
-  {
-    "id": "eg_card_pm_priority_top_e03",
-    "effect_group_id": "eg_card_pm_priority_top",
-    "order": 3,
-    "effect_type": "apply_status",
-    "target_type": "selected",
-    "params": {
-      "amount": 1,
-      "status_id": "priority"
     }
   },
   {

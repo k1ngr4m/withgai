@@ -138,7 +138,7 @@
 ,card_pm_pending_item,待确认项,"[""product_manager""]",common,skill,1,self,[],eg_card_pm_pending_item,card_pm_pending_item_plus,true,待确认项：获得防线并触发职业资源。,
 ,card_pm_review,需求评审,"[""product_manager""]",uncommon,power,2,self,[],eg_card_pm_review,card_pm_review_plus,true,需求评审：建立长期收益。,res://Resources/Art/Generated/P0/cards/card_illust_pm_review_v1/final.png
 ,card_pm_delay_meeting,会议延期,"[""product_manager""]",uncommon,skill,1,self,[],eg_card_pm_delay_meeting,card_pm_delay_meeting_plus,true,会议延期：获得防线并触发职业资源。,res://Resources/Art/Generated/P0/cards/card_illust_pm_delay_meeting_v1/final.png
-,card_pm_priority_top,优先级置顶,"[""product_manager""]",uncommon,skill,0,self,[],eg_card_pm_priority_top,card_pm_priority_top_plus,true,优先级置顶：获得防线并触发职业资源。,res://Resources/Art/Generated/P0/cards/card_illust_pm_priority_top_v1/final.png
+,card_pm_priority_top,优先级置顶,"[""product_manager""]",uncommon,skill,0,selected,[],eg_card_pm_priority_top,card_pm_priority_top_plus,true,优先级置顶：将选定目标置为最高优先级，清空其他目标优先级并抽牌。,res://Resources/Art/Generated/P0/cards/card_illust_pm_priority_top_v1/final.png
 ,card_pm_milestone_split,里程碑拆分,"[""product_manager""]",uncommon,skill,1,self,[],eg_card_pm_milestone_split,card_pm_milestone_split_plus,true,里程碑拆分：获得防线并触发职业资源。,res://Resources/Art/Generated/P0/cards/card_illust_pm_milestone_split_v1/final.png
 ,card_pm_scope_spread,范围蔓延,"[""product_manager""]",uncommon,power,1,self,[],eg_card_pm_scope_spread,card_pm_scope_spread_plus,true,范围蔓延：建立长期状态，使每次需求变更额外影响另一个敌人。,res://Resources/Art/Generated/P0/cards/card_illust_pm_scope_spread_v1/final.png
 ,card_pm_department_align,部门对齐,"[""product_manager""]",uncommon,skill,1,self,[],eg_card_pm_department_align,card_pm_department_align_plus,true,部门对齐：获得防线并触发职业资源。,
