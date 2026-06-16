@@ -12,6 +12,7 @@ const PLAYER_POSITIVE_STATUS_IDS := [
 	"complexity",
 	"requirement_change",
 	"priority",
+	"scope_spread",
 	"performance",
 ]
 const PLAYER_TURN_END_DECAY_STATUS_IDS := ["weak", "vulnerable"]

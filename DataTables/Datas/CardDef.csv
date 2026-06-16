@@ -140,7 +140,7 @@
 ,card_pm_delay_meeting,会议延期,"[""product_manager""]",uncommon,skill,1,self,[],eg_card_pm_delay_meeting,card_pm_delay_meeting_plus,true,会议延期：获得防线并触发职业资源。,res://Resources/Art/Generated/P0/cards/card_illust_pm_delay_meeting_v1/final.png
 ,card_pm_priority_top,优先级置顶,"[""product_manager""]",uncommon,skill,0,self,[],eg_card_pm_priority_top,card_pm_priority_top_plus,true,优先级置顶：获得防线并触发职业资源。,res://Resources/Art/Generated/P0/cards/card_illust_pm_priority_top_v1/final.png
 ,card_pm_milestone_split,里程碑拆分,"[""product_manager""]",uncommon,skill,1,self,[],eg_card_pm_milestone_split,card_pm_milestone_split_plus,true,里程碑拆分：获得防线并触发职业资源。,res://Resources/Art/Generated/P0/cards/card_illust_pm_milestone_split_v1/final.png
-,card_pm_scope_spread,范围蔓延,"[""product_manager""]",uncommon,power,1,self,[],eg_card_pm_scope_spread,card_pm_scope_spread_plus,true,范围蔓延：建立长期收益。,res://Resources/Art/Generated/P0/cards/card_illust_pm_scope_spread_v1/final.png
+,card_pm_scope_spread,范围蔓延,"[""product_manager""]",uncommon,power,1,self,[],eg_card_pm_scope_spread,card_pm_scope_spread_plus,true,范围蔓延：建立长期状态，使每次需求变更额外影响另一个敌人。,res://Resources/Art/Generated/P0/cards/card_illust_pm_scope_spread_v1/final.png
 ,card_pm_department_align,部门对齐,"[""product_manager""]",uncommon,skill,1,self,[],eg_card_pm_department_align,card_pm_department_align_plus,true,部门对齐：获得防线并触发职业资源。,
 ,card_pm_proto_walkthrough,原型走查,"[""product_manager""]",uncommon,skill,1,self,[],eg_card_pm_proto_walkthrough,card_pm_proto_walkthrough_plus,true,原型走查：获得防线并触发职业资源。,
 ,card_pm_weekly_sync,周会拉通,"[""product_manager""]",uncommon,skill,1,self,[],eg_card_pm_weekly_sync,card_pm_weekly_sync_plus,true,周会拉通：获得防线并触发职业资源。,

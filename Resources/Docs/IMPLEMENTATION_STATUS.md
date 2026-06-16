@@ -58,6 +58,10 @@
 - Product manager `relic_pm_meeting_room_claim` now exists and implements the Brief's "会议室占用权" relic:
   - generated config adds it as a product-manager uncommon relic with an existing meeting-room icon.
   - each player turn, the first applied `requirement_change` gains 1 extra stack and syncs the product manager resource display.
+- Product manager `card_pm_scope_spread` now implements the Brief's "范围蔓延" power:
+  - generated config applies a new `scope_spread` self status instead of the generic priority placeholder.
+  - while active, each `requirement_change` applied to one enemy also adds a configured spread stack to another live enemy.
+  - spread marks sync the product manager `requirement_change_marks` resource display and are removable by enemy boon-cleanse effects.
 - Automated meta-progression coverage now verifies all six global workstation upgrades through their live runtime paths:
   - `meta_chair`, `meta_coffee_beans`, `meta_privacy_screen`, and `meta_hard_drive` at run start
   - `meta_nap_bed` at rest recovery
@@ -109,6 +113,7 @@ Result:
 - Godot test runner now checks product manager priority target routing, including ignored low-priority selected targets and requirement-change marking on the resolved target.
 - Godot test runner now checks product manager `requirement_change` status params, enemy-action intent reduction, stack consumption, and resource sync after consumption.
 - Godot test runner now checks `relic_pm_meeting_room_claim` config, first requirement-change boost, once-per-turn gating, next-turn reset, and boosted resource sync.
+- Godot test runner now checks `scope_spread` config, `card_pm_scope_spread` generated effect, requirement-change spread to another enemy, and spread resource sync.
 - Godot test runner now checks career-tree labels, HR non-playable status, and milestone progress text.
 - Godot test runner now checks global workstation upgrade purchases plus run-start, rest, and shop effects for every implemented upgrade.
 - Godot test runner now checks `move_card` named-card and top-card movement across combat piles.

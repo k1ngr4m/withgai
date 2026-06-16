@@ -97,6 +97,7 @@ const specialCardDescriptions = {
   card_frontend_component_reuse: "组件复用：若已有组件，复制 1 个组件并抽牌。",
   card_tester_report_lock: "测试报告封板：按目标 Bug、用例和 Diff 层数结算高额伤害。",
   card_algo_global_optimum: "全局最优解：消耗全部精力与算力，按投入造成高额伤害。",
+  card_pm_scope_spread: "范围蔓延：建立长期状态，使每次需求变更额外影响另一个敌人。",
 };
 
 function descriptionForCard(id, name, type) {
@@ -167,6 +168,12 @@ function cardEffects(classId, cardId, type, cost, idx) {
   if (cardId === "card_algo_global_optimum") {
     return [
       { effect_type: "deal_damage", target_type: "single_enemy", params: { amount: 10, x_energy_scaling: true, x_energy_multiplier: 4, consume_compute: true, compute_multiplier: 3 } },
+    ];
+  }
+  if (cardId === "card_pm_scope_spread") {
+    return [
+      { effect_type: "apply_status", target_type: "self", params: { status_id: "scope_spread", amount: 1 } },
+      { effect_type: "draw_cards", target_type: "self", params: { amount: 1 } },
     ];
   }
   if (type === "attack") {
@@ -484,7 +491,7 @@ const statuses = [
   ["anxiety", "焦虑", "debuff"], ["overtime", "加班", "debuff"], ["vulnerable", "易伤", "debuff"], ["weak", "脆弱", "debuff"],
   ["service_online", "服务在线", "class"], ["cache", "缓存", "class"], ["component", "组件", "class"], ["style_layer", "样式层", "class"],
   ["bug", "Bug", "class"], ["case_mark", "用例", "class"], ["diff", "Diff", "class"], ["compute", "算力", "class"], ["complexity", "复杂度", "class"],
-  ["requirement_change", "需求变更", "class"], ["priority", "优先级", "class"], ["performance", "绩效", "class"], ["optimization_target", "优化名单", "class"],
+  ["requirement_change", "需求变更", "class"], ["priority", "优先级", "class"], ["scope_spread", "范围蔓延", "class"], ["performance", "绩效", "class"], ["optimization_target", "优化名单", "class"],
 ];
 const statusTimingHooks = {
   anxiety: ["round_start", "expire"],
@@ -501,6 +508,7 @@ const statusTimingHooks = {
   complexity: ["add_compute", "round_start"],
   priority: ["target_resolution"],
   requirement_change: ["apply_status", "enemy_before_action", "modify_intent"],
+  scope_spread: ["apply_status"],
 };
 const statusParams = {
   complexity: {
@@ -512,6 +520,9 @@ const statusParams = {
   requirement_change: {
     intent_amount_reduction: 4,
     consume_per_action: 1,
+  },
+  scope_spread: {
+    spread_amount: 1,
   },
 };
 const statusList = statuses.map(([id, name, type]) => ({
@@ -674,6 +685,7 @@ const lubanDefines = `<module name="">
     <var name="spirit_loss" type="int?"/>
     <var name="intent_amount_reduction" type="int?"/>
     <var name="consume_per_action" type="int?"/>
+    <var name="spread_amount" type="int?"/>
   </bean>
   <bean name="EffectParams">
     <var name="amount" type="int?"/>

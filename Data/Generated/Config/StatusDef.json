@@ -217,6 +217,21 @@
     "type": "class"
   },
   {
+    "id": "scope_spread",
+    "name": "范围蔓延",
+    "stack_rule": "stack",
+    "timing_hooks": [
+      "apply_status"
+    ],
+    "params": {
+      "spread_amount": 1
+    },
+    "effect_group_id": "",
+    "max_stack": 99,
+    "is_hidden": false,
+    "type": "class"
+  },
+  {
     "id": "performance",
     "name": "绩效",
     "stack_rule": "stack",

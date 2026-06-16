@@ -309,6 +309,34 @@ func _enemy_status(enemy: Dictionary, battle_state: Dictionary, run_state: Dicti
 	battle_log.append("%s 获得 %s x%d" % [enemy.get("name", "敌人"), status_id, amount])
 	_sync_status_resource(battle_state, status_id, amount, battle_log, run_state)
 	_apply_status_relics(battle_state, run_state, enemy, status_id, amount, battle_log)
+	_apply_scope_spread(battle_state, run_state, enemy, status_id, battle_log)
+
+func _apply_scope_spread(battle_state: Dictionary, run_state: Dictionary, source_enemy: Dictionary, status_id: String, battle_log: Array) -> void:
+	if status_id != "requirement_change":
+		return
+	var player := _player(battle_state)
+	if _scope_spread_count(player) <= 0:
+		return
+	var target := _first_other_alive_enemy(battle_state, source_enemy)
+	if target.is_empty():
+		return
+	var params: Dictionary = config_service.get_def("statuses", "scope_spread").get("params", {})
+	var spread_amount: int = max(1, int(params.get("spread_amount", 1)))
+	var statuses: Dictionary = target.get("status_list", {})
+	statuses["requirement_change"] = int(statuses.get("requirement_change", 0)) + spread_amount
+	target["status_list"] = statuses
+	_sync_status_resource(battle_state, "requirement_change", spread_amount, battle_log, run_state)
+	battle_log.append("范围蔓延：%s 也获得需求变更 x%d" % [target.get("name", "敌人"), spread_amount])
+
+func _scope_spread_count(player: Dictionary) -> int:
+	var statuses: Dictionary = player.get("status_list", {})
+	return int(statuses.get("scope_spread", 0))
+
+func _first_other_alive_enemy(battle_state: Dictionary, source_enemy: Dictionary) -> Dictionary:
+	for enemy in _alive_enemies(battle_state):
+		if not is_same(enemy, source_enemy):
+			return enemy
+	return {}
 
 func _sync_status_resource(battle_state: Dictionary, status_id: String, amount: int, battle_log: Array, run_state: Dictionary = {}) -> void:
 	var resource_key := ""

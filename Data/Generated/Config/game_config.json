@@ -2527,7 +2527,7 @@
       "effect_group_id": "eg_card_pm_scope_spread",
       "upgrade_to": "card_pm_scope_spread_plus",
       "enabled_in_first_playable": true,
-      "description": "范围蔓延：建立长期收益。",
+      "description": "范围蔓延：建立长期状态，使每次需求变更额外影响另一个敌人。",
       "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_pm_scope_spread_v1/final.png"
     },
     "card_pm_department_align": {
@@ -4832,6 +4832,21 @@
         "target_resolution"
       ],
       "params": {},
+      "effect_group_id": "",
+      "max_stack": 99,
+      "is_hidden": false,
+      "type": "class"
+    },
+    "scope_spread": {
+      "id": "scope_spread",
+      "name": "范围蔓延",
+      "stack_rule": "stack",
+      "timing_hooks": [
+        "apply_status"
+      ],
+      "params": {
+        "spread_amount": 1
+      },
       "effect_group_id": "",
       "max_stack": 99,
       "is_hidden": false,
@@ -8242,7 +8257,7 @@
           "target_type": "self",
           "params": {
             "amount": 1,
-            "status_id": "priority"
+            "status_id": "scope_spread"
           }
         },
         {
@@ -12121,7 +12136,7 @@
       "target_type": "self",
       "params": {
         "amount": 1,
-        "status_id": "priority"
+        "status_id": "scope_spread"
       }
     },
     "eg_card_pm_scope_spread_e02": {

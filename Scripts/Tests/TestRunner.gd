@@ -219,6 +219,16 @@ func _validate_config_references(config, content) -> void:
 	var requirement_params: Dictionary = config.get_def("statuses", "requirement_change").get("params", {})
 	_check(int(requirement_params.get("intent_amount_reduction", 0)) > 0, "requirement change config reduces intent amount")
 	_check(int(requirement_params.get("consume_per_action", 0)) > 0, "requirement change config consumes stacks")
+	_check(config.get_def("statuses", "scope_spread").get("timing_hooks", []).has("apply_status"), "scope spread declares status hook")
+	var scope_params: Dictionary = config.get_def("statuses", "scope_spread").get("params", {})
+	_check(int(scope_params.get("spread_amount", 0)) > 0, "scope spread config has spread amount")
+	var scope_entries: Array = content.effect_entries(content.card_def("card_pm_scope_spread").get("effect_group_id", ""))
+	var scope_spread_applies_status := false
+	for entry in scope_entries:
+		var params: Dictionary = entry.get("params", {})
+		if entry.get("effect_type", "") == "apply_status" and params.get("status_id", "") == "scope_spread":
+			scope_spread_applies_status = true
+	_check(scope_spread_applies_status, "pm scope spread applies scope spread status")
 	_check(config.get_def("statuses", "service_online").get("timing_hooks", []).has("round_end"), "service online declares round end hook")
 	var flush_entries: Array = content.effect_entries(content.card_def("card_backend_flush_all").get("effect_group_id", ""))
 	var flush_consumes_cache := false
@@ -598,6 +608,23 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(player.get("current_spirit", 0)) == 44, "requirement change reduces next attack before enemy action")
 	_check(int(changed_enemy.get("status_list", {}).get("requirement_change", 0)) == 1, "requirement change consumes one stack before action")
 	_check(int(player.get("class_resource_state", {}).get("requirement_change_marks", 0)) == 1, "requirement change resource syncs after consumption")
+
+	run = run_session.create_new_run("product_manager")
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	var spread_enemies: Array = battle.battle_state.get("enemies", [])
+	if spread_enemies.size() == 1:
+		spread_enemies.append(spread_enemies[0].duplicate(true))
+		spread_enemies[1]["name"] = "被蔓延目标"
+	spread_enemies[0]["status_list"] = {}
+	spread_enemies[1]["status_list"] = {}
+	battle.battle_state["enemies"] = spread_enemies
+	player["status_list"] = { "scope_spread": 1 }
+	player["class_resource_state"]["requirement_change_marks"] = 0
+	executor.execute([{ "effect_type": "apply_status", "target_type": "selected", "params": { "status_id": "requirement_change", "amount": 1 } }], battle.battle_state, run, 0, battle.battle_state["log"])
+	_check(int(spread_enemies[0].get("status_list", {}).get("requirement_change", 0)) == 1, "scope spread keeps original requirement target")
+	_check(int(spread_enemies[1].get("status_list", {}).get("requirement_change", 0)) == 1, "scope spread adds requirement change to another enemy")
+	_check(int(player.get("class_resource_state", {}).get("requirement_change_marks", 0)) >= 2, "scope spread syncs spread requirement resource")
 
 	run = run_session.create_new_run("algorithm")
 	battle = _start_first_battle(run, content, map, executor)

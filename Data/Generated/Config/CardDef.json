@@ -2359,7 +2359,7 @@
     "effect_group_id": "eg_card_pm_scope_spread",
     "upgrade_to": "card_pm_scope_spread_plus",
     "enabled_in_first_playable": true,
-    "description": "范围蔓延：建立长期收益。",
+    "description": "范围蔓延：建立长期状态，使每次需求变更额外影响另一个敌人。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_pm_scope_spread_v1/final.png"
   },
   {

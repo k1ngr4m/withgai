@@ -2807,7 +2807,7 @@
     "target_type": "self",
     "params": {
       "amount": 1,
-      "status_id": "priority"
+      "status_id": "scope_spread"
     }
   },
   {
