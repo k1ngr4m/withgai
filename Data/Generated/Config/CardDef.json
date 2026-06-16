@@ -557,7 +557,7 @@
     "effect_group_id": "eg_card_frontend_slice_sprint",
     "upgrade_to": "card_frontend_slice_sprint_plus",
     "enabled_in_first_playable": true,
-    "description": "切图冲刺：获得防线并触发职业资源。",
+    "description": "切图冲刺：抽牌并获得样式层。",
     "art_path": ""
   },
   {

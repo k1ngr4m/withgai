@@ -34,7 +34,7 @@
 ,card_backend_zero_downtime,零停机升级,"[""backend""]",rare,power,3,self,[],eg_card_backend_zero_downtime,card_backend_zero_downtime_plus,true,零停机升级：建立长期收益。,
 ,card_frontend_pixel_tap,像素敲击,"[""frontend""]",common,attack,1,single_enemy,[],eg_card_frontend_pixel_tap,card_frontend_pixel_tap_plus,true,像素敲击：造成伤害。,
 ,card_frontend_flex_layout,Flex排版,"[""frontend""]",common,skill,1,self,[],eg_card_frontend_flex_layout,card_frontend_flex_layout_plus,true,Flex排版：获得防线并生成 1 个组件。,
-,card_frontend_slice_sprint,切图冲刺,"[""frontend""]",common,skill,0,self,[],eg_card_frontend_slice_sprint,card_frontend_slice_sprint_plus,true,切图冲刺：获得防线并触发职业资源。,
+,card_frontend_slice_sprint,切图冲刺,"[""frontend""]",common,skill,0,self,[],eg_card_frontend_slice_sprint,card_frontend_slice_sprint_plus,true,切图冲刺：抽牌并获得样式层。,
 ,card_frontend_hotfix_style,热更新样式,"[""frontend""]",common,skill,1,self,[],eg_card_frontend_hotfix_style,card_frontend_hotfix_style_plus,true,热更新样式：获得防线并触发职业资源。,res://Resources/Art/Generated/P0/cards/card_illust_frontend_hotfix_style_v1/final.png
 ,card_frontend_pixel_align,像素级对齐,"[""frontend""]",common,skill,0,self,[],eg_card_frontend_pixel_align,card_frontend_pixel_align_plus,true,像素级对齐：获得防线；若已有组件则获得额外防线。,res://Resources/Art/Generated/P0/cards/card_illust_frontend_pixel_alignment_v1/final.png
 ,card_frontend_compat_patch,兼容性补丁,"[""frontend""]",common,skill,1,self,[],eg_card_frontend_compat_patch,card_frontend_compat_patch_plus,true,兼容性补丁：清除 1 层负面，本回合样式层不会被消耗。,res://Resources/Art/Generated/P0/cards/card_illust_frontend_compat_patch_v1/final.png

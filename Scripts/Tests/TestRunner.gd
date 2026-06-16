@@ -217,6 +217,25 @@ func _validate_config_references(config, content) -> void:
 	_check(flex_layout_blocks, "frontend flex layout grants block")
 	_check(flex_layout_adds_component, "frontend flex layout creates component")
 	_check(not flex_layout_adds_style, "frontend flex layout does not add style layer")
+	var slice_sprint_entries: Array = content.effect_entries(content.card_def("card_frontend_slice_sprint").get("effect_group_id", ""))
+	var slice_sprint_draws := false
+	var slice_sprint_adds_style := false
+	var slice_sprint_blocks := false
+	var slice_sprint_adds_component := false
+	for entry in slice_sprint_entries:
+		var params: Dictionary = entry.get("params", {})
+		if entry.get("effect_type", "") == "draw_cards" and int(params.get("amount", 0)) > 0:
+			slice_sprint_draws = true
+		if entry.get("effect_type", "") == "add_style_layer" and int(params.get("amount", 0)) > 0:
+			slice_sprint_adds_style = true
+		if entry.get("effect_type", "") == "gain_block":
+			slice_sprint_blocks = true
+		if entry.get("effect_type", "") == "add_component":
+			slice_sprint_adds_component = true
+	_check(slice_sprint_draws, "frontend slice sprint draws")
+	_check(slice_sprint_adds_style, "frontend slice sprint adds style layer")
+	_check(not slice_sprint_blocks, "frontend slice sprint does not grant block")
+	_check(not slice_sprint_adds_component, "frontend slice sprint does not create component")
 	var component_reuse_entries: Array = content.effect_entries(content.card_def("card_frontend_component_reuse").get("effect_group_id", ""))
 	var component_reuse_requires_component := false
 	for entry in component_reuse_entries:
@@ -727,6 +746,25 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(player.get("class_resource_state", {}).get("components", 0)) == 1, "frontend flex layout creates a component")
 	_check(int(player.get("class_resource_state", {}).get("style_layers", 0)) == 0, "frontend flex layout does not create style layers")
 	_check(int(player.get("current_energy", 0)) == 2, "frontend flex layout charges card cost")
+
+	run = run_session.create_new_run("frontend")
+	run["owned_relic_ids"] = []
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	player["hand"] = ["card_frontend_slice_sprint"]
+	player["draw_pile"] = ["card_frontend_pixel_tap"]
+	player["discard_pile"] = []
+	player["current_energy"] = 0
+	player["current_block"] = 0
+	player["class_resource_state"]["components"] = 0
+	player["class_resource_state"]["style_layers"] = 0
+	player["status_list"] = {}
+	battle.play_card(run, 0, 0)
+	_check(player.get("hand", []).has("card_frontend_pixel_tap"), "frontend slice sprint draws a card")
+	_check(int(player.get("class_resource_state", {}).get("style_layers", 0)) == 1, "frontend slice sprint creates a style layer")
+	_check(int(player.get("class_resource_state", {}).get("components", 0)) == 0, "frontend slice sprint does not create components")
+	_check(int(player.get("current_block", 0)) == 0, "frontend slice sprint does not grant block")
+	_check(int(player.get("current_energy", 0)) == 0, "frontend slice sprint stays zero cost")
 
 	run = run_session.create_new_run("frontend")
 	run["owned_relic_ids"] = []

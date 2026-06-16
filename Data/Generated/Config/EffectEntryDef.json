@@ -591,16 +591,6 @@
     "id": "eg_card_frontend_slice_sprint_e01",
     "effect_group_id": "eg_card_frontend_slice_sprint",
     "order": 1,
-    "effect_type": "gain_block",
-    "target_type": "self",
-    "params": {
-      "amount": 5
-    }
-  },
-  {
-    "id": "eg_card_frontend_slice_sprint_e02",
-    "effect_group_id": "eg_card_frontend_slice_sprint",
-    "order": 2,
     "effect_type": "draw_cards",
     "target_type": "self",
     "params": {
@@ -608,10 +598,10 @@
     }
   },
   {
-    "id": "eg_card_frontend_slice_sprint_e03",
+    "id": "eg_card_frontend_slice_sprint_e02",
     "effect_group_id": "eg_card_frontend_slice_sprint",
-    "order": 3,
-    "effect_type": "add_component",
+    "order": 2,
+    "effect_type": "add_style_layer",
     "target_type": "self",
     "params": {
       "amount": 1
