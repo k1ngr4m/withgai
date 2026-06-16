@@ -245,6 +245,18 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	executor.execute([{ "effect_type": "gain_block", "target_type": "self", "params": { "amount": 5 } }], battle.battle_state, run, 0, battle.battle_state["log"])
 	_check(int(player.get("current_block", 0)) == 12, "standing desk adds only first block per turn")
 
+	run = run_session.create_new_run("backend")
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	player["hand"] = []
+	player["draw_pile"] = []
+	player["discard_pile"] = ["card_shared_keyboard_smash", "card_shared_standup", "card_shared_meeting_mute"]
+	executor.execute([{ "effect_type": "move_card", "target_type": "self", "params": { "source": "discard", "destination": "draw", "amount": 1, "card_id": "card_shared_standup" } }], battle.battle_state, run, 0, battle.battle_state["log"])
+	_check(not player.get("discard_pile", []).has("card_shared_standup"), "move card removes named card from source pile")
+	_check(player.get("draw_pile", []).has("card_shared_standup"), "move card adds named card to destination pile")
+	executor.execute([{ "effect_type": "move_card", "target_type": "self", "params": { "source": "draw", "destination": "hand", "amount": 1 } }], battle.battle_state, run, 0, battle.battle_state["log"])
+	_check(player.get("hand", []).has("card_shared_standup"), "move card moves top card when no card id is specified")
+
 	run = run_session.create_new_run("tester")
 	battle = _start_first_battle(run, content, map, executor)
 	var enemies: Array = battle.battle_state.get("enemies", [])

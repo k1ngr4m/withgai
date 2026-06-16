@@ -64,11 +64,20 @@ func _execute_entry(entry: Dictionary, battle_state: Dictionary, run_state: Dict
 			_modify_intents(entry.get("target_type", "selected"), battle_state, run_state, target_index, amount, battle_log)
 		"create_card":
 			_create_card(battle_state, String(params.get("card_id", "")), String(params.get("destination", "discard")), max(1, amount), battle_log)
+		"move_card":
+			_move_card(
+				battle_state,
+				String(params.get("source", params.get("from", "discard"))),
+				String(params.get("destination", params.get("to", "draw"))),
+				max(1, amount),
+				String(params.get("card_id", "")),
+				battle_log
+			)
 		"add_relic":
 			_add_relic(run_state, String(params.get("relic_id", "")), battle_log)
 		"spawn_enemy":
 			_spawn_enemy(battle_state, String(params.get("enemy_id", "")), battle_log)
-		"upgrade_card", "remove_card", "add_random_card", "add_random_relic", "move_card":
+		"upgrade_card", "remove_card", "add_random_card", "add_random_relic":
 			battle_log.append("事件效果已记录：%s" % effect_type)
 		_:
 			battle_log.append("未实现效果：%s" % effect_type)
@@ -306,14 +315,53 @@ func _create_card(battle_state: Dictionary, card_id: String, destination: String
 	if card_id.is_empty():
 		return
 	var player := _player(battle_state)
-	var pile_name := "discard_pile"
-	if destination == "hand":
-		pile_name = "hand"
-	elif destination == "draw":
-		pile_name = "draw_pile"
+	var pile_name := _pile_key(destination, "discard_pile")
 	for i in range(amount):
 		player[pile_name].append(card_id)
 	battle_log.append("生成卡牌 %s x%d" % [card_id, amount])
+
+func _move_card(battle_state: Dictionary, source: String, destination: String, amount: int, card_id: String, battle_log: Array) -> void:
+	var source_key := _pile_key(source, "discard_pile")
+	var destination_key := _pile_key(destination, "draw_pile")
+	if source_key == destination_key:
+		return
+	var player := _player(battle_state)
+	var source_pile: Array = player.get(source_key, [])
+	var destination_pile: Array = player.get(destination_key, [])
+	var moved := 0
+	for i in range(amount):
+		var source_index := _find_card_index(source_pile, card_id)
+		if source_index < 0:
+			break
+		var moved_card := String(source_pile[source_index])
+		source_pile.remove_at(source_index)
+		destination_pile.append(moved_card)
+		moved += 1
+	player[source_key] = source_pile
+	player[destination_key] = destination_pile
+	if moved > 0:
+		battle_log.append("移动卡牌 %s -> %s x%d" % [source_key, destination_key, moved])
+
+func _pile_key(alias: String, fallback: String) -> String:
+	match alias:
+		"hand":
+			return "hand"
+		"draw", "draw_pile":
+			return "draw_pile"
+		"discard", "discard_pile":
+			return "discard_pile"
+		"exhaust", "exhaust_pile":
+			return "exhaust_pile"
+		_:
+			return fallback
+
+func _find_card_index(pile: Array, card_id: String) -> int:
+	if card_id.is_empty():
+		return pile.size() - 1
+	for i in range(pile.size()):
+		if String(pile[i]) == card_id:
+			return i
+	return -1
 
 func _add_relic(run_state: Dictionary, relic_id: String, battle_log: Array) -> void:
 	if relic_id.is_empty():

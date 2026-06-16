@@ -25,6 +25,7 @@
   - `meta_nap_bed` at rest recovery
   - `meta_canteen_card` at first shop purchase
   - workstation purchase cost/level validation and career-unlock purchase rejection
+- `EffectExecutor.move_card` now performs real battle pile movement between hand, draw, discard, and exhaust piles, including optional named-card selection and default top-card movement.
 - Programmer shared utility cards now have concrete data-driven effects:
   - `card_shared_rollback` gains block and clears weak, vulnerable, and anxiety while leaving heavier statuses intact.
   - `card_shared_standup` gains block, draws a replacement card, and refunds energy.
@@ -49,6 +50,7 @@ Result:
 - Godot test runner now checks `StatusDef.timing_hooks` declarations for anxiety, overtime, weak, vulnerable, and service online.
 - Godot test runner now checks career-tree labels, HR non-playable status, and milestone progress text.
 - Godot test runner now checks global workstation upgrade purchases plus run-start, rest, and shop effects for every implemented upgrade.
+- Godot test runner now checks `move_card` named-card and top-card movement across combat piles.
 - Godot MCP `get_project_info` reports Godot `4.6.1.stable.official.14d19694e`, 11 scenes, and 25 scripts.
 - Godot MCP `run_project` + `get_debug_output` verified project startup with empty `errors`.
 
