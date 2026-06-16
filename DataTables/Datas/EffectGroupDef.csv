@@ -26,7 +26,7 @@
 ,eg_card_backend_slow_query,"[""eg_card_backend_slow_query_e01"",""eg_card_backend_slow_query_e02""]"
 ,eg_card_backend_hot_standby,"[""eg_card_backend_hot_standby_e01"",""eg_card_backend_hot_standby_e02""]"
 ,eg_card_backend_container_orchestration,"[""eg_card_backend_container_orchestration_e01"",""eg_card_backend_container_orchestration_e02""]"
-,eg_card_backend_flush_all,"[""eg_card_backend_flush_all_e01"",""eg_card_backend_flush_all_e02""]"
+,eg_card_backend_flush_all,"[""eg_card_backend_flush_all_e01""]"
 ,eg_card_backend_cluster_scale,"[""eg_card_backend_cluster_scale_e01"",""eg_card_backend_cluster_scale_e02""]"
 ,eg_card_backend_lossless_release,"[""eg_card_backend_lossless_release_e01"",""eg_card_backend_lossless_release_e02""]"
 ,eg_card_backend_trace_chain,"[""eg_card_backend_trace_chain_e01"",""eg_card_backend_trace_chain_e02""]"

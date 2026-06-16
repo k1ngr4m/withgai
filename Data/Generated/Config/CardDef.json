@@ -421,7 +421,7 @@
     "effect_group_id": "eg_card_backend_flush_all",
     "upgrade_to": "card_backend_flush_all_plus",
     "enabled_in_first_playable": true,
-    "description": "全量回写：造成伤害。",
+    "description": "全量回写：消耗全部缓存并按缓存层数造成高额伤害。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_backend_flush_all_v1/final.png"
   },
   {

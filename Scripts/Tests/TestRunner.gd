@@ -162,8 +162,16 @@ func _validate_config_references(config, content) -> void:
 	_check(config.get_def("statuses", "vulnerable").get("timing_hooks", []).has("damage_taken"), "vulnerable declares damage taken hook")
 	_check(config.get_def("statuses", "style_layer").get("timing_hooks", []).has("deal_damage"), "style layer declares damage hook")
 	_check(config.get_def("statuses", "diff").get("timing_hooks", []).has("inject_bug"), "diff declares bug injection hook")
+	_check(config.get_def("statuses", "cache").get("timing_hooks", []).has("deal_damage"), "cache declares damage hook")
 	_check(config.get_def("statuses", "compute").get("timing_hooks", []).has("deal_damage"), "compute declares damage hook")
 	_check(config.get_def("statuses", "service_online").get("timing_hooks", []).has("round_end"), "service online declares round end hook")
+	var flush_entries: Array = content.effect_entries(content.card_def("card_backend_flush_all").get("effect_group_id", ""))
+	var flush_consumes_cache := false
+	for entry in flush_entries:
+		var params: Dictionary = entry.get("params", {})
+		if bool(params.get("consume_cache", false)) and int(params.get("cache_multiplier", 0)) >= 3:
+			flush_consumes_cache = true
+	_check(flush_consumes_cache, "backend flush all consumes cache")
 	_check(content.card_def("card_pm_schedule_compress").get("target_type", "") == "highest_priority_enemy", "pm schedule compress targets priority")
 	_check(_has_intent_type(content.intent_entries_for_enemy("enemy_salesman"), "pollute"), "salesman has pollute intent")
 	_check(_has_intent_type(content.intent_entries_for_enemy("enemy_workaholic_coworker"), "multi_attack"), "workaholic has multi attack intent")
@@ -300,6 +308,21 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	player["current_energy"] = 3
 	battle.play_card(run, 0, 0)
 	_check(int(player.get("class_resource_state", {}).get("services", 0)) >= 1, "backend publish script deploys service")
+
+	run = run_session.create_new_run("backend")
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	var flush_enemy: Dictionary = battle.battle_state.get("enemies", [])[0]
+	flush_enemy["current_hp"] = 80
+	flush_enemy["current_block"] = 0
+	flush_enemy["status_list"] = {}
+	player["hand"] = ["card_backend_flush_all"]
+	player["current_energy"] = 3
+	player["class_resource_state"]["cache"] = 4
+	player["status_list"] = {}
+	battle.play_card(run, 0, 0)
+	_check(int(flush_enemy.get("current_hp", 0)) == 54, "backend flush all spends cache for damage")
+	_check(int(player.get("class_resource_state", {}).get("cache", 0)) == 0, "backend flush all consumes stored cache")
 
 	run = run_session.create_new_run("frontend")
 	run["owned_relic_ids"].append("relic_standing_desk")

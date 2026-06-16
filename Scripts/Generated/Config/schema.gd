@@ -148,6 +148,8 @@ class EffectParams:
     var hits: int
     var x_energy_scaling: bool
     var x_energy_multiplier: int
+    var consume_cache: bool
+    var cache_multiplier: int
     var consume_compute: bool
     var compute_multiplier: int
 
@@ -162,6 +164,8 @@ class EffectParams:
         if _json_.get('hits') != null: self.hits = _json_["hits"]
         if _json_.get('x_energy_scaling') != null: self.x_energy_scaling = _json_["x_energy_scaling"]
         if _json_.get('x_energy_multiplier') != null: self.x_energy_multiplier = _json_["x_energy_multiplier"]
+        if _json_.get('consume_cache') != null: self.consume_cache = _json_["consume_cache"]
+        if _json_.get('cache_multiplier') != null: self.cache_multiplier = _json_["cache_multiplier"]
         if _json_.get('consume_compute') != null: self.consume_compute = _json_["consume_compute"]
         if _json_.get('compute_multiplier') != null: self.compute_multiplier = _json_["compute_multiplier"]
 

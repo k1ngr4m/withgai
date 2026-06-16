@@ -4,6 +4,10 @@
 
 ### Implemented
 
+- Backend `card_backend_flush_all` now works as the designed cache finisher:
+  - generated config marks `cache` as a `deal_damage` hook
+  - the card consumes all stored cache and converts each stack into bonus single-target damage
+  - runtime consumption keeps backend cache resource/status values synchronized downward
 - Main menu has been upgraded from a plain button list to a full first-screen UI:
   - full-screen generated office background with dark readability overlay
   - title, subtitle, playable-content counters, current suspend-save status
@@ -72,6 +76,7 @@ Result:
 - Godot test runner now checks the live `service_online` round-start and round-end hooks.
 - Godot test runner now checks frontend `style_layer` damage bonus and consumption from both resource-sourced and status-sourced stacks.
 - Godot test runner now checks tester `Diff` hook declaration, extra Bug injection, Diff consumption, `diff_tags` resource sync, and final intent reduction.
+- Godot test runner now checks backend `cache` damage-hook declaration, `card_backend_flush_all` generated params, cache-scaled damage, and cache consumption.
 - Godot test runner now checks algorithm `compute` damage-hook declaration, X-finisher damage scaling, compute consumption, and local-cluster energy refund.
 - Godot test runner now checks `relic_gpu_training_card` config, algorithm ownership, compute trigger declaration, first compute bonus, and one-shot behavior.
 - Godot test runner now checks product manager priority target routing, including ignored low-priority selected targets and requirement-change marking on the resolved target.

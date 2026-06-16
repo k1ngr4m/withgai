@@ -72,7 +72,9 @@
     "id": "cache",
     "name": "缓存",
     "stack_rule": "stack",
-    "timing_hooks": [],
+    "timing_hooks": [
+      "deal_damage"
+    ],
     "effect_group_id": "",
     "max_stack": 99,
     "is_hidden": false,

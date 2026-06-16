@@ -26,7 +26,7 @@
 ,card_backend_slow_query,慢查询优化,"[""backend""]",uncommon,attack,1,single_enemy,[],eg_card_backend_slow_query,card_backend_slow_query_plus,true,慢查询优化：造成伤害。,
 ,card_backend_hot_standby,双机热备,"[""backend""]",uncommon,skill,2,self,[],eg_card_backend_hot_standby,card_backend_hot_standby_plus,true,双机热备：获得防线并触发职业资源。,
 ,card_backend_container_orchestration,容器编排,"[""backend""]",uncommon,power,2,self,[],eg_card_backend_container_orchestration,card_backend_container_orchestration_plus,true,容器编排：建立长期收益。,
-,card_backend_flush_all,全量回写,"[""backend""]",rare,attack,2,single_enemy,[],eg_card_backend_flush_all,card_backend_flush_all_plus,true,全量回写：造成伤害。,res://Resources/Art/Generated/P0/cards/card_illust_backend_flush_all_v1/final.png
+,card_backend_flush_all,全量回写,"[""backend""]",rare,attack,2,single_enemy,[],eg_card_backend_flush_all,card_backend_flush_all_plus,true,全量回写：消耗全部缓存并按缓存层数造成高额伤害。,res://Resources/Art/Generated/P0/cards/card_illust_backend_flush_all_v1/final.png
 ,card_backend_cluster_scale,集群扩容,"[""backend""]",rare,power,2,self,[],eg_card_backend_cluster_scale,card_backend_cluster_scale_plus,true,集群扩容：建立长期收益。,
 ,card_backend_lossless_release,无损发布,"[""backend""]",rare,skill,2,self,[],eg_card_backend_lossless_release,card_backend_lossless_release_plus,true,无损发布：获得防线并触发职业资源。,
 ,card_backend_trace_chain,追踪链路,"[""backend""]",rare,skill,1,self,[],eg_card_backend_trace_chain,card_backend_trace_chain_plus,true,追踪链路：获得防线并触发职业资源。,

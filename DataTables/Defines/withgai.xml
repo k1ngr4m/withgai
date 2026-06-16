@@ -10,6 +10,8 @@
     <var name="hits" type="int?"/>
     <var name="x_energy_scaling" type="bool?"/>
     <var name="x_energy_multiplier" type="int?"/>
+    <var name="consume_cache" type="bool?"/>
+    <var name="cache_multiplier" type="int?"/>
     <var name="consume_compute" type="bool?"/>
     <var name="compute_multiplier" type="int?"/>
   </bean>

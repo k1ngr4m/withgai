@@ -92,6 +92,7 @@ const specialCardDescriptions = {
   card_shared_rollback: "回滚版本：获得防线，清除脆弱、易伤与焦虑。",
   card_shared_standup: "晨会同步：获得防线，抽牌并返还精力。",
   card_shared_meeting_mute: "会议静音：获得防线并削弱目标攻击意图。",
+  card_backend_flush_all: "全量回写：消耗全部缓存并按缓存层数造成高额伤害。",
   card_algo_global_optimum: "全局最优解：消耗全部精力与算力，按投入造成高额伤害。",
 };
 
@@ -143,6 +144,11 @@ function cardEffects(classId, cardId, type, cost, idx) {
     return [
       { effect_type: "gain_block", target_type: "self", params: { amount: 5 } },
       { effect_type: "modify_intent", target_type: "selected", params: { amount: -4 } },
+    ];
+  }
+  if (cardId === "card_backend_flush_all") {
+    return [
+      { effect_type: "deal_damage", target_type: "single_enemy", params: { amount: 14, consume_cache: true, cache_multiplier: 3 } },
     ];
   }
   if (cardId === "card_algo_global_optimum") {
@@ -471,6 +477,7 @@ const statusTimingHooks = {
   vulnerable: ["damage_taken", "round_end", "enemy_action_end", "expire"],
   weak: ["deal_damage", "round_end", "enemy_action_end", "expire"],
   service_online: ["round_start", "round_end"],
+  cache: ["deal_damage"],
   style_layer: ["deal_damage"],
   bug: ["enemy_before_action", "enemy_action_end", "expire"],
   case_mark: ["deal_damage"],
@@ -642,6 +649,8 @@ const lubanDefines = `<module name="">
     <var name="hits" type="int?"/>
     <var name="x_energy_scaling" type="bool?"/>
     <var name="x_energy_multiplier" type="int?"/>
+    <var name="consume_cache" type="bool?"/>
+    <var name="cache_multiplier" type="int?"/>
     <var name="consume_compute" type="bool?"/>
     <var name="compute_multiplier" type="int?"/>
   </bean>

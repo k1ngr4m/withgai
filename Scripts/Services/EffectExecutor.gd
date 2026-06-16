@@ -144,20 +144,24 @@ func _damage_enemies(target_type: String, battle_state: Dictionary, run_state: D
 	var targets := _target_enemies(target_type, battle_state, target_index)
 	var player := _player(battle_state)
 	var style_layer_bonus := _style_layer_count(player)
+	var backend_context := _backend_damage_context(player, params)
 	var algorithm_context := _algorithm_damage_context(player, battle_state, params)
+	var resource_bonus := int(backend_context.get("bonus", 0)) + int(algorithm_context.get("bonus", 0))
 	for enemy in targets:
-		_damage_enemy(enemy, battle_state, run_state, amount, battle_log, style_layer_bonus, int(algorithm_context.get("bonus", 0)))
+		_damage_enemy(enemy, battle_state, run_state, amount, battle_log, style_layer_bonus, resource_bonus)
 	if not targets.is_empty() and style_layer_bonus > 0:
 		_consume_style_layer(player, battle_log)
+	if not targets.is_empty() and int(backend_context.get("consume_cache", 0)) > 0:
+		_consume_cache(player, int(backend_context.get("consume_cache", 0)), battle_log)
 	if not targets.is_empty() and int(algorithm_context.get("consume_compute", 0)) > 0:
 		_consume_compute(player, int(algorithm_context.get("consume_compute", 0)), battle_log)
 
-func _damage_enemy(enemy: Dictionary, battle_state: Dictionary, run_state: Dictionary, amount: int, battle_log: Array, style_layer_bonus := 0, algorithm_bonus := 0) -> void:
+func _damage_enemy(enemy: Dictionary, battle_state: Dictionary, run_state: Dictionary, amount: int, battle_log: Array, style_layer_bonus := 0, resource_bonus := 0) -> void:
 	if enemy.is_empty():
 		return
 	var player := _player(battle_state)
 	var resources: Dictionary = player.get("class_resource_state", {})
-	var bonus := style_layer_bonus + algorithm_bonus + int(enemy.get("status_list", {}).get("case_mark", 0))
+	var bonus := style_layer_bonus + resource_bonus + int(enemy.get("status_list", {}).get("case_mark", 0))
 	if run_state.get("owned_relic_ids", []).has("relic_paper_citation") and int(resources.get("complexity", 0)) >= 3:
 		bonus += 3
 	var damage := int(max(0, amount + bonus))
@@ -186,6 +190,32 @@ func _consume_style_layer(player: Dictionary, battle_log: Array) -> void:
 	player["class_resource_state"] = resources
 	player["status_list"] = statuses
 	battle_log.append("样式层消耗 1")
+
+func _backend_damage_context(player: Dictionary, params: Dictionary) -> Dictionary:
+	var result := { "bonus": 0, "consume_cache": 0 }
+	if not bool(params.get("consume_cache", false)):
+		return result
+	var cache := _cache_count(player)
+	if cache > 0:
+		result["bonus"] = cache * int(params.get("cache_multiplier", 3))
+		result["consume_cache"] = cache
+	return result
+
+func _cache_count(player: Dictionary) -> int:
+	var resources: Dictionary = player.get("class_resource_state", {})
+	var statuses: Dictionary = player.get("status_list", {})
+	return max(int(resources.get("cache", 0)), int(statuses.get("cache", 0)))
+
+func _consume_cache(player: Dictionary, amount: int, battle_log: Array) -> void:
+	var resources: Dictionary = player.get("class_resource_state", {})
+	var statuses: Dictionary = player.get("status_list", {})
+	if int(resources.get("cache", 0)) > 0:
+		resources["cache"] = max(0, int(resources.get("cache", 0)) - amount)
+	if int(statuses.get("cache", 0)) > 0:
+		statuses["cache"] = max(0, int(statuses.get("cache", 0)) - amount)
+	player["class_resource_state"] = resources
+	player["status_list"] = statuses
+	battle_log.append("缓存回写 %d" % amount)
 
 func _algorithm_damage_context(player: Dictionary, battle_state: Dictionary, params: Dictionary) -> Dictionary:
 	var result := { "bonus": 0, "consume_compute": 0 }
