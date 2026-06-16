@@ -591,7 +591,7 @@
     "effect_group_id": "eg_card_frontend_pixel_align",
     "upgrade_to": "card_frontend_pixel_align_plus",
     "enabled_in_first_playable": true,
-    "description": "像素级对齐：获得防线并触发职业资源。",
+    "description": "像素级对齐：获得防线；若已有组件则获得额外防线。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_frontend_pixel_alignment_v1/final.png"
   },
   {

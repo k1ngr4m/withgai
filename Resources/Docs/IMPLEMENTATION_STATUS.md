@@ -45,6 +45,10 @@
   - generated config requires an existing component before copying
   - successful reuse copies one component and draws a card
   - failed reuse does not fabricate a component or draw
+- Frontend `card_frontend_pixel_align` now works as the designed component-aware repair card:
+  - generated config uses a dedicated `pixel_align` effect instead of generic block/draw/component filler
+  - runtime grants base block, then adds bonus block when the frontend already has at least one component
+  - the card no longer creates components or draws cards, keeping it focused as a 0-cost defensive repair
 - Frontend `card_frontend_state_boost` now works as the designed fourth-card damage setup:
   - generated config applies a new `state_boost` self status instead of the generic style-layer placeholder
   - `state_boost` declares a `card_played` hook with configurable fourth-card trigger and style-layer amount
@@ -212,6 +216,7 @@ Result:
 - Godot test runner now checks the live `service_online` round-start and round-end hooks.
 - Godot test runner now checks frontend `style_layer` damage bonus and consumption from both resource-sourced and status-sourced stacks.
 - Godot test runner now checks frontend `card_frontend_component_reuse` generated params, copy-on-existing-component behavior, draw-on-success behavior, and no-copy/no-draw behavior without an existing component.
+- Godot test runner now checks frontend `card_frontend_pixel_align` generated component-bonus params, base block without components, bonus block with components, no component generation, no draw, and component preservation.
 - Godot test runner now checks `state_boost` config, `card_frontend_state_boost` generated effect, fourth-card style-layer gain, immediate damage boost, and style-layer consumption.
 - Godot test runner now checks `vue_suite` config, `card_frontend_vue_suite` generated effect, status application, and round-start component generation.
 - Godot test runner now checks `card_frontend_motion_overload` generated play-count scaling params and live damage based on the current turn's played-card count.

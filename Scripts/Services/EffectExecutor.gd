@@ -51,6 +51,8 @@ func _execute_entry(entry: Dictionary, battle_state: Dictionary, run_state: Dict
 			_service_degrade(battle_state, run_state, params, battle_log)
 		"add_component":
 			_add_component(battle_state, run_state, amount, params, battle_log)
+		"pixel_align":
+			_pixel_align(battle_state, run_state, params, battle_log)
 		"add_style_layer":
 			_add_class_resource(battle_state, "style_layers", amount, battle_log, "样式层")
 		"inject_bug":
@@ -711,6 +713,16 @@ func _add_component(battle_state: Dictionary, run_state: Dictionary, amount: int
 	_apply_component_relics(battle_state, run_state, battle_log)
 	if amount > 0 and bool(params.get("draw_if_success", false)):
 		_draw_cards(battle_state, int(params.get("draw_amount", 1)), battle_log)
+
+func _pixel_align(battle_state: Dictionary, run_state: Dictionary, params: Dictionary, battle_log: Array) -> void:
+	var player := _player(battle_state)
+	var block_amount: int = max(0, int(params.get("amount", 0)))
+	var bonus_amount: int = max(0, int(params.get("bonus_amount", 0)))
+	if bonus_amount > 0 and _component_count(player) > 0:
+		block_amount += bonus_amount
+		battle_log.append("像素级对齐命中组件，防线 +%d" % bonus_amount)
+	if block_amount > 0:
+		_gain_block(battle_state, run_state, block_amount, battle_log)
 
 func _component_count(player: Dictionary) -> int:
 	var resources: Dictionary = player.get("class_resource_state", {})

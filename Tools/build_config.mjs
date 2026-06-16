@@ -106,6 +106,7 @@ const specialCardDescriptions = {
   card_frontend_component_reuse: "组件复用：若已有组件，复制 1 个组件并抽牌。",
   card_frontend_state_boost: "状态提升：建立长期状态，每回合第 4 张牌获得样式层增伤。",
   card_frontend_motion_overload: "动效超载：根据本回合已打出的牌数追加高额伤害。",
+  card_frontend_pixel_align: "像素级对齐：获得防线；若已有组件则获得额外防线。",
   card_frontend_first_screen: "首屏优化：本回合接下来两张牌费用降低。",
   card_frontend_vue_suite: "Vue三件套：建立长期状态，每回合开始生成 1 个组件。",
   card_frontend_crash_animation: "崩溃动画：消耗全部样式层，将样式层转化为多段爆发伤害。",
@@ -223,6 +224,11 @@ function cardEffects(classId, cardId, type, cost, idx) {
   if (cardId === "card_frontend_component_reuse") {
     return [
       { effect_type: "add_component", target_type: "self", params: { amount: 1, requires_existing_component: true, draw_if_success: true } },
+    ];
+  }
+  if (cardId === "card_frontend_pixel_align") {
+    return [
+      { effect_type: "pixel_align", target_type: "self", params: { amount: 4, bonus_amount: 5 } },
     ];
   }
   if (cardId === "card_frontend_state_boost") {
