@@ -383,6 +383,14 @@ func _validate_config_references(config, content) -> void:
 		if entry.get("effect_type", "") == "upgrade_bug" and entry.get("target_type", "") == "selected" and int(params.get("amount", 0)) > 0:
 			bug_upgrade_upgrades_bug = true
 	_check(bug_upgrade_upgrades_bug, "tester bug upgrade upgrades existing bug")
+	_check(content.card_def("card_tester_regression_confirm").get("target_type", "") == "selected", "tester regression confirm targets selected enemy")
+	var regression_confirm_entries: Array = content.effect_entries(content.card_def("card_tester_regression_confirm").get("effect_group_id", ""))
+	var regression_confirm_checks_case := false
+	for entry in regression_confirm_entries:
+		var params: Dictionary = entry.get("params", {})
+		if entry.get("effect_type", "") == "confirm_regression" and entry.get("target_type", "") == "selected" and int(params.get("amount", 0)) > 0 and int(params.get("draw_amount", 0)) > 0:
+			regression_confirm_checks_case = true
+	_check(regression_confirm_checks_case, "tester regression confirm checks cases before diff")
 	var case_matrix_entries: Array = content.effect_entries(content.card_def("card_tester_case_matrix").get("effect_group_id", ""))
 	var case_matrix_applies_status := false
 	for entry in case_matrix_entries:
@@ -894,6 +902,26 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	player["class_resource_state"]["bugs"] = 0
 	executor.execute([{ "effect_type": "upgrade_bug", "target_type": "selected", "params": { "amount": 1 } }], battle.battle_state, run, 0, battle.battle_state["log"])
 	_check(int(upgrade_enemy.get("status_list", {}).get("bug", 0)) == 0, "tester bug upgrade needs an existing bug")
+
+	run = run_session.create_new_run("tester")
+	run["owned_relic_ids"] = []
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	var confirm_enemy: Dictionary = battle.battle_state.get("enemies", [])[0]
+	confirm_enemy["status_list"] = { "case_mark": 2 }
+	player["class_resource_state"]["diff_tags"] = 0
+	player["hand"] = ["card_tester_regression_confirm"]
+	player["draw_pile"] = ["card_tester_smoke_test"]
+	player["current_energy"] = 3
+	battle.play_card(run, 0, 0)
+	_check(int(confirm_enemy.get("status_list", {}).get("diff", 0)) == 1, "tester regression confirm adds diff to cased target")
+	_check(int(player.get("class_resource_state", {}).get("diff_tags", 0)) == 1, "tester regression confirm syncs diff resource")
+	_check(player.get("hand", []).has("card_tester_smoke_test"), "tester regression confirm draws on cased target")
+	confirm_enemy["status_list"] = {}
+	var confirm_hand_size := int(player.get("hand", []).size())
+	executor.execute([{ "effect_type": "confirm_regression", "target_type": "selected", "params": { "amount": 1, "draw_amount": 1 } }], battle.battle_state, run, 0, battle.battle_state["log"])
+	_check(int(confirm_enemy.get("status_list", {}).get("diff", 0)) == 0, "tester regression confirm needs an existing case")
+	_check(int(player.get("hand", []).size()) == confirm_hand_size, "tester regression confirm does not draw without case")
 
 	run = run_session.create_new_run("tester")
 	battle = _start_first_battle(run, content, map, executor)

@@ -1247,12 +1247,12 @@
       "rarity": "common",
       "type": "skill",
       "cost": 0,
-      "target_type": "self",
+      "target_type": "selected",
       "keywords": [],
       "effect_group_id": "eg_card_tester_regression_confirm",
       "upgrade_to": "card_tester_regression_confirm_plus",
       "enabled_in_first_playable": true,
-      "description": "回归确认：获得防线并触发职业资源。",
+      "description": "回归确认：若目标已有用例，抽牌并施加 Diff。",
       "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_tester_regression_confirm_v1/final.png"
     },
     "card_tester_assert_fail": {
@@ -6555,30 +6555,15 @@
     "eg_card_tester_regression_confirm": {
       "id": "eg_card_tester_regression_confirm",
       "entry_ids": [
-        "eg_card_tester_regression_confirm_e01",
-        "eg_card_tester_regression_confirm_e02",
-        "eg_card_tester_regression_confirm_e03"
+        "eg_card_tester_regression_confirm_e01"
       ],
       "entries": [
         {
-          "effect_type": "gain_block",
-          "target_type": "self",
-          "params": {
-            "amount": 5
-          }
-        },
-        {
-          "effect_type": "draw_cards",
-          "target_type": "self",
-          "params": {
-            "amount": 1
-          }
-        },
-        {
-          "effect_type": "add_diff",
+          "effect_type": "confirm_regression",
           "target_type": "selected",
           "params": {
-            "amount": 1
+            "amount": 1,
+            "draw_amount": 1
           }
         }
       ]
@@ -10595,30 +10580,11 @@
       "id": "eg_card_tester_regression_confirm_e01",
       "effect_group_id": "eg_card_tester_regression_confirm",
       "order": 1,
-      "effect_type": "gain_block",
-      "target_type": "self",
-      "params": {
-        "amount": 5
-      }
-    },
-    "eg_card_tester_regression_confirm_e02": {
-      "id": "eg_card_tester_regression_confirm_e02",
-      "effect_group_id": "eg_card_tester_regression_confirm",
-      "order": 2,
-      "effect_type": "draw_cards",
-      "target_type": "self",
-      "params": {
-        "amount": 1
-      }
-    },
-    "eg_card_tester_regression_confirm_e03": {
-      "id": "eg_card_tester_regression_confirm_e03",
-      "effect_group_id": "eg_card_tester_regression_confirm",
-      "order": 3,
-      "effect_type": "add_diff",
+      "effect_type": "confirm_regression",
       "target_type": "selected",
       "params": {
-        "amount": 1
+        "amount": 1,
+        "draw_amount": 1
       }
     },
     "eg_card_tester_assert_fail_e01": {

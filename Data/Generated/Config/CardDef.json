@@ -1079,12 +1079,12 @@
     "rarity": "common",
     "type": "skill",
     "cost": 0,
-    "target_type": "self",
+    "target_type": "selected",
     "keywords": [],
     "effect_group_id": "eg_card_tester_regression_confirm",
     "upgrade_to": "card_tester_regression_confirm_plus",
     "enabled_in_first_playable": true,
-    "description": "回归确认：获得防线并触发职业资源。",
+    "description": "回归确认：若目标已有用例，抽牌并施加 Diff。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_tester_regression_confirm_v1/final.png"
   },
   {

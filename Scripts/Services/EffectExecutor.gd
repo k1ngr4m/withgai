@@ -52,6 +52,8 @@ func _execute_entry(entry: Dictionary, battle_state: Dictionary, run_state: Dict
 				_modify_intent(enemy, battle_state, run_state, -2 * bug_amount, battle_log)
 		"upgrade_bug":
 			_upgrade_bug(entry.get("target_type", "selected"), battle_state, run_state, target_index, max(1, amount), battle_log)
+		"confirm_regression":
+			_confirm_regression(entry.get("target_type", "selected"), battle_state, run_state, target_index, max(1, amount), int(params.get("draw_amount", 1)), battle_log)
 		"add_case":
 			for enemy in _target_enemies(entry.get("target_type", "selected"), battle_state, target_index):
 				_enemy_status(enemy, battle_state, run_state, "case_mark", max(1, amount), battle_log)
@@ -294,6 +296,16 @@ func _upgrade_bug(target_type: String, battle_state: Dictionary, run_state: Dict
 		_enemy_status(enemy, battle_state, run_state, "bug", amount, battle_log)
 		_modify_intent(enemy, battle_state, run_state, -2 * amount, battle_log)
 		battle_log.append("%s 的 Bug 升级 +%d" % [enemy.get("name", "敌人"), amount])
+
+func _confirm_regression(target_type: String, battle_state: Dictionary, run_state: Dictionary, target_index: int, diff_amount: int, draw_amount: int, battle_log: Array) -> void:
+	for enemy in _target_enemies(target_type, battle_state, target_index):
+		var statuses: Dictionary = enemy.get("status_list", {})
+		if int(statuses.get("case_mark", 0)) <= 0:
+			battle_log.append("%s 没有可确认用例" % enemy.get("name", "敌人"))
+			continue
+		_enemy_status(enemy, battle_state, run_state, "diff", diff_amount, battle_log)
+		_draw_cards(battle_state, max(0, draw_amount), battle_log)
+		battle_log.append("%s 回归确认通过，Diff +%d" % [enemy.get("name", "敌人"), diff_amount])
 
 func _draw_cards(battle_state: Dictionary, amount: int, battle_log: Array) -> void:
 	var player := _player(battle_state)

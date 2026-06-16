@@ -79,7 +79,7 @@ const cardNames = {
 const rarityByIndex = (i) => (i < 14 ? "common" : i < 24 ? "uncommon" : "rare");
 const targetForType = (type) => (type === "attack" ? "single_enemy" : "self");
 const priorityTargetCards = new Set(["card_pm_schedule_compress", "card_pm_roadmap", "card_pm_snowball"]);
-const selectedTargetCards = new Set(["card_shared_meeting_mute", "card_tester_bug_upgrade"]);
+const selectedTargetCards = new Set(["card_shared_meeting_mute", "card_tester_bug_upgrade", "card_tester_regression_confirm"]);
 const targetForCard = (type, id) => {
   if (priorityTargetCards.has(id)) return "highest_priority_enemy";
   return selectedTargetCards.has(id) ? "selected" : targetForType(type);
@@ -108,6 +108,7 @@ const specialCardDescriptions = {
   card_tester_auto_regression: "自动化回归：建立长期状态，回合结束时触发一个已挂 Bug 并补充用例。",
   card_tester_bug_upgrade: "缺陷升级：获得防线；若目标已有 Bug，则追加 Bug 并进一步削弱意图。",
   card_tester_case_matrix: "用例矩阵：建立长期状态，每回合首次施加用例时额外施加用例。",
+  card_tester_regression_confirm: "回归确认：若目标已有用例，抽牌并施加 Diff。",
   card_tester_report_lock: "测试报告封板：按目标 Bug、用例和 Diff 层数结算高额伤害。",
   card_algo_global_optimum: "全局最优解：消耗全部精力与算力，按投入造成高额伤害。",
   card_pm_scope_spread: "范围蔓延：建立长期状态，使每次需求变更额外影响另一个敌人。",
@@ -234,6 +235,11 @@ function cardEffects(classId, cardId, type, cost, idx) {
   if (cardId === "card_tester_case_matrix") {
     return [
       { effect_type: "apply_status", target_type: "self", params: { status_id: "case_matrix", amount: 1 } },
+    ];
+  }
+  if (cardId === "card_tester_regression_confirm") {
+    return [
+      { effect_type: "confirm_regression", target_type: "selected", params: { amount: 1, draw_amount: 1 } },
     ];
   }
   if (cardId === "card_tester_report_lock") {

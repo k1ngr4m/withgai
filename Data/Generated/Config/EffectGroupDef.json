@@ -432,9 +432,7 @@
   {
     "id": "eg_card_tester_regression_confirm",
     "entry_ids": [
-      "eg_card_tester_regression_confirm_e01",
-      "eg_card_tester_regression_confirm_e02",
-      "eg_card_tester_regression_confirm_e03"
+      "eg_card_tester_regression_confirm_e01"
     ]
   },
   {

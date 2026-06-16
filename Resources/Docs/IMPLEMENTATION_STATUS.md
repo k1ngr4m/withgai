@@ -61,6 +61,10 @@
   - generated config applies a new `case_matrix` self status instead of generic case/draw power filler
   - `case_matrix` declares an `add_case` hook with configurable bonus case amount
   - runtime adds the bonus case only on the first case application each player turn, then resets the trigger next turn
+- Tester `card_tester_regression_confirm` now works as the designed case-gated regression skill:
+  - generated config marks the starter card as selected-target instead of self-target filler
+  - runtime `confirm_regression` requires the target to already have case marks before drawing and adding Diff
+  - targets without case marks do not receive Diff and do not trigger the draw
 - Tester `card_tester_report_lock` now works as the designed status finisher:
   - generated config gives it Bug, case, and Diff damage multipliers
   - Bug and Diff now declare `deal_damage` timing hooks
@@ -173,6 +177,7 @@ Result:
 - Godot test runner now checks tester `card_tester_auto_regression` generated status hook/params, status application, round-end Bug trigger damage, and case/resource sync.
 - Godot test runner now checks tester `card_tester_bug_upgrade` selected targeting, generated `upgrade_bug` effect, block gain, existing-Bug upgrade, resource sync, intent weakening, and no-Bug no-op behavior.
 - Godot test runner now checks tester `card_tester_case_matrix` generated status hook/params, status application, first-case bonus, once-per-turn gating, and next-turn reset.
+- Godot test runner now checks tester `card_tester_regression_confirm` selected targeting, generated `confirm_regression` effect, case-gated Diff/resource sync, draw, and no-case no-op behavior.
 - Godot test runner now checks tester `card_tester_report_lock` generated params, Bug/Diff damage-hook declarations, and real combat damage scaling from Bug, case, and Diff stacks.
 - Godot test runner now checks tester `Diff` hook declaration, extra Bug injection, Diff consumption, `diff_tags` resource sync, and final intent reduction.
 - Godot test runner now checks backend `cache` damage-hook declaration, `card_backend_flush_all` generated params, cache-scaled damage, and cache consumption.

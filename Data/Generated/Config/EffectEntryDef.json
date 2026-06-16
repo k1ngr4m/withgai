@@ -1176,30 +1176,11 @@
     "id": "eg_card_tester_regression_confirm_e01",
     "effect_group_id": "eg_card_tester_regression_confirm",
     "order": 1,
-    "effect_type": "gain_block",
-    "target_type": "self",
-    "params": {
-      "amount": 5
-    }
-  },
-  {
-    "id": "eg_card_tester_regression_confirm_e02",
-    "effect_group_id": "eg_card_tester_regression_confirm",
-    "order": 2,
-    "effect_type": "draw_cards",
-    "target_type": "self",
-    "params": {
-      "amount": 1
-    }
-  },
-  {
-    "id": "eg_card_tester_regression_confirm_e03",
-    "effect_group_id": "eg_card_tester_regression_confirm",
-    "order": 3,
-    "effect_type": "add_diff",
+    "effect_type": "confirm_regression",
     "target_type": "selected",
     "params": {
-      "amount": 1
+      "amount": 1,
+      "draw_amount": 1
     }
   },
   {
