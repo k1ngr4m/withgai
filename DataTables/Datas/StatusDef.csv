@@ -17,6 +17,7 @@
 ,style_layer,样式层,stack,"[""deal_damage""]",{},,99,false,class
 ,state_boost,状态提升,stack,"[""card_played""]","{""trigger_play_count"":4,""style_layer_amount"":1}",,99,false,class
 ,first_screen_optimization,首屏优化,stack,"[""card_cost"",""round_end""]","{""cost_reduction_amount"":1}",,99,true,class
+,compatibility_patch,兼容性补丁,stack,"[""deal_damage"",""round_end""]",{},,99,true,class
 ,vue_suite,Vue三件套,stack,"[""round_start""]","{""component_amount"":1}",,99,false,class
 ,bug,Bug,stack,"[""enemy_before_action"",""enemy_action_end"",""deal_damage"",""expire""]",{},,99,false,class
 ,case_mark,用例,stack,"[""deal_damage""]",{},,99,false,class

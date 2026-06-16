@@ -608,7 +608,7 @@
     "effect_group_id": "eg_card_frontend_compat_patch",
     "upgrade_to": "card_frontend_compat_patch_plus",
     "enabled_in_first_playable": true,
-    "description": "兼容性补丁：获得防线并触发职业资源。",
+    "description": "兼容性补丁：清除 1 层负面，本回合样式层不会被消耗。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_frontend_compat_patch_v1/final.png"
   },
   {

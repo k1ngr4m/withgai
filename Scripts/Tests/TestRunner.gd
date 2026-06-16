@@ -190,6 +190,20 @@ func _validate_config_references(config, content) -> void:
 		if entry.get("effect_type", "") == "pixel_align" and int(params.get("amount", 0)) > 0 and int(params.get("bonus_amount", 0)) > 0:
 			pixel_align_checks_component = true
 	_check(pixel_align_checks_component, "frontend pixel align has component bonus")
+	_check(config.get_def("statuses", "compatibility_patch").get("timing_hooks", []).has("deal_damage"), "compatibility patch declares damage hook")
+	_check(config.get_def("statuses", "compatibility_patch").get("timing_hooks", []).has("round_end"), "compatibility patch declares round end hook")
+	_check(bool(config.get_def("statuses", "compatibility_patch").get("is_hidden", false)), "compatibility patch is hidden")
+	var compat_entries: Array = content.effect_entries(content.card_def("card_frontend_compat_patch").get("effect_group_id", ""))
+	var compat_cleanses := false
+	var compat_preserves_style := false
+	for entry in compat_entries:
+		var params: Dictionary = entry.get("params", {})
+		if entry.get("effect_type", "") == "cleanse_debuff" and int(params.get("amount", 0)) > 0:
+			compat_cleanses = true
+		if entry.get("effect_type", "") == "apply_status" and params.get("status_id", "") == "compatibility_patch":
+			compat_preserves_style = true
+	_check(compat_cleanses, "frontend compatibility patch cleanses a debuff")
+	_check(compat_preserves_style, "frontend compatibility patch preserves style layers")
 	var state_boost_entries: Array = content.effect_entries(content.card_def("card_frontend_state_boost").get("effect_group_id", ""))
 	var state_boost_applies_status := false
 	for entry in state_boost_entries:
@@ -653,6 +667,30 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	battle.play_card(run, 0, 0)
 	_check(int(player.get("current_block", 0)) == 9, "frontend pixel align gains bonus block with component")
 	_check(int(player.get("class_resource_state", {}).get("components", 0)) == 2, "frontend pixel align keeps existing components")
+
+	run = run_session.create_new_run("frontend")
+	run["owned_relic_ids"] = []
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	var compat_enemy: Dictionary = battle.battle_state.get("enemies", [])[0]
+	compat_enemy["current_hp"] = 50
+	compat_enemy["current_block"] = 0
+	player["hand"] = ["card_frontend_compat_patch"]
+	player["draw_pile"] = []
+	player["discard_pile"] = []
+	player["current_energy"] = 3
+	player["class_resource_state"]["style_layers"] = 2
+	player["status_list"] = { "anxiety": 1 }
+	battle.play_card(run, 0, 0)
+	_check(int(player.get("status_list", {}).get("anxiety", 0)) == 0, "frontend compatibility patch cleanses one debuff")
+	_check(int(player.get("status_list", {}).get("compatibility_patch", 0)) == 1, "frontend compatibility patch status is applied")
+	player["hand"] = ["card_shared_keyboard_smash"]
+	player["current_energy"] = 2
+	battle.play_card(run, 0, 0)
+	_check(int(compat_enemy.get("current_hp", 0)) == 38, "frontend compatibility patch still allows style bonus damage")
+	_check(int(player.get("class_resource_state", {}).get("style_layers", 0)) == 2, "frontend compatibility patch prevents style layer consumption")
+	battle.call("_tick_player_turn_end_statuses", player)
+	_check(int(player.get("status_list", {}).get("compatibility_patch", 0)) == 0, "frontend compatibility patch expires at turn end")
 
 	run = run_session.create_new_run("frontend")
 	run["owned_relic_ids"] = []

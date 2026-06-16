@@ -652,20 +652,21 @@
     "id": "eg_card_frontend_compat_patch_e01",
     "effect_group_id": "eg_card_frontend_compat_patch",
     "order": 1,
-    "effect_type": "gain_block",
+    "effect_type": "cleanse_debuff",
     "target_type": "self",
     "params": {
-      "amount": 8
+      "amount": 1
     }
   },
   {
     "id": "eg_card_frontend_compat_patch_e02",
     "effect_group_id": "eg_card_frontend_compat_patch",
     "order": 2,
-    "effect_type": "add_style_layer",
+    "effect_type": "apply_status",
     "target_type": "self",
     "params": {
-      "amount": 1
+      "amount": 1,
+      "status_id": "compatibility_patch"
     }
   },
   {

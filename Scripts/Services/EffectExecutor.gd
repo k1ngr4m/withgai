@@ -31,6 +31,8 @@ func _execute_entry(entry: Dictionary, battle_state: Dictionary, run_state: Dict
 			_apply_status(entry.get("target_type", "selected"), battle_state, run_state, target_index, String(params.get("status_id", "")), int(params.get("amount", 1)), battle_log)
 		"remove_status":
 			_remove_status(entry.get("target_type", "selected"), battle_state, target_index, String(params.get("status_id", "")))
+		"cleanse_debuff":
+			_cleanse_player_debuff(battle_state, max(1, amount), battle_log)
 		"gain_currency":
 			run_state["currency_perf_points"] = max(0, int(run_state.get("currency_perf_points", 0)) + amount)
 		"recover_spirit":
@@ -223,6 +225,9 @@ func _consume_style_layer(player: Dictionary, battle_log: Array) -> void:
 func _consume_style_layers(player: Dictionary, amount: int, battle_log: Array) -> void:
 	var resources: Dictionary = player.get("class_resource_state", {})
 	var statuses: Dictionary = player.get("status_list", {})
+	if int(statuses.get("compatibility_patch", 0)) > 0:
+		battle_log.append("兼容性补丁保留样式层")
+		return
 	if int(resources.get("style_layers", 0)) > 0:
 		resources["style_layers"] = max(0, int(resources.get("style_layers", 0)) - amount)
 	if int(statuses.get("style_layer", 0)) > 0:
@@ -486,6 +491,29 @@ func _remove_status(target_type: String, battle_state: Dictionary, target_index:
 		_player(battle_state).get("status_list", {}).erase(status_id)
 	else:
 		_target_enemy(battle_state, target_index).get("status_list", {}).erase(status_id)
+
+func _cleanse_player_debuff(battle_state: Dictionary, amount: int, battle_log: Array) -> void:
+	var player := _player(battle_state)
+	var statuses: Dictionary = player.get("status_list", {})
+	var cleanse_order := ["weak", "vulnerable", "anxiety", "overtime"]
+	var removed := 0
+	for i in range(amount):
+		var removed_this_step := false
+		for status_id in cleanse_order:
+			if int(statuses.get(status_id, 0)) <= 0:
+				continue
+			statuses[status_id] = int(statuses.get(status_id, 0)) - 1
+			if int(statuses.get(status_id, 0)) <= 0:
+				statuses.erase(status_id)
+			removed += 1
+			removed_this_step = true
+			battle_log.append("兼容性补丁清除 %s" % status_id)
+			break
+		if not removed_this_step:
+			break
+	player["status_list"] = statuses
+	if removed == 0:
+		battle_log.append("兼容性补丁：没有负面可清除")
 
 func _enemy_status(enemy: Dictionary, battle_state: Dictionary, run_state: Dictionary, status_id: String, amount: int, battle_log: Array) -> void:
 	if enemy.is_empty():

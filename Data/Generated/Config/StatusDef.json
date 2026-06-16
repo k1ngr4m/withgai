@@ -218,6 +218,20 @@
     "type": "class"
   },
   {
+    "id": "compatibility_patch",
+    "name": "兼容性补丁",
+    "stack_rule": "stack",
+    "timing_hooks": [
+      "deal_damage",
+      "round_end"
+    ],
+    "params": {},
+    "effect_group_id": "",
+    "max_stack": 99,
+    "is_hidden": true,
+    "type": "class"
+  },
+  {
     "id": "vue_suite",
     "name": "Vue三件套",
     "stack_rule": "stack",

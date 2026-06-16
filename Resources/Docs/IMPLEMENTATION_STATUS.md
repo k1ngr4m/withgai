@@ -49,6 +49,10 @@
   - generated config uses a dedicated `pixel_align` effect instead of generic block/draw/component filler
   - runtime grants base block, then adds bonus block when the frontend already has at least one component
   - the card no longer creates components or draws cards, keeping it focused as a 0-cost defensive repair
+- Frontend `card_frontend_compat_patch` now works as the designed compatibility repair card:
+  - generated config uses `cleanse_debuff` plus hidden `compatibility_patch` status instead of generic block/style filler
+  - runtime clears one stack of a player debuff, then preserves style layers when damage would normally consume them
+  - the protection expires at player turn end, preserving the "this turn" constraint
 - Frontend `card_frontend_state_boost` now works as the designed fourth-card damage setup:
   - generated config applies a new `state_boost` self status instead of the generic style-layer placeholder
   - `state_boost` declares a `card_played` hook with configurable fourth-card trigger and style-layer amount
@@ -217,6 +221,7 @@ Result:
 - Godot test runner now checks frontend `style_layer` damage bonus and consumption from both resource-sourced and status-sourced stacks.
 - Godot test runner now checks frontend `card_frontend_component_reuse` generated params, copy-on-existing-component behavior, draw-on-success behavior, and no-copy/no-draw behavior without an existing component.
 - Godot test runner now checks frontend `card_frontend_pixel_align` generated component-bonus params, base block without components, bonus block with components, no component generation, no draw, and component preservation.
+- Godot test runner now checks frontend `card_frontend_compat_patch` generated cleanse/preserve effects, hidden status hooks, debuff cleansing, style bonus damage with preserved style layers, and turn-end expiry.
 - Godot test runner now checks `state_boost` config, `card_frontend_state_boost` generated effect, fourth-card style-layer gain, immediate damage boost, and style-layer consumption.
 - Godot test runner now checks `vue_suite` config, `card_frontend_vue_suite` generated effect, status application, and round-start component generation.
 - Godot test runner now checks `card_frontend_motion_overload` generated play-count scaling params and live damage based on the current turn's played-card count.

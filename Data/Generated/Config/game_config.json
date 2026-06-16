@@ -776,7 +776,7 @@
       "effect_group_id": "eg_card_frontend_compat_patch",
       "upgrade_to": "card_frontend_compat_patch_plus",
       "enabled_in_first_playable": true,
-      "description": "兼容性补丁：获得防线并触发职业资源。",
+      "description": "兼容性补丁：清除 1 层负面，本回合样式层不会被消耗。",
       "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_frontend_compat_patch_v1/final.png"
     },
     "card_frontend_button_bounce": {
@@ -4838,6 +4838,20 @@
       "is_hidden": true,
       "type": "class"
     },
+    "compatibility_patch": {
+      "id": "compatibility_patch",
+      "name": "兼容性补丁",
+      "stack_rule": "stack",
+      "timing_hooks": [
+        "deal_damage",
+        "round_end"
+      ],
+      "params": {},
+      "effect_group_id": "",
+      "max_stack": 99,
+      "is_hidden": true,
+      "type": "class"
+    },
     "vue_suite": {
       "id": "vue_suite",
       "name": "Vue三件套",
@@ -5960,17 +5974,18 @@
       ],
       "entries": [
         {
-          "effect_type": "gain_block",
-          "target_type": "self",
-          "params": {
-            "amount": 8
-          }
-        },
-        {
-          "effect_type": "add_style_layer",
+          "effect_type": "cleanse_debuff",
           "target_type": "self",
           "params": {
             "amount": 1
+          }
+        },
+        {
+          "effect_type": "apply_status",
+          "target_type": "self",
+          "params": {
+            "amount": 1,
+            "status_id": "compatibility_patch"
           }
         }
       ]
@@ -9993,20 +10008,21 @@
       "id": "eg_card_frontend_compat_patch_e01",
       "effect_group_id": "eg_card_frontend_compat_patch",
       "order": 1,
-      "effect_type": "gain_block",
+      "effect_type": "cleanse_debuff",
       "target_type": "self",
       "params": {
-        "amount": 8
+        "amount": 1
       }
     },
     "eg_card_frontend_compat_patch_e02": {
       "id": "eg_card_frontend_compat_patch_e02",
       "effect_group_id": "eg_card_frontend_compat_patch",
       "order": 2,
-      "effect_type": "add_style_layer",
+      "effect_type": "apply_status",
       "target_type": "self",
       "params": {
-        "amount": 1
+        "amount": 1,
+        "status_id": "compatibility_patch"
       }
     },
     "eg_card_frontend_button_bounce_e01": {
