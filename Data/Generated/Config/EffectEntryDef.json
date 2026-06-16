@@ -510,17 +510,7 @@
     "id": "eg_card_backend_trace_chain_e01",
     "effect_group_id": "eg_card_backend_trace_chain",
     "order": 1,
-    "effect_type": "gain_block",
-    "target_type": "self",
-    "params": {
-      "amount": 12
-    }
-  },
-  {
-    "id": "eg_card_backend_trace_chain_e02",
-    "effect_group_id": "eg_card_backend_trace_chain",
-    "order": 2,
-    "effect_type": "add_cache",
+    "effect_type": "fetch_service_card",
     "target_type": "self",
     "params": {
       "amount": 1

@@ -29,7 +29,7 @@
 ,eg_card_backend_flush_all,"[""eg_card_backend_flush_all_e01""]"
 ,eg_card_backend_cluster_scale,"[""eg_card_backend_cluster_scale_e01"",""eg_card_backend_cluster_scale_e02""]"
 ,eg_card_backend_lossless_release,"[""eg_card_backend_lossless_release_e01"",""eg_card_backend_lossless_release_e02""]"
-,eg_card_backend_trace_chain,"[""eg_card_backend_trace_chain_e01"",""eg_card_backend_trace_chain_e02""]"
+,eg_card_backend_trace_chain,"[""eg_card_backend_trace_chain_e01""]"
 ,eg_card_backend_disaster_recovery,"[""eg_card_backend_disaster_recovery_e01"",""eg_card_backend_disaster_recovery_e02""]"
 ,eg_card_backend_zero_downtime,"[""eg_card_backend_zero_downtime_e01"",""eg_card_backend_zero_downtime_e02""]"
 ,eg_card_frontend_pixel_tap,"[""eg_card_frontend_pixel_tap_e01""]"

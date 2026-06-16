@@ -128,6 +128,13 @@ func _validate_config_references(config, content) -> void:
 		if entry.get("effect_type", "") == "service_degrade" and int(params.get("amount", 0)) > 0 and int(params.get("block_per_service", 0)) > 0 and int(params.get("cache_if_service", 0)) > 0:
 			service_degrade_reduces_intent = true
 	_check(service_degrade_reduces_intent, "backend service degrade lowers damage and scales with service")
+	var trace_chain_entries: Array = content.effect_entries(content.card_def("card_backend_trace_chain").get("effect_group_id", ""))
+	var trace_chain_fetches_service := false
+	for entry in trace_chain_entries:
+		var params: Dictionary = entry.get("params", {})
+		if entry.get("effect_type", "") == "fetch_service_card" and int(params.get("amount", 0)) > 0:
+			trace_chain_fetches_service = true
+	_check(trace_chain_fetches_service, "backend trace chain fetches service cards")
 	var api_gateway_entries: Array = content.effect_entries(content.card_def("card_backend_api_gateway").get("effect_group_id", ""))
 	var api_gateway_applies_status := false
 	for entry in api_gateway_entries:
@@ -866,6 +873,34 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(player.get("class_resource_state", {}).get("cache", 0)) == 1, "backend service degrade preserves services into cache")
 	_check(int(player.get("class_resource_state", {}).get("services", 0)) == 2, "backend service degrade does not consume services")
 	_check(int(player.get("current_energy", 0)) == 1, "backend service degrade remains zero cost")
+
+	run = run_session.create_new_run("backend")
+	run["owned_relic_ids"] = []
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	player["hand"] = ["card_backend_trace_chain"]
+	player["draw_pile"] = ["card_backend_api_gateway", "card_backend_interface_probe"]
+	player["discard_pile"] = []
+	player["current_energy"] = 3
+	player["status_list"] = {}
+	battle.play_card(run, 0, 0)
+	_check(player.get("hand", []).has("card_backend_api_gateway"), "backend trace chain fetches service card from draw pile")
+	_check(player.get("draw_pile", []).has("card_backend_interface_probe"), "backend trace chain leaves non-service draw card")
+	_check(not player.get("draw_pile", []).has("card_backend_api_gateway"), "backend trace chain removes fetched service from draw pile")
+	_check(int(player.get("current_energy", 0)) == 2, "backend trace chain charges card cost")
+
+	run = run_session.create_new_run("backend")
+	run["owned_relic_ids"] = []
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	player["hand"] = ["card_backend_trace_chain"]
+	player["draw_pile"] = ["card_backend_interface_probe"]
+	player["discard_pile"] = ["card_backend_sharding"]
+	player["current_energy"] = 3
+	player["status_list"] = {}
+	battle.play_card(run, 0, 0)
+	_check(not player.get("hand", []).has("card_backend_sharding"), "backend trace chain does not search discard pile")
+	_check(player.get("draw_pile", []).has("card_backend_interface_probe"), "backend trace chain leaves draw pile when no service card exists")
 
 	run = run_session.create_new_run("backend")
 	battle = _start_first_battle(run, content, map, executor)

@@ -472,7 +472,7 @@
     "effect_group_id": "eg_card_backend_trace_chain",
     "upgrade_to": "card_backend_trace_chain_plus",
     "enabled_in_first_playable": true,
-    "description": "追踪链路：获得防线并触发职业资源。",
+    "description": "追踪链路：检索抽牌堆并抽取一张服务相关牌。",
     "art_path": ""
   },
   {

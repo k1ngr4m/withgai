@@ -640,7 +640,7 @@
       "effect_group_id": "eg_card_backend_trace_chain",
       "upgrade_to": "card_backend_trace_chain_plus",
       "enabled_in_first_playable": true,
-      "description": "追踪链路：获得防线并触发职业资源。",
+      "description": "追踪链路：检索抽牌堆并抽取一张服务相关牌。",
       "art_path": ""
     },
     "card_backend_disaster_recovery": {
@@ -5769,19 +5769,11 @@
     "eg_card_backend_trace_chain": {
       "id": "eg_card_backend_trace_chain",
       "entry_ids": [
-        "eg_card_backend_trace_chain_e01",
-        "eg_card_backend_trace_chain_e02"
+        "eg_card_backend_trace_chain_e01"
       ],
       "entries": [
         {
-          "effect_type": "gain_block",
-          "target_type": "self",
-          "params": {
-            "amount": 12
-          }
-        },
-        {
-          "effect_type": "add_cache",
+          "effect_type": "fetch_service_card",
           "target_type": "self",
           "params": {
             "amount": 1
@@ -9865,17 +9857,7 @@
       "id": "eg_card_backend_trace_chain_e01",
       "effect_group_id": "eg_card_backend_trace_chain",
       "order": 1,
-      "effect_type": "gain_block",
-      "target_type": "self",
-      "params": {
-        "amount": 12
-      }
-    },
-    "eg_card_backend_trace_chain_e02": {
-      "id": "eg_card_backend_trace_chain_e02",
-      "effect_group_id": "eg_card_backend_trace_chain",
-      "order": 2,
-      "effect_type": "add_cache",
+      "effect_type": "fetch_service_card",
       "target_type": "self",
       "params": {
         "amount": 1

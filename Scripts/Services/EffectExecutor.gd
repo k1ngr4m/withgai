@@ -1,6 +1,8 @@
 class_name EffectExecutor
 extends RefCounted
 
+const SERVICE_CARD_STATUS_IDS := ["service_online", "api_gateway", "sharding", "request_queue"]
+
 var config_service: ConfigService
 
 func setup(p_config_service: ConfigService) -> void:
@@ -21,6 +23,8 @@ func _execute_entry(entry: Dictionary, battle_state: Dictionary, run_state: Dict
 			_damage_enemies(entry.get("target_type", "selected"), battle_state, run_state, target_index, amount, params, battle_log)
 		"draw_cards":
 			_draw_cards(battle_state, amount, battle_log)
+		"fetch_service_card":
+			_fetch_service_card(battle_state, params, battle_log)
 		"gain_energy":
 			_player(battle_state)["current_energy"] = int(_player(battle_state).get("current_energy", 0)) + amount
 		"apply_status":
@@ -407,6 +411,60 @@ func _draw_cards(battle_state: Dictionary, amount: int, battle_log: Array) -> vo
 		player["hand"].append(player["draw_pile"].pop_back())
 	if amount > 0:
 		battle_log.append("抽 %d 张牌" % amount)
+
+func _fetch_service_card(battle_state: Dictionary, params: Dictionary, battle_log: Array) -> void:
+	var amount: int = max(1, int(params.get("amount", 1)))
+	var fetched: int = 0
+	for i in range(amount):
+		var card_id: String = _fetch_service_card_from_draw_pile(battle_state)
+		if card_id.is_empty():
+			break
+		fetched += 1
+		battle_log.append("追踪链路找到：%s" % _card_name(card_id))
+	if fetched == 0:
+		battle_log.append("追踪链路未找到服务牌")
+
+func _fetch_service_card_from_draw_pile(battle_state: Dictionary) -> String:
+	var player := _player(battle_state)
+	var draw_pile: Array = player.get("draw_pile", [])
+	if draw_pile.is_empty():
+		return ""
+	for offset in range(draw_pile.size()):
+		var index: int = draw_pile.size() - 1 - offset
+		var card_id := String(draw_pile[index])
+		if not _is_service_card(card_id):
+			continue
+		draw_pile.remove_at(index)
+		player["draw_pile"] = draw_pile
+		var hand: Array = player.get("hand", [])
+		hand.append(card_id)
+		player["hand"] = hand
+		return card_id
+	return ""
+
+func _is_service_card(card_id: String) -> bool:
+	if card_id.is_empty() or config_service == null:
+		return false
+	var card: Dictionary = config_service.get_def("cards", card_id)
+	if card.is_empty():
+		return false
+	var group_id := String(card.get("effect_group_id", ""))
+	for entry in config_service.effect_entries(group_id):
+		var effect_type := String(entry.get("effect_type", ""))
+		if effect_type == "deploy_service":
+			return true
+		if effect_type != "apply_status":
+			continue
+		var params: Dictionary = entry.get("params", {})
+		if SERVICE_CARD_STATUS_IDS.has(String(params.get("status_id", ""))):
+			return true
+	return false
+
+func _card_name(card_id: String) -> String:
+	if config_service == null:
+		return card_id
+	var card: Dictionary = config_service.get_def("cards", card_id)
+	return String(card.get("name", card_id))
 
 func _apply_status(target_type: String, battle_state: Dictionary, run_state: Dictionary, target_index: int, status_id: String, amount: int, battle_log: Array) -> void:
 	if status_id.is_empty():
