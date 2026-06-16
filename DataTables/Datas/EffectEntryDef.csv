@@ -105,7 +105,7 @@
 ,eg_card_frontend_design_system_e01,eg_card_frontend_design_system,1,apply_status,self,"{""status_id"":""style_layer"",""amount"":1}"
 ,eg_card_frontend_design_system_e02,eg_card_frontend_design_system,2,draw_cards,self,"{""amount"":1}"
 ,eg_card_frontend_animation_compose_e01,eg_card_frontend_animation_compose,1,deal_damage,single_enemy,"{""amount"":16}"
-,eg_card_frontend_crash_animation_e01,eg_card_frontend_crash_animation,1,deal_damage,single_enemy,"{""amount"":18}"
+,eg_card_frontend_crash_animation_e01,eg_card_frontend_crash_animation,1,deal_damage,single_enemy,"{""amount"":5,""hits"":2,""style_layer_hits"":true,""style_layer_hit_multiplier"":1,""consume_all_style_layers"":true}"
 ,eg_card_frontend_site_refactor_e01,eg_card_frontend_site_refactor,1,apply_status,self,"{""status_id"":""style_layer"",""amount"":1}"
 ,eg_card_frontend_site_refactor_e02,eg_card_frontend_site_refactor,2,draw_cards,self,"{""amount"":1}"
 ,eg_card_frontend_cross_platform_e01,eg_card_frontend_cross_platform,1,gain_block,self,"{""amount"":15}"

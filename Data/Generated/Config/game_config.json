@@ -1099,7 +1099,7 @@
       "effect_group_id": "eg_card_frontend_crash_animation",
       "upgrade_to": "card_frontend_crash_animation_plus",
       "enabled_in_first_playable": true,
-      "description": "崩溃动画：造成伤害。",
+      "description": "崩溃动画：消耗全部样式层，将样式层转化为多段爆发伤害。",
       "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_frontend_crash_animation_v1/final.png"
     },
     "card_frontend_site_refactor": {
@@ -6270,7 +6270,11 @@
           "effect_type": "deal_damage",
           "target_type": "single_enemy",
           "params": {
-            "amount": 18
+            "amount": 5,
+            "hits": 2,
+            "style_layer_hits": true,
+            "style_layer_hit_multiplier": 1,
+            "consume_all_style_layers": true
           }
         }
       ]
@@ -10384,7 +10388,11 @@
       "effect_type": "deal_damage",
       "target_type": "single_enemy",
       "params": {
-        "amount": 18
+        "amount": 5,
+        "hits": 2,
+        "style_layer_hits": true,
+        "style_layer_hit_multiplier": 1,
+        "consume_all_style_layers": true
       }
     },
     "eg_card_frontend_site_refactor_e01": {

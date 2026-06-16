@@ -96,6 +96,7 @@ const specialCardDescriptions = {
   card_backend_flush_all: "全量回写：消耗全部缓存并按缓存层数造成高额伤害。",
   card_frontend_component_reuse: "组件复用：若已有组件，复制 1 个组件并抽牌。",
   card_frontend_vue_suite: "Vue三件套：建立长期状态，每回合开始生成 1 个组件。",
+  card_frontend_crash_animation: "崩溃动画：消耗全部样式层，将样式层转化为多段爆发伤害。",
   card_tester_report_lock: "测试报告封板：按目标 Bug、用例和 Diff 层数结算高额伤害。",
   card_algo_global_optimum: "全局最优解：消耗全部精力与算力，按投入造成高额伤害。",
   card_pm_scope_spread: "范围蔓延：建立长期状态，使每次需求变更额外影响另一个敌人。",
@@ -164,6 +165,11 @@ function cardEffects(classId, cardId, type, cost, idx) {
   if (cardId === "card_frontend_vue_suite") {
     return [
       { effect_type: "apply_status", target_type: "self", params: { status_id: "vue_suite", amount: 1 } },
+    ];
+  }
+  if (cardId === "card_frontend_crash_animation") {
+    return [
+      { effect_type: "deal_damage", target_type: "single_enemy", params: { amount: 5, hits: 2, style_layer_hits: true, style_layer_hit_multiplier: 1, consume_all_style_layers: true } },
     ];
   }
   if (cardId === "card_tester_report_lock") {
@@ -720,6 +726,9 @@ const lubanDefines = `<module name="">
     <var name="cache_multiplier" type="int?"/>
     <var name="consume_compute" type="bool?"/>
     <var name="compute_multiplier" type="int?"/>
+    <var name="style_layer_hits" type="bool?"/>
+    <var name="style_layer_hit_multiplier" type="int?"/>
+    <var name="consume_all_style_layers" type="bool?"/>
   </bean>
   <bean name="EffectSpec">
     <var name="effect_type" type="string"/>

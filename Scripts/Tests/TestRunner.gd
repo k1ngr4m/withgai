@@ -121,6 +121,13 @@ func _validate_config_references(config, content) -> void:
 		if entry.get("effect_type", "") == "apply_status" and params.get("status_id", "") == "vue_suite":
 			vue_suite_applies_status = true
 	_check(vue_suite_applies_status, "frontend vue suite applies vue suite status")
+	var crash_entries: Array = content.effect_entries(content.card_def("card_frontend_crash_animation").get("effect_group_id", ""))
+	var crash_consumes_style_layers := false
+	for entry in crash_entries:
+		var params: Dictionary = entry.get("params", {})
+		if entry.get("effect_type", "") == "deal_damage" and bool(params.get("style_layer_hits", false)) and bool(params.get("consume_all_style_layers", false)):
+			crash_consumes_style_layers = true
+	_check(crash_consumes_style_layers, "frontend crash animation consumes style layers for hits")
 	var circuit_breaker_art := String(content.card_def("card_backend_circuit_breaker").get("art_path", ""))
 	_check(circuit_breaker_art.ends_with("card_illust_backend_circuit_breaker_v1/final.png"), "backend circuit breaker card art auto configured")
 	var gpu_relic: Dictionary = content.relic_def("relic_gpu_training_card")
@@ -385,6 +392,22 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(player.get("status_list", {}).get("vue_suite", 0)) == 1, "frontend vue suite status is applied")
 	battle.call("_round_start_triggers", run, false)
 	_check(int(player.get("class_resource_state", {}).get("components", 0)) == 1, "frontend vue suite creates a component on round start")
+
+	run = run_session.create_new_run("frontend")
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	var crash_enemy: Dictionary = battle.battle_state.get("enemies", [])[0]
+	crash_enemy["current_hp"] = 60
+	crash_enemy["current_block"] = 0
+	player["hand"] = ["card_frontend_crash_animation"]
+	player["draw_pile"] = []
+	player["discard_pile"] = []
+	player["current_energy"] = 3
+	player["class_resource_state"]["style_layers"] = 3
+	player["status_list"] = {}
+	battle.play_card(run, 0, 0)
+	_check(int(crash_enemy.get("current_hp", 0)) == 35, "frontend crash animation converts style layers into extra hits")
+	_check(int(player.get("class_resource_state", {}).get("style_layers", 0)) == 0, "frontend crash animation consumes all style layers")
 
 	run = run_session.create_new_run("product_manager")
 	run["owned_relic_ids"] = ["relic_gantt_roadmap"]

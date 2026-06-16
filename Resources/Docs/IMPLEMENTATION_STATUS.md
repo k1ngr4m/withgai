@@ -16,6 +16,10 @@
   - generated config applies the new `vue_suite` self status instead of the generic style-layer placeholder
   - `vue_suite` declares a `round_start` hook and configurable `component_amount`
   - each player round start generates components through the existing `add_component` path, including component relic hooks such as Figma library
+- Frontend `card_frontend_crash_animation` now works as the designed style-layer finisher:
+  - generated config converts style layers into extra damage hits instead of generic single-hit attack damage
+  - runtime damage can now treat style layers as hit-count scaling and consume all style layers after the attack resolves
+  - the existing default style-layer bonus still applies to ordinary damage cards and continues to consume only one layer
 - Tester `card_tester_report_lock` now works as the designed status finisher:
   - generated config gives it Bug, case, and Diff damage multipliers
   - Bug and Diff now declare `deal_damage` timing hooks
@@ -109,6 +113,7 @@ Result:
 - Godot test runner now checks frontend `style_layer` damage bonus and consumption from both resource-sourced and status-sourced stacks.
 - Godot test runner now checks frontend `card_frontend_component_reuse` generated params, copy-on-existing-component behavior, draw-on-success behavior, and no-copy/no-draw behavior without an existing component.
 - Godot test runner now checks `vue_suite` config, `card_frontend_vue_suite` generated effect, status application, and round-start component generation.
+- Godot test runner now checks `card_frontend_crash_animation` generated style-layer finisher params, style-layer-to-extra-hit conversion, and full style-layer consumption.
 - Godot test runner now checks tester `card_tester_report_lock` generated params, Bug/Diff damage-hook declarations, and real combat damage scaling from Bug, case, and Diff stacks.
 - Godot test runner now checks tester `Diff` hook declaration, extra Bug injection, Diff consumption, `diff_tags` resource sync, and final intent reduction.
 - Godot test runner now checks backend `cache` damage-hook declaration, `card_backend_flush_all` generated params, cache-scaled damage, and cache consumption.

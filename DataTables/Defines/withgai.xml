@@ -30,6 +30,9 @@
     <var name="cache_multiplier" type="int?"/>
     <var name="consume_compute" type="bool?"/>
     <var name="compute_multiplier" type="int?"/>
+    <var name="style_layer_hits" type="bool?"/>
+    <var name="style_layer_hit_multiplier" type="int?"/>
+    <var name="consume_all_style_layers" type="bool?"/>
   </bean>
   <bean name="EffectSpec">
     <var name="effect_type" type="string"/>
