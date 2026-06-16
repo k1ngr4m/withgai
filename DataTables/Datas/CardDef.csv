@@ -182,18 +182,18 @@
 ,card_hr_all_hands_review,全员述职,"[""hr""]",rare,skill,2,self,[],eg_card_hr_all_hands_review,card_hr_all_hands_review_plus,false,全员述职：获得防线并触发职业资源。,
 ,card_hr_blacklist_share,黑名单共享,"[""hr""]",rare,power,2,self,[],eg_card_hr_blacklist_share,card_hr_blacklist_share_plus,false,黑名单共享：建立长期收益。,
 ,card_hr_optimization_storm,优化风暴,"[""hr""]",rare,attack,3,single_enemy,[],eg_card_hr_optimization_storm,card_hr_optimization_storm_plus,false,优化风暴：造成伤害。,
-,card_shared_keyboard_smash,键盘重击,"[""programmer_shared""]",common,attack,1,single_enemy,[],eg_card_shared_keyboard_smash,card_shared_keyboard_smash_plus,true,键盘重击：造成伤害。,
-,card_shared_stapler_burst,订书机连射,"[""programmer_shared""]",common,attack,1,single_enemy,[],eg_card_shared_stapler_burst,card_shared_stapler_burst_plus,true,订书机连射：造成伤害。,
-,card_shared_noise_cancel,戴上降噪耳机,"[""programmer_shared""]",common,skill,1,self,[],eg_card_shared_noise_cancel,card_shared_noise_cancel_plus,true,戴上降噪耳机：获得防线并触发职业资源。,
-,card_shared_coffee_boost,咖啡续命,"[""programmer_shared""]",common,skill,0,self,[],eg_card_shared_coffee_boost,card_shared_coffee_boost_plus,true,咖啡续命：获得防线并触发职业资源。,
-,card_shared_toilet_break,带薪拉屎,"[""programmer_shared""]",common,skill,1,self,[],eg_card_shared_toilet_break,card_shared_toilet_break_plus,true,带薪拉屎：获得防线并触发职业资源。,
-,card_shared_desk_inspection,工位巡检,"[""programmer_shared""]",common,skill,1,self,[],eg_card_shared_desk_inspection,card_shared_desk_inspection_plus,true,工位巡检：获得防线并触发职业资源。,
-,card_shared_rollback,回滚版本,"[""programmer_shared""]",common,skill,1,self,[],eg_card_shared_rollback,card_shared_rollback_plus,true,回滚版本：获得防线，清除脆弱、易伤与焦虑。,
-,card_shared_standup,晨会同步,"[""programmer_shared""]",common,skill,1,self,[],eg_card_shared_standup,card_shared_standup_plus,true,晨会同步：获得防线，抽牌并返还精力。,
-,card_shared_clock_out,下班打卡,"[""programmer_shared""]",common,skill,1,self,[],eg_card_shared_clock_out,card_shared_clock_out_plus,true,下班打卡：获得防线并触发职业资源。,
-,card_shared_hotfix_patch,临时补丁,"[""programmer_shared""]",common,skill,0,self,[],eg_card_shared_hotfix_patch,card_shared_hotfix_patch_plus,true,临时补丁：获得防线并触发职业资源。,
-,card_shared_badge_throw,工牌甩脸,"[""programmer_shared""]",common,attack,0,single_enemy,[],eg_card_shared_badge_throw,card_shared_badge_throw_plus,true,工牌甩脸：造成伤害。,
-,card_shared_meeting_mute,会议静音,"[""programmer_shared""]",common,skill,1,selected,[],eg_card_shared_meeting_mute,card_shared_meeting_mute_plus,true,会议静音：获得防线并削弱目标攻击意图。,
+,card_shared_keyboard_smash,键盘重击,"[""programmer_shared""]",common,attack,1,single_enemy,[],eg_card_shared_keyboard_smash,card_shared_keyboard_smash_plus,true,键盘重击：造成伤害。,res://Resources/Art/Generated/P0/cards/card_illust_shared_keyboard_smash_v1/final.png
+,card_shared_stapler_burst,订书机连射,"[""programmer_shared""]",common,attack,1,single_enemy,[],eg_card_shared_stapler_burst,card_shared_stapler_burst_plus,true,订书机连射：造成伤害。,res://Resources/Art/Generated/P0/cards/card_illust_shared_stapler_burst_v1/final.png
+,card_shared_noise_cancel,戴上降噪耳机,"[""programmer_shared""]",common,skill,1,self,[],eg_card_shared_noise_cancel,card_shared_noise_cancel_plus,true,戴上降噪耳机：获得防线并触发职业资源。,res://Resources/Art/Generated/P0/cards/card_illust_shared_noise_cancel_v1/final.png
+,card_shared_coffee_boost,咖啡续命,"[""programmer_shared""]",common,skill,0,self,[],eg_card_shared_coffee_boost,card_shared_coffee_boost_plus,true,咖啡续命：获得防线并触发职业资源。,res://Resources/Art/Generated/P0/cards/card_illust_shared_coffee_boost_v1/final.png
+,card_shared_toilet_break,带薪拉屎,"[""programmer_shared""]",common,skill,1,self,[],eg_card_shared_toilet_break,card_shared_toilet_break_plus,true,带薪拉屎：获得防线并触发职业资源。,res://Resources/Art/Generated/P0/cards/card_illust_shared_toilet_break_v1/final.png
+,card_shared_desk_inspection,工位巡检,"[""programmer_shared""]",common,skill,1,self,[],eg_card_shared_desk_inspection,card_shared_desk_inspection_plus,true,工位巡检：获得防线并触发职业资源。,res://Resources/Art/Generated/P0/cards/card_illust_shared_desk_inspection_v1/final.png
+,card_shared_rollback,回滚版本,"[""programmer_shared""]",common,skill,1,self,[],eg_card_shared_rollback,card_shared_rollback_plus,true,回滚版本：获得防线，清除脆弱、易伤与焦虑。,res://Resources/Art/Generated/P0/cards/card_illust_shared_rollback_v1/final.png
+,card_shared_standup,晨会同步,"[""programmer_shared""]",common,skill,1,self,[],eg_card_shared_standup,card_shared_standup_plus,true,晨会同步：获得防线，抽牌并返还精力。,res://Resources/Art/Generated/P0/cards/card_illust_shared_standup_v1/final.png
+,card_shared_clock_out,下班打卡,"[""programmer_shared""]",common,skill,1,self,[],eg_card_shared_clock_out,card_shared_clock_out_plus,true,下班打卡：获得防线并触发职业资源。,res://Resources/Art/Generated/P0/cards/card_illust_shared_clock_out_v1/final.png
+,card_shared_hotfix_patch,临时补丁,"[""programmer_shared""]",common,skill,0,self,[],eg_card_shared_hotfix_patch,card_shared_hotfix_patch_plus,true,临时补丁：获得防线并触发职业资源。,res://Resources/Art/Generated/P0/cards/card_illust_shared_hotfix_patch_v1/final.png
+,card_shared_badge_throw,工牌甩脸,"[""programmer_shared""]",common,attack,0,single_enemy,[],eg_card_shared_badge_throw,card_shared_badge_throw_plus,true,工牌甩脸：造成伤害。,res://Resources/Art/Generated/P0/cards/card_illust_shared_badge_throw_v1/final.png
+,card_shared_meeting_mute,会议静音,"[""programmer_shared""]",common,skill,1,selected,[],eg_card_shared_meeting_mute,card_shared_meeting_mute_plus,true,会议静音：获得防线并削弱目标攻击意图。,res://Resources/Art/Generated/P0/cards/card_illust_shared_meeting_mute_v1/final.png
 ,card_status_option_promise,期权承诺,"[""pollution""]",special,status,0,self,"[""pollution""]",eg_card_status_option_promise,,true,期权承诺：焦虑 +1。,
 ,card_status_meeting_minutes,会议纪要污染,"[""pollution""]",special,status,0,self,"[""pollution""]",eg_card_status_meeting_minutes,,true,会议纪要污染：加班 +1。,
 ,card_curse_next_year_promotion,明年提拔你,"[""pollution""]",special,curse,0,self,"[""pollution""]",eg_card_curse_next_year_promotion,,true,明年提拔你：脆弱与易伤 +1。,

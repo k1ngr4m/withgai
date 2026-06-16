@@ -218,6 +218,25 @@ func _validate_config_references(config, content) -> void:
 		var art_path := String(content.card_def(card_id).get("art_path", ""))
 		_check(art_path.ends_with("card_illust_%s_v1/final.png" % String(product_manager_card_art_slugs[card_id])), "%s product manager card art configured" % card_id)
 		_check(load(art_path) != null, "%s product manager card art loads" % card_id)
+	var shared_card_art_slugs := [
+		"card_shared_keyboard_smash",
+		"card_shared_stapler_burst",
+		"card_shared_noise_cancel",
+		"card_shared_coffee_boost",
+		"card_shared_toilet_break",
+		"card_shared_desk_inspection",
+		"card_shared_rollback",
+		"card_shared_standup",
+		"card_shared_clock_out",
+		"card_shared_hotfix_patch",
+		"card_shared_badge_throw",
+		"card_shared_meeting_mute",
+	]
+	for card_id in shared_card_art_slugs:
+		var shared_card_id := String(card_id)
+		var art_path := String(content.card_def(shared_card_id).get("art_path", ""))
+		_check(art_path.ends_with("card_illust_%s_v1/final.png" % shared_card_id.trim_prefix("card_")), "%s shared card art configured" % shared_card_id)
+		_check(load(art_path) != null, "%s shared card art loads" % shared_card_id)
 	var cards_with_art := 0
 	var missing_card_art_paths := 0
 	for card in config.all_defs("cards"):
@@ -226,7 +245,7 @@ func _validate_config_references(config, content) -> void:
 			cards_with_art += 1
 			if load(art_path) == null:
 				missing_card_art_paths += 1
-	_check(cards_with_art >= 49, "existing matching card art assets are wired")
+	_check(cards_with_art >= 61, "existing matching card art assets are wired")
 	_check(missing_card_art_paths == 0, "configured card art paths load")
 	_check(config.get_def("statuses", "anxiety").get("timing_hooks", []).has("round_start"), "anxiety declares round start hook")
 	_check(config.get_def("statuses", "overtime").get("timing_hooks", []).has("round_start"), "overtime declares round start hook")

@@ -3074,7 +3074,7 @@
     "upgrade_to": "card_shared_keyboard_smash_plus",
     "enabled_in_first_playable": true,
     "description": "键盘重击：造成伤害。",
-    "art_path": ""
+    "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_shared_keyboard_smash_v1/final.png"
   },
   {
     "id": "card_shared_stapler_burst",
@@ -3091,7 +3091,7 @@
     "upgrade_to": "card_shared_stapler_burst_plus",
     "enabled_in_first_playable": true,
     "description": "订书机连射：造成伤害。",
-    "art_path": ""
+    "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_shared_stapler_burst_v1/final.png"
   },
   {
     "id": "card_shared_noise_cancel",
@@ -3108,7 +3108,7 @@
     "upgrade_to": "card_shared_noise_cancel_plus",
     "enabled_in_first_playable": true,
     "description": "戴上降噪耳机：获得防线并触发职业资源。",
-    "art_path": ""
+    "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_shared_noise_cancel_v1/final.png"
   },
   {
     "id": "card_shared_coffee_boost",
@@ -3125,7 +3125,7 @@
     "upgrade_to": "card_shared_coffee_boost_plus",
     "enabled_in_first_playable": true,
     "description": "咖啡续命：获得防线并触发职业资源。",
-    "art_path": ""
+    "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_shared_coffee_boost_v1/final.png"
   },
   {
     "id": "card_shared_toilet_break",
@@ -3142,7 +3142,7 @@
     "upgrade_to": "card_shared_toilet_break_plus",
     "enabled_in_first_playable": true,
     "description": "带薪拉屎：获得防线并触发职业资源。",
-    "art_path": ""
+    "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_shared_toilet_break_v1/final.png"
   },
   {
     "id": "card_shared_desk_inspection",
@@ -3159,7 +3159,7 @@
     "upgrade_to": "card_shared_desk_inspection_plus",
     "enabled_in_first_playable": true,
     "description": "工位巡检：获得防线并触发职业资源。",
-    "art_path": ""
+    "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_shared_desk_inspection_v1/final.png"
   },
   {
     "id": "card_shared_rollback",
@@ -3176,7 +3176,7 @@
     "upgrade_to": "card_shared_rollback_plus",
     "enabled_in_first_playable": true,
     "description": "回滚版本：获得防线，清除脆弱、易伤与焦虑。",
-    "art_path": ""
+    "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_shared_rollback_v1/final.png"
   },
   {
     "id": "card_shared_standup",
@@ -3193,7 +3193,7 @@
     "upgrade_to": "card_shared_standup_plus",
     "enabled_in_first_playable": true,
     "description": "晨会同步：获得防线，抽牌并返还精力。",
-    "art_path": ""
+    "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_shared_standup_v1/final.png"
   },
   {
     "id": "card_shared_clock_out",
@@ -3210,7 +3210,7 @@
     "upgrade_to": "card_shared_clock_out_plus",
     "enabled_in_first_playable": true,
     "description": "下班打卡：获得防线并触发职业资源。",
-    "art_path": ""
+    "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_shared_clock_out_v1/final.png"
   },
   {
     "id": "card_shared_hotfix_patch",
@@ -3227,7 +3227,7 @@
     "upgrade_to": "card_shared_hotfix_patch_plus",
     "enabled_in_first_playable": true,
     "description": "临时补丁：获得防线并触发职业资源。",
-    "art_path": ""
+    "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_shared_hotfix_patch_v1/final.png"
   },
   {
     "id": "card_shared_badge_throw",
@@ -3244,7 +3244,7 @@
     "upgrade_to": "card_shared_badge_throw_plus",
     "enabled_in_first_playable": true,
     "description": "工牌甩脸：造成伤害。",
-    "art_path": ""
+    "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_shared_badge_throw_v1/final.png"
   },
   {
     "id": "card_shared_meeting_mute",
@@ -3261,7 +3261,7 @@
     "upgrade_to": "card_shared_meeting_mute_plus",
     "enabled_in_first_playable": true,
     "description": "会议静音：获得防线并削弱目标攻击意图。",
-    "art_path": ""
+    "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_shared_meeting_mute_v1/final.png"
   },
   {
     "id": "card_status_option_promise",

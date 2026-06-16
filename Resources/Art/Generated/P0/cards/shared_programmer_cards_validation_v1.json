@@ -1,0 +1,142 @@
+{
+  "bundle": "shared_programmer_cards_v1",
+  "asset_type": "card_illustration_batch",
+  "priority": "P0",
+  "accepted": true,
+  "asset_count": 12,
+  "items": [
+    {
+      "id": "card_illust_shared_keyboard_smash_v1",
+      "final": "Resources/Art/Generated/P0/cards/card_illust_shared_keyboard_smash_v1/final.png",
+      "raw": "Resources/Art/Generated/P0/cards/card_illust_shared_keyboard_smash_v1/raw.png",
+      "prompt": "Resources/Art/Generated/P0/cards/card_illust_shared_keyboard_smash_v1/card_illust_shared_keyboard_smash_v1.prompt.txt",
+      "size": [
+        1024,
+        1536
+      ],
+      "accepted": true
+    },
+    {
+      "id": "card_illust_shared_stapler_burst_v1",
+      "final": "Resources/Art/Generated/P0/cards/card_illust_shared_stapler_burst_v1/final.png",
+      "raw": "Resources/Art/Generated/P0/cards/card_illust_shared_stapler_burst_v1/raw.png",
+      "prompt": "Resources/Art/Generated/P0/cards/card_illust_shared_stapler_burst_v1/card_illust_shared_stapler_burst_v1.prompt.txt",
+      "size": [
+        1024,
+        1536
+      ],
+      "accepted": true
+    },
+    {
+      "id": "card_illust_shared_noise_cancel_v1",
+      "final": "Resources/Art/Generated/P0/cards/card_illust_shared_noise_cancel_v1/final.png",
+      "raw": "Resources/Art/Generated/P0/cards/card_illust_shared_noise_cancel_v1/raw.png",
+      "prompt": "Resources/Art/Generated/P0/cards/card_illust_shared_noise_cancel_v1/card_illust_shared_noise_cancel_v1.prompt.txt",
+      "size": [
+        1024,
+        1536
+      ],
+      "accepted": true
+    },
+    {
+      "id": "card_illust_shared_coffee_boost_v1",
+      "final": "Resources/Art/Generated/P0/cards/card_illust_shared_coffee_boost_v1/final.png",
+      "raw": "Resources/Art/Generated/P0/cards/card_illust_shared_coffee_boost_v1/raw.png",
+      "prompt": "Resources/Art/Generated/P0/cards/card_illust_shared_coffee_boost_v1/card_illust_shared_coffee_boost_v1.prompt.txt",
+      "size": [
+        1024,
+        1536
+      ],
+      "accepted": true
+    },
+    {
+      "id": "card_illust_shared_toilet_break_v1",
+      "final": "Resources/Art/Generated/P0/cards/card_illust_shared_toilet_break_v1/final.png",
+      "raw": "Resources/Art/Generated/P0/cards/card_illust_shared_toilet_break_v1/raw.png",
+      "prompt": "Resources/Art/Generated/P0/cards/card_illust_shared_toilet_break_v1/card_illust_shared_toilet_break_v1.prompt.txt",
+      "size": [
+        1024,
+        1536
+      ],
+      "accepted": true
+    },
+    {
+      "id": "card_illust_shared_desk_inspection_v1",
+      "final": "Resources/Art/Generated/P0/cards/card_illust_shared_desk_inspection_v1/final.png",
+      "raw": "Resources/Art/Generated/P0/cards/card_illust_shared_desk_inspection_v1/raw.png",
+      "prompt": "Resources/Art/Generated/P0/cards/card_illust_shared_desk_inspection_v1/card_illust_shared_desk_inspection_v1.prompt.txt",
+      "size": [
+        1024,
+        1536
+      ],
+      "accepted": true
+    },
+    {
+      "id": "card_illust_shared_rollback_v1",
+      "final": "Resources/Art/Generated/P0/cards/card_illust_shared_rollback_v1/final.png",
+      "raw": "Resources/Art/Generated/P0/cards/card_illust_shared_rollback_v1/raw.png",
+      "prompt": "Resources/Art/Generated/P0/cards/card_illust_shared_rollback_v1/card_illust_shared_rollback_v1.prompt.txt",
+      "size": [
+        1024,
+        1536
+      ],
+      "accepted": true
+    },
+    {
+      "id": "card_illust_shared_standup_v1",
+      "final": "Resources/Art/Generated/P0/cards/card_illust_shared_standup_v1/final.png",
+      "raw": "Resources/Art/Generated/P0/cards/card_illust_shared_standup_v1/raw.png",
+      "prompt": "Resources/Art/Generated/P0/cards/card_illust_shared_standup_v1/card_illust_shared_standup_v1.prompt.txt",
+      "size": [
+        1024,
+        1536
+      ],
+      "accepted": true
+    },
+    {
+      "id": "card_illust_shared_clock_out_v1",
+      "final": "Resources/Art/Generated/P0/cards/card_illust_shared_clock_out_v1/final.png",
+      "raw": "Resources/Art/Generated/P0/cards/card_illust_shared_clock_out_v1/raw.png",
+      "prompt": "Resources/Art/Generated/P0/cards/card_illust_shared_clock_out_v1/card_illust_shared_clock_out_v1.prompt.txt",
+      "size": [
+        1024,
+        1536
+      ],
+      "accepted": true
+    },
+    {
+      "id": "card_illust_shared_hotfix_patch_v1",
+      "final": "Resources/Art/Generated/P0/cards/card_illust_shared_hotfix_patch_v1/final.png",
+      "raw": "Resources/Art/Generated/P0/cards/card_illust_shared_hotfix_patch_v1/raw.png",
+      "prompt": "Resources/Art/Generated/P0/cards/card_illust_shared_hotfix_patch_v1/card_illust_shared_hotfix_patch_v1.prompt.txt",
+      "size": [
+        1024,
+        1536
+      ],
+      "accepted": true
+    },
+    {
+      "id": "card_illust_shared_badge_throw_v1",
+      "final": "Resources/Art/Generated/P0/cards/card_illust_shared_badge_throw_v1/final.png",
+      "raw": "Resources/Art/Generated/P0/cards/card_illust_shared_badge_throw_v1/raw.png",
+      "prompt": "Resources/Art/Generated/P0/cards/card_illust_shared_badge_throw_v1/card_illust_shared_badge_throw_v1.prompt.txt",
+      "size": [
+        1024,
+        1536
+      ],
+      "accepted": true
+    },
+    {
+      "id": "card_illust_shared_meeting_mute_v1",
+      "final": "Resources/Art/Generated/P0/cards/card_illust_shared_meeting_mute_v1/final.png",
+      "raw": "Resources/Art/Generated/P0/cards/card_illust_shared_meeting_mute_v1/raw.png",
+      "prompt": "Resources/Art/Generated/P0/cards/card_illust_shared_meeting_mute_v1/card_illust_shared_meeting_mute_v1.prompt.txt",
+      "size": [
+        1024,
+        1536
+      ],
+      "accepted": true
+    }
+  ],
+  "contact_sheet": "Resources/Art/Generated/P0/cards/shared_programmer_cards_contact_sheet_v1.png"
+}

@@ -1,0 +1,4 @@
+Asset id: card_illust_shared_noise_cancel_v1
+Card theme: 戴上降噪耳机
+Pipeline: generate2dmap baked_scene_mode, vertical 1024x1536 non-playable flat card illustration; informed by generate2dsprite single-prop/single-action clarity rules. Shared programmer card: use universal office props and workplace actions instead of a specific class identity. Clean commercial semi-realistic 2D card-game art, modern office material language, gray-blue office lighting with controlled accent colors. Constraints: no readable text, no letters, no numbers, no labels, no logos, no watermark, no speech bubbles, no card frame, no gore, no horror, no crowded code screen, no extra main characters.
+Scene/action: 降噪耳机形成临时防线，噪音和精神攻击被压制。

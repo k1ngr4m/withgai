@@ -87,7 +87,10 @@
 - `EffectExecutor` now executes run-state reward/deck effects directly for `add_random_card`, `add_random_relic`, `upgrade_card`, and `remove_card`, so these no longer degrade to placeholder logs outside event handling.
 - Card illustration presentation now uses `CardDef.art_path` in reusable UI card buttons for battle hands, reward choices, shop stock, and shop removal picks.
 - `card_frontend_component_reuse` now has a generated P0 card illustration wired through `Tools/build_config.mjs`, Luban CSV/JSON output, and runtime config.
-- `Tools/build_config.mjs` now auto-wires matching `Resources/Art/Generated/P0/cards/card_illust_<card_id>_v1/final.png` assets into `CardDef.art_path`; current generated config exposes 49 card illustrations.
+- The first programmer shared P0 card-art batch is now wired into runtime config:
+  - 12 accepted shared card illustrations plus contact sheet and validation manifest.
+  - Matching `card_illust_shared_*_v1/final.png` assets are auto-wired into `CardDef.art_path` through the existing config build pipeline.
+- `Tools/build_config.mjs` now auto-wires matching `Resources/Art/Generated/P0/cards/card_illust_<card_id>_v1/final.png` assets into `CardDef.art_path`; current generated config exposes 61 card illustrations.
 - The first frontend P0 card-art batch is now committed and wired into runtime config:
   - 10 accepted frontend card illustrations plus contact sheet and validation manifest.
   - `Tools/build_config.mjs` includes explicit art-slug aliases for generated asset IDs that intentionally differ from card IDs.
@@ -143,6 +146,7 @@ Result:
 - Godot test runner now explicitly checks all 10 frontend P0 card illustrations are configured through `CardDef.art_path` and load successfully.
 - Godot test runner now explicitly checks all 10 tester P0 card illustrations are configured through `CardDef.art_path` and load successfully.
 - Godot test runner now explicitly checks all 10 algorithm and all 10 product manager P0 card illustrations are configured through `CardDef.art_path` and load successfully.
+- Godot test runner now explicitly checks all 12 programmer shared P0 card illustrations are configured through `CardDef.art_path` and load successfully.
 - Godot MCP `get_project_info` reports Godot `4.6.1.stable.official.14d19694e`, 11 scenes, and 25 scripts.
 - Godot MCP `run_project` + `get_debug_output` verified project startup with empty `errors`.
 
