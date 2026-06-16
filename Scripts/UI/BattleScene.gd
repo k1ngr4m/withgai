@@ -94,10 +94,9 @@ func _enemy_panel(enemy: Dictionary, enemy_index: int) -> Control:
 
 func _card_button(card_id: String, hand_index: int) -> Button:
 	var card: Dictionary = AppRoot.config_service.get_def("cards", card_id)
-	var upgraded := AppRoot.battle_service.battle_state.get("upgraded_card_ids", []).has(card_id)
+	var upgraded: bool = AppRoot.battle_service.battle_state.get("upgraded_card_ids", []).has(card_id)
 	var cost: String = "X" if int(card.get("cost", 0)) < 0 else str(max(0, int(card.get("cost", 0)) - (1 if upgraded else 0)))
-	var b: Button = UiFactory.button("%s [%s]\n%s\n%s" % [card.get("name", card_id), cost, card.get("type", ""), card.get("description", "")])
-	b.custom_minimum_size = Vector2(190, 150)
+	var b: Button = UiFactory.card_button(card, "%s [%s]\n%s\n%s" % [card.get("name", card_id), cost, card.get("type", ""), card.get("description", "")], Vector2(190, 150))
 	b.disabled = not AppRoot.battle_service.can_play_card(hand_index)
 	b.pressed.connect(func(): _play_card(hand_index))
 	return b

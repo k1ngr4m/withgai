@@ -1,0 +1,8 @@
+Use the image just shown as the visual reference. Generate a vertical 1024x1536 card illustration for a workplace roguelike card game.
+
+Asset id: card_illust_frontend_component_reuse_v1
+Card theme: 组件复用 / Component Reuse.
+Pipeline: generate2dmap baked_scene_mode, non-playable flat card illustration; clean commercial 2D card-game art.
+Preserve the frontend engineer identity from the reference: young male frontend engineer, wavy dark hair, glasses, white technical coat with bright blue lining, dark outfit, blue-white-teal UI component motifs, small orange accents, modern bright office lighting.
+Scene/action: the character splits an existing floating UI component into two clean modular pieces and recombines them into a seamless chain of reusable cards, suggesting efficient combo play and reusable component architecture. One clear central action, vertical composition, subject readable at card size, simplified office-tech background, polished semi-realistic commercial 2D game illustration.
+Constraints: no readable text, no letters, no logos, no watermark, no speech bubbles, no dense website screenshot, no cluttered code wall, no card frame or UI border, no extra characters, no horror/glitch style. Keep the character and action fully inside a portrait card crop.

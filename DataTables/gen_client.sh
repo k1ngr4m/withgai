@@ -6,6 +6,8 @@ CONF_ROOT="$ROOT_DIR/DataTables"
 CODE_OUT="$ROOT_DIR/Scripts/Generated/Config"
 DATA_OUT="$ROOT_DIR/Data/Generated/Config"
 
+node "$ROOT_DIR/Tools/build_config.mjs"
+
 LOCAL_LUBAN_DLL="$ROOT_DIR/Tools/Luban/Luban.dll"
 if [[ -z "${LUBAN_DLL:-}" && -f "$LOCAL_LUBAN_DLL" ]]; then
   LUBAN_DLL="$LOCAL_LUBAN_DLL"
@@ -14,8 +16,7 @@ fi
 if [[ -z "${LUBAN_DLL:-}" ]]; then
   echo "LUBAN_DLL is not set. Install Luban 4.x and run:"
   echo "  LUBAN_DLL=/path/to/Luban.dll DataTables/gen_client.sh"
-  echo "Refreshing generated prototype JSON with Tools/build_config.mjs instead."
-  node "$ROOT_DIR/Tools/build_config.mjs"
+  echo "Refreshed generated prototype JSON with Tools/build_config.mjs instead."
   exit 0
 fi
 

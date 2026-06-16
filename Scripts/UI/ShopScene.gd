@@ -31,8 +31,7 @@ func _build() -> void:
 	main.add_child(UiFactory.label("刷新次数 %d | 刷新花费 %d" % [int(run["shop_state"].get("refresh_count", 0)), refresh_cost], 16, Color(0.84, 0.92, 0.94)))
 	for card_id in run["shop_state"].get("card_stock", []):
 		var card: Dictionary = AppRoot.config_service.get_def("cards", card_id)
-		var b: Button = UiFactory.button("买卡 %d\n%s\n%s" % [card_cost, card.get("name", card_id), card.get("description", "")])
-		b.custom_minimum_size = Vector2(210, 170)
+		var b: Button = UiFactory.card_button(card, "买卡 %d\n%s\n%s" % [card_cost, card.get("name", card_id), card.get("description", "")], Vector2(210, 170))
 		b.disabled = int(run.get("currency_perf_points", 0)) < card_cost
 		b.pressed.connect(func(): _buy_card(card_id))
 		row.add_child(b)
@@ -120,8 +119,7 @@ func _build_remove_picker(parent: VBoxContainer, run: Dictionary, remove_cost: i
 		var prefix := "○"
 		if selected_remove_card_id == String(card_id):
 			prefix = "✓"
-		var button := UiFactory.button("%s %s x%d\n%s" % [prefix, card.get("name", card_id), count, card.get("type", "")])
-		button.custom_minimum_size = Vector2(210, 72)
+		var button := UiFactory.card_button(card, "%s %s x%d\n%s" % [prefix, card.get("name", card_id), count, card.get("type", "")], Vector2(210, 72))
 		button.disabled = bool(run["shop_state"].get("removed", false))
 		button.pressed.connect(func(): _select_remove_card(String(card_id)))
 		grid.add_child(button)

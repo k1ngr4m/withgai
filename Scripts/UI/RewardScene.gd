@@ -28,8 +28,7 @@ func _build() -> void:
 	for card_id in reward.get("candidate_card_ids", []):
 		var card: Dictionary = AppRoot.config_service.get_def("cards", card_id)
 		var card_marker := "✓ " if selected_card_id == String(card_id) else ""
-		var b: Button = UiFactory.button("%s%s\n%s\n%s" % [card_marker, card.get("name", card_id), card.get("type", ""), card.get("description", "")])
-		b.custom_minimum_size = Vector2(230, 180)
+		var b: Button = UiFactory.card_button(card, "%s%s\n%s\n%s" % [card_marker, card.get("name", card_id), card.get("type", ""), card.get("description", "")], Vector2(230, 180))
 		b.pressed.connect(func(): _select_card(String(card_id)))
 		row.add_child(b)
 	var skip_card := UiFactory.button("跳过卡牌")
