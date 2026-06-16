@@ -565,6 +565,8 @@ class StatusParams:
     var trigger_play_count: int
     var style_layer_amount: int
     var component_amount: int
+    var trigger_damage: int
+    var case_amount: int
     var spread_amount: int
 
     func _init(_json_) -> void:
@@ -583,6 +585,8 @@ class StatusParams:
         if _json_.get('trigger_play_count') != null: self.trigger_play_count = _json_["trigger_play_count"]
         if _json_.get('style_layer_amount') != null: self.style_layer_amount = _json_["style_layer_amount"]
         if _json_.get('component_amount') != null: self.component_amount = _json_["component_amount"]
+        if _json_.get('trigger_damage') != null: self.trigger_damage = _json_["trigger_damage"]
+        if _json_.get('case_amount') != null: self.case_amount = _json_["case_amount"]
         if _json_.get('spread_amount') != null: self.spread_amount = _json_["spread_amount"]
 
 

@@ -325,6 +325,10 @@ func _validate_config_references(config, content) -> void:
 	_check(config.get_def("statuses", "bug").get("timing_hooks", []).has("deal_damage"), "bug declares damage hook")
 	_check(config.get_def("statuses", "diff").get("timing_hooks", []).has("inject_bug"), "diff declares bug injection hook")
 	_check(config.get_def("statuses", "diff").get("timing_hooks", []).has("deal_damage"), "diff declares damage hook")
+	_check(config.get_def("statuses", "auto_regression").get("timing_hooks", []).has("round_end"), "auto regression declares round end hook")
+	var auto_regression_params: Dictionary = config.get_def("statuses", "auto_regression").get("params", {})
+	_check(int(auto_regression_params.get("trigger_damage", 0)) > 0, "auto regression config has trigger damage")
+	_check(int(auto_regression_params.get("case_amount", 0)) > 0, "auto regression config has case amount")
 	_check(config.get_def("statuses", "cache").get("timing_hooks", []).has("deal_damage"), "cache declares damage hook")
 	_check(config.get_def("statuses", "compute").get("timing_hooks", []).has("deal_damage"), "compute declares damage hook")
 	_check(config.get_def("statuses", "complexity").get("timing_hooks", []).has("add_compute"), "complexity declares compute gain hook")
@@ -361,6 +365,13 @@ func _validate_config_references(config, content) -> void:
 		if entry.get("effect_type", "") == "deal_damage" and int(params.get("bug_multiplier", 0)) >= 2 and int(params.get("case_multiplier", 0)) >= 2 and int(params.get("diff_multiplier", 0)) >= 3:
 			report_lock_scales_status = true
 	_check(report_lock_scales_status, "tester report lock scales target statuses")
+	var auto_regression_entries: Array = content.effect_entries(content.card_def("card_tester_auto_regression").get("effect_group_id", ""))
+	var auto_regression_applies_status := false
+	for entry in auto_regression_entries:
+		var params: Dictionary = entry.get("params", {})
+		if entry.get("effect_type", "") == "apply_status" and params.get("status_id", "") == "auto_regression":
+			auto_regression_applies_status = true
+	_check(auto_regression_applies_status, "tester auto regression applies auto regression status")
 	_check(content.card_def("card_pm_schedule_compress").get("target_type", "") == "highest_priority_enemy", "pm schedule compress targets priority")
 	_check(_has_intent_type(content.intent_entries_for_enemy("enemy_salesman"), "pollute"), "salesman has pollute intent")
 	_check(_has_intent_type(content.intent_entries_for_enemy("enemy_workaholic_coworker"), "multi_attack"), "workaholic has multi attack intent")
@@ -827,6 +838,23 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	player["current_energy"] = 3
 	battle.play_card(run, 0, 0)
 	_check(int(report_enemy.get("current_hp", 0)) == 57, "tester report lock scales bug case and diff damage")
+
+	run = run_session.create_new_run("tester")
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	var regression_enemy: Dictionary = battle.battle_state.get("enemies", [])[0]
+	regression_enemy["current_hp"] = 40
+	regression_enemy["current_block"] = 0
+	regression_enemy["status_list"] = { "bug": 2 }
+	player["hand"] = ["card_tester_auto_regression"]
+	player["current_energy"] = 3
+	player["class_resource_state"]["cases"] = 0
+	battle.play_card(run, 0, 0)
+	_check(int(player.get("status_list", {}).get("auto_regression", 0)) == 1, "tester auto regression status is applied")
+	battle.call("_round_end_triggers", run)
+	_check(int(regression_enemy.get("current_hp", 0)) == 36, "tester auto regression triggers bug damage at round end")
+	_check(int(regression_enemy.get("status_list", {}).get("case_mark", 0)) == 1, "tester auto regression adds case to bugged target")
+	_check(int(player.get("class_resource_state", {}).get("cases", 0)) == 1, "tester auto regression syncs case resource")
 
 	run = run_session.create_new_run("frontend")
 	battle = _start_first_battle(run, content, map, executor)

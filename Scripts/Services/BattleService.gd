@@ -15,6 +15,7 @@ const PLAYER_POSITIVE_STATUS_IDS := [
 	"vue_suite",
 	"case_mark",
 	"diff",
+	"auto_regression",
 	"compute",
 	"complexity",
 	"requirement_change",
@@ -703,6 +704,22 @@ func _round_end_triggers(run_state: Dictionary) -> void:
 			battle_state["log"].append("消息队列对 %s 造成 %d 伤害" % [enemy.get("name", "敌人"), request_damage])
 		_consume_request_queue(player, requests)
 		triggered_damage = true
+	var auto_regression_stacks := _auto_regression_count(player)
+	if auto_regression_stacks > 0:
+		var regression_target := _auto_regression_target()
+		if not regression_target.is_empty():
+			var regression_params: Dictionary = _status_params("auto_regression")
+			var trigger_damage: int = auto_regression_stacks * max(1, int(regression_params.get("trigger_damage", 4)))
+			regression_target["current_hp"] = max(0, int(regression_target.get("current_hp", 0)) - trigger_damage)
+			battle_state["log"].append("自动化回归触发 %s 的 Bug，造成 %d 伤害" % [regression_target.get("name", "敌人"), trigger_damage])
+			var case_amount: int = auto_regression_stacks * max(0, int(regression_params.get("case_amount", 1)))
+			if case_amount > 0:
+				var target_statuses: Dictionary = regression_target.get("status_list", {})
+				target_statuses["case_mark"] = int(target_statuses.get("case_mark", 0)) + case_amount
+				regression_target["status_list"] = target_statuses
+				_adjust_player_class_resource("cases", case_amount)
+				battle_state["log"].append("自动化回归补充用例 +%d" % case_amount)
+			triggered_damage = true
 	var services := _service_online_count(player)
 	if services > 0:
 		var service_damage := services * 2
@@ -737,6 +754,19 @@ func _service_online_count(player: Dictionary) -> int:
 	var resources: Dictionary = player.get("class_resource_state", {})
 	var statuses: Dictionary = player.get("status_list", {})
 	return max(int(resources.get("services", 0)), int(statuses.get("service_online", 0)))
+
+func _auto_regression_count(player: Dictionary) -> int:
+	var statuses: Dictionary = player.get("status_list", {})
+	return int(statuses.get("auto_regression", 0))
+
+func _auto_regression_target() -> Dictionary:
+	for enemy in battle_state.get("enemies", []):
+		if int(enemy.get("current_hp", 0)) <= 0:
+			continue
+		var statuses: Dictionary = enemy.get("status_list", {})
+		if int(statuses.get("bug", 0)) > 0:
+			return enemy
+	return {}
 
 func _apply_complexity_pressure(player: Dictionary) -> void:
 	var params := _status_params("complexity")

@@ -260,6 +260,22 @@
     "type": "class"
   },
   {
+    "id": "auto_regression",
+    "name": "自动化回归",
+    "stack_rule": "stack",
+    "timing_hooks": [
+      "round_end"
+    ],
+    "params": {
+      "trigger_damage": 4,
+      "case_amount": 1
+    },
+    "effect_group_id": "",
+    "max_stack": 99,
+    "is_hidden": false,
+    "type": "class"
+  },
+  {
     "id": "compute",
     "name": "算力",
     "stack_rule": "stack",

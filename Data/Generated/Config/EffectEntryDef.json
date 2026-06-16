@@ -1420,17 +1420,7 @@
     "target_type": "self",
     "params": {
       "amount": 1,
-      "status_id": "case_mark"
-    }
-  },
-  {
-    "id": "eg_card_tester_auto_regression_e02",
-    "effect_group_id": "eg_card_tester_auto_regression",
-    "order": 2,
-    "effect_type": "draw_cards",
-    "target_type": "self",
-    "params": {
-      "amount": 1
+      "status_id": "auto_regression"
     }
   },
   {

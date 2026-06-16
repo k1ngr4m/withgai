@@ -1439,7 +1439,7 @@
       "effect_group_id": "eg_card_tester_auto_regression",
       "upgrade_to": "card_tester_auto_regression_plus",
       "enabled_in_first_playable": true,
-      "description": "自动化回归：建立长期收益。",
+      "description": "自动化回归：建立长期状态，回合结束时触发一个已挂 Bug 并补充用例。",
       "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_tester_auto_regression_v1/final.png"
     },
     "card_tester_bug_upgrade": {
@@ -4880,6 +4880,22 @@
       "is_hidden": false,
       "type": "class"
     },
+    "auto_regression": {
+      "id": "auto_regression",
+      "name": "自动化回归",
+      "stack_rule": "stack",
+      "timing_hooks": [
+        "round_end"
+      ],
+      "params": {
+        "trigger_damage": 4,
+        "case_amount": 1
+      },
+      "effect_group_id": "",
+      "max_stack": 99,
+      "is_hidden": false,
+      "type": "class"
+    },
     "compute": {
       "id": "compute",
       "name": "算力",
@@ -6793,8 +6809,7 @@
     "eg_card_tester_auto_regression": {
       "id": "eg_card_tester_auto_regression",
       "entry_ids": [
-        "eg_card_tester_auto_regression_e01",
-        "eg_card_tester_auto_regression_e02"
+        "eg_card_tester_auto_regression_e01"
       ],
       "entries": [
         {
@@ -6802,14 +6817,7 @@
           "target_type": "self",
           "params": {
             "amount": 1,
-            "status_id": "case_mark"
-          }
-        },
-        {
-          "effect_type": "draw_cards",
-          "target_type": "self",
-          "params": {
-            "amount": 1
+            "status_id": "auto_regression"
           }
         }
       ]
@@ -10824,17 +10832,7 @@
       "target_type": "self",
       "params": {
         "amount": 1,
-        "status_id": "case_mark"
-      }
-    },
-    "eg_card_tester_auto_regression_e02": {
-      "id": "eg_card_tester_auto_regression_e02",
-      "effect_group_id": "eg_card_tester_auto_regression",
-      "order": 2,
-      "effect_type": "draw_cards",
-      "target_type": "self",
-      "params": {
-        "amount": 1
+        "status_id": "auto_regression"
       }
     },
     "eg_card_tester_bug_upgrade_e01": {

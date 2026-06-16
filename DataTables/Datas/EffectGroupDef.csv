@@ -76,7 +76,7 @@
 ,eg_card_tester_case_add,"[""eg_card_tester_case_add_e01"",""eg_card_tester_case_add_e02""]"
 ,eg_card_tester_missed_test,"[""eg_card_tester_missed_test_e01"",""eg_card_tester_missed_test_e02""]"
 ,eg_card_tester_ticket_chase,"[""eg_card_tester_ticket_chase_e01"",""eg_card_tester_ticket_chase_e02""]"
-,eg_card_tester_auto_regression,"[""eg_card_tester_auto_regression_e01"",""eg_card_tester_auto_regression_e02""]"
+,eg_card_tester_auto_regression,"[""eg_card_tester_auto_regression_e01""]"
 ,eg_card_tester_bug_upgrade,"[""eg_card_tester_bug_upgrade_e01"",""eg_card_tester_bug_upgrade_e02""]"
 ,eg_card_tester_case_matrix,"[""eg_card_tester_case_matrix_e01"",""eg_card_tester_case_matrix_e02""]"
 ,eg_card_tester_stress_test,"[""eg_card_tester_stress_test_e01"",""eg_card_tester_stress_test_e02""]"

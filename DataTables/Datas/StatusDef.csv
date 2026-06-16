@@ -20,6 +20,7 @@
 ,bug,Bug,stack,"[""enemy_before_action"",""enemy_action_end"",""deal_damage"",""expire""]",{},,99,false,class
 ,case_mark,用例,stack,"[""deal_damage""]",{},,99,false,class
 ,diff,Diff,stack,"[""inject_bug"",""deal_damage""]",{},,99,false,class
+,auto_regression,自动化回归,stack,"[""round_end""]","{""trigger_damage"":4,""case_amount"":1}",,99,false,class
 ,compute,算力,stack,"[""deal_damage""]",{},,99,false,class
 ,complexity,复杂度,stack,"[""add_compute"",""round_start""]","{""compute_complexity_gain"":1,""pressure_threshold"":3,""energy_loss"":1,""spirit_loss"":0}",,99,false,class
 ,requirement_change,需求变更,stack,"[""apply_status"",""enemy_before_action"",""modify_intent""]","{""intent_amount_reduction"":4,""consume_per_action"":1}",,99,false,class

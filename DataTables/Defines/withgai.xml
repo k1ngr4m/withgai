@@ -15,6 +15,8 @@
     <var name="trigger_play_count" type="int?"/>
     <var name="style_layer_amount" type="int?"/>
     <var name="component_amount" type="int?"/>
+    <var name="trigger_damage" type="int?"/>
+    <var name="case_amount" type="int?"/>
     <var name="spread_amount" type="int?"/>
   </bean>
   <bean name="EffectParams">
