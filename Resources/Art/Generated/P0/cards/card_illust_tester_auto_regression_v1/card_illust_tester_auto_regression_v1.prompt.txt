@@ -1,0 +1,4 @@
+Asset id: card_illust_tester_auto_regression_v1
+Card theme: 自动化回归
+Pipeline: generate2dmap baked_scene_mode, vertical 1024x1536 non-playable flat card illustration; informed by generate2dsprite single-action clarity rules. Preserve the tester identity from char_tester_keyart_v1: confident female QA engineer, glasses, white shirt, black tie, black trousers, tablet, red/yellow warning tags, green check marks, bug motifs, bright precise office lighting. Clean commercial semi-realistic 2D card-game art, simplified office-tech background. Constraints: no readable text, no letters, no numbers, no labels, no logos, no watermark, no speech bubbles, no dense report screen, no card frame, no horror gore, no extra main characters.
+Scene/action: 自动化检查流围绕 Bug 目标轮转，持续触发已有缺陷标记，秩序感与压制感并存。

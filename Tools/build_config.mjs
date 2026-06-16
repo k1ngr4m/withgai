@@ -92,6 +92,7 @@ const specialCardDescriptions = {
   card_shared_rollback: "回滚版本：获得防线，清除脆弱、易伤与焦虑。",
   card_shared_standup: "晨会同步：获得防线，抽牌并返还精力。",
   card_shared_meeting_mute: "会议静音：获得防线并削弱目标攻击意图。",
+  card_algo_global_optimum: "全局最优解：消耗全部精力与算力，按投入造成高额伤害。",
 };
 
 function descriptionForCard(id, name, type) {
@@ -142,6 +143,11 @@ function cardEffects(classId, cardId, type, cost, idx) {
     return [
       { effect_type: "gain_block", target_type: "self", params: { amount: 5 } },
       { effect_type: "modify_intent", target_type: "selected", params: { amount: -4 } },
+    ];
+  }
+  if (cardId === "card_algo_global_optimum") {
+    return [
+      { effect_type: "deal_damage", target_type: "single_enemy", params: { amount: 10, x_energy_scaling: true, x_energy_multiplier: 4, consume_compute: true, compute_multiplier: 3 } },
     ];
   }
   if (type === "attack") {
@@ -467,6 +473,7 @@ const statusTimingHooks = {
   bug: ["enemy_before_action", "enemy_action_end", "expire"],
   case_mark: ["deal_damage"],
   diff: ["inject_bug"],
+  compute: ["deal_damage"],
   priority: ["target_resolution"],
   requirement_change: ["apply_status", "modify_intent"],
 };
@@ -631,6 +638,10 @@ const lubanDefines = `<module name="">
     <var name="enemy_id" type="string?"/>
     <var name="max_allies" type="int?"/>
     <var name="hits" type="int?"/>
+    <var name="x_energy_scaling" type="bool?"/>
+    <var name="x_energy_multiplier" type="int?"/>
+    <var name="consume_compute" type="bool?"/>
+    <var name="compute_multiplier" type="int?"/>
   </bean>
   <bean name="EffectSpec">
     <var name="effect_type" type="string"/>

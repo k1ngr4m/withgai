@@ -18,7 +18,7 @@ func _execute_entry(entry: Dictionary, battle_state: Dictionary, run_state: Dict
 		"gain_block":
 			_gain_block(battle_state, run_state, amount, battle_log)
 		"deal_damage":
-			_damage_enemies(entry.get("target_type", "selected"), battle_state, run_state, target_index, amount, battle_log)
+			_damage_enemies(entry.get("target_type", "selected"), battle_state, run_state, target_index, amount, params, battle_log)
 		"draw_cards":
 			_draw_cards(battle_state, amount, battle_log)
 		"gain_energy":
@@ -140,20 +140,24 @@ func _gain_block(battle_state: Dictionary, run_state: Dictionary, amount: int, b
 	player["current_block"] = int(player.get("current_block", 0)) + final_amount
 	battle_log.append("获得 %d 防线" % final_amount)
 
-func _damage_enemies(target_type: String, battle_state: Dictionary, run_state: Dictionary, target_index: int, amount: int, battle_log: Array) -> void:
+func _damage_enemies(target_type: String, battle_state: Dictionary, run_state: Dictionary, target_index: int, amount: int, params: Dictionary, battle_log: Array) -> void:
 	var targets := _target_enemies(target_type, battle_state, target_index)
-	var style_layer_bonus := _style_layer_count(_player(battle_state))
+	var player := _player(battle_state)
+	var style_layer_bonus := _style_layer_count(player)
+	var algorithm_context := _algorithm_damage_context(player, battle_state, params)
 	for enemy in targets:
-		_damage_enemy(enemy, battle_state, run_state, amount, battle_log, style_layer_bonus)
+		_damage_enemy(enemy, battle_state, run_state, amount, battle_log, style_layer_bonus, int(algorithm_context.get("bonus", 0)))
 	if not targets.is_empty() and style_layer_bonus > 0:
-		_consume_style_layer(_player(battle_state), battle_log)
+		_consume_style_layer(player, battle_log)
+	if not targets.is_empty() and int(algorithm_context.get("consume_compute", 0)) > 0:
+		_consume_compute(player, int(algorithm_context.get("consume_compute", 0)), battle_log)
 
-func _damage_enemy(enemy: Dictionary, battle_state: Dictionary, run_state: Dictionary, amount: int, battle_log: Array, style_layer_bonus := 0) -> void:
+func _damage_enemy(enemy: Dictionary, battle_state: Dictionary, run_state: Dictionary, amount: int, battle_log: Array, style_layer_bonus := 0, algorithm_bonus := 0) -> void:
 	if enemy.is_empty():
 		return
 	var player := _player(battle_state)
 	var resources: Dictionary = player.get("class_resource_state", {})
-	var bonus := style_layer_bonus + int(enemy.get("status_list", {}).get("case_mark", 0))
+	var bonus := style_layer_bonus + algorithm_bonus + int(enemy.get("status_list", {}).get("case_mark", 0))
 	if run_state.get("owned_relic_ids", []).has("relic_paper_citation") and int(resources.get("complexity", 0)) >= 3:
 		bonus += 3
 	var damage := int(max(0, amount + bonus))
@@ -182,6 +186,37 @@ func _consume_style_layer(player: Dictionary, battle_log: Array) -> void:
 	player["class_resource_state"] = resources
 	player["status_list"] = statuses
 	battle_log.append("样式层消耗 1")
+
+func _algorithm_damage_context(player: Dictionary, battle_state: Dictionary, params: Dictionary) -> Dictionary:
+	var result := { "bonus": 0, "consume_compute": 0 }
+	var uses_x_energy := bool(params.get("x_energy_scaling", false))
+	var consumes_compute := bool(params.get("consume_compute", false))
+	if not uses_x_energy and not consumes_compute:
+		return result
+	var play_context: Dictionary = battle_state.get("last_play_context", {})
+	if uses_x_energy and bool(play_context.get("is_x_cost", false)):
+		result["bonus"] = int(result.get("bonus", 0)) + int(play_context.get("cost_paid", 0)) * int(params.get("x_energy_multiplier", 4))
+	var compute := _compute_count(player)
+	if consumes_compute and compute > 0:
+		result["bonus"] = int(result.get("bonus", 0)) + compute * int(params.get("compute_multiplier", 3))
+		result["consume_compute"] = compute
+	return result
+
+func _compute_count(player: Dictionary) -> int:
+	var resources: Dictionary = player.get("class_resource_state", {})
+	var statuses: Dictionary = player.get("status_list", {})
+	return max(int(resources.get("compute", 0)), int(statuses.get("compute", 0)))
+
+func _consume_compute(player: Dictionary, amount: int, battle_log: Array) -> void:
+	var resources: Dictionary = player.get("class_resource_state", {})
+	var statuses: Dictionary = player.get("status_list", {})
+	if int(resources.get("compute", 0)) > 0:
+		resources["compute"] = max(0, int(resources.get("compute", 0)) - amount)
+	if int(statuses.get("compute", 0)) > 0:
+		statuses["compute"] = max(0, int(statuses.get("compute", 0)) - amount)
+	player["class_resource_state"] = resources
+	player["status_list"] = statuses
+	battle_log.append("算力释放 %d" % amount)
 
 func _bug_amount_with_diff(enemy: Dictionary, battle_state: Dictionary, base_amount: int, battle_log: Array) -> int:
 	var statuses: Dictionary = enemy.get("status_list", {})

@@ -125,6 +125,23 @@ func _validate_config_references(config, content) -> void:
 		var art_path := String(content.card_def(card_id).get("art_path", ""))
 		_check(art_path.ends_with("card_illust_%s_v1/final.png" % String(frontend_card_art_slugs[card_id])), "%s frontend card art configured" % card_id)
 		_check(load(art_path) != null, "%s frontend card art loads" % card_id)
+	var tester_card_art_slugs := [
+		"card_tester_defect_log",
+		"card_tester_smoke_test",
+		"card_tester_repro_steps",
+		"card_tester_regression_confirm",
+		"card_tester_boundary_check",
+		"card_tester_auto_regression",
+		"card_tester_bug_upgrade",
+		"card_tester_case_matrix",
+		"card_tester_92_bugs",
+		"card_tester_report_lock",
+	]
+	for card_id in tester_card_art_slugs:
+		var tester_card_id := String(card_id)
+		var art_path := String(content.card_def(tester_card_id).get("art_path", ""))
+		_check(art_path.ends_with("card_illust_%s_v1/final.png" % tester_card_id.trim_prefix("card_")), "%s tester card art configured" % tester_card_id)
+		_check(load(art_path) != null, "%s tester card art loads" % tester_card_id)
 	var cards_with_art := 0
 	var missing_card_art_paths := 0
 	for card in config.all_defs("cards"):
@@ -141,6 +158,7 @@ func _validate_config_references(config, content) -> void:
 	_check(config.get_def("statuses", "vulnerable").get("timing_hooks", []).has("damage_taken"), "vulnerable declares damage taken hook")
 	_check(config.get_def("statuses", "style_layer").get("timing_hooks", []).has("deal_damage"), "style layer declares damage hook")
 	_check(config.get_def("statuses", "diff").get("timing_hooks", []).has("inject_bug"), "diff declares bug injection hook")
+	_check(config.get_def("statuses", "compute").get("timing_hooks", []).has("deal_damage"), "compute declares damage hook")
 	_check(config.get_def("statuses", "service_online").get("timing_hooks", []).has("round_end"), "service online declares round end hook")
 	_check(content.card_def("card_pm_schedule_compress").get("target_type", "") == "highest_priority_enemy", "pm schedule compress targets priority")
 	_check(_has_intent_type(content.intent_entries_for_enemy("enemy_salesman"), "pollute"), "salesman has pollute intent")
@@ -400,9 +418,15 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	run = run_session.create_new_run("algorithm")
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
+	var optimum_enemy: Dictionary = battle.battle_state.get("enemies", [])[0]
+	optimum_enemy["current_hp"] = 80
+	optimum_enemy["current_block"] = 0
 	player["hand"] = ["card_algo_global_optimum"]
 	player["current_energy"] = 3
+	player["class_resource_state"]["compute"] = 4
 	battle.play_card(run, 0, 0)
+	_check(int(optimum_enemy.get("current_hp", 0)) == 46, "algorithm x finisher spends energy and compute for damage")
+	_check(int(player.get("class_resource_state", {}).get("compute", 0)) == 0, "algorithm x finisher consumes stored compute")
 	_check(int(player.get("current_energy", 0)) == 1, "algorithm starter relic refunds first x card")
 
 	run = run_session.create_new_run("backend")

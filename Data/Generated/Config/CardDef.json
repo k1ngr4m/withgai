@@ -1034,7 +1034,7 @@
     "upgrade_to": "card_tester_defect_log_plus",
     "enabled_in_first_playable": true,
     "description": "缺陷登记：造成伤害。",
-    "art_path": ""
+    "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_tester_defect_log_v1/final.png"
   },
   {
     "id": "card_tester_smoke_test",
@@ -1051,7 +1051,7 @@
     "upgrade_to": "card_tester_smoke_test_plus",
     "enabled_in_first_playable": true,
     "description": "冒烟测试：获得防线并触发职业资源。",
-    "art_path": ""
+    "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_tester_smoke_test_v1/final.png"
   },
   {
     "id": "card_tester_repro_steps",
@@ -1068,7 +1068,7 @@
     "upgrade_to": "card_tester_repro_steps_plus",
     "enabled_in_first_playable": true,
     "description": "复现步骤：获得防线并触发职业资源。",
-    "art_path": ""
+    "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_tester_repro_steps_v1/final.png"
   },
   {
     "id": "card_tester_regression_confirm",
@@ -1085,7 +1085,7 @@
     "upgrade_to": "card_tester_regression_confirm_plus",
     "enabled_in_first_playable": true,
     "description": "回归确认：获得防线并触发职业资源。",
-    "art_path": ""
+    "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_tester_regression_confirm_v1/final.png"
   },
   {
     "id": "card_tester_assert_fail",
@@ -1119,7 +1119,7 @@
     "upgrade_to": "card_tester_boundary_check_plus",
     "enabled_in_first_playable": true,
     "description": "边界值校验：获得防线并触发职业资源。",
-    "art_path": ""
+    "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_tester_boundary_check_v1/final.png"
   },
   {
     "id": "card_tester_log_screenshot",
@@ -1272,7 +1272,7 @@
     "upgrade_to": "card_tester_auto_regression_plus",
     "enabled_in_first_playable": true,
     "description": "自动化回归：建立长期收益。",
-    "art_path": ""
+    "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_tester_auto_regression_v1/final.png"
   },
   {
     "id": "card_tester_bug_upgrade",
@@ -1289,7 +1289,7 @@
     "upgrade_to": "card_tester_bug_upgrade_plus",
     "enabled_in_first_playable": true,
     "description": "缺陷升级：获得防线并触发职业资源。",
-    "art_path": ""
+    "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_tester_bug_upgrade_v1/final.png"
   },
   {
     "id": "card_tester_case_matrix",
@@ -1306,7 +1306,7 @@
     "upgrade_to": "card_tester_case_matrix_plus",
     "enabled_in_first_playable": true,
     "description": "用例矩阵：建立长期收益。",
-    "art_path": ""
+    "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_tester_case_matrix_v1/final.png"
   },
   {
     "id": "card_tester_stress_test",
@@ -1442,7 +1442,7 @@
     "upgrade_to": "card_tester_92_bugs_plus",
     "enabled_in_first_playable": true,
     "description": "提交92个致命Bug：获得防线并触发职业资源。",
-    "art_path": ""
+    "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_tester_92_bugs_v1/final.png"
   },
   {
     "id": "card_tester_report_lock",
@@ -1459,7 +1459,7 @@
     "upgrade_to": "card_tester_report_lock_plus",
     "enabled_in_first_playable": true,
     "description": "测试报告封板：造成伤害。",
-    "art_path": ""
+    "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_tester_report_lock_v1/final.png"
   },
   {
     "id": "card_tester_full_chain",
@@ -1951,7 +1951,7 @@
     "effect_group_id": "eg_card_algo_global_optimum",
     "upgrade_to": "card_algo_global_optimum_plus",
     "enabled_in_first_playable": true,
-    "description": "全局最优解：造成伤害。",
+    "description": "全局最优解：消耗全部精力与算力，按投入造成高额伤害。",
     "art_path": ""
   },
   {

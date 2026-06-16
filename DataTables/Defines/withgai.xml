@@ -8,6 +8,10 @@
     <var name="enemy_id" type="string?"/>
     <var name="max_allies" type="int?"/>
     <var name="hits" type="int?"/>
+    <var name="x_energy_scaling" type="bool?"/>
+    <var name="x_energy_multiplier" type="int?"/>
+    <var name="consume_compute" type="bool?"/>
+    <var name="compute_multiplier" type="int?"/>
   </bean>
   <bean name="EffectSpec">
     <var name="effect_type" type="string"/>

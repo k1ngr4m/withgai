@@ -2291,17 +2291,11 @@
     "effect_type": "deal_damage",
     "target_type": "single_enemy",
     "params": {
-      "amount": 10
-    }
-  },
-  {
-    "id": "eg_card_algo_global_optimum_e02",
-    "effect_group_id": "eg_card_algo_global_optimum",
-    "order": 2,
-    "effect_type": "add_compute",
-    "target_type": "self",
-    "params": {
-      "amount": 2
+      "amount": 10,
+      "x_energy_scaling": true,
+      "x_energy_multiplier": 4,
+      "consume_compute": true,
+      "compute_multiplier": 3
     }
   },
   {

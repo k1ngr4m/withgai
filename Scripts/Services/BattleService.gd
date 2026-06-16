@@ -170,6 +170,12 @@ func play_card(run_state: Dictionary, hand_index: int, target_index := 0) -> voi
 	player["cards_played_this_turn"] = int(player.get("cards_played_this_turn", 0)) + 1
 	var upgraded := _is_card_upgraded(card_id)
 	battle_state["log"].append("打出：%s%s" % [card.get("name", card_id), "+" if upgraded else ""])
+	battle_state["last_play_context"] = {
+		"card_id": card_id,
+		"cost_paid": cost,
+		"printed_cost": int(card.get("cost", 1)),
+		"is_x_cost": int(card.get("cost", 1)) < 0,
+	}
 	var entries: Array = _actual_effect_entries(card)
 	effect_executor.execute(entries, battle_state, run_state, target_index, battle_state["log"])
 	_check_enemy_phase_triggers(run_state)

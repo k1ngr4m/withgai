@@ -24,6 +24,7 @@
 - Automated combat coverage now verifies `service_online` round-start cache/block generation, resource+status no-double-count behavior, and round-end enemy damage.
 - Frontend `style_layer` now has live damage-hook behavior: `deal_damage` reads either the frontend resource stack or visible status stack, adds the layer count as damage bonus, and consumes one layer after a successful damage effect without double-counting synced resource/status values.
 - Tester `Diff` now has a live bug-injection hook: targets with Diff gain an extra Bug when `inject_bug` resolves, consume one Diff stack, sync the tester `diff_tags` resource downward, and reduce attack intent using the final Bug amount.
+- Algorithm `compute` now has live X-finisher behavior: `card_algo_global_optimum` scales damage from paid X energy and stored compute, consumes the spent compute, and still works with the starter relic's first X-card energy refund.
 - Product manager priority now has a real target-resolution loop:
   - `card_pm_schedule_compress`, `card_pm_roadmap`, and `card_pm_snowball` target the highest-priority enemy.
   - Auto-resolved target cards no longer require manual enemy selection in battle UI.
@@ -42,6 +43,9 @@
   - 10 accepted frontend card illustrations plus contact sheet and validation manifest.
   - `Tools/build_config.mjs` includes explicit art-slug aliases for generated asset IDs that intentionally differ from card IDs.
   - Generated config now exposes 19 card illustrations in total across backend and frontend cards.
+- The first tester P0 card-art batch is now wired into runtime config:
+  - 10 accepted tester card illustrations plus contact sheet and validation manifest.
+  - Matching `card_illust_tester_*_v1/final.png` assets are auto-wired into `CardDef.art_path` through the existing config build pipeline.
 - Programmer shared utility cards now have concrete data-driven effects:
   - `card_shared_rollback` gains block and clears weak, vulnerable, and anxiety while leaving heavier statuses intact.
   - `card_shared_standup` gains block, draws a replacement card, and refunds energy.
@@ -67,6 +71,7 @@ Result:
 - Godot test runner now checks the live `service_online` round-start and round-end hooks.
 - Godot test runner now checks frontend `style_layer` damage bonus and consumption from both resource-sourced and status-sourced stacks.
 - Godot test runner now checks tester `Diff` hook declaration, extra Bug injection, Diff consumption, `diff_tags` resource sync, and final intent reduction.
+- Godot test runner now checks algorithm `compute` damage-hook declaration, X-finisher damage scaling, compute consumption, and local-cluster energy refund.
 - Godot test runner now checks product manager priority target routing, including ignored low-priority selected targets and requirement-change marking on the resolved target.
 - Godot test runner now checks career-tree labels, HR non-playable status, and milestone progress text.
 - Godot test runner now checks global workstation upgrade purchases plus run-start, rest, and shop effects for every implemented upgrade.
@@ -75,6 +80,7 @@ Result:
 - Godot test runner now checks configured card art paths load, including `card_frontend_component_reuse`.
 - Godot test runner now checks bulk card-art auto-wiring through an existing backend card illustration and a minimum configured-card-art count.
 - Godot test runner now explicitly checks all 10 frontend P0 card illustrations are configured through `CardDef.art_path` and load successfully.
+- Godot test runner now explicitly checks all 10 tester P0 card illustrations are configured through `CardDef.art_path` and load successfully.
 - Godot MCP `get_project_info` reports Godot `4.6.1.stable.official.14d19694e`, 11 scenes, and 25 scripts.
 - Godot MCP `run_project` + `get_debug_output` verified project startup with empty `errors`.
 

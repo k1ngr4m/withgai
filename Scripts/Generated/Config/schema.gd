@@ -146,6 +146,10 @@ class EffectParams:
     var enemy_id: String
     var max_allies: int
     var hits: int
+    var x_energy_scaling: bool
+    var x_energy_multiplier: int
+    var consume_compute: bool
+    var compute_multiplier: int
 
     func _init(_json_) -> void:
         if _json_.get('amount') != null: self.amount = _json_["amount"]
@@ -156,6 +160,10 @@ class EffectParams:
         if _json_.get('enemy_id') != null: self.enemy_id = _json_["enemy_id"]
         if _json_.get('max_allies') != null: self.max_allies = _json_["max_allies"]
         if _json_.get('hits') != null: self.hits = _json_["hits"]
+        if _json_.get('x_energy_scaling') != null: self.x_energy_scaling = _json_["x_energy_scaling"]
+        if _json_.get('x_energy_multiplier') != null: self.x_energy_multiplier = _json_["x_energy_multiplier"]
+        if _json_.get('consume_compute') != null: self.consume_compute = _json_["consume_compute"]
+        if _json_.get('compute_multiplier') != null: self.compute_multiplier = _json_["compute_multiplier"]
 
 
 class EffectSpec:

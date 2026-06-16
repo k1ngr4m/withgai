@@ -1,0 +1,4 @@
+Asset id: card_illust_tester_boundary_check_v1
+Card theme: 边界值校验
+Pipeline: generate2dmap baked_scene_mode, vertical 1024x1536 non-playable flat card illustration; informed by generate2dsprite single-action clarity rules. Preserve the tester identity from char_tester_keyart_v1: confident female QA engineer, glasses, white shirt, black tie, black trousers, tablet, red/yellow warning tags, green check marks, bug motifs, bright precise office lighting. Clean commercial semi-realistic 2D card-game art, simplified office-tech background. Constraints: no readable text, no letters, no numbers, no labels, no logos, no watermark, no speech bubbles, no dense report screen, no card frame, no horror gore, no extra main characters.
+Scene/action: 角色把抽象系统参数推至安全边界，临界警告暴露目标漏洞。
