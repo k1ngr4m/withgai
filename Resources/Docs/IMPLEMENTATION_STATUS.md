@@ -20,6 +20,8 @@
   - repacks the generated tables into the runtime `Data/Generated/Config/game_config.json` through `Tools/pack_luban_config.mjs`
 - `StatusDef.timing_hooks` now declares live runtime hooks for core debuffs and representative class statuses, including anxiety/overtime round-start hooks, weak/vulnerable damage hooks, service round hooks, and targeting/status-resource hooks.
 - Automated combat coverage now verifies anxiety round-start energy loss and decay in addition to weak, vulnerable, and overtime behavior.
+- `BattleService` now resolves backend `service_online` from either the visible status stack or backend `services` resource stack, using the higher value so synced status/resource values do not double count.
+- Automated combat coverage now verifies `service_online` round-start cache/block generation, resource+status no-double-count behavior, and round-end enemy damage.
 - Automated meta-progression coverage now verifies all six global workstation upgrades through their live runtime paths:
   - `meta_chair`, `meta_coffee_beans`, `meta_privacy_screen`, and `meta_hard_drive` at run start
   - `meta_nap_bed` at rest recovery
@@ -56,6 +58,7 @@ Result:
 - `DataTables/gen_client.sh` completed through real Luban generation using `Tools/Luban/Luban.dll` and `.NET SDK 8`.
 - Godot test runner completed with `TEST_RESULT: PASSED`.
 - Godot test runner now checks `StatusDef.timing_hooks` declarations for anxiety, overtime, weak, vulnerable, and service online.
+- Godot test runner now checks the live `service_online` round-start and round-end hooks.
 - Godot test runner now checks career-tree labels, HR non-playable status, and milestone progress text.
 - Godot test runner now checks global workstation upgrade purchases plus run-start, rest, and shop effects for every implemented upgrade.
 - Godot test runner now checks `move_card` named-card and top-card movement across combat piles.

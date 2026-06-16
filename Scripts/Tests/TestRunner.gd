@@ -452,6 +452,25 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(player.get("status_list", {}).get("overtime", 0)) == 1, "overtime decays after triggering")
 
 	run = run_session.create_new_run("backend")
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	player["status_list"] = { "service_online": 2 }
+	player["class_resource_state"] = { "services": 0, "cache": 0 }
+	player["current_block"] = 0
+	battle.call("_round_start_triggers", run, false)
+	_check(int(player.get("class_resource_state", {}).get("cache", 0)) == 2, "service online status adds cache at round start")
+	_check(int(player.get("current_block", 0)) == 4, "service online status adds block at round start")
+	player["class_resource_state"] = { "services": 2, "cache": 0 }
+	player["current_block"] = 0
+	battle.call("_round_start_triggers", run, false)
+	_check(int(player.get("class_resource_state", {}).get("cache", 0)) == 2, "service online status and resource do not double count")
+	var service_enemy: Dictionary = battle.battle_state.get("enemies", [])[0]
+	service_enemy["current_hp"] = 30
+	service_enemy["current_block"] = 0
+	battle.call("_round_end_triggers", run)
+	_check(int(service_enemy.get("current_hp", 0)) == 26, "service online damages enemies at round end")
+
+	run = run_session.create_new_run("backend")
 	run["deck_state"]["upgraded_cards"] = ["card_backend_interface_probe"]
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})

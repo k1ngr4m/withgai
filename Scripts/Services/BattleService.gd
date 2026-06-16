@@ -547,7 +547,7 @@ func _round_start_triggers(run_state: Dictionary, first_turn: bool) -> void:
 		battle_state["log"].append("加班造成精神消耗")
 	player["status_list"] = statuses
 	var resources: Dictionary = player.get("class_resource_state", {})
-	var services := int(resources.get("services", 0))
+	var services := _service_online_count(player)
 	if services > 0:
 		resources["cache"] = int(resources.get("cache", 0)) + services
 		player["current_block"] = int(player.get("current_block", 0)) + services * 2
@@ -558,8 +558,7 @@ func _round_start_triggers(run_state: Dictionary, first_turn: bool) -> void:
 
 func _round_end_triggers(run_state: Dictionary) -> void:
 	var player: Dictionary = battle_state.get("player", {})
-	var resources: Dictionary = player.get("class_resource_state", {})
-	var services := int(resources.get("services", 0))
+	var services := _service_online_count(player)
 	if services > 0:
 		var damage := services * 2
 		for enemy in battle_state.get("enemies", []):
@@ -570,6 +569,11 @@ func _round_end_triggers(run_state: Dictionary) -> void:
 		_check_enemy_phase_triggers(run_state)
 		_collect_defeated_enemies(run_state)
 	_tick_player_turn_end_statuses(player)
+
+func _service_online_count(player: Dictionary) -> int:
+	var resources: Dictionary = player.get("class_resource_state", {})
+	var statuses: Dictionary = player.get("status_list", {})
+	return max(int(resources.get("services", 0)), int(statuses.get("service_online", 0)))
 
 func _tick_player_turn_end_statuses(player: Dictionary) -> void:
 	var statuses: Dictionary = player.get("status_list", {})
