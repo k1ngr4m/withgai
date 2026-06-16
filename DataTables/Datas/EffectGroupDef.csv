@@ -19,7 +19,7 @@
 ,eg_card_backend_api_gateway,"[""eg_card_backend_api_gateway_e01""]"
 ,eg_card_backend_redis_warmup,"[""eg_card_backend_redis_warmup_e01"",""eg_card_backend_redis_warmup_e02""]"
 ,eg_card_backend_message_queue,"[""eg_card_backend_message_queue_e01""]"
-,eg_card_backend_sharding,"[""eg_card_backend_sharding_e01"",""eg_card_backend_sharding_e02""]"
+,eg_card_backend_sharding,"[""eg_card_backend_sharding_e01""]"
 ,eg_card_backend_gray_cutover,"[""eg_card_backend_gray_cutover_e01"",""eg_card_backend_gray_cutover_e02""]"
 ,eg_card_backend_rate_limit,"[""eg_card_backend_rate_limit_e01"",""eg_card_backend_rate_limit_e02""]"
 ,eg_card_backend_async_compensate,"[""eg_card_backend_async_compensate_e01"",""eg_card_backend_async_compensate_e02""]"

@@ -7,6 +7,7 @@ const PLAYER_POSITIVE_STATUS_IDS := [
 	"redis_warmup",
 	"cost_reduction",
 	"request_queue",
+	"sharding",
 	"cache",
 	"component",
 	"style_layer",
@@ -561,6 +562,7 @@ func _start_player_turn(run_state: Dictionary, first_turn := false) -> void:
 		player["current_block"] = 0
 	player["relic_runtime_flags"]["standing_desk_block_used"] = false
 	player["relic_runtime_flags"]["meeting_room_claim_used_this_turn"] = false
+	player["relic_runtime_flags"]["sharding_cache_used_this_turn"] = false
 	player["current_energy"] = int(player.get("base_energy", 3))
 	_round_start_triggers(run_state, first_turn)
 	_roll_enemy_intents()
@@ -673,12 +675,16 @@ func _round_start_triggers(run_state: Dictionary, first_turn: bool) -> void:
 				battle_state["log"]
 			)
 			battle_state["log"].append("API网关检测到服务集群，额外抽牌")
-	var resources: Dictionary = player.get("class_resource_state", {})
 	var services := _service_online_count(player)
 	if services > 0:
-		resources["cache"] = int(resources.get("cache", 0)) + services
+		effect_executor.execute(
+			[{ "effect_type": "add_cache", "target_type": "self", "params": { "amount": services } }],
+			battle_state,
+			run_state,
+			0,
+			battle_state["log"]
+		)
 		player["current_block"] = int(player.get("current_block", 0)) + services * 2
-		player["class_resource_state"] = resources
 		battle_state["log"].append("服务在线：缓存 +%d，防线 +%d" % [services, services * 2])
 	if first_turn and run_state.get("owned_relic_ids", []).has("relic_lumbar_cushion"):
 		battle_state["log"].append("护腰靠垫提供开局防线")
@@ -809,8 +815,17 @@ func _apply_damage_taken_relics(player: Dictionary, run_state: Dictionary, damag
 	var relics: Array = run_state.get("owned_relic_ids", [])
 	if relics.has("relic_read_replica") and not flags.get("read_replica_used", false):
 		flags["read_replica_used"] = true
-		var resources: Dictionary = player.get("class_resource_state", {})
-		resources["cache"] = int(resources.get("cache", 0)) + max(1, int(ceil(damage / 4.0)))
-		player["class_resource_state"] = resources
+		if effect_executor != null:
+			effect_executor.execute(
+				[{ "effect_type": "add_cache", "target_type": "self", "params": { "amount": max(1, int(ceil(damage / 4.0))) } }],
+				battle_state,
+				run_state,
+				0,
+				battle_state["log"]
+			)
+		else:
+			var resources: Dictionary = player.get("class_resource_state", {})
+			resources["cache"] = int(resources.get("cache", 0)) + max(1, int(ceil(damage / 4.0)))
+			player["class_resource_state"] = resources
 		battle_state["log"].append("只读从库快照返还缓存")
 	player["relic_runtime_flags"] = flags

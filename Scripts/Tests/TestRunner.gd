@@ -139,6 +139,13 @@ func _validate_config_references(config, content) -> void:
 		if message_queue_entry.get("effect_type", "") == "apply_status" and message_queue_params.get("status_id", "") == "request_queue" and int(message_queue_params.get("amount", 0)) >= 3:
 			message_queue_applies_requests = true
 	_check(message_queue_applies_requests, "backend message queue applies request queue")
+	var sharding_entries: Array = content.effect_entries(content.card_def("card_backend_sharding").get("effect_group_id", ""))
+	var sharding_applies_status := false
+	for sharding_entry in sharding_entries:
+		var sharding_params: Dictionary = sharding_entry.get("params", {})
+		if sharding_entry.get("effect_type", "") == "apply_status" and sharding_params.get("status_id", "") == "sharding":
+			sharding_applies_status = true
+	_check(sharding_applies_status, "backend sharding applies sharding status")
 	var component_reuse_art := String(content.card_def("card_frontend_component_reuse").get("art_path", ""))
 	_check(component_reuse_art.ends_with("card_illust_frontend_component_reuse_v1/final.png"), "frontend component reuse card art configured")
 	var component_reuse_entries: Array = content.effect_entries(content.card_def("card_frontend_component_reuse").get("effect_group_id", ""))
@@ -298,6 +305,9 @@ func _validate_config_references(config, content) -> void:
 	_check(config.get_def("statuses", "request_queue").get("timing_hooks", []).has("round_end"), "request queue declares round end hook")
 	var request_params: Dictionary = config.get_def("statuses", "request_queue").get("params", {})
 	_check(int(request_params.get("damage_per_request", 0)) > 0, "request queue config has damage per request")
+	_check(config.get_def("statuses", "sharding").get("timing_hooks", []).has("add_cache"), "sharding declares cache gain hook")
+	var sharding_status_params: Dictionary = config.get_def("statuses", "sharding").get("params", {})
+	_check(int(sharding_status_params.get("extra_cache_amount", 0)) > 0, "sharding config has extra cache amount")
 	_check(config.get_def("statuses", "state_boost").get("timing_hooks", []).has("card_played"), "state boost declares card played hook")
 	var state_boost_params: Dictionary = config.get_def("statuses", "state_boost").get("params", {})
 	_check(int(state_boost_params.get("trigger_play_count", 0)) == 4, "state boost config has fourth-card trigger")
@@ -674,6 +684,27 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(player.get("status_list", {}).get("request_queue", 0)) == 0, "backend message queue consumes request status")
 
 	run = run_session.create_new_run("backend")
+	run["owned_relic_ids"] = []
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	player["hand"] = ["card_backend_sharding"]
+	player["current_energy"] = 3
+	player["class_resource_state"]["cache"] = 0
+	player["status_list"] = {}
+	battle.play_card(run, 0, 0)
+	_check(int(player.get("status_list", {}).get("sharding", 0)) == 1, "backend sharding status is applied")
+	executor.execute([{ "effect_type": "add_cache", "target_type": "self", "params": { "amount": 1 } }], battle.battle_state, run, 0, battle.battle_state["log"])
+	_check(int(player.get("class_resource_state", {}).get("cache", 0)) == 2, "backend sharding adds extra first cache each turn")
+	executor.execute([{ "effect_type": "add_cache", "target_type": "self", "params": { "amount": 1 } }], battle.battle_state, run, 0, battle.battle_state["log"])
+	_check(int(player.get("class_resource_state", {}).get("cache", 0)) == 3, "backend sharding only triggers once per turn")
+	player["hand"] = []
+	player["draw_pile"] = []
+	player["discard_pile"] = []
+	battle.call("_start_player_turn", run, false)
+	executor.execute([{ "effect_type": "add_cache", "target_type": "self", "params": { "amount": 1 } }], battle.battle_state, run, 0, battle.battle_state["log"])
+	_check(int(player.get("class_resource_state", {}).get("cache", 0)) == 5, "backend sharding resets on next turn")
+
+	run = run_session.create_new_run("backend")
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
 	var flush_enemy: Dictionary = battle.battle_state.get("enemies", [])[0]
@@ -1004,6 +1035,14 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	player["current_block"] = 0
 	battle.call("_round_start_triggers", run, false)
 	_check(int(player.get("class_resource_state", {}).get("cache", 0)) == 2, "service online status and resource do not double count")
+	player["status_list"] = { "service_online": 1, "sharding": 1 }
+	player["class_resource_state"] = { "services": 0, "cache": 0 }
+	player["relic_runtime_flags"] = {}
+	player["current_block"] = 0
+	battle.call("_round_start_triggers", run, false)
+	_check(int(player.get("class_resource_state", {}).get("cache", 0)) == 2, "sharding boosts service online cache gain")
+	player["status_list"] = {}
+	player["class_resource_state"] = { "services": 2, "cache": 2 }
 	var service_enemy: Dictionary = battle.battle_state.get("enemies", [])[0]
 	service_enemy["current_hp"] = 30
 	service_enemy["current_block"] = 0

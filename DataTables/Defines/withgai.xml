@@ -11,6 +11,7 @@
     <var name="draw_amount" type="int?"/>
     <var name="cost_reduction_amount" type="int?"/>
     <var name="damage_per_request" type="int?"/>
+    <var name="extra_cache_amount" type="int?"/>
     <var name="trigger_play_count" type="int?"/>
     <var name="style_layer_amount" type="int?"/>
     <var name="component_amount" type="int?"/>

@@ -302,7 +302,7 @@
     "effect_group_id": "eg_card_backend_sharding",
     "upgrade_to": "card_backend_sharding_plus",
     "enabled_in_first_playable": true,
-    "description": "分库分表：建立长期收益。",
+    "description": "分库分表：建立长期状态，每回合第一次获得缓存时额外获得 1。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_backend_sharding_v1/final.png"
   },
   {

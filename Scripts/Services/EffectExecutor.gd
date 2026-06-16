@@ -40,7 +40,7 @@ func _execute_entry(entry: Dictionary, battle_state: Dictionary, run_state: Dict
 		"deploy_service":
 			_add_class_resource(battle_state, "services", max(1, amount), battle_log, "部署服务")
 		"add_cache":
-			_add_class_resource(battle_state, "cache", amount, battle_log, "缓存")
+			_add_cache(battle_state, amount, battle_log)
 		"add_component":
 			_add_component(battle_state, run_state, amount, params, battle_log)
 		"add_style_layer":
@@ -414,6 +414,24 @@ func _add_compute(battle_state: Dictionary, run_state: Dictionary, amount: int, 
 	if amount > 0:
 		_add_compute_complexity(battle_state, amount, battle_log)
 		_apply_compute_relics(battle_state, run_state, battle_log)
+
+func _add_cache(battle_state: Dictionary, amount: int, battle_log: Array) -> void:
+	_add_class_resource(battle_state, "cache", amount, battle_log, "缓存")
+	if amount <= 0:
+		return
+	var player := _player(battle_state)
+	var statuses: Dictionary = player.get("status_list", {})
+	var sharding_stacks := int(statuses.get("sharding", 0))
+	if sharding_stacks <= 0:
+		return
+	var flags: Dictionary = player.get("relic_runtime_flags", {})
+	if bool(flags.get("sharding_cache_used_this_turn", false)):
+		return
+	var params: Dictionary = config_service.get_def("statuses", "sharding").get("params", {})
+	var extra_cache: int = sharding_stacks * max(1, int(params.get("extra_cache_amount", 1)))
+	flags["sharding_cache_used_this_turn"] = true
+	player["relic_runtime_flags"] = flags
+	_add_class_resource(battle_state, "cache", extra_cache, battle_log, "分库分表额外缓存")
 
 func _add_compute_complexity(battle_state: Dictionary, amount: int, battle_log: Array) -> void:
 	var params: Dictionary = config_service.get_def("statuses", "complexity").get("params", {})
