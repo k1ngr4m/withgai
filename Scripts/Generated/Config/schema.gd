@@ -513,6 +513,8 @@ class StatusDef:
     var stack_rule: String
     ## timing_hooks
     var timing_hooks: Array[String]
+    ## params
+    var params: StatusParams
     ## effect_group_id
     var effect_group_id: String
     ## max_stack
@@ -528,10 +530,24 @@ class StatusDef:
         self.stack_rule = _json_["stack_rule"]
         self.timing_hooks = []
         for _ele in _json_["timing_hooks"]: var _e: String; _e = _ele; self.timing_hooks.append(_e)
+        self.params = StatusParams.new(_json_["params"])
         self.effect_group_id = _json_["effect_group_id"]
         self.max_stack = _json_["max_stack"]
         self.is_hidden = _json_["is_hidden"]
         self.type = _json_["type"]
+
+
+class StatusParams:
+    var compute_complexity_gain: int
+    var pressure_threshold: int
+    var energy_loss: int
+    var spirit_loss: int
+
+    func _init(_json_) -> void:
+        if _json_.get('compute_complexity_gain') != null: self.compute_complexity_gain = _json_["compute_complexity_gain"]
+        if _json_.get('pressure_threshold') != null: self.pressure_threshold = _json_["pressure_threshold"]
+        if _json_.get('energy_loss') != null: self.energy_loss = _json_["energy_loss"]
+        if _json_.get('spirit_loss') != null: self.spirit_loss = _json_["spirit_loss"]
 
 
 ## ClassDef table

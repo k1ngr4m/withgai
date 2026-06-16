@@ -4613,6 +4613,7 @@
         "round_start",
         "expire"
       ],
+      "params": {},
       "effect_group_id": "",
       "max_stack": 99,
       "is_hidden": false,
@@ -4626,6 +4627,7 @@
         "round_start",
         "expire"
       ],
+      "params": {},
       "effect_group_id": "",
       "max_stack": 99,
       "is_hidden": false,
@@ -4641,6 +4643,7 @@
         "enemy_action_end",
         "expire"
       ],
+      "params": {},
       "effect_group_id": "",
       "max_stack": 99,
       "is_hidden": false,
@@ -4656,6 +4659,7 @@
         "enemy_action_end",
         "expire"
       ],
+      "params": {},
       "effect_group_id": "",
       "max_stack": 99,
       "is_hidden": false,
@@ -4669,6 +4673,7 @@
         "round_start",
         "round_end"
       ],
+      "params": {},
       "effect_group_id": "",
       "max_stack": 99,
       "is_hidden": false,
@@ -4681,6 +4686,7 @@
       "timing_hooks": [
         "deal_damage"
       ],
+      "params": {},
       "effect_group_id": "",
       "max_stack": 99,
       "is_hidden": false,
@@ -4691,6 +4697,7 @@
       "name": "组件",
       "stack_rule": "stack",
       "timing_hooks": [],
+      "params": {},
       "effect_group_id": "",
       "max_stack": 99,
       "is_hidden": false,
@@ -4703,6 +4710,7 @@
       "timing_hooks": [
         "deal_damage"
       ],
+      "params": {},
       "effect_group_id": "",
       "max_stack": 99,
       "is_hidden": false,
@@ -4718,6 +4726,7 @@
         "deal_damage",
         "expire"
       ],
+      "params": {},
       "effect_group_id": "",
       "max_stack": 99,
       "is_hidden": false,
@@ -4730,6 +4739,7 @@
       "timing_hooks": [
         "deal_damage"
       ],
+      "params": {},
       "effect_group_id": "",
       "max_stack": 99,
       "is_hidden": false,
@@ -4743,6 +4753,7 @@
         "inject_bug",
         "deal_damage"
       ],
+      "params": {},
       "effect_group_id": "",
       "max_stack": 99,
       "is_hidden": false,
@@ -4755,6 +4766,7 @@
       "timing_hooks": [
         "deal_damage"
       ],
+      "params": {},
       "effect_group_id": "",
       "max_stack": 99,
       "is_hidden": false,
@@ -4764,7 +4776,16 @@
       "id": "complexity",
       "name": "复杂度",
       "stack_rule": "stack",
-      "timing_hooks": [],
+      "timing_hooks": [
+        "add_compute",
+        "round_start"
+      ],
+      "params": {
+        "compute_complexity_gain": 1,
+        "pressure_threshold": 3,
+        "energy_loss": 1,
+        "spirit_loss": 0
+      },
       "effect_group_id": "",
       "max_stack": 99,
       "is_hidden": false,
@@ -4778,6 +4799,7 @@
         "apply_status",
         "modify_intent"
       ],
+      "params": {},
       "effect_group_id": "",
       "max_stack": 99,
       "is_hidden": false,
@@ -4790,6 +4812,7 @@
       "timing_hooks": [
         "target_resolution"
       ],
+      "params": {},
       "effect_group_id": "",
       "max_stack": 99,
       "is_hidden": false,
@@ -4800,6 +4823,7 @@
       "name": "绩效",
       "stack_rule": "stack",
       "timing_hooks": [],
+      "params": {},
       "effect_group_id": "",
       "max_stack": 99,
       "is_hidden": false,
@@ -4810,6 +4834,7 @@
       "name": "优化名单",
       "stack_rule": "stack",
       "timing_hooks": [],
+      "params": {},
       "effect_group_id": "",
       "max_stack": 99,
       "is_hidden": false,

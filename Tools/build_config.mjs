@@ -496,14 +496,24 @@ const statusTimingHooks = {
   case_mark: ["deal_damage"],
   diff: ["inject_bug", "deal_damage"],
   compute: ["deal_damage"],
+  complexity: ["add_compute", "round_start"],
   priority: ["target_resolution"],
   requirement_change: ["apply_status", "modify_intent"],
+};
+const statusParams = {
+  complexity: {
+    compute_complexity_gain: 1,
+    pressure_threshold: 3,
+    energy_loss: 1,
+    spirit_loss: 0,
+  },
 };
 const statusList = statuses.map(([id, name, type]) => ({
   id,
   name,
   stack_rule: "stack",
   timing_hooks: statusTimingHooks[id] ?? [],
+  params: statusParams[id] ?? {},
   effect_group_id: "",
   max_stack: 99,
   is_hidden: false,
@@ -581,7 +591,7 @@ const lubanJsonTypes = {
   RelicDef: { allowed_classes: "list,string", trigger_list: "list,string" },
   RewardProfileDef: { currency_range: "list,int" },
   ShopPoolDef: { card_pool_refs: "list,string", relic_pool_refs: "list,string" },
-  StatusDef: { timing_hooks: "list,string" },
+  StatusDef: { timing_hooks: "list,string", params: "StatusParams" },
 };
 function csvType(tableName, rows, col) {
   if (lubanJsonTypes[tableName]?.[col]) return lubanJsonTypes[tableName][col];
@@ -613,7 +623,7 @@ const tableDefs = [
   ["EncounterDef", Object.values(config.encounters), ["id", "chapter", "node_type", "enemy_ids", "weight", "min_floor", "max_floor"]],
   ["MapNodeDef", Object.values(config.map_nodes), ["id", "chapter", "node_type", "weight", "can_repeat", "reward_profile_id"]],
   ["EventDef", Object.values(config.events), ["id", "name", "chapter_tags", "allowed_classes", "text", "options", "weight"]],
-  ["StatusDef", Object.values(config.statuses), ["id", "name", "stack_rule", "timing_hooks", "effect_group_id", "max_stack", "is_hidden", "type"]],
+  ["StatusDef", Object.values(config.statuses), ["id", "name", "stack_rule", "timing_hooks", "params", "effect_group_id", "max_stack", "is_hidden", "type"]],
   ["MetaUpgradeDef", Object.values(config.meta_upgrades), ["id", "type", "name", "cost_curve", "max_level", "effect_group_id", "prerequisite_ids", "description"]],
   ["EffectGroupDef", Object.values(config.effect_groups), ["id", "entry_ids"]],
   ["EffectEntryDef", Object.values(config.effect_entries), ["id", "effect_group_id", "order", "effect_type", "target_type", "params"]],
@@ -651,6 +661,12 @@ const tableSchemaLines = [
 fs.writeFileSync(path.join(tablesOut, "__tables__.csv"), tableSchemaLines.join("\n") + "\n");
 
 const lubanDefines = `<module name="">
+  <bean name="StatusParams">
+    <var name="compute_complexity_gain" type="int?"/>
+    <var name="pressure_threshold" type="int?"/>
+    <var name="energy_loss" type="int?"/>
+    <var name="spirit_loss" type="int?"/>
+  </bean>
   <bean name="EffectParams">
     <var name="amount" type="int?"/>
     <var name="status_id" type="string?"/>

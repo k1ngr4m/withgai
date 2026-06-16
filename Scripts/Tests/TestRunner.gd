@@ -206,6 +206,11 @@ func _validate_config_references(config, content) -> void:
 	_check(config.get_def("statuses", "diff").get("timing_hooks", []).has("deal_damage"), "diff declares damage hook")
 	_check(config.get_def("statuses", "cache").get("timing_hooks", []).has("deal_damage"), "cache declares damage hook")
 	_check(config.get_def("statuses", "compute").get("timing_hooks", []).has("deal_damage"), "compute declares damage hook")
+	_check(config.get_def("statuses", "complexity").get("timing_hooks", []).has("add_compute"), "complexity declares compute gain hook")
+	_check(config.get_def("statuses", "complexity").get("timing_hooks", []).has("round_start"), "complexity declares round start pressure hook")
+	var complexity_params: Dictionary = config.get_def("statuses", "complexity").get("params", {})
+	_check(int(complexity_params.get("compute_complexity_gain", 0)) > 0, "complexity config gains from compute")
+	_check(int(complexity_params.get("pressure_threshold", 0)) > 0, "complexity config has pressure threshold")
 	_check(config.get_def("statuses", "service_online").get("timing_hooks", []).has("round_end"), "service online declares round end hook")
 	var flush_entries: Array = content.effect_entries(content.card_def("card_backend_flush_all").get("effect_group_id", ""))
 	var flush_consumes_cache := false
@@ -365,14 +370,26 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(paper_enemy.get("current_hp", 0)) == 42, "paper citation adds damage at high complexity")
 
 	run = run_session.create_new_run("algorithm")
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	player["class_resource_state"]["compute"] = 0
+	player["class_resource_state"]["complexity"] = 0
+	executor.execute([{ "effect_type": "add_compute", "target_type": "self", "params": { "amount": 2 } }], battle.battle_state, run, 0, battle.battle_state["log"])
+	_check(int(player.get("class_resource_state", {}).get("compute", 0)) == 2, "algorithm compute gain adds compute")
+	_check(int(player.get("class_resource_state", {}).get("complexity", 0)) == 2, "algorithm compute gain raises complexity")
+
+	run = run_session.create_new_run("algorithm")
 	run["owned_relic_ids"].append("relic_gpu_training_card")
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
 	executor.execute([{ "effect_type": "add_compute", "target_type": "self", "params": { "amount": 1 } }], battle.battle_state, run, 0, battle.battle_state["log"])
 	var compute_after_gpu := int(player.get("class_resource_state", {}).get("compute", 0))
+	var complexity_after_gpu := int(player.get("class_resource_state", {}).get("complexity", 0))
 	executor.execute([{ "effect_type": "add_compute", "target_type": "self", "params": { "amount": 1 } }], battle.battle_state, run, 0, battle.battle_state["log"])
 	_check(compute_after_gpu == 2, "gpu training card adds compute on first gain")
+	_check(complexity_after_gpu == 2, "gpu training card bonus compute also raises complexity")
 	_check(int(player.get("class_resource_state", {}).get("compute", 0)) == 3, "gpu training card triggers only once")
+	_check(int(player.get("class_resource_state", {}).get("complexity", 0)) == 3, "subsequent compute raises complexity once")
 
 	run = run_session.create_new_run("backend")
 	battle = _start_first_battle(run, content, map, executor)
@@ -648,6 +665,22 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	battle.call("_round_start_triggers", run, false)
 	_check(int(player.get("current_spirit", 0)) == 38, "overtime damages at round start")
 	_check(int(player.get("status_list", {}).get("overtime", 0)) == 1, "overtime decays after triggering")
+
+	run = run_session.create_new_run("algorithm")
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	player["status_list"] = {}
+	player["class_resource_state"] = { "compute": 0, "complexity": 3 }
+	player["current_energy"] = 3
+	player["current_spirit"] = 40
+	battle.call("_round_start_triggers", run, false)
+	_check(int(player.get("current_energy", 0)) == 2, "high complexity reduces round start energy")
+	_check(int(player.get("current_spirit", 0)) == 40, "complexity pressure uses configured spirit loss")
+	player["status_list"] = { "complexity": 4 }
+	player["class_resource_state"] = { "compute": 0, "complexity": 1 }
+	player["current_energy"] = 3
+	battle.call("_round_start_triggers", run, false)
+	_check(int(player.get("current_energy", 0)) == 2, "complexity status and resource do not double count")
 
 	run = run_session.create_new_run("backend")
 	battle = _start_first_battle(run, content, map, executor)

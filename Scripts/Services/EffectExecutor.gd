@@ -363,7 +363,15 @@ func _sync_status_resource(battle_state: Dictionary, status_id: String, amount: 
 func _add_compute(battle_state: Dictionary, run_state: Dictionary, amount: int, battle_log: Array) -> void:
 	_add_class_resource(battle_state, "compute", amount, battle_log, "算力")
 	if amount > 0:
+		_add_compute_complexity(battle_state, amount, battle_log)
 		_apply_compute_relics(battle_state, run_state, battle_log)
+
+func _add_compute_complexity(battle_state: Dictionary, amount: int, battle_log: Array) -> void:
+	var params: Dictionary = config_service.get_def("statuses", "complexity").get("params", {})
+	var gain_per_compute: int = int(params.get("compute_complexity_gain", 0))
+	var complexity_gain: int = int(max(0, amount)) * int(max(0, gain_per_compute))
+	if complexity_gain > 0:
+		_add_class_resource(battle_state, "complexity", complexity_gain, battle_log, "复杂度")
 
 func _add_class_resource(battle_state: Dictionary, key: String, amount: int, battle_log: Array, label: String) -> void:
 	var player := _player(battle_state)
@@ -449,6 +457,7 @@ func _apply_compute_relics(battle_state: Dictionary, run_state: Dictionary, batt
 	if run_state.get("owned_relic_ids", []).has("relic_gpu_training_card") and not flags.get("gpu_training_card_used", false):
 		flags["gpu_training_card_used"] = true
 		_add_class_resource(battle_state, "compute", 1, battle_log, "GPU训练卡追加算力")
+		_add_compute_complexity(battle_state, 1, battle_log)
 	player["relic_runtime_flags"] = flags
 
 func _create_card(battle_state: Dictionary, card_id: String, destination: String, amount: int, battle_log: Array) -> void:

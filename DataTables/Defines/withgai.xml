@@ -1,4 +1,10 @@
 <module name="">
+  <bean name="StatusParams">
+    <var name="compute_complexity_gain" type="int?"/>
+    <var name="pressure_threshold" type="int?"/>
+    <var name="energy_loss" type="int?"/>
+    <var name="spirit_loss" type="int?"/>
+  </bean>
   <bean name="EffectParams">
     <var name="amount" type="int?"/>
     <var name="status_id" type="string?"/>

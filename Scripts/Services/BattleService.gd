@@ -552,6 +552,7 @@ func _round_start_triggers(run_state: Dictionary, first_turn: bool) -> void:
 		statuses["overtime"] = max(0, int(statuses.get("overtime", 0)) - 1)
 		battle_state["log"].append("加班造成精神消耗")
 	player["status_list"] = statuses
+	_apply_complexity_pressure(player)
 	var resources: Dictionary = player.get("class_resource_state", {})
 	var services := _service_online_count(player)
 	if services > 0:
@@ -580,6 +581,36 @@ func _service_online_count(player: Dictionary) -> int:
 	var resources: Dictionary = player.get("class_resource_state", {})
 	var statuses: Dictionary = player.get("status_list", {})
 	return max(int(resources.get("services", 0)), int(statuses.get("service_online", 0)))
+
+func _apply_complexity_pressure(player: Dictionary) -> void:
+	var params := _status_params("complexity")
+	var threshold := int(params.get("pressure_threshold", 0))
+	if threshold <= 0:
+		return
+	var complexity := _complexity_count(player)
+	if complexity < threshold:
+		return
+	var energy_loss := int(params.get("energy_loss", 0))
+	var spirit_loss := int(params.get("spirit_loss", 0))
+	var log_parts: Array = []
+	if energy_loss > 0:
+		player["current_energy"] = max(0, int(player.get("current_energy", 0)) - energy_loss)
+		log_parts.append("精力 -%d" % energy_loss)
+	if spirit_loss > 0:
+		player["current_spirit"] = max(0, int(player.get("current_spirit", 0)) - spirit_loss)
+		log_parts.append("精神 -%d" % spirit_loss)
+	if not log_parts.is_empty():
+		battle_state["log"].append("复杂度过高：%s" % "，".join(log_parts))
+
+func _complexity_count(player: Dictionary) -> int:
+	var resources: Dictionary = player.get("class_resource_state", {})
+	var statuses: Dictionary = player.get("status_list", {})
+	return max(int(resources.get("complexity", 0)), int(statuses.get("complexity", 0)))
+
+func _status_params(status_id: String) -> Dictionary:
+	if content_resolver == null or content_resolver.config_service == null:
+		return {}
+	return content_resolver.config_service.get_def("statuses", status_id).get("params", {})
 
 func _tick_player_turn_end_statuses(player: Dictionary) -> void:
 	var statuses: Dictionary = player.get("status_list", {})
