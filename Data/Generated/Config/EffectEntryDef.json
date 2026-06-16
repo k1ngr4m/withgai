@@ -2239,11 +2239,11 @@
     "id": "eg_card_pm_priority_shuffle_e02",
     "effect_group_id": "eg_card_pm_priority_shuffle",
     "order": 2,
-    "effect_type": "apply_status",
+    "effect_type": "shuffle_priority",
     "target_type": "selected",
     "params": {
-      "amount": 1,
-      "status_id": "priority"
+      "amount": 3,
+      "bonus_amount": 1
     }
   },
   {

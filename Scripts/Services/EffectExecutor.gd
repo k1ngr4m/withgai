@@ -79,6 +79,8 @@ func _execute_entry(entry: Dictionary, battle_state: Dictionary, run_state: Dict
 			_compress_complexity(battle_state, run_state, params, battle_log)
 		"modify_intent":
 			_modify_intents(entry.get("target_type", "selected"), battle_state, run_state, target_index, amount, battle_log)
+		"shuffle_priority":
+			_shuffle_priority(entry.get("target_type", "selected"), battle_state, target_index, params, battle_log)
 		"set_priority_top":
 			_set_priority_top(entry.get("target_type", "selected"), battle_state, target_index, params, battle_log)
 		"create_card":
@@ -795,6 +797,26 @@ func _set_priority_top(target_type: String, battle_state: Dictionary, target_ind
 		enemy["status_list"] = statuses
 	_sync_enemy_priority_resource(battle_state)
 	battle_log.append("优先级置顶：%s x%d" % [target.get("name", "敌人"), priority_amount])
+
+func _shuffle_priority(target_type: String, battle_state: Dictionary, target_index: int, params: Dictionary, battle_log: Array) -> void:
+	var targets := _target_enemies(target_type, battle_state, target_index)
+	if targets.is_empty():
+		battle_log.append("没有可重排目标")
+		return
+	var primary: Dictionary = targets[0]
+	var primary_amount: int = max(1, int(params.get("amount", 3)))
+	var secondary_amount: int = max(0, int(params.get("bonus_amount", 1)))
+	for enemy in _alive_enemies(battle_state):
+		var statuses: Dictionary = enemy.get("status_list", {})
+		if is_same(enemy, primary):
+			statuses["priority"] = primary_amount
+		elif secondary_amount > 0:
+			statuses["priority"] = secondary_amount
+		else:
+			statuses.erase("priority")
+		enemy["status_list"] = statuses
+	_sync_enemy_priority_resource(battle_state)
+	battle_log.append("优先级重排：%s 置为主目标" % primary.get("name", "敌人"))
 
 func _modify_intent(enemy: Dictionary, battle_state: Dictionary, run_state: Dictionary, amount: int, battle_log: Array) -> void:
 	var intent: Dictionary = enemy.get("intent", {})

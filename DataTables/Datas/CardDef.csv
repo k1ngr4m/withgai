@@ -123,7 +123,7 @@
 ,card_algo_model_converge,模型收敛,"[""algorithm""]",rare,attack,2,single_enemy,[],eg_card_algo_model_converge,card_algo_model_converge_plus,true,模型收敛：造成伤害。,
 ,card_algo_zero_complexity,复杂度归零,"[""algorithm""]",rare,skill,2,self,[],eg_card_algo_zero_complexity,card_algo_zero_complexity_plus,true,复杂度归零：获得防线并触发职业资源。,
 ,card_pm_change_wording,需求改口,"[""product_manager""]",common,skill,1,self,[],eg_card_pm_change_wording,card_pm_change_wording_plus,true,需求改口：获得防线并触发职业资源。,res://Resources/Art/Generated/P0/cards/card_illust_pm_change_request_v1/final.png
-,card_pm_priority_shuffle,优先级重排,"[""product_manager""]",common,skill,1,self,[],eg_card_pm_priority_shuffle,card_pm_priority_shuffle_plus,true,优先级重排：获得防线并触发职业资源。,
+,card_pm_priority_shuffle,优先级重排,"[""product_manager""]",common,skill,1,selected,[],eg_card_pm_priority_shuffle,card_pm_priority_shuffle_plus,true,优先级重排：获得防线，将选定目标排为最高优先级，并给其他目标低优先级。,
 ,card_pm_meeting_minutes,会议纪要,"[""product_manager""]",common,skill,0,self,[],eg_card_pm_meeting_minutes,card_pm_meeting_minutes_plus,true,会议纪要：获得防线并触发职业资源。,
 ,card_pm_revision_notice,改版通知,"[""product_manager""]",common,skill,1,self,[],eg_card_pm_revision_notice,card_pm_revision_notice_plus,true,改版通知：获得防线并触发职业资源。,
 ,card_pm_message_align,口径统一,"[""product_manager""]",common,skill,1,self,[],eg_card_pm_message_align,card_pm_message_align_plus,true,口径统一：获得防线并触发职业资源。,res://Resources/Art/Generated/P0/cards/card_illust_pm_message_align_v1/final.png

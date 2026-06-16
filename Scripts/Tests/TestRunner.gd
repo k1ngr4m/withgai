@@ -493,6 +493,18 @@ func _validate_config_references(config, content) -> void:
 			case_matrix_applies_status = true
 	_check(case_matrix_applies_status, "tester case matrix applies case matrix status")
 	_check(content.card_def("card_pm_schedule_compress").get("target_type", "") == "highest_priority_enemy", "pm schedule compress targets priority")
+	_check(content.card_def("card_pm_priority_shuffle").get("target_type", "") == "selected", "pm priority shuffle targets selected enemy")
+	var priority_shuffle_entries: Array = content.effect_entries(content.card_def("card_pm_priority_shuffle").get("effect_group_id", ""))
+	var priority_shuffle_blocks := false
+	var priority_shuffle_reorders := false
+	for entry in priority_shuffle_entries:
+		var params: Dictionary = entry.get("params", {})
+		if entry.get("effect_type", "") == "gain_block" and int(params.get("amount", 0)) > 0:
+			priority_shuffle_blocks = true
+		if entry.get("effect_type", "") == "shuffle_priority" and entry.get("target_type", "") == "selected" and int(params.get("amount", 0)) > int(params.get("bonus_amount", 0)):
+			priority_shuffle_reorders = true
+	_check(priority_shuffle_blocks, "pm priority shuffle grants block")
+	_check(priority_shuffle_reorders, "pm priority shuffle assigns selected target highest priority")
 	_check(content.card_def("card_pm_priority_top").get("target_type", "") == "selected", "pm priority top targets selected enemy")
 	var priority_top_entries: Array = content.effect_entries(content.card_def("card_pm_priority_top").get("effect_group_id", ""))
 	var priority_top_sets_target := false
@@ -1322,6 +1334,36 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(battle.battle_state["enemies"][0].get("current_hp", 0)) == 50, "pm priority attack ignores selected low priority target")
 	_check(int(battle.battle_state["enemies"][1].get("current_hp", 0)) < 50, "pm priority attack hits highest priority target")
 	_check(int(battle.battle_state["enemies"][1].get("status_list", {}).get("requirement_change", 0)) >= 1, "pm priority attack marks hit target")
+
+	run = run_session.create_new_run("product_manager")
+	run["owned_relic_ids"] = []
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	var priority_shuffle_enemies: Array = battle.battle_state.get("enemies", [])
+	if priority_shuffle_enemies.size() == 1:
+		priority_shuffle_enemies.append(priority_shuffle_enemies[0].duplicate(true))
+		priority_shuffle_enemies[1]["name"] = "次要优先级目标"
+	priority_shuffle_enemies[0]["current_hp"] = 50
+	priority_shuffle_enemies[0]["current_block"] = 0
+	priority_shuffle_enemies[0]["status_list"] = {}
+	priority_shuffle_enemies[1]["current_hp"] = 50
+	priority_shuffle_enemies[1]["current_block"] = 0
+	priority_shuffle_enemies[1]["status_list"] = { "priority": 5 }
+	battle.battle_state["enemies"] = priority_shuffle_enemies
+	player["hand"] = ["card_pm_priority_shuffle", "card_pm_schedule_compress"]
+	player["draw_pile"] = []
+	player["discard_pile"] = []
+	player["current_energy"] = 2
+	player["current_block"] = 0
+	player["class_resource_state"]["priority_targets"] = 5
+	battle.play_card(run, 0, 0)
+	_check(int(player.get("current_block", 0)) == 8, "pm priority shuffle grants configured block")
+	_check(int(priority_shuffle_enemies[0].get("status_list", {}).get("priority", 0)) == 3, "pm priority shuffle promotes selected target")
+	_check(int(priority_shuffle_enemies[1].get("status_list", {}).get("priority", 0)) == 1, "pm priority shuffle demotes other targets")
+	_check(int(player.get("class_resource_state", {}).get("priority_targets", 0)) == 4, "pm priority shuffle recomputes priority resource")
+	battle.play_card(run, 0, 1)
+	_check(int(priority_shuffle_enemies[0].get("current_hp", 0)) < 50, "pm priority shuffle redirects next priority attack")
+	_check(int(priority_shuffle_enemies[1].get("current_hp", 0)) == 50, "pm priority shuffle prevents stale priority from controlling target")
 
 	run = run_session.create_new_run("product_manager")
 	run["owned_relic_ids"] = []

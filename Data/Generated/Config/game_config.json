@@ -2233,12 +2233,12 @@
       "rarity": "common",
       "type": "skill",
       "cost": 1,
-      "target_type": "self",
+      "target_type": "selected",
       "keywords": [],
       "effect_group_id": "eg_card_pm_priority_shuffle",
       "upgrade_to": "card_pm_priority_shuffle_plus",
       "enabled_in_first_playable": true,
-      "description": "优先级重排：获得防线并触发职业资源。",
+      "description": "优先级重排：获得防线，将选定目标排为最高优先级，并给其他目标低优先级。",
       "art_path": ""
     },
     "card_pm_meeting_minutes": {
@@ -7852,11 +7852,11 @@
           }
         },
         {
-          "effect_type": "apply_status",
+          "effect_type": "shuffle_priority",
           "target_type": "selected",
           "params": {
-            "amount": 1,
-            "status_id": "priority"
+            "amount": 3,
+            "bonus_amount": 1
           }
         }
       ]
@@ -11587,11 +11587,11 @@
       "id": "eg_card_pm_priority_shuffle_e02",
       "effect_group_id": "eg_card_pm_priority_shuffle",
       "order": 2,
-      "effect_type": "apply_status",
+      "effect_type": "shuffle_priority",
       "target_type": "selected",
       "params": {
-        "amount": 1,
-        "status_id": "priority"
+        "amount": 3,
+        "bonus_amount": 1
       }
     },
     "eg_card_pm_meeting_minutes_e01": {

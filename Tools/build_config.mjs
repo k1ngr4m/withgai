@@ -79,7 +79,7 @@ const cardNames = {
 const rarityByIndex = (i) => (i < 14 ? "common" : i < 24 ? "uncommon" : "rare");
 const targetForType = (type) => (type === "attack" ? "single_enemy" : "self");
 const priorityTargetCards = new Set(["card_pm_schedule_compress", "card_pm_roadmap", "card_pm_snowball"]);
-const selectedTargetCards = new Set(["card_shared_meeting_mute", "card_tester_92_bugs", "card_tester_boundary_check", "card_tester_bug_upgrade", "card_tester_regression_confirm", "card_pm_priority_top"]);
+const selectedTargetCards = new Set(["card_shared_meeting_mute", "card_tester_92_bugs", "card_tester_boundary_check", "card_tester_bug_upgrade", "card_tester_regression_confirm", "card_pm_priority_shuffle", "card_pm_priority_top"]);
 const targetForCard = (type, id) => {
   if (priorityTargetCards.has(id)) return "highest_priority_enemy";
   return selectedTargetCards.has(id) ? "selected" : targetForType(type);
@@ -122,6 +122,7 @@ const specialCardDescriptions = {
   card_algo_big_o_compress: "大O压缩：将复杂度转换成算力和防线。",
   card_algo_pruning: "剪枝优化：降低复杂度，并让下一张牌费用降低。",
   card_algo_global_optimum: "全局最优解：消耗全部精力与算力，按投入造成高额伤害。",
+  card_pm_priority_shuffle: "优先级重排：获得防线，将选定目标排为最高优先级，并给其他目标低优先级。",
   card_pm_priority_top: "优先级置顶：将选定目标置为最高优先级，清空其他目标优先级并抽牌。",
   card_pm_scope_spread: "范围蔓延：建立长期状态，使每次需求变更额外影响另一个敌人。",
 };
@@ -325,6 +326,12 @@ function cardEffects(classId, cardId, type, cost, idx) {
     return [
       { effect_type: "apply_status", target_type: "self", params: { status_id: "scope_spread", amount: 1 } },
       { effect_type: "draw_cards", target_type: "self", params: { amount: 1 } },
+    ];
+  }
+  if (cardId === "card_pm_priority_shuffle") {
+    return [
+      { effect_type: "gain_block", target_type: "self", params: { amount: 8 } },
+      { effect_type: "shuffle_priority", target_type: "selected", params: { amount: 3, bonus_amount: 1 } },
     ];
   }
   if (cardId === "card_pm_priority_top") {
