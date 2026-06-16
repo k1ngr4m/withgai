@@ -56,6 +56,7 @@
     <var name="compute_per_complexity" type="int?"/>
     <var name="block_per_complexity" type="int?"/>
     <var name="cards_played_multiplier" type="int?"/>
+    <var name="cards_played_bonus_threshold" type="int?"/>
     <var name="style_layer_hits" type="bool?"/>
     <var name="style_layer_hit_multiplier" type="int?"/>
     <var name="consume_all_style_layers" type="bool?"/>

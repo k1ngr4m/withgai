@@ -32,7 +32,7 @@
 ,card_backend_trace_chain,追踪链路,"[""backend""]",rare,skill,1,self,[],eg_card_backend_trace_chain,card_backend_trace_chain_plus,true,追踪链路：检索抽牌堆并抽取一张服务相关牌。,
 ,card_backend_disaster_recovery,灾备接管,"[""backend""]",rare,skill,2,self,[],eg_card_backend_disaster_recovery,card_backend_disaster_recovery_plus,true,灾备接管：获得防线并触发职业资源。,
 ,card_backend_zero_downtime,零停机升级,"[""backend""]",rare,power,3,self,[],eg_card_backend_zero_downtime,card_backend_zero_downtime_plus,true,零停机升级：建立长期收益。,
-,card_frontend_pixel_tap,像素敲击,"[""frontend""]",common,attack,1,single_enemy,[],eg_card_frontend_pixel_tap,card_frontend_pixel_tap_plus,true,像素敲击：造成伤害。,
+,card_frontend_pixel_tap,像素敲击,"[""frontend""]",common,attack,1,single_enemy,[],eg_card_frontend_pixel_tap,card_frontend_pixel_tap_plus,true,像素敲击：造成基础伤害；若本回合已打出其他牌则追加轻伤。,
 ,card_frontend_flex_layout,Flex排版,"[""frontend""]",common,skill,1,self,[],eg_card_frontend_flex_layout,card_frontend_flex_layout_plus,true,Flex排版：获得防线并生成 1 个组件。,
 ,card_frontend_slice_sprint,切图冲刺,"[""frontend""]",common,skill,0,self,[],eg_card_frontend_slice_sprint,card_frontend_slice_sprint_plus,true,切图冲刺：抽牌并获得样式层。,
 ,card_frontend_hotfix_style,热更新样式,"[""frontend""]",common,skill,1,self,[],eg_card_frontend_hotfix_style,card_frontend_hotfix_style_plus,true,热更新样式：使下一张攻击牌追加样式层收益。,res://Resources/Art/Generated/P0/cards/card_illust_frontend_hotfix_style_v1/final.png

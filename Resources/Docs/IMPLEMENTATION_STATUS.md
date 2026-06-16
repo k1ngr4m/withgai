@@ -41,6 +41,10 @@
   - generated config marks `cache` as a `deal_damage` hook
   - the card consumes all stored cache and converts each stack into bonus single-target damage
   - runtime consumption keeps backend cache resource/status values synchronized downward
+- Frontend `card_frontend_pixel_tap` now works as the designed starter combo attack:
+  - generated config keeps the base single-target damage and adds a played-card threshold bonus
+  - runtime deals base damage as the first card and adds light damage when another card was already played this turn
+  - this gives the four-copy frontend starter attack its intended low-cost combo payoff
 - Frontend `card_frontend_component_reuse` now works as the designed component-combo card:
   - generated config requires an existing component before copying
   - successful reuse copies one component and draws a card
@@ -265,6 +269,7 @@ Result:
 - Godot test runner now checks tester `card_tester_report_lock` generated params, Bug/Diff damage-hook declarations, and real combat damage scaling from Bug, case, and Diff stacks.
 - Godot test runner now checks tester `Diff` hook declaration, extra Bug injection, Diff consumption, `diff_tags` resource sync, and final intent reduction.
 - Godot test runner now checks backend `cache` damage-hook declaration, `card_backend_flush_all` generated params, cache-scaled damage, and cache consumption.
+- Godot test runner now checks frontend `card_frontend_pixel_tap` generated played-card threshold bonus plus live base damage and post-card light damage.
 - Godot test runner now checks algorithm `compute` damage-hook declaration, X-finisher damage scaling, compute consumption, and local-cluster energy refund.
 - Godot test runner now checks algorithm `card_algo_complexity_burst` generated complexity-scaling params, live complexity-based bonus damage, no generic compute gain, and preserved complexity.
 - Godot test runner now checks algorithm `card_algo_big_o_compress` generated conversion params, live complexity consumption, compute conversion, block conversion, and card-cost charge.

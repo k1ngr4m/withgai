@@ -56,7 +56,7 @@
 ,eg_card_backend_disaster_recovery_e02,eg_card_backend_disaster_recovery,2,add_cache,self,"{""amount"":1}"
 ,eg_card_backend_zero_downtime_e01,eg_card_backend_zero_downtime,1,apply_status,self,"{""status_id"":""service_online"",""amount"":1}"
 ,eg_card_backend_zero_downtime_e02,eg_card_backend_zero_downtime,2,draw_cards,self,"{""amount"":1}"
-,eg_card_frontend_pixel_tap_e01,eg_card_frontend_pixel_tap,1,deal_damage,single_enemy,"{""amount"":10}"
+,eg_card_frontend_pixel_tap_e01,eg_card_frontend_pixel_tap,1,deal_damage,single_enemy,"{""amount"":10,""cards_played_bonus_threshold"":2,""bonus_amount"":3}"
 ,eg_card_frontend_flex_layout_e01,eg_card_frontend_flex_layout,1,gain_block,self,"{""amount"":8}"
 ,eg_card_frontend_flex_layout_e02,eg_card_frontend_flex_layout,2,add_component,self,"{""amount"":1}"
 ,eg_card_frontend_slice_sprint_e01,eg_card_frontend_slice_sprint,1,draw_cards,self,"{""amount"":1}"

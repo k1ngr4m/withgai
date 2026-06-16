@@ -202,6 +202,13 @@ func _validate_config_references(config, content) -> void:
 	_check(traffic_shapes_damage, "backend traffic shaping converts damage taken to cache")
 	var component_reuse_art := String(content.card_def("card_frontend_component_reuse").get("art_path", ""))
 	_check(component_reuse_art.ends_with("card_illust_frontend_component_reuse_v1/final.png"), "frontend component reuse card art configured")
+	var pixel_tap_entries: Array = content.effect_entries(content.card_def("card_frontend_pixel_tap").get("effect_group_id", ""))
+	var pixel_tap_has_combo_bonus := false
+	for entry in pixel_tap_entries:
+		var params: Dictionary = entry.get("params", {})
+		if entry.get("effect_type", "") == "deal_damage" and int(params.get("cards_played_bonus_threshold", 0)) == 2 and int(params.get("bonus_amount", 0)) > 0:
+			pixel_tap_has_combo_bonus = true
+	_check(pixel_tap_has_combo_bonus, "frontend pixel tap gains played-card combo damage")
 	var flex_layout_entries: Array = content.effect_entries(content.card_def("card_frontend_flex_layout").get("effect_group_id", ""))
 	var flex_layout_blocks := false
 	var flex_layout_adds_component := false
@@ -709,6 +716,40 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(player.get("class_resource_state", {}).get("style_layers", 0)) >= 1, "frontend design link grants style layer on third card")
 
 	run = run_session.create_new_run("frontend")
+	run["owned_relic_ids"] = []
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	var pixel_tap_enemy: Dictionary = battle.battle_state.get("enemies", [])[0]
+	pixel_tap_enemy["current_hp"] = 50
+	pixel_tap_enemy["current_block"] = 0
+	player["hand"] = ["card_frontend_pixel_tap"]
+	player["draw_pile"] = []
+	player["discard_pile"] = []
+	player["current_energy"] = 3
+	player["cards_played_this_turn"] = 0
+	player["class_resource_state"]["style_layers"] = 0
+	player["status_list"] = {}
+	battle.play_card(run, 0, 0)
+	_check(int(pixel_tap_enemy.get("current_hp", 0)) == 40, "frontend pixel tap deals base damage as first card")
+
+	run = run_session.create_new_run("frontend")
+	run["owned_relic_ids"] = []
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	pixel_tap_enemy = battle.battle_state.get("enemies", [])[0]
+	pixel_tap_enemy["current_hp"] = 50
+	pixel_tap_enemy["current_block"] = 0
+	player["hand"] = ["card_frontend_pixel_tap"]
+	player["draw_pile"] = []
+	player["discard_pile"] = []
+	player["current_energy"] = 3
+	player["cards_played_this_turn"] = 1
+	player["class_resource_state"]["style_layers"] = 0
+	player["status_list"] = {}
+	battle.play_card(run, 0, 0)
+	_check(int(pixel_tap_enemy.get("current_hp", 0)) == 37, "frontend pixel tap adds light damage after another card")
+
+	run = run_session.create_new_run("frontend")
 	run["owned_relic_ids"].append("relic_figma_library")
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
@@ -800,7 +841,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(player.get("current_energy", 0)) == 2, "frontend hotfix style charges card cost")
 	player["hand"] = ["card_frontend_pixel_tap"]
 	battle.play_card(run, 0, 0)
-	_check(int(hotfix_enemy.get("current_hp", 0)) == 39, "frontend hotfix style amplifies next attack")
+	_check(int(hotfix_enemy.get("current_hp", 0)) == 36, "frontend hotfix style amplifies next attack")
 	_check(int(player.get("status_list", {}).get("hotfix_style", 0)) == 0, "frontend hotfix style is consumed by attack")
 	_check(int(player.get("class_resource_state", {}).get("style_layers", 0)) == 0, "frontend hotfix style uses virtual style layer")
 
@@ -887,7 +928,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	player["class_resource_state"]["style_layers"] = 0
 	player["status_list"] = { "state_boost": 1 }
 	battle.play_card(run, 0, 0)
-	_check(int(state_boost_enemy.get("current_hp", 0)) == 39, "frontend state boost buffs the fourth card")
+	_check(int(state_boost_enemy.get("current_hp", 0)) == 36, "frontend state boost buffs the fourth card")
 	_check(int(player.get("class_resource_state", {}).get("style_layers", 0)) == 0, "frontend state boost style layer is consumed by attack")
 
 	run = run_session.create_new_run("frontend")

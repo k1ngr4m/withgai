@@ -523,7 +523,7 @@
     "effect_group_id": "eg_card_frontend_pixel_tap",
     "upgrade_to": "card_frontend_pixel_tap_plus",
     "enabled_in_first_playable": true,
-    "description": "像素敲击：造成伤害。",
+    "description": "像素敲击：造成基础伤害；若本回合已打出其他牌则追加轻伤。",
     "art_path": ""
   },
   {

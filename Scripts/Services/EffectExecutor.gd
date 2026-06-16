@@ -218,9 +218,13 @@ func _target_status_damage_bonus(enemy: Dictionary, params: Dictionary) -> int:
 
 func _cards_played_damage_bonus(player: Dictionary, params: Dictionary) -> int:
 	var multiplier := int(params.get("cards_played_multiplier", 0))
-	if multiplier <= 0:
-		return 0
-	return int(player.get("cards_played_this_turn", 0)) * multiplier
+	var bonus := 0
+	if multiplier > 0:
+		bonus += int(player.get("cards_played_this_turn", 0)) * multiplier
+	var threshold := int(params.get("cards_played_bonus_threshold", 0))
+	if threshold > 0 and int(player.get("cards_played_this_turn", 0)) >= threshold:
+		bonus += int(params.get("bonus_amount", 0))
+	return bonus
 
 func _style_layer_count(player: Dictionary) -> int:
 	var resources: Dictionary = player.get("class_resource_state", {})

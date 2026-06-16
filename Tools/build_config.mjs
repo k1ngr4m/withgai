@@ -103,6 +103,7 @@ const specialCardDescriptions = {
   card_backend_service_degrade: "服务降级：降低所有敌方攻击意图，按已有服务获得额外防线并保留服务。",
   card_backend_trace_chain: "追踪链路：检索抽牌堆并抽取一张服务相关牌。",
   card_backend_flush_all: "全量回写：消耗全部缓存并按缓存层数造成高额伤害。",
+  card_frontend_pixel_tap: "像素敲击：造成基础伤害；若本回合已打出其他牌则追加轻伤。",
   card_frontend_flex_layout: "Flex排版：获得防线并生成 1 个组件。",
   card_frontend_slice_sprint: "切图冲刺：抽牌并获得样式层。",
   card_frontend_hotfix_style: "热更新样式：使下一张攻击牌追加样式层收益。",
@@ -226,6 +227,11 @@ function cardEffects(classId, cardId, type, cost, idx) {
   if (cardId === "card_backend_trace_chain") {
     return [
       { effect_type: "fetch_service_card", target_type: "self", params: { amount: 1 } },
+    ];
+  }
+  if (cardId === "card_frontend_pixel_tap") {
+    return [
+      { effect_type: "deal_damage", target_type: "single_enemy", params: { amount: 10, cards_played_bonus_threshold: 2, bonus_amount: 3 } },
     ];
   }
   if (cardId === "card_frontend_component_reuse") {
@@ -973,6 +979,7 @@ const lubanDefines = `<module name="">
     <var name="compute_per_complexity" type="int?"/>
     <var name="block_per_complexity" type="int?"/>
     <var name="cards_played_multiplier" type="int?"/>
+    <var name="cards_played_bonus_threshold" type="int?"/>
     <var name="style_layer_hits" type="bool?"/>
     <var name="style_layer_hit_multiplier" type="int?"/>
     <var name="consume_all_style_layers" type="bool?"/>

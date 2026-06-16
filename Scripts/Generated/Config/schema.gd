@@ -174,6 +174,7 @@ class EffectParams:
     var compute_per_complexity: int
     var block_per_complexity: int
     var cards_played_multiplier: int
+    var cards_played_bonus_threshold: int
     var style_layer_hits: bool
     var style_layer_hit_multiplier: int
     var consume_all_style_layers: bool
@@ -216,6 +217,7 @@ class EffectParams:
         if _json_.get('compute_per_complexity') != null: self.compute_per_complexity = _json_["compute_per_complexity"]
         if _json_.get('block_per_complexity') != null: self.block_per_complexity = _json_["block_per_complexity"]
         if _json_.get('cards_played_multiplier') != null: self.cards_played_multiplier = _json_["cards_played_multiplier"]
+        if _json_.get('cards_played_bonus_threshold') != null: self.cards_played_bonus_threshold = _json_["cards_played_bonus_threshold"]
         if _json_.get('style_layer_hits') != null: self.style_layer_hits = _json_["style_layer_hits"]
         if _json_.get('style_layer_hit_multiplier') != null: self.style_layer_hit_multiplier = _json_["style_layer_hit_multiplier"]
         if _json_.get('consume_all_style_layers') != null: self.consume_all_style_layers = _json_["consume_all_style_layers"]

@@ -564,7 +564,9 @@
     "effect_type": "deal_damage",
     "target_type": "single_enemy",
     "params": {
-      "amount": 10
+      "amount": 10,
+      "bonus_amount": 3,
+      "cards_played_bonus_threshold": 2
     }
   },
   {
