@@ -277,4 +277,4 @@ Godot MCP verified:
 ### Remaining Gaps Toward Full Game
 
 - Combat balance, full status hook matrix, and full visual polish remain prototype-level.
-- Remaining card illustration gaps are outside the currently wired backend/frontend/tester/algorithm/product-manager P0 batches and still use placeholder card UI.
+- Remaining card illustration gaps, if pursued, are outside the generated P0 representative/shared batches and belong to later non-representative or expansion card-art polish.

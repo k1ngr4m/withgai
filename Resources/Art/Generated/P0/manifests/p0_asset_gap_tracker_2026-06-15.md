@@ -77,6 +77,11 @@ Source guide: [04_ASSET_PROMPTS.md](/Users/linyiming/Projects/GodotProjects/with
 - `card_illust_backend_traffic_shaping`
 - `card_illust_backend_flush_all`
 - `card_illust_backend_prod_inspection`
+- `card_illust_frontend_component_reuse` through `card_illust_frontend_crash_animation`
+- `card_illust_tester_repro_steps` through `card_illust_tester_report_lock`
+- `card_illust_algo_heuristic_search` through `card_illust_algo_global_optimum`
+- `card_illust_pm_change_request` through `card_illust_pm_roadmap`
+- `card_illust_shared_keyboard_smash` through `card_illust_shared_meeting_mute`
 
 ## Queued, Not Generated
 
@@ -90,15 +95,8 @@ Source guide: [04_ASSET_PROMPTS.md](/Users/linyiming/Projects/GodotProjects/with
 
 ### P0 Card Illustrations
 
-- Frontend representative cards: 10 assets from `card_illust_frontend_component_reuse` through `card_illust_frontend_crash_animation`
-- Tester representative cards: 10 assets from `card_illust_tester_repro_steps` through `card_illust_tester_report_lock`
-- Algorithm representative cards: 10 assets from `card_illust_algo_heuristic_search` through `card_illust_algo_global_optimum`
-- Product manager representative cards: 10 assets from `card_illust_pm_change_request` through `card_illust_pm_roadmap`
-- Programmer shared cards: 12 assets from `card_illust_shared_keyboard_smash` through `card_illust_shared_meeting_mute`
+- None in the current P0 representative card checklist. Frontend, tester, algorithm, product manager, and programmer shared representative card batches have generated files and QA validation manifests.
 
 ## Recommended Next Batches
 
-1. `p0_cards_frontend_01`: first 10 frontend representative cards.
-2. `p0_cards_tester_01`: first 10 tester representative cards.
-3. `p0_cards_algorithm_01`: first 10 algorithm representative cards.
-4. `p0_cards_product_manager_01`: first 10 product manager representative cards.
+1. Continue with P1 event illustrations, UI backgrounds, elite enemies, and middle/late boss art from `04_ASSET_PROMPTS.md`.
