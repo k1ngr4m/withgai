@@ -844,7 +844,7 @@
       "effect_group_id": "eg_card_frontend_first_screen",
       "upgrade_to": "card_frontend_first_screen_plus",
       "enabled_in_first_playable": true,
-      "description": "首屏优化：获得防线并触发职业资源。",
+      "description": "首屏优化：本回合接下来两张牌费用降低。",
       "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_frontend_first_screen_opt_v1/final.png"
     },
     "card_frontend_grid_stretch": {
@@ -4822,6 +4822,22 @@
       "is_hidden": false,
       "type": "class"
     },
+    "first_screen_optimization": {
+      "id": "first_screen_optimization",
+      "name": "首屏优化",
+      "stack_rule": "stack",
+      "timing_hooks": [
+        "card_cost",
+        "round_end"
+      ],
+      "params": {
+        "cost_reduction_amount": 1
+      },
+      "effect_group_id": "",
+      "max_stack": 99,
+      "is_hidden": true,
+      "type": "class"
+    },
     "vue_suite": {
       "id": "vue_suite",
       "name": "Vue三件套",
@@ -6038,22 +6054,15 @@
     "eg_card_frontend_first_screen": {
       "id": "eg_card_frontend_first_screen",
       "entry_ids": [
-        "eg_card_frontend_first_screen_e01",
-        "eg_card_frontend_first_screen_e02"
+        "eg_card_frontend_first_screen_e01"
       ],
       "entries": [
         {
-          "effect_type": "gain_block",
+          "effect_type": "apply_status",
           "target_type": "self",
           "params": {
-            "amount": 8
-          }
-        },
-        {
-          "effect_type": "add_style_layer",
-          "target_type": "self",
-          "params": {
-            "amount": 1
+            "amount": 2,
+            "status_id": "first_screen_optimization"
           }
         }
       ]
@@ -10088,20 +10097,11 @@
       "id": "eg_card_frontend_first_screen_e01",
       "effect_group_id": "eg_card_frontend_first_screen",
       "order": 1,
-      "effect_type": "gain_block",
+      "effect_type": "apply_status",
       "target_type": "self",
       "params": {
-        "amount": 8
-      }
-    },
-    "eg_card_frontend_first_screen_e02": {
-      "id": "eg_card_frontend_first_screen_e02",
-      "effect_group_id": "eg_card_frontend_first_screen",
-      "order": 2,
-      "effect_type": "add_style_layer",
-      "target_type": "self",
-      "params": {
-        "amount": 1
+        "amount": 2,
+        "status_id": "first_screen_optimization"
       }
     },
     "eg_card_frontend_grid_stretch_e01": {

@@ -204,6 +204,17 @@ func _validate_config_references(config, content) -> void:
 		if entry.get("effect_type", "") == "deal_damage" and int(params.get("cards_played_multiplier", 0)) > 0:
 			motion_scales_with_play_count = true
 	_check(motion_scales_with_play_count, "frontend motion overload scales with cards played")
+	_check(config.get_def("statuses", "first_screen_optimization").get("timing_hooks", []).has("card_cost"), "first screen optimization declares card cost hook")
+	_check(config.get_def("statuses", "first_screen_optimization").get("timing_hooks", []).has("round_end"), "first screen optimization declares round end hook")
+	var first_screen_params: Dictionary = config.get_def("statuses", "first_screen_optimization").get("params", {})
+	_check(int(first_screen_params.get("cost_reduction_amount", 0)) > 0, "first screen optimization config has cost reduction amount")
+	var first_screen_entries: Array = content.effect_entries(content.card_def("card_frontend_first_screen").get("effect_group_id", ""))
+	var first_screen_applies_discount := false
+	for entry in first_screen_entries:
+		var params: Dictionary = entry.get("params", {})
+		if entry.get("effect_type", "") == "apply_status" and params.get("status_id", "") == "first_screen_optimization" and int(params.get("amount", 0)) >= 2:
+			first_screen_applies_discount = true
+	_check(first_screen_applies_discount, "frontend first screen optimization discounts two cards")
 	var crash_entries: Array = content.effect_entries(content.card_def("card_frontend_crash_animation").get("effect_group_id", ""))
 	var crash_consumes_style_layers := false
 	for entry in crash_entries:
@@ -652,6 +663,48 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	player["status_list"] = {}
 	battle.play_card(run, 0, 0)
 	_check(int(motion_enemy.get("current_hp", 0)) == 32, "frontend motion overload uses current turn play count")
+
+	run = run_session.create_new_run("frontend")
+	run["owned_relic_ids"] = []
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	var first_screen_enemy: Dictionary = battle.battle_state.get("enemies", [])[0]
+	first_screen_enemy["current_hp"] = 100
+	first_screen_enemy["current_block"] = 0
+	player["hand"] = ["card_frontend_first_screen"]
+	player["draw_pile"] = []
+	player["discard_pile"] = []
+	player["current_energy"] = 3
+	player["status_list"] = {}
+	battle.play_card(run, 0, 0)
+	_check(int(player.get("status_list", {}).get("first_screen_optimization", 0)) == 2, "frontend first screen stores two discounts")
+	_check(int(player.get("current_energy", 0)) == 2, "frontend first screen charges its own cost")
+	player["hand"] = ["card_shared_keyboard_smash", "card_frontend_flex_layout", "card_shared_rollback"]
+	_check(battle.hand_card_cost(0) == 0, "frontend first screen previews first discount")
+	battle.play_card(run, 0, 0)
+	_check(int(player.get("current_energy", 0)) == 2, "frontend first screen discounts first following card")
+	_check(int(player.get("status_list", {}).get("first_screen_optimization", 0)) == 1, "frontend first screen consumes one discount per card")
+	_check(battle.hand_card_cost(0) == 0, "frontend first screen previews second discount")
+	battle.play_card(run, 0, 0)
+	_check(int(player.get("current_energy", 0)) == 2, "frontend first screen discounts second following card")
+	_check(int(player.get("status_list", {}).get("first_screen_optimization", 0)) == 0, "frontend first screen consumes both discounts")
+	_check(battle.hand_card_cost(0) == 1, "frontend first screen does not discount third following card")
+
+	run = run_session.create_new_run("frontend")
+	run["owned_relic_ids"] = []
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	player["hand"] = ["card_frontend_first_screen"]
+	player["draw_pile"] = []
+	player["discard_pile"] = []
+	player["current_energy"] = 3
+	player["status_list"] = {}
+	battle.play_card(run, 0, 0)
+	player["hand"] = []
+	player["draw_pile"] = []
+	player["discard_pile"] = []
+	battle.end_turn(run)
+	_check(int(player.get("status_list", {}).get("first_screen_optimization", 0)) == 0, "frontend first screen expires at turn end")
 
 	run = run_session.create_new_run("frontend")
 	battle = _start_first_battle(run, content, map, executor)

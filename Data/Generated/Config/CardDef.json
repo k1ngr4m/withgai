@@ -676,7 +676,7 @@
     "effect_group_id": "eg_card_frontend_first_screen",
     "upgrade_to": "card_frontend_first_screen_plus",
     "enabled_in_first_playable": true,
-    "description": "首屏优化：获得防线并触发职业资源。",
+    "description": "首屏优化：本回合接下来两张牌费用降低。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_frontend_first_screen_opt_v1/final.png"
   },
   {

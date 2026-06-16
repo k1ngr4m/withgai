@@ -106,6 +106,7 @@ const specialCardDescriptions = {
   card_frontend_component_reuse: "组件复用：若已有组件，复制 1 个组件并抽牌。",
   card_frontend_state_boost: "状态提升：建立长期状态，每回合第 4 张牌获得样式层增伤。",
   card_frontend_motion_overload: "动效超载：根据本回合已打出的牌数追加高额伤害。",
+  card_frontend_first_screen: "首屏优化：本回合接下来两张牌费用降低。",
   card_frontend_vue_suite: "Vue三件套：建立长期状态，每回合开始生成 1 个组件。",
   card_frontend_crash_animation: "崩溃动画：消耗全部样式层，将样式层转化为多段爆发伤害。",
   card_tester_auto_regression: "自动化回归：建立长期状态，回合结束时触发一个已挂 Bug 并补充用例。",
@@ -232,6 +233,11 @@ function cardEffects(classId, cardId, type, cost, idx) {
   if (cardId === "card_frontend_motion_overload") {
     return [
       { effect_type: "deal_damage", target_type: "single_enemy", params: { amount: 6, cards_played_multiplier: 3 } },
+    ];
+  }
+  if (cardId === "card_frontend_first_screen") {
+    return [
+      { effect_type: "apply_status", target_type: "self", params: { status_id: "first_screen_optimization", amount: 2 } },
     ];
   }
   if (cardId === "card_frontend_vue_suite") {
@@ -621,7 +627,7 @@ const events = [
 const statuses = [
   ["anxiety", "焦虑", "debuff"], ["overtime", "加班", "debuff"], ["vulnerable", "易伤", "debuff"], ["weak", "脆弱", "debuff"],
   ["service_online", "服务在线", "class"], ["api_gateway", "API网关", "class"], ["redis_warmup", "Redis预热", "class"], ["cost_reduction", "减费", "class"], ["request_queue", "请求", "class"], ["sharding", "分库分表", "class"], ["cache", "缓存", "class"], ["component", "组件", "class"], ["style_layer", "样式层", "class"],
-  ["state_boost", "状态提升", "class"],
+  ["state_boost", "状态提升", "class"], ["first_screen_optimization", "首屏优化", "class"],
   ["vue_suite", "Vue三件套", "class"],
   ["bug", "Bug", "class"], ["case_mark", "用例", "class"], ["diff", "Diff", "class"], ["auto_regression", "自动化回归", "class"], ["case_matrix", "用例矩阵", "class"], ["compute", "算力", "class"], ["complexity", "复杂度", "class"],
   ["requirement_change", "需求变更", "class"], ["priority", "优先级", "class"], ["scope_spread", "范围蔓延", "class"], ["performance", "绩效", "class"], ["optimization_target", "优化名单", "class"],
@@ -640,6 +646,7 @@ const statusTimingHooks = {
   cache: ["deal_damage"],
   style_layer: ["deal_damage"],
   state_boost: ["card_played"],
+  first_screen_optimization: ["card_cost", "round_end"],
   vue_suite: ["round_start"],
   bug: ["enemy_before_action", "enemy_action_end", "deal_damage", "expire"],
   case_mark: ["deal_damage"],
@@ -681,6 +688,9 @@ const statusParams = {
     trigger_play_count: 4,
     style_layer_amount: 1,
   },
+  first_screen_optimization: {
+    cost_reduction_amount: 1,
+  },
   vue_suite: {
     component_amount: 1,
   },
@@ -703,7 +713,7 @@ const statusList = statuses.map(([id, name, type]) => ({
   params: statusParams[id] ?? {},
   effect_group_id: "",
   max_stack: 99,
-  is_hidden: ["redis_warmup", "cost_reduction"].includes(id),
+  is_hidden: ["redis_warmup", "cost_reduction", "first_screen_optimization"].includes(id),
   type,
 }));
 

@@ -12,6 +12,7 @@ const PLAYER_POSITIVE_STATUS_IDS := [
 	"component",
 	"style_layer",
 	"state_boost",
+	"first_screen_optimization",
 	"vue_suite",
 	"case_mark",
 	"diff",
@@ -244,20 +245,36 @@ func _base_cost(card: Dictionary, card_id := "") -> int:
 func _cost_reduction_count() -> int:
 	var player: Dictionary = battle_state.get("player", {})
 	var statuses: Dictionary = player.get("status_list", {})
-	return int(statuses.get("cost_reduction", 0))
+	return int(statuses.get("cost_reduction", 0)) + _first_screen_discount_amount(statuses)
 
 func _consume_cost_reduction(player: Dictionary, card: Dictionary, base_cost: int) -> void:
 	if int(card.get("cost", 1)) < 0:
 		return
 	var statuses: Dictionary = player.get("status_list", {})
+	var remaining_cost := base_cost
 	var reduction: int = int(statuses.get("cost_reduction", 0))
-	if reduction <= 0:
-		return
-	statuses.erase("cost_reduction")
+	if reduction > 0:
+		statuses.erase("cost_reduction")
+		var applied: int = min(remaining_cost, reduction)
+		remaining_cost = max(0, remaining_cost - applied)
+		if applied > 0:
+			battle_state["log"].append("Redis预热使本张牌费用 -%d" % applied)
+	var first_screen_stacks: int = int(statuses.get("first_screen_optimization", 0))
+	if first_screen_stacks > 0:
+		var first_screen_discount := _first_screen_discount_amount(statuses)
+		statuses["first_screen_optimization"] = first_screen_stacks - 1
+		if int(statuses.get("first_screen_optimization", 0)) <= 0:
+			statuses.erase("first_screen_optimization")
+		var first_screen_applied: int = min(remaining_cost, first_screen_discount)
+		if first_screen_applied > 0:
+			battle_state["log"].append("首屏优化使本张牌费用 -%d" % first_screen_applied)
 	player["status_list"] = statuses
-	var applied: int = min(base_cost, reduction)
-	if applied > 0:
-		battle_state["log"].append("Redis预热使本张牌费用 -%d" % applied)
+
+func _first_screen_discount_amount(statuses: Dictionary) -> int:
+	if int(statuses.get("first_screen_optimization", 0)) <= 0:
+		return 0
+	var params: Dictionary = _status_params("first_screen_optimization")
+	return max(1, int(params.get("cost_reduction_amount", 1)))
 
 func _actual_effect_entries(card: Dictionary) -> Array:
 	var entries: Array = content_resolver.effect_entries(card.get("effect_group_id", ""))
@@ -819,6 +836,9 @@ func _tick_player_turn_end_statuses(player: Dictionary) -> void:
 	for status_id in PLAYER_TURN_END_DECAY_STATUS_IDS:
 		if int(statuses.get(status_id, 0)) > 0:
 			statuses[status_id] = max(0, int(statuses.get(status_id, 0)) - 1)
+	if int(statuses.get("first_screen_optimization", 0)) > 0:
+		statuses.erase("first_screen_optimization")
+		battle_state["log"].append("首屏优化到期")
 	player["status_list"] = statuses
 
 func _tick_enemy_action_statuses(enemy: Dictionary) -> void:

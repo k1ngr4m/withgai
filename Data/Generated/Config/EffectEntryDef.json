@@ -741,20 +741,11 @@
     "id": "eg_card_frontend_first_screen_e01",
     "effect_group_id": "eg_card_frontend_first_screen",
     "order": 1,
-    "effect_type": "gain_block",
+    "effect_type": "apply_status",
     "target_type": "self",
     "params": {
-      "amount": 8
-    }
-  },
-  {
-    "id": "eg_card_frontend_first_screen_e02",
-    "effect_group_id": "eg_card_frontend_first_screen",
-    "order": 2,
-    "effect_type": "add_style_layer",
-    "target_type": "self",
-    "params": {
-      "amount": 1
+      "amount": 2,
+      "status_id": "first_screen_optimization"
     }
   },
   {

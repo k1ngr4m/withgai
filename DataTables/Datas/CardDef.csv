@@ -41,7 +41,7 @@
 ,card_frontend_button_bounce,按钮回弹,"[""frontend""]",common,attack,1,single_enemy,[],eg_card_frontend_button_bounce,card_frontend_button_bounce_plus,true,按钮回弹：造成伤害。,
 ,card_frontend_component_mount,组件挂载,"[""frontend""]",common,skill,1,self,[],eg_card_frontend_component_mount,card_frontend_component_mount_plus,true,组件挂载：获得防线并触发职业资源。,
 ,card_frontend_css_override,CSS覆盖,"[""frontend""]",common,skill,1,self,[],eg_card_frontend_css_override,card_frontend_css_override_plus,true,CSS覆盖：获得防线并触发职业资源。,res://Resources/Art/Generated/P0/cards/card_illust_frontend_css_override_v1/final.png
-,card_frontend_first_screen,首屏优化,"[""frontend""]",common,skill,1,self,[],eg_card_frontend_first_screen,card_frontend_first_screen_plus,true,首屏优化：获得防线并触发职业资源。,res://Resources/Art/Generated/P0/cards/card_illust_frontend_first_screen_opt_v1/final.png
+,card_frontend_first_screen,首屏优化,"[""frontend""]",common,skill,1,self,[],eg_card_frontend_first_screen,card_frontend_first_screen_plus,true,首屏优化：本回合接下来两张牌费用降低。,res://Resources/Art/Generated/P0/cards/card_illust_frontend_first_screen_opt_v1/final.png
 ,card_frontend_grid_stretch,栅格拉伸,"[""frontend""]",common,attack,1,single_enemy,[],eg_card_frontend_grid_stretch,card_frontend_grid_stretch_plus,true,栅格拉伸：造成伤害。,
 ,card_frontend_event_bubble,事件冒泡,"[""frontend""]",common,attack,1,single_enemy,[],eg_card_frontend_event_bubble,card_frontend_event_bubble_plus,true,事件冒泡：造成伤害。,
 ,card_frontend_breakpoint_adapt,断点适配,"[""frontend""]",common,skill,1,self,[],eg_card_frontend_breakpoint_adapt,card_frontend_breakpoint_adapt_plus,true,断点适配：获得防线并触发职业资源。,

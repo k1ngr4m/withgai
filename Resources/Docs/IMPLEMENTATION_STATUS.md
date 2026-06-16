@@ -57,6 +57,10 @@
   - generated config gives it a `cards_played_multiplier`
   - runtime damage now reads `cards_played_this_turn`, including the current card after it is played
   - the card scales from low setup damage into a high-output combo payoff later in the turn
+- Frontend `card_frontend_first_screen` now works as the designed same-turn tempo setup:
+  - generated config applies hidden `first_screen_optimization` stacks instead of generic block/style filler
+  - runtime reduces each of the next two non-X cards by the configured amount, consuming one stack per card
+  - unused stacks expire at player turn end, preserving the "this turn" constraint
 - Frontend `card_frontend_crash_animation` now works as the designed style-layer finisher:
   - generated config converts style layers into extra damage hits instead of generic single-hit attack damage
   - runtime damage can now treat style layers as hit-count scaling and consume all style layers after the attack resolves
@@ -211,6 +215,7 @@ Result:
 - Godot test runner now checks `state_boost` config, `card_frontend_state_boost` generated effect, fourth-card style-layer gain, immediate damage boost, and style-layer consumption.
 - Godot test runner now checks `vue_suite` config, `card_frontend_vue_suite` generated effect, status application, and round-start component generation.
 - Godot test runner now checks `card_frontend_motion_overload` generated play-count scaling params and live damage based on the current turn's played-card count.
+- Godot test runner now checks `card_frontend_first_screen` generated hidden status, two separate next-card discounts, per-card stack consumption, no third-card discount, and turn-end expiry.
 - Godot test runner now checks `card_frontend_crash_animation` generated style-layer finisher params, style-layer-to-extra-hit conversion, and full style-layer consumption.
 - Godot test runner now checks tester `card_tester_auto_regression` generated status hook/params, status application, round-end Bug trigger damage, and case/resource sync.
 - Godot test runner now checks tester `card_tester_boundary_check` selected targeting, generated `boundary_check` params, low-HP bonus, high-attack bonus, base no-boundary behavior, and case resource sync.
