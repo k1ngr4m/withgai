@@ -12,7 +12,7 @@
 ,style_layer,样式层,stack,"[""deal_damage""]",,99,false,class
 ,bug,Bug,stack,"[""enemy_before_action"",""enemy_action_end"",""expire""]",,99,false,class
 ,case_mark,用例,stack,"[""deal_damage""]",,99,false,class
-,diff,Diff,stack,[],,99,false,class
+,diff,Diff,stack,"[""inject_bug""]",,99,false,class
 ,compute,算力,stack,[],,99,false,class
 ,complexity,复杂度,stack,[],,99,false,class
 ,requirement_change,需求变更,stack,"[""apply_status"",""modify_intent""]",,99,false,class

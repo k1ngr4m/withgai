@@ -466,6 +466,7 @@ const statusTimingHooks = {
   style_layer: ["deal_damage"],
   bug: ["enemy_before_action", "enemy_action_end", "expire"],
   case_mark: ["deal_damage"],
+  diff: ["inject_bug"],
   priority: ["target_resolution"],
   requirement_change: ["apply_status", "modify_intent"],
 };

@@ -48,8 +48,9 @@ func _execute_entry(entry: Dictionary, battle_state: Dictionary, run_state: Dict
 			_add_class_resource(battle_state, "style_layers", amount, battle_log, "样式层")
 		"inject_bug":
 			for enemy in _target_enemies(entry.get("target_type", "selected"), battle_state, target_index):
-				_enemy_status(enemy, battle_state, run_state, "bug", max(1, amount), battle_log)
-			_modify_intents(entry.get("target_type", "selected"), battle_state, run_state, target_index, -2 * max(1, amount), battle_log)
+				var bug_amount := _bug_amount_with_diff(enemy, battle_state, max(1, amount), battle_log)
+				_enemy_status(enemy, battle_state, run_state, "bug", bug_amount, battle_log)
+				_modify_intent(enemy, battle_state, run_state, -2 * bug_amount, battle_log)
 		"add_case":
 			for enemy in _target_enemies(entry.get("target_type", "selected"), battle_state, target_index):
 				_enemy_status(enemy, battle_state, run_state, "case_mark", max(1, amount), battle_log)
@@ -181,6 +182,16 @@ func _consume_style_layer(player: Dictionary, battle_log: Array) -> void:
 	player["class_resource_state"] = resources
 	player["status_list"] = statuses
 	battle_log.append("样式层消耗 1")
+
+func _bug_amount_with_diff(enemy: Dictionary, battle_state: Dictionary, base_amount: int, battle_log: Array) -> int:
+	var statuses: Dictionary = enemy.get("status_list", {})
+	if int(statuses.get("diff", 0)) <= 0:
+		return base_amount
+	statuses["diff"] = max(0, int(statuses.get("diff", 0)) - 1)
+	enemy["status_list"] = statuses
+	_sync_status_resource(battle_state, "diff", -1, battle_log)
+	battle_log.append("%s 的 Diff 被复现，Bug +1" % enemy.get("name", "敌人"))
+	return base_amount + 1
 
 func _draw_cards(battle_state: Dictionary, amount: int, battle_log: Array) -> void:
 	var player := _player(battle_state)

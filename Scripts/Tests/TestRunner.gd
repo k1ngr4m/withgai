@@ -140,6 +140,7 @@ func _validate_config_references(config, content) -> void:
 	_check(config.get_def("statuses", "weak").get("timing_hooks", []).has("deal_damage"), "weak declares damage hook")
 	_check(config.get_def("statuses", "vulnerable").get("timing_hooks", []).has("damage_taken"), "vulnerable declares damage taken hook")
 	_check(config.get_def("statuses", "style_layer").get("timing_hooks", []).has("deal_damage"), "style layer declares damage hook")
+	_check(config.get_def("statuses", "diff").get("timing_hooks", []).has("inject_bug"), "diff declares bug injection hook")
 	_check(config.get_def("statuses", "service_online").get("timing_hooks", []).has("round_end"), "service online declares round end hook")
 	_check(content.card_def("card_pm_schedule_compress").get("target_type", "") == "highest_priority_enemy", "pm schedule compress targets priority")
 	_check(_has_intent_type(content.intent_entries_for_enemy("enemy_salesman"), "pollute"), "salesman has pollute intent")
@@ -332,6 +333,17 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	var tester_resources: Dictionary = player.get("class_resource_state", {})
 	_check(int(tester_resources.get("bugs", 0)) >= 1, "tester bug status syncs resource")
 	_check(int(tester_resources.get("cases", 0)) >= 1, "tester case status syncs resource")
+	status["diff"] = 2
+	battle.battle_state["enemies"][0]["intent"] = { "intent_type": "attack", "amount": 8 }
+	player["class_resource_state"]["diff_tags"] = 2
+	var bug_before := int(status.get("bug", 0))
+	executor.execute([{ "effect_type": "inject_bug", "target_type": "selected", "params": { "amount": 1 } }], battle.battle_state, run, 0, battle.battle_state["log"])
+	status = battle.battle_state["enemies"][0].get("status_list", {})
+	tester_resources = player.get("class_resource_state", {})
+	_check(int(status.get("bug", 0)) == bug_before + 2, "diff adds extra bug during reproduction")
+	_check(int(status.get("diff", 0)) == 1, "diff is consumed by bug reproduction")
+	_check(int(tester_resources.get("diff_tags", 0)) == 1, "diff resource decrements after reproduction")
+	_check(int(battle.battle_state["enemies"][0].get("intent", {}).get("amount", 0)) == 4, "diff-boosted bug weakens intent by final bug amount")
 
 	run = run_session.create_new_run("frontend")
 	battle = _start_first_battle(run, content, map, executor)

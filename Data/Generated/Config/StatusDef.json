@@ -130,7 +130,9 @@
     "id": "diff",
     "name": "Diff",
     "stack_rule": "stack",
-    "timing_hooks": [],
+    "timing_hooks": [
+      "inject_bug"
+    ],
     "effect_group_id": "",
     "max_stack": 99,
     "is_hidden": false,
