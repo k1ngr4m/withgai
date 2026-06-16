@@ -1,6 +1,6 @@
 # batch_2026-06-15_p0_cards_frontend_01
 
-Status: pending_generation
+Status: completed
 
 Source guide: [04_ASSET_PROMPTS.md](/Users/linyiming/Projects/GodotProjects/withgai/Resources/Docs/04_ASSET_PROMPTS.md)
 
@@ -27,3 +27,24 @@ Prompt summary:
 
 Recommended output root:
 - Resources/Art/Generated/P0/cards/
+
+Generated deliverables:
+- `Resources/Art/Generated/P0/cards/card_illust_frontend_component_reuse_v1/`
+- `Resources/Art/Generated/P0/cards/card_illust_frontend_state_boost_v1/`
+- `Resources/Art/Generated/P0/cards/card_illust_frontend_motion_overload_v1/`
+- `Resources/Art/Generated/P0/cards/card_illust_frontend_hotfix_style_v1/`
+- `Resources/Art/Generated/P0/cards/card_illust_frontend_pixel_alignment_v1/`
+- `Resources/Art/Generated/P0/cards/card_illust_frontend_compat_patch_v1/`
+- `Resources/Art/Generated/P0/cards/card_illust_frontend_vue_suite_v1/`
+- `Resources/Art/Generated/P0/cards/card_illust_frontend_css_override_v1/`
+- `Resources/Art/Generated/P0/cards/card_illust_frontend_first_screen_opt_v1/`
+- `Resources/Art/Generated/P0/cards/card_illust_frontend_crash_animation_v1/`
+
+QA artifacts:
+- `Resources/Art/Generated/P0/cards/frontend_cards_contact_sheet_v1.png`
+- `Resources/Art/Generated/P0/cards/frontend_cards_validation_v1.json`
+
+Validation summary:
+- `asset_count`: 10
+- `all_dimensions_valid`: true
+- `final.png` size for every card: `1024x1536`

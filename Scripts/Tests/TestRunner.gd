@@ -109,6 +109,22 @@ func _validate_config_references(config, content) -> void:
 	_check(component_reuse_art.ends_with("card_illust_frontend_component_reuse_v1/final.png"), "frontend component reuse card art configured")
 	var circuit_breaker_art := String(content.card_def("card_backend_circuit_breaker").get("art_path", ""))
 	_check(circuit_breaker_art.ends_with("card_illust_backend_circuit_breaker_v1/final.png"), "backend circuit breaker card art auto configured")
+	var frontend_card_art_slugs := {
+		"card_frontend_component_reuse": "frontend_component_reuse",
+		"card_frontend_state_boost": "frontend_state_boost",
+		"card_frontend_motion_overload": "frontend_motion_overload",
+		"card_frontend_hotfix_style": "frontend_hotfix_style",
+		"card_frontend_pixel_align": "frontend_pixel_alignment",
+		"card_frontend_compat_patch": "frontend_compat_patch",
+		"card_frontend_vue_suite": "frontend_vue_suite",
+		"card_frontend_css_override": "frontend_css_override",
+		"card_frontend_first_screen": "frontend_first_screen_opt",
+		"card_frontend_crash_animation": "frontend_crash_animation",
+	}
+	for card_id in frontend_card_art_slugs.keys():
+		var art_path := String(content.card_def(card_id).get("art_path", ""))
+		_check(art_path.ends_with("card_illust_%s_v1/final.png" % String(frontend_card_art_slugs[card_id])), "%s frontend card art configured" % card_id)
+		_check(load(art_path) != null, "%s frontend card art loads" % card_id)
 	var cards_with_art := 0
 	var missing_card_art_paths := 0
 	for card in config.all_defs("cards"):

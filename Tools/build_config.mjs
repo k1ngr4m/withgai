@@ -79,6 +79,10 @@ const cardNames = {
 const rarityByIndex = (i) => (i < 14 ? "common" : i < 24 ? "uncommon" : "rare");
 const targetForType = (type) => (type === "attack" ? "single_enemy" : "self");
 const targetForCard = (type, id) => (id === "card_shared_meeting_mute" ? "selected" : targetForType(type));
+const cardArtSlugAliases = {
+  card_frontend_pixel_align: "frontend_pixel_alignment",
+  card_frontend_first_screen: "frontend_first_screen_opt",
+};
 
 const specialCardDescriptions = {
   card_shared_rollback: "回滚版本：获得防线，清除脆弱、易伤与焦虑。",
@@ -178,7 +182,7 @@ function cardEffects(classId, cardId, type, cost, idx) {
 
 const cards = [];
 function cardArtPath(cardId) {
-  const slug = cardId.replace(/^card_/, "");
+  const slug = cardArtSlugAliases[cardId] ?? cardId.replace(/^card_/, "");
   const relativePath = path.join("Resources", "Art", "Generated", "P0", "cards", `card_illust_${slug}_v1`, "final.png");
   return fs.existsSync(path.join(root, relativePath)) ? `res://${relativePath.split(path.sep).join("/")}` : "";
 }

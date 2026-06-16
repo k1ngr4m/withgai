@@ -1,4 +1,4 @@
-Asset id: card_illust_frontend_component_reuse_v1
-Card theme: 组件复用
+Asset id: card_illust_frontend_state_boost_v1
+Card theme: 状态提升
 Pipeline: generate2dmap baked_scene_mode, vertical 1024x1536 non-playable flat card illustration; informed by generate2dsprite single-action clarity rules. Preserve the frontend engineer identity from char_frontend_keyart_v1: young male engineer, wavy dark hair, glasses, white technical coat with bright blue lining, dark outfit, blue-white-teal UI component motifs, small orange accents, bright modern office lighting. Clean commercial semi-realistic 2D card-game art, simplified office-tech background. Constraints: no readable text, no letters, no logos, no watermark, no speech bubbles, no dense website screenshot, no cluttered code wall, no card frame or UI border, no extra characters, no horror/glitch style.
-Scene/action: 角色把已有 UI 组件一分为二重新组合，模块被复制并无缝拼接，体现高效连段与复用。
+Scene/action: 角色为界面层叠加高亮状态，按钮、卡片和组件被逐层点亮，体现节奏递进。

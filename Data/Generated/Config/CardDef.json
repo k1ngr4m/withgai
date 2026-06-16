@@ -575,7 +575,7 @@
     "upgrade_to": "card_frontend_hotfix_style_plus",
     "enabled_in_first_playable": true,
     "description": "热更新样式：获得防线并触发职业资源。",
-    "art_path": ""
+    "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_frontend_hotfix_style_v1/final.png"
   },
   {
     "id": "card_frontend_pixel_align",
@@ -592,7 +592,7 @@
     "upgrade_to": "card_frontend_pixel_align_plus",
     "enabled_in_first_playable": true,
     "description": "像素级对齐：获得防线并触发职业资源。",
-    "art_path": ""
+    "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_frontend_pixel_alignment_v1/final.png"
   },
   {
     "id": "card_frontend_compat_patch",
@@ -609,7 +609,7 @@
     "upgrade_to": "card_frontend_compat_patch_plus",
     "enabled_in_first_playable": true,
     "description": "兼容性补丁：获得防线并触发职业资源。",
-    "art_path": ""
+    "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_frontend_compat_patch_v1/final.png"
   },
   {
     "id": "card_frontend_button_bounce",
@@ -660,7 +660,7 @@
     "upgrade_to": "card_frontend_css_override_plus",
     "enabled_in_first_playable": true,
     "description": "CSS覆盖：获得防线并触发职业资源。",
-    "art_path": ""
+    "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_frontend_css_override_v1/final.png"
   },
   {
     "id": "card_frontend_first_screen",
@@ -677,7 +677,7 @@
     "upgrade_to": "card_frontend_first_screen_plus",
     "enabled_in_first_playable": true,
     "description": "首屏优化：获得防线并触发职业资源。",
-    "art_path": ""
+    "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_frontend_first_screen_opt_v1/final.png"
   },
   {
     "id": "card_frontend_grid_stretch",
@@ -779,7 +779,7 @@
     "upgrade_to": "card_frontend_state_boost_plus",
     "enabled_in_first_playable": true,
     "description": "状态提升：建立长期收益。",
-    "art_path": ""
+    "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_frontend_state_boost_v1/final.png"
   },
   {
     "id": "card_frontend_motion_overload",
@@ -796,7 +796,7 @@
     "upgrade_to": "card_frontend_motion_overload_plus",
     "enabled_in_first_playable": true,
     "description": "动效超载：造成伤害。",
-    "art_path": ""
+    "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_frontend_motion_overload_v1/final.png"
   },
   {
     "id": "card_frontend_vue_suite",
@@ -813,7 +813,7 @@
     "upgrade_to": "card_frontend_vue_suite_plus",
     "enabled_in_first_playable": true,
     "description": "Vue三件套：建立长期收益。",
-    "art_path": ""
+    "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_frontend_vue_suite_v1/final.png"
   },
   {
     "id": "card_frontend_style_isolate",
@@ -932,7 +932,7 @@
     "upgrade_to": "card_frontend_crash_animation_plus",
     "enabled_in_first_playable": true,
     "description": "崩溃动画：造成伤害。",
-    "art_path": ""
+    "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_frontend_crash_animation_v1/final.png"
   },
   {
     "id": "card_frontend_site_refactor",

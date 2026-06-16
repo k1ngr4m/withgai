@@ -29,7 +29,11 @@
 - `EffectExecutor` now executes run-state reward/deck effects directly for `add_random_card`, `add_random_relic`, `upgrade_card`, and `remove_card`, so these no longer degrade to placeholder logs outside event handling.
 - Card illustration presentation now uses `CardDef.art_path` in reusable UI card buttons for battle hands, reward choices, shop stock, and shop removal picks.
 - `card_frontend_component_reuse` now has a generated P0 card illustration wired through `Tools/build_config.mjs`, Luban CSV/JSON output, and runtime config.
-- `Tools/build_config.mjs` now auto-wires any matching `Resources/Art/Generated/P0/cards/card_illust_<card_id>_v1/final.png` asset into `CardDef.art_path`; current generated config exposes 10 card illustrations.
+- `Tools/build_config.mjs` now auto-wires matching `Resources/Art/Generated/P0/cards/card_illust_<card_id>_v1/final.png` assets into `CardDef.art_path`; current generated config exposes 19 card illustrations.
+- The first frontend P0 card-art batch is now committed and wired into runtime config:
+  - 10 accepted frontend card illustrations plus contact sheet and validation manifest.
+  - `Tools/build_config.mjs` includes explicit art-slug aliases for generated asset IDs that intentionally differ from card IDs.
+  - Generated config now exposes 19 card illustrations in total across backend and frontend cards.
 - Programmer shared utility cards now have concrete data-driven effects:
   - `card_shared_rollback` gains block and clears weak, vulnerable, and anxiety while leaving heavier statuses intact.
   - `card_shared_standup` gains block, draws a replacement card, and refunds energy.
@@ -58,6 +62,7 @@ Result:
 - Godot test runner now checks `EffectExecutor` deck/relic reward effects update `RunState` and active battle upgrade state.
 - Godot test runner now checks configured card art paths load, including `card_frontend_component_reuse`.
 - Godot test runner now checks bulk card-art auto-wiring through an existing backend card illustration and a minimum configured-card-art count.
+- Godot test runner now explicitly checks all 10 frontend P0 card illustrations are configured through `CardDef.art_path` and load successfully.
 - Godot MCP `get_project_info` reports Godot `4.6.1.stable.official.14d19694e`, 11 scenes, and 25 scripts.
 - Godot MCP `run_project` + `get_debug_output` verified project startup with empty `errors`.
 

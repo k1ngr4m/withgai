@@ -1,4 +1,4 @@
-Asset id: card_illust_frontend_component_reuse_v1
-Card theme: 组件复用
+Asset id: card_illust_frontend_crash_animation_v1
+Card theme: 崩溃动画
 Pipeline: generate2dmap baked_scene_mode, vertical 1024x1536 non-playable flat card illustration; informed by generate2dsprite single-action clarity rules. Preserve the frontend engineer identity from char_frontend_keyart_v1: young male engineer, wavy dark hair, glasses, white technical coat with bright blue lining, dark outfit, blue-white-teal UI component motifs, small orange accents, bright modern office lighting. Clean commercial semi-realistic 2D card-game art, simplified office-tech background. Constraints: no readable text, no letters, no logos, no watermark, no speech bubbles, no dense website screenshot, no cluttered code wall, no card frame or UI border, no extra characters, no horror/glitch style.
-Scene/action: 角色把已有 UI 组件一分为二重新组合，模块被复制并无缝拼接，体现高效连段与复用。
+Scene/action: 样式层被控制性引爆成节奏感视觉冲击，保持角色主体清晰。
