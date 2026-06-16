@@ -7,6 +7,7 @@ const BUILD_LABEL := "首个可玩版本"
 const MENU_WIDTH := 384.0
 const DESKTOP_MARGIN := 44
 const COMPACT_MARGIN := 22
+const BROADCAST_INTERVAL := 4.2
 
 const CLASS_ART := {
 	"backend": "res://Resources/Art/Generated/P0/characters/char_backend_head_icon_v1/final.png",
@@ -21,6 +22,13 @@ const CLASS_SHORT_LABELS := {
 	"tester": "测试",
 	"algorithm": "算法",
 	"product_manager": "产品",
+}
+const CLASS_RESOURCE_LABELS := {
+	"backend": "服务 / 缓存",
+	"frontend": "组件 / 样式层",
+	"tester": "Bug / 用例 / Diff",
+	"algorithm": "算力 / 复杂度",
+	"product_manager": "需求变更 / 优先级",
 }
 const MENU_ICONS := {
 	"new_run": "res://Resources/Art/Generated/P0/icons/node_icon_combat_set_v1/processed/sheet-1.png",
@@ -39,10 +47,19 @@ const SCENE_LABELS := {
 	"class_select": "职业选择",
 	"meta": "工位成长",
 }
+const BROADCASTS := [
+	"楼宇广播：今日电梯优先服务正在爬楼的打工人。",
+	"会议室提示：画饼主管已占用 6F，请携带防线入场。",
+	"工位小报：窝囊费可在成长页兑换长期体面。",
+	"系统提示：五个职业已开放，HR 暂在解锁树占位。",
+]
 
 var _content_layer: Control
 var _rebuild_queued := false
 var _ambient_time := 0.0
+var _broadcast_timer := 0.0
+var _broadcast_index := 0
+var _broadcast_label: Label
 var _ambient_lines: Array = []
 var _pulse_nodes: Array = []
 
@@ -62,6 +79,11 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	_ambient_time += delta
+	_broadcast_timer += delta
+	if _broadcast_label != null and is_instance_valid(_broadcast_label) and _broadcast_timer >= BROADCAST_INTERVAL:
+		_broadcast_timer = 0.0
+		_broadcast_index = (_broadcast_index + 1) % BROADCASTS.size()
+		_broadcast_label.text = String(BROADCASTS[_broadcast_index])
 	for index in range(_ambient_lines.size()):
 		var line = _ambient_lines[index]
 		if not is_instance_valid(line):
@@ -80,6 +102,7 @@ func _build_menu() -> void:
 	if _content_layer == null:
 		return
 	_pulse_nodes.clear()
+	_broadcast_label = null
 	for child in _content_layer.get_children():
 		_content_layer.remove_child(child)
 		child.queue_free()
@@ -188,11 +211,12 @@ func _top_bar(compact := false) -> Control:
 	var spacer := Control.new()
 	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	row.add_child(spacer)
+	row.add_child(_risk_chip(compact))
 	return row
 
 
 func _hero_block(compact := false) -> Control:
-	var box := UiFactory.vbox(14 if compact else 16)
+	var box := UiFactory.vbox(12 if compact else 14)
 	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 
 	var title := _label("withgai", 56 if compact else 64, Color(0.96, 0.99, 1.0))
@@ -212,9 +236,17 @@ func _hero_block(compact := false) -> Control:
 	copy.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	box.add_child(copy)
 
-	var crew := _crew_strip(compact)
-	crew.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	box.add_child(crew)
+	var broadcast := _broadcast_strip(compact)
+	broadcast.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	box.add_child(broadcast)
+
+	var route := _route_panel(compact)
+	route.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	box.add_child(route)
+
+	var dossier := _career_dossier_strip(compact)
+	dossier.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	box.add_child(dossier)
 	return box
 
 
@@ -304,11 +336,85 @@ func _save_status_card() -> PanelContainer:
 	return panel
 
 
-func _crew_strip(compact := false) -> Control:
+func _broadcast_strip(compact := false) -> PanelContainer:
+	var panel := _panel(Color(0.025, 0.055, 0.065, 0.70), Color(0.48, 0.78, 0.82, 0.42), 7)
+	var pad := _pad(12 if compact else 14)
+	panel.add_child(pad)
+
+	var row := UiFactory.hbox(10)
+	row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	pad.add_child(row)
+
+	var dot := ColorRect.new()
+	dot.custom_minimum_size = Vector2(8, 8)
+	dot.color = Color(0.58, 0.96, 0.86, 0.95)
+	row.add_child(dot)
+	_pulse_nodes.append(dot)
+
+	_broadcast_label = _label(String(BROADCASTS[_broadcast_index]), 13 if compact else 14, Color(0.80, 0.93, 0.94))
+	_broadcast_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_broadcast_label.custom_minimum_size = Vector2(260, 24)
+	_broadcast_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	row.add_child(_broadcast_label)
+	return panel
+
+
+func _route_panel(compact := false) -> PanelContainer:
+	var panel := _panel(Color(0.028, 0.045, 0.050, 0.78), Color(0.50, 0.76, 0.80, 0.40), 7)
+	var pad := _pad(14)
+	panel.add_child(pad)
+
+	var box := UiFactory.vbox(8)
+	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	pad.add_child(box)
+
+	var header := UiFactory.hbox(8)
+	header.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	box.add_child(header)
+	header.add_child(_label("今晚路线", 15, Color(0.88, 0.97, 1.0)))
+	var spacer := Control.new()
+	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	header.add_child(spacer)
+	header.add_child(_label("16-20 个节点", 12, Color(0.60, 0.74, 0.78)))
+
+	var route: Container
+	if compact and get_viewport_rect().size.x < 560:
+		route = UiFactory.vbox(8)
+	else:
+		route = UiFactory.hbox(8)
+	route.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	box.add_child(route)
+
+	route.add_child(_route_stop("1F-6F", "基层办公区", "画饼主管", Color(0.32, 0.78, 0.74)))
+	route.add_child(_route_stop("7F-12F", "中层管理区", "变异 HR", Color(0.96, 0.68, 0.34)))
+	route.add_child(_route_stop("13F-顶层", "总裁区", "变异总裁", Color(0.68, 0.58, 0.98)))
+	return panel
+
+
+func _route_stop(floor_text: String, area_text: String, boss_text: String, accent: Color) -> PanelContainer:
+	var panel := _panel(Color(0.05, 0.07, 0.075, 0.80), Color(accent.r, accent.g, accent.b, 0.42), 6)
+	panel.custom_minimum_size = Vector2(160, 76)
+	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var pad := _pad(9)
+	panel.add_child(pad)
+
+	var box := UiFactory.vbox(2)
+	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	pad.add_child(box)
+	box.add_child(_label(floor_text, 14, Color(accent.r, accent.g, accent.b, 1.0)))
+	box.add_child(_label(area_text, 13, Color(0.88, 0.96, 0.98)))
+	var boss := _label(boss_text, 11, Color(0.60, 0.72, 0.76))
+	boss.autowrap_mode = TextServer.AUTOWRAP_OFF
+	boss.clip_text = true
+	box.add_child(boss)
+	return panel
+
+
+func _career_dossier_strip(compact := false) -> Control:
 	var row: Container
 	if compact:
 		var grid := GridContainer.new()
-		grid.columns = 2
+		grid.columns = 1 if get_viewport_rect().size.x < 560 else 2
 		grid.add_theme_constant_override("h_separation", 10)
 		grid.add_theme_constant_override("v_separation", 10)
 		row = grid
@@ -318,30 +424,56 @@ func _crew_strip(compact := false) -> Control:
 
 	for cls in AppRoot.config_service.first_playable_classes(false):
 		if bool(cls.get("enabled_in_first_playable", false)):
-			row.add_child(_class_pill(_class_preview_item(cls), compact))
+			row.add_child(_class_dossier(_class_preview_item(cls), compact))
 	return row
 
 
-func _class_pill(item: Dictionary, compact := false) -> PanelContainer:
+func _class_dossier(item: Dictionary, compact := false) -> PanelContainer:
 	var accent: Color = item.get("color", Color.WHITE)
 	var panel := _panel(Color(0.035, 0.055, 0.065, 0.78), Color(accent.r, accent.g, accent.b, 0.50), 7)
-	panel.custom_minimum_size = Vector2(178 if compact else 126, 54)
+	panel.custom_minimum_size = Vector2(232 if compact else 218, 112)
 	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL if compact else Control.SIZE_SHRINK_BEGIN
 
-	var pad := _pad(7)
+	var pad := _pad(10)
 	panel.add_child(pad)
-	var row := UiFactory.hbox(8)
-	pad.add_child(row)
+	var box := UiFactory.vbox(6)
+	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	pad.add_child(box)
+
+	var row := UiFactory.hbox(9)
+	row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	box.add_child(row)
 
 	var portrait := _class_portrait(item, accent)
-	portrait.custom_minimum_size = Vector2(38, 38)
+	portrait.custom_minimum_size = Vector2(42, 42)
 	row.add_child(portrait)
 
-	var name_label := _label(String(item.get("short_name", item.get("name", ""))), 13, Color(0.92, 0.98, 1.0))
+	var title_box := UiFactory.vbox(1)
+	title_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	row.add_child(title_box)
+
+	var name_label := _label(String(item.get("short_name", item.get("name", ""))), 15, Color(0.92, 0.98, 1.0))
 	name_label.autowrap_mode = TextServer.AUTOWRAP_OFF
-	name_label.custom_minimum_size = Vector2(74 if compact else 54, 34)
+	name_label.custom_minimum_size = Vector2(92, 20)
 	name_label.clip_text = true
-	row.add_child(name_label)
+	title_box.add_child(name_label)
+
+	var resource_label := _label(String(item.get("resource_label", "")), 11, Color(0.62, 0.75, 0.78))
+	resource_label.autowrap_mode = TextServer.AUTOWRAP_OFF
+	resource_label.clip_text = true
+	resource_label.custom_minimum_size = Vector2(114, 18)
+	title_box.add_child(resource_label)
+
+	var summary := _label(String(item.get("summary", "")), 11, Color(0.70, 0.82, 0.84))
+	summary.custom_minimum_size = Vector2(176, 30)
+	summary.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	box.add_child(summary)
+
+	var metrics := UiFactory.hbox(6)
+	metrics.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	box.add_child(metrics)
+	metrics.add_child(_metric_chip("难度", _difficulty_marks(int(item.get("difficulty", 1))), accent))
+	metrics.add_child(_metric_chip("牌池", str(_class_card_count(String(item.get("id", "")))), accent))
 	return panel
 
 
@@ -353,6 +485,9 @@ func _class_preview_item(cls: Dictionary) -> Dictionary:
 		"short_name": String(CLASS_SHORT_LABELS.get(class_id, cls.get("name", class_id))),
 		"color": Color(String(cls.get("color", "#ffffff"))),
 		"art": String(CLASS_ART.get(class_id, "")),
+		"summary": String(cls.get("summary", "")),
+		"difficulty": int(cls.get("recommended_difficulty", 1)),
+		"resource_label": String(CLASS_RESOURCE_LABELS.get(class_id, "")),
 	}
 
 
@@ -399,6 +534,19 @@ func _menu_button(text: String, primary := false, icon_key := "") -> Button:
 	button.add_theme_stylebox_override("focus", hover)
 	button.add_theme_stylebox_override("disabled", disabled)
 	return button
+
+
+func _metric_chip(label_text: String, value_text: String, accent: Color) -> PanelContainer:
+	var chip := _panel(Color(0.025, 0.042, 0.048, 0.76), Color(accent.r, accent.g, accent.b, 0.36), 5)
+	chip.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var pad := _pad(5)
+	chip.add_child(pad)
+	var label := _label("%s %s" % [label_text, value_text], 10, Color(0.78, 0.90, 0.92))
+	label.autowrap_mode = TextServer.AUTOWRAP_OFF
+	label.clip_text = true
+	label.custom_minimum_size = Vector2(56, 18)
+	pad.add_child(label)
+	return chip
 
 
 func _load_menu_icon(icon_key: String) -> Texture2D:
@@ -453,6 +601,31 @@ func _status_chip(text: String) -> PanelContainer:
 	return chip
 
 
+func _risk_chip(compact := false) -> PanelContainer:
+	var risk := "稳定"
+	var accent := Color(0.58, 0.96, 0.82)
+	var suspend := AppRoot.save_service.load_suspend() if AppRoot.save_service.has_suspend() else {}
+	var run_state := _suspend_run_state(suspend)
+	if not run_state.is_empty():
+		var hp := int(run_state.get("current_hp", run_state.get("player_hp", 72)))
+		var current_floor := int(run_state.get("current_floor", 1))
+		if hp <= 24 or current_floor >= 13:
+			risk = "偏高"
+			accent = Color(0.98, 0.58, 0.44)
+		elif hp <= 42 or current_floor >= 7:
+			risk = "攀升"
+			accent = Color(0.94, 0.76, 0.38)
+	var chip := _panel(Color(0.04, 0.07, 0.08, 0.70), Color(accent.r, accent.g, accent.b, 0.48), 6)
+	var pad := _pad(8)
+	chip.add_child(pad)
+	var label := _label("KPI风险 %s" % risk, 12 if compact else 13, Color(accent.r, accent.g, accent.b, 0.94))
+	label.autowrap_mode = TextServer.AUTOWRAP_OFF
+	label.custom_minimum_size = Vector2(92, 18)
+	label.clip_text = true
+	pad.add_child(label)
+	return chip
+
+
 func _label(text: String, font_size := 18, color := Color.WHITE) -> Label:
 	var label := UiFactory.label(text, font_size, color)
 	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
@@ -467,6 +640,20 @@ func _playable_class_count() -> int:
 		if bool(cls.get("enabled_in_first_playable", false)):
 			count += 1
 	return count
+
+
+func _class_card_count(class_id: String) -> int:
+	if class_id.is_empty() or AppRoot.config_service == null:
+		return 0
+	return AppRoot.config_service.cards_for_class(class_id, true).size()
+
+
+func _difficulty_marks(value: int) -> String:
+	var filled := clampi(value, 1, 5)
+	var marks := ""
+	for index in range(5):
+		marks += "■" if index < filled else "□"
+	return marks
 
 
 func _has_valid_suspend() -> bool:

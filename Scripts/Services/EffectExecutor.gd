@@ -63,6 +63,8 @@ func _execute_entry(entry: Dictionary, battle_state: Dictionary, run_state: Dict
 			_add_compute(battle_state, run_state, amount, battle_log)
 		"modify_complexity":
 			_add_class_resource(battle_state, "complexity", amount, battle_log, "复杂度")
+		"compress_complexity":
+			_compress_complexity(battle_state, run_state, params, battle_log)
 		"modify_intent":
 			_modify_intents(entry.get("target_type", "selected"), battle_state, run_state, target_index, amount, battle_log)
 		"create_card":
@@ -283,6 +285,32 @@ func _consume_compute(player: Dictionary, amount: int, battle_log: Array) -> voi
 	player["class_resource_state"] = resources
 	player["status_list"] = statuses
 	battle_log.append("算力释放 %d" % amount)
+
+func _consume_complexity(player: Dictionary, amount: int, battle_log: Array) -> void:
+	var resources: Dictionary = player.get("class_resource_state", {})
+	var statuses: Dictionary = player.get("status_list", {})
+	if int(resources.get("complexity", 0)) > 0:
+		resources["complexity"] = max(0, int(resources.get("complexity", 0)) - amount)
+	if int(statuses.get("complexity", 0)) > 0:
+		statuses["complexity"] = max(0, int(statuses.get("complexity", 0)) - amount)
+	player["class_resource_state"] = resources
+	player["status_list"] = statuses
+	battle_log.append("复杂度压缩 %d" % amount)
+
+func _compress_complexity(battle_state: Dictionary, run_state: Dictionary, params: Dictionary, battle_log: Array) -> void:
+	var player := _player(battle_state)
+	var available: int = _complexity_count(player)
+	if available <= 0:
+		battle_log.append("没有可压缩复杂度")
+		return
+	var converted: int = min(available, max(1, int(params.get("amount", 1))))
+	_consume_complexity(player, converted, battle_log)
+	var compute_gain: int = converted * max(0, int(params.get("compute_per_complexity", 1)))
+	var block_gain: int = converted * max(0, int(params.get("block_per_complexity", 0)))
+	if compute_gain > 0:
+		_add_class_resource(battle_state, "compute", compute_gain, battle_log, "压缩算力")
+	if block_gain > 0:
+		_gain_block(battle_state, run_state, block_gain, battle_log)
 
 func _bug_amount_with_diff(enemy: Dictionary, battle_state: Dictionary, base_amount: int, battle_log: Array) -> int:
 	var statuses: Dictionary = enemy.get("status_list", {})

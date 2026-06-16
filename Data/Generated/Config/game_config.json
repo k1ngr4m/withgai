@@ -1983,7 +1983,7 @@
       "effect_group_id": "eg_card_algo_big_o_compress",
       "upgrade_to": "card_algo_big_o_compress_plus",
       "enabled_in_first_playable": true,
-      "description": "大O压缩：获得防线并触发职业资源。",
+      "description": "大O压缩：将复杂度转换成算力和防线。",
       "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_algo_big_o_compress_v1/final.png"
     },
     "card_algo_monte_carlo": {
@@ -7510,22 +7510,16 @@
     "eg_card_algo_big_o_compress": {
       "id": "eg_card_algo_big_o_compress",
       "entry_ids": [
-        "eg_card_algo_big_o_compress_e01",
-        "eg_card_algo_big_o_compress_e02"
+        "eg_card_algo_big_o_compress_e01"
       ],
       "entries": [
         {
-          "effect_type": "gain_block",
+          "effect_type": "compress_complexity",
           "target_type": "self",
           "params": {
-            "amount": 10
-          }
-        },
-        {
-          "effect_type": "add_compute",
-          "target_type": "self",
-          "params": {
-            "amount": 1
+            "amount": 3,
+            "compute_per_complexity": 1,
+            "block_per_complexity": 2
           }
         }
       ]
@@ -11368,20 +11362,12 @@
       "id": "eg_card_algo_big_o_compress_e01",
       "effect_group_id": "eg_card_algo_big_o_compress",
       "order": 1,
-      "effect_type": "gain_block",
+      "effect_type": "compress_complexity",
       "target_type": "self",
       "params": {
-        "amount": 10
-      }
-    },
-    "eg_card_algo_big_o_compress_e02": {
-      "id": "eg_card_algo_big_o_compress_e02",
-      "effect_group_id": "eg_card_algo_big_o_compress",
-      "order": 2,
-      "effect_type": "add_compute",
-      "target_type": "self",
-      "params": {
-        "amount": 1
+        "amount": 3,
+        "compute_per_complexity": 1,
+        "block_per_complexity": 2
       }
     },
     "eg_card_algo_monte_carlo_e01": {

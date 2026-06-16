@@ -346,6 +346,13 @@ func _validate_config_references(config, content) -> void:
 		if entry.get("effect_type", "") == "deal_damage" and int(params.get("complexity_multiplier", 0)) > 0:
 			complexity_burst_scales = true
 	_check(complexity_burst_scales, "algorithm complexity burst scales with complexity")
+	var big_o_entries: Array = content.effect_entries(content.card_def("card_algo_big_o_compress").get("effect_group_id", ""))
+	var big_o_compresses := false
+	for entry in big_o_entries:
+		var params: Dictionary = entry.get("params", {})
+		if entry.get("effect_type", "") == "compress_complexity" and int(params.get("amount", 0)) > 0 and int(params.get("compute_per_complexity", 0)) > 0 and int(params.get("block_per_complexity", 0)) > 0:
+			big_o_compresses = true
+	_check(big_o_compresses, "algorithm big O compress converts complexity")
 	var pruning_entries: Array = content.effect_entries(content.card_def("card_algo_pruning").get("effect_group_id", ""))
 	var pruning_reduces_complexity := false
 	var pruning_discounts_next_card := false
@@ -1160,6 +1167,21 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(pruning_enemy.get("current_hp", 0)) == 48, "algorithm pruning discount lets next card resolve")
 	_check(int(player.get("current_energy", 0)) == 0, "algorithm pruning discount charges reduced cost")
 	_check(int(player.get("status_list", {}).get("cost_reduction", 0)) == 0, "algorithm pruning discount is consumed")
+
+	run = run_session.create_new_run("algorithm")
+	run["owned_relic_ids"] = []
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	player["hand"] = ["card_algo_big_o_compress"]
+	player["current_energy"] = 3
+	player["current_block"] = 0
+	player["class_resource_state"]["compute"] = 0
+	player["class_resource_state"]["complexity"] = 4
+	battle.play_card(run, 0, 0)
+	_check(int(player.get("class_resource_state", {}).get("complexity", 0)) == 1, "algorithm big O compress spends stored complexity")
+	_check(int(player.get("class_resource_state", {}).get("compute", 0)) == 3, "algorithm big O compress converts complexity to compute")
+	_check(int(player.get("current_block", 0)) == 6, "algorithm big O compress converts complexity to block")
+	_check(int(player.get("current_energy", 0)) == 2, "algorithm big O compress charges card cost")
 
 	run = run_session.create_new_run("backend")
 	run["owned_relic_ids"].append("relic_cold_brew_bucket")
