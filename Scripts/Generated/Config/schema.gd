@@ -153,6 +153,10 @@ class EffectParams:
     var block_amount: int
     var block_per_service: int
     var cache_if_service: int
+    var service_block_amount: int
+    var service_cache_amount: int
+    var heavy_attack_threshold: int
+    var heavy_block_amount: int
     var low_hp_percent: int
     var high_attack_threshold: int
     var from_damage_taken_this_turn: bool
@@ -190,6 +194,10 @@ class EffectParams:
         if _json_.get('block_amount') != null: self.block_amount = _json_["block_amount"]
         if _json_.get('block_per_service') != null: self.block_per_service = _json_["block_per_service"]
         if _json_.get('cache_if_service') != null: self.cache_if_service = _json_["cache_if_service"]
+        if _json_.get('service_block_amount') != null: self.service_block_amount = _json_["service_block_amount"]
+        if _json_.get('service_cache_amount') != null: self.service_cache_amount = _json_["service_cache_amount"]
+        if _json_.get('heavy_attack_threshold') != null: self.heavy_attack_threshold = _json_["heavy_attack_threshold"]
+        if _json_.get('heavy_block_amount') != null: self.heavy_block_amount = _json_["heavy_block_amount"]
         if _json_.get('low_hp_percent') != null: self.low_hp_percent = _json_["low_hp_percent"]
         if _json_.get('high_attack_threshold') != null: self.high_attack_threshold = _json_["high_attack_threshold"]
         if _json_.get('from_damage_taken_this_turn') != null: self.from_damage_taken_this_turn = _json_["from_damage_taken_this_turn"]

@@ -39,6 +39,8 @@ func _execute_entry(entry: Dictionary, battle_state: Dictionary, run_state: Dict
 			run_state["player_state"] = ps2
 		"deploy_service":
 			_add_class_resource(battle_state, "services", max(1, amount), battle_log, "部署服务")
+		"circuit_breaker":
+			_circuit_breaker(battle_state, run_state, params, battle_log)
 		"add_cache":
 			_add_cache(battle_state, amount, params, battle_log)
 		"service_degrade":
@@ -602,6 +604,30 @@ func _service_degrade(battle_state: Dictionary, run_state: Dictionary, params: D
 		_add_cache(battle_state, cache_gain, {}, battle_log)
 	if services > 0:
 		battle_log.append("服务降级保住 %d 个服务" % services)
+
+func _circuit_breaker(battle_state: Dictionary, run_state: Dictionary, params: Dictionary, battle_log: Array) -> void:
+	var player := _player(battle_state)
+	var services: int = _service_count(player)
+	var block_amount: int = max(0, int(params.get("amount", 0)))
+	if services > 0:
+		block_amount += services * max(0, int(params.get("service_block_amount", 0)))
+	var heavy_threshold: int = max(0, int(params.get("heavy_attack_threshold", 0)))
+	var heavy_block_amount: int = max(0, int(params.get("heavy_block_amount", 0)))
+	if heavy_threshold > 0 and heavy_block_amount > 0 and _incoming_attack_total(battle_state) >= heavy_threshold:
+		block_amount += heavy_block_amount
+		battle_log.append("熔断保护命中高压攻击")
+	if block_amount > 0:
+		_gain_block(battle_state, run_state, block_amount, battle_log)
+	var cache_gain: int = services * max(0, int(params.get("service_cache_amount", 0)))
+	if cache_gain > 0:
+		_add_cache(battle_state, cache_gain, {}, battle_log)
+
+func _incoming_attack_total(battle_state: Dictionary) -> int:
+	var total: int = 0
+	for enemy in _alive_enemies(battle_state):
+		var intent: Dictionary = enemy.get("intent", {})
+		total += _enemy_intent_attack_amount(intent)
+	return total
 
 func _add_compute_complexity(battle_state: Dictionary, amount: int, battle_log: Array) -> void:
 	var params: Dictionary = config_service.get_def("statuses", "complexity").get("params", {})

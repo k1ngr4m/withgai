@@ -3,7 +3,7 @@
 ##group,c,c
 ##comment,id,entry_ids
 ,eg_card_backend_interface_probe,"[""eg_card_backend_interface_probe_e01"",""eg_card_backend_interface_probe_e02""]"
-,eg_card_backend_circuit_breaker,"[""eg_card_backend_circuit_breaker_e01"",""eg_card_backend_circuit_breaker_e02""]"
+,eg_card_backend_circuit_breaker,"[""eg_card_backend_circuit_breaker_e01""]"
 ,eg_card_backend_publish_script,"[""eg_card_backend_publish_script_e01"",""eg_card_backend_publish_script_e02""]"
 ,eg_card_backend_hotfix_rollback,"[""eg_card_backend_hotfix_rollback_e01"",""eg_card_backend_hotfix_rollback_e02"",""eg_card_backend_hotfix_rollback_e03""]"
 ,eg_card_backend_cache_hit,"[""eg_card_backend_cache_hit_e01"",""eg_card_backend_cache_hit_e02""]"

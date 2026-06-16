@@ -35,6 +35,10 @@
     <var name="block_amount" type="int?"/>
     <var name="block_per_service" type="int?"/>
     <var name="cache_if_service" type="int?"/>
+    <var name="service_block_amount" type="int?"/>
+    <var name="service_cache_amount" type="int?"/>
+    <var name="heavy_attack_threshold" type="int?"/>
+    <var name="heavy_block_amount" type="int?"/>
     <var name="low_hp_percent" type="int?"/>
     <var name="high_attack_threshold" type="int?"/>
     <var name="from_damage_taken_this_turn" type="bool?"/>

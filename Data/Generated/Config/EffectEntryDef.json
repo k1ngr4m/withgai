@@ -23,20 +23,14 @@
     "id": "eg_card_backend_circuit_breaker_e01",
     "effect_group_id": "eg_card_backend_circuit_breaker",
     "order": 1,
-    "effect_type": "gain_block",
+    "effect_type": "circuit_breaker",
     "target_type": "self",
     "params": {
-      "amount": 8
-    }
-  },
-  {
-    "id": "eg_card_backend_circuit_breaker_e02",
-    "effect_group_id": "eg_card_backend_circuit_breaker",
-    "order": 2,
-    "effect_type": "add_cache",
-    "target_type": "self",
-    "params": {
-      "amount": 1
+      "amount": 7,
+      "service_block_amount": 3,
+      "service_cache_amount": 1,
+      "heavy_attack_threshold": 10,
+      "heavy_block_amount": 4
     }
   },
   {

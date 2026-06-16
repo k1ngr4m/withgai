@@ -198,7 +198,7 @@
       "effect_group_id": "eg_card_backend_circuit_breaker",
       "upgrade_to": "card_backend_circuit_breaker_plus",
       "enabled_in_first_playable": true,
-      "description": "熔断保护：获得防线并触发职业资源。",
+      "description": "熔断保护：获得防线；若服务在线则额外获得防线和缓存，敌方高攻击意图时防线更强。",
       "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_backend_circuit_breaker_v1/final.png"
     },
     "card_backend_publish_script": {
@@ -5194,22 +5194,18 @@
     "eg_card_backend_circuit_breaker": {
       "id": "eg_card_backend_circuit_breaker",
       "entry_ids": [
-        "eg_card_backend_circuit_breaker_e01",
-        "eg_card_backend_circuit_breaker_e02"
+        "eg_card_backend_circuit_breaker_e01"
       ],
       "entries": [
         {
-          "effect_type": "gain_block",
+          "effect_type": "circuit_breaker",
           "target_type": "self",
           "params": {
-            "amount": 8
-          }
-        },
-        {
-          "effect_type": "add_cache",
-          "target_type": "self",
-          "params": {
-            "amount": 1
+            "amount": 7,
+            "service_block_amount": 3,
+            "service_cache_amount": 1,
+            "heavy_attack_threshold": 10,
+            "heavy_block_amount": 4
           }
         }
       ]
@@ -9382,20 +9378,14 @@
       "id": "eg_card_backend_circuit_breaker_e01",
       "effect_group_id": "eg_card_backend_circuit_breaker",
       "order": 1,
-      "effect_type": "gain_block",
+      "effect_type": "circuit_breaker",
       "target_type": "self",
       "params": {
-        "amount": 8
-      }
-    },
-    "eg_card_backend_circuit_breaker_e02": {
-      "id": "eg_card_backend_circuit_breaker_e02",
-      "effect_group_id": "eg_card_backend_circuit_breaker",
-      "order": 2,
-      "effect_type": "add_cache",
-      "target_type": "self",
-      "params": {
-        "amount": 1
+        "amount": 7,
+        "service_block_amount": 3,
+        "service_cache_amount": 1,
+        "heavy_attack_threshold": 10,
+        "heavy_block_amount": 4
       }
     },
     "eg_card_backend_publish_script_e01": {

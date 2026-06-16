@@ -94,6 +94,7 @@ const specialCardDescriptions = {
   card_shared_rollback: "回滚版本：获得防线，清除脆弱、易伤与焦虑。",
   card_shared_standup: "晨会同步：获得防线，抽牌并返还精力。",
   card_shared_meeting_mute: "会议静音：获得防线并削弱目标攻击意图。",
+  card_backend_circuit_breaker: "熔断保护：获得防线；若服务在线则额外获得防线和缓存，敌方高攻击意图时防线更强。",
   card_backend_api_gateway: "API网关：建立长期状态，每回合开始获得防线；若服务不少于 2 个则额外抽牌。",
   card_backend_redis_warmup: "Redis预热：获得大量缓存，下回合首张牌费用降低。",
   card_backend_message_queue: "消息队列堆积：生成请求计数，回合末按请求数对所有敌人造成伤害。",
@@ -168,6 +169,11 @@ function cardEffects(classId, cardId, type, cost, idx) {
     return [
       { effect_type: "gain_block", target_type: "self", params: { amount: 5 } },
       { effect_type: "modify_intent", target_type: "selected", params: { amount: -4 } },
+    ];
+  }
+  if (cardId === "card_backend_circuit_breaker") {
+    return [
+      { effect_type: "circuit_breaker", target_type: "self", params: { amount: 7, service_block_amount: 3, service_cache_amount: 1, heavy_attack_threshold: 10, heavy_block_amount: 4 } },
     ];
   }
   if (cardId === "card_backend_flush_all") {
@@ -872,6 +878,10 @@ const lubanDefines = `<module name="">
     <var name="block_amount" type="int?"/>
     <var name="block_per_service" type="int?"/>
     <var name="cache_if_service" type="int?"/>
+    <var name="service_block_amount" type="int?"/>
+    <var name="service_cache_amount" type="int?"/>
+    <var name="heavy_attack_threshold" type="int?"/>
+    <var name="heavy_block_amount" type="int?"/>
     <var name="low_hp_percent" type="int?"/>
     <var name="high_attack_threshold" type="int?"/>
     <var name="from_damage_taken_this_turn" type="bool?"/>

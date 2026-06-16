@@ -114,6 +114,13 @@ func _validate_config_references(config, content) -> void:
 		var pollution_card: Dictionary = content.card_def(card_id)
 		_check(not pollution_card.is_empty(), "%s pollution card resolves" % card_id)
 		_check(not content.effect_entries(pollution_card.get("effect_group_id", "")).is_empty(), "%s pollution card has effects" % card_id)
+	var circuit_breaker_entries: Array = content.effect_entries(content.card_def("card_backend_circuit_breaker").get("effect_group_id", ""))
+	var circuit_breaker_scales := false
+	for entry in circuit_breaker_entries:
+		var params: Dictionary = entry.get("params", {})
+		if entry.get("effect_type", "") == "circuit_breaker" and int(params.get("amount", 0)) > 0 and int(params.get("service_block_amount", 0)) > 0 and int(params.get("service_cache_amount", 0)) > 0 and int(params.get("heavy_attack_threshold", 0)) > 0 and int(params.get("heavy_block_amount", 0)) > 0:
+			circuit_breaker_scales = true
+	_check(circuit_breaker_scales, "backend circuit breaker scales with service and heavy attack")
 	var service_degrade_entries: Array = content.effect_entries(content.card_def("card_backend_service_degrade").get("effect_group_id", ""))
 	var service_degrade_reduces_intent := false
 	for entry in service_degrade_entries:
@@ -728,6 +735,24 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	player["current_energy"] = 3
 	battle.play_card(run, 0, 0)
 	_check(int(player.get("class_resource_state", {}).get("services", 0)) >= 1, "backend publish script deploys service")
+
+	run = run_session.create_new_run("backend")
+	run["owned_relic_ids"] = []
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	var circuit_enemy: Dictionary = battle.battle_state.get("enemies", [])[0]
+	circuit_enemy["intent"] = { "intent_type": "attack", "amount": 12 }
+	player["hand"] = ["card_backend_circuit_breaker"]
+	player["current_energy"] = 3
+	player["current_block"] = 0
+	player["class_resource_state"]["services"] = 2
+	player["class_resource_state"]["cache"] = 0
+	player["status_list"] = {}
+	battle.play_card(run, 0, 0)
+	_check(int(player.get("current_block", 0)) == 17, "backend circuit breaker gains service and pressure block")
+	_check(int(player.get("class_resource_state", {}).get("cache", 0)) == 2, "backend circuit breaker gains cache from services")
+	_check(int(player.get("class_resource_state", {}).get("services", 0)) == 2, "backend circuit breaker keeps services online")
+	_check(int(player.get("current_energy", 0)) == 2, "backend circuit breaker charges card cost")
 
 	run = run_session.create_new_run("backend")
 	run["owned_relic_ids"] = []
