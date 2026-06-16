@@ -146,6 +146,13 @@ func _validate_config_references(config, content) -> void:
 		if sharding_entry.get("effect_type", "") == "apply_status" and sharding_params.get("status_id", "") == "sharding":
 			sharding_applies_status = true
 	_check(sharding_applies_status, "backend sharding applies sharding status")
+	var traffic_entries: Array = content.effect_entries(content.card_def("card_backend_traffic_shaping").get("effect_group_id", ""))
+	var traffic_shapes_damage := false
+	for traffic_entry in traffic_entries:
+		var traffic_params: Dictionary = traffic_entry.get("params", {})
+		if traffic_entry.get("effect_type", "") == "add_cache" and bool(traffic_params.get("from_damage_taken_this_turn", false)):
+			traffic_shapes_damage = true
+	_check(traffic_shapes_damage, "backend traffic shaping converts damage taken to cache")
 	var component_reuse_art := String(content.card_def("card_frontend_component_reuse").get("art_path", ""))
 	_check(component_reuse_art.ends_with("card_illust_frontend_component_reuse_v1/final.png"), "frontend component reuse card art configured")
 	var component_reuse_entries: Array = content.effect_entries(content.card_def("card_frontend_component_reuse").get("effect_group_id", ""))
@@ -703,6 +710,20 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	battle.call("_start_player_turn", run, false)
 	executor.execute([{ "effect_type": "add_cache", "target_type": "self", "params": { "amount": 1 } }], battle.battle_state, run, 0, battle.battle_state["log"])
 	_check(int(player.get("class_resource_state", {}).get("cache", 0)) == 5, "backend sharding resets on next turn")
+
+	run = run_session.create_new_run("backend")
+	run["owned_relic_ids"] = []
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	player["hand"] = ["card_backend_traffic_shaping"]
+	player["current_energy"] = 3
+	player["current_block"] = 0
+	player["damage_taken_this_turn"] = 6
+	player["class_resource_state"]["cache"] = 0
+	player["status_list"] = {}
+	battle.play_card(run, 0, 0)
+	_check(int(player.get("current_block", 0)) >= 6, "backend traffic shaping grants block")
+	_check(int(player.get("class_resource_state", {}).get("cache", 0)) == 3, "backend traffic shaping converts pressure to cache")
 
 	run = run_session.create_new_run("backend")
 	battle = _start_first_battle(run, content, map, executor)

@@ -97,6 +97,7 @@ const specialCardDescriptions = {
   card_backend_redis_warmup: "Redis预热：获得大量缓存，下回合首张牌费用降低。",
   card_backend_message_queue: "消息队列堆积：生成请求计数，回合末按请求数对所有敌人造成伤害。",
   card_backend_sharding: "分库分表：建立长期状态，每回合第一次获得缓存时额外获得 1。",
+  card_backend_traffic_shaping: "流量削峰：获得防线，并把本回合承受的压力折算为缓存。",
   card_backend_flush_all: "全量回写：消耗全部缓存并按缓存层数造成高额伤害。",
   card_frontend_component_reuse: "组件复用：若已有组件，复制 1 个组件并抽牌。",
   card_frontend_state_boost: "状态提升：建立长期状态，每回合第 4 张牌获得样式层增伤。",
@@ -182,6 +183,12 @@ function cardEffects(classId, cardId, type, cost, idx) {
   if (cardId === "card_backend_sharding") {
     return [
       { effect_type: "apply_status", target_type: "self", params: { status_id: "sharding", amount: 1 } },
+    ];
+  }
+  if (cardId === "card_backend_traffic_shaping") {
+    return [
+      { effect_type: "gain_block", target_type: "self", params: { amount: 6 } },
+      { effect_type: "add_cache", target_type: "self", params: { amount: 0, from_damage_taken_this_turn: true, damage_taken_divisor: 2 } },
     ];
   }
   if (cardId === "card_frontend_component_reuse") {
@@ -787,6 +794,8 @@ const lubanDefines = `<module name="">
     <var name="requires_existing_component" type="bool?"/>
     <var name="draw_if_success" type="bool?"/>
     <var name="draw_amount" type="int?"/>
+    <var name="from_damage_taken_this_turn" type="bool?"/>
+    <var name="damage_taken_divisor" type="int?"/>
     <var name="bug_multiplier" type="int?"/>
     <var name="case_multiplier" type="int?"/>
     <var name="diff_multiplier" type="int?"/>

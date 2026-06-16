@@ -10,7 +10,7 @@
 ,card_backend_log_collect,日志收集,"[""backend""]",common,skill,1,self,[],eg_card_backend_log_collect,card_backend_log_collect_plus,true,日志收集：获得防线并触发职业资源。,
 ,card_backend_timeout_retry,超时重试,"[""backend""]",common,attack,1,single_enemy,[],eg_card_backend_timeout_retry,card_backend_timeout_retry_plus,true,超时重试：造成伤害。,
 ,card_backend_service_degrade,服务降级,"[""backend""]",common,skill,0,self,[],eg_card_backend_service_degrade,card_backend_service_degrade_plus,true,服务降级：获得防线并触发职业资源。,res://Resources/Art/Generated/P0/cards/card_illust_backend_service_degrade_v1/final.png
-,card_backend_traffic_shaping,流量削峰,"[""backend""]",common,skill,1,self,[],eg_card_backend_traffic_shaping,card_backend_traffic_shaping_plus,true,流量削峰：获得防线并触发职业资源。,res://Resources/Art/Generated/P0/cards/card_illust_backend_traffic_shaping_v1/final.png
+,card_backend_traffic_shaping,流量削峰,"[""backend""]",common,skill,1,self,[],eg_card_backend_traffic_shaping,card_backend_traffic_shaping_plus,true,流量削峰：获得防线，并把本回合承受的压力折算为缓存。,res://Resources/Art/Generated/P0/cards/card_illust_backend_traffic_shaping_v1/final.png
 ,card_backend_request_merge,请求聚合,"[""backend""]",common,attack,1,single_enemy,[],eg_card_backend_request_merge,card_backend_request_merge_plus,true,请求聚合：造成伤害。,
 ,card_backend_ticket_debug,工单排查,"[""backend""]",common,skill,1,self,[],eg_card_backend_ticket_debug,card_backend_ticket_debug_plus,true,工单排查：获得防线并触发职业资源。,
 ,card_backend_session_keep,会话保持,"[""backend""]",common,skill,1,self,[],eg_card_backend_session_keep,card_backend_session_keep_plus,true,会话保持：获得防线并触发职业资源。,

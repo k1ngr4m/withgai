@@ -317,7 +317,7 @@
       "effect_group_id": "eg_card_backend_traffic_shaping",
       "upgrade_to": "card_backend_traffic_shaping_plus",
       "enabled_in_first_playable": true,
-      "description": "流量削峰：获得防线并触发职业资源。",
+      "description": "流量削峰：获得防线，并把本回合承受的压力折算为缓存。",
       "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_backend_traffic_shaping_v1/final.png"
     },
     "card_backend_request_merge": {
@@ -5348,14 +5348,16 @@
           "effect_type": "gain_block",
           "target_type": "self",
           "params": {
-            "amount": 8
+            "amount": 6
           }
         },
         {
           "effect_type": "add_cache",
           "target_type": "self",
           "params": {
-            "amount": 1
+            "amount": 0,
+            "from_damage_taken_this_turn": true,
+            "damage_taken_divisor": 2
           }
         }
       ]
@@ -9588,7 +9590,7 @@
       "effect_type": "gain_block",
       "target_type": "self",
       "params": {
-        "amount": 8
+        "amount": 6
       }
     },
     "eg_card_backend_traffic_shaping_e02": {
@@ -9598,7 +9600,9 @@
       "effect_type": "add_cache",
       "target_type": "self",
       "params": {
-        "amount": 1
+        "amount": 0,
+        "from_damage_taken_this_turn": true,
+        "damage_taken_divisor": 2
       }
     },
     "eg_card_backend_request_merge_e01": {

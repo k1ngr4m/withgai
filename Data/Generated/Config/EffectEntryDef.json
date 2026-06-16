@@ -186,7 +186,7 @@
     "effect_type": "gain_block",
     "target_type": "self",
     "params": {
-      "amount": 8
+      "amount": 6
     }
   },
   {
@@ -196,7 +196,9 @@
     "effect_type": "add_cache",
     "target_type": "self",
     "params": {
-      "amount": 1
+      "amount": 0,
+      "from_damage_taken_this_turn": true,
+      "damage_taken_divisor": 2
     }
   },
   {

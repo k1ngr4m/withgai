@@ -40,7 +40,7 @@ func _execute_entry(entry: Dictionary, battle_state: Dictionary, run_state: Dict
 		"deploy_service":
 			_add_class_resource(battle_state, "services", max(1, amount), battle_log, "部署服务")
 		"add_cache":
-			_add_cache(battle_state, amount, battle_log)
+			_add_cache(battle_state, amount, params, battle_log)
 		"add_component":
 			_add_component(battle_state, run_state, amount, params, battle_log)
 		"add_style_layer":
@@ -415,9 +415,10 @@ func _add_compute(battle_state: Dictionary, run_state: Dictionary, amount: int, 
 		_add_compute_complexity(battle_state, amount, battle_log)
 		_apply_compute_relics(battle_state, run_state, battle_log)
 
-func _add_cache(battle_state: Dictionary, amount: int, battle_log: Array) -> void:
-	_add_class_resource(battle_state, "cache", amount, battle_log, "缓存")
-	if amount <= 0:
+func _add_cache(battle_state: Dictionary, amount: int, effect_params: Dictionary, battle_log: Array) -> void:
+	var cache_amount: int = amount + _cache_from_damage_taken(battle_state, effect_params)
+	_add_class_resource(battle_state, "cache", cache_amount, battle_log, "缓存")
+	if cache_amount <= 0:
 		return
 	var player := _player(battle_state)
 	var statuses: Dictionary = player.get("status_list", {})
@@ -427,11 +428,21 @@ func _add_cache(battle_state: Dictionary, amount: int, battle_log: Array) -> voi
 	var flags: Dictionary = player.get("relic_runtime_flags", {})
 	if bool(flags.get("sharding_cache_used_this_turn", false)):
 		return
-	var params: Dictionary = config_service.get_def("statuses", "sharding").get("params", {})
-	var extra_cache: int = sharding_stacks * max(1, int(params.get("extra_cache_amount", 1)))
+	var sharding_params: Dictionary = config_service.get_def("statuses", "sharding").get("params", {})
+	var extra_cache: int = sharding_stacks * max(1, int(sharding_params.get("extra_cache_amount", 1)))
 	flags["sharding_cache_used_this_turn"] = true
 	player["relic_runtime_flags"] = flags
 	_add_class_resource(battle_state, "cache", extra_cache, battle_log, "分库分表额外缓存")
+
+func _cache_from_damage_taken(battle_state: Dictionary, effect_params: Dictionary) -> int:
+	if not bool(effect_params.get("from_damage_taken_this_turn", false)):
+		return 0
+	var player := _player(battle_state)
+	var damage_taken := int(player.get("damage_taken_this_turn", 0))
+	if damage_taken <= 0:
+		return 0
+	var divisor: int = max(1, int(effect_params.get("damage_taken_divisor", 1)))
+	return int(floor(float(damage_taken) / float(divisor)))
 
 func _add_compute_complexity(battle_state: Dictionary, amount: int, battle_log: Array) -> void:
 	var params: Dictionary = config_service.get_def("statuses", "complexity").get("params", {})
