@@ -436,7 +436,7 @@
       "effect_group_id": "eg_card_backend_redis_warmup",
       "upgrade_to": "card_backend_redis_warmup_plus",
       "enabled_in_first_playable": true,
-      "description": "Redis预热：获得防线并触发职业资源。",
+      "description": "Redis预热：获得大量缓存，下回合首张牌费用降低。",
       "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_backend_redis_warmup_v1/final.png"
     },
     "card_backend_message_queue": {
@@ -4711,6 +4711,34 @@
       "is_hidden": false,
       "type": "class"
     },
+    "redis_warmup": {
+      "id": "redis_warmup",
+      "name": "Redis预热",
+      "stack_rule": "stack",
+      "timing_hooks": [
+        "round_start"
+      ],
+      "params": {
+        "cost_reduction_amount": 1
+      },
+      "effect_group_id": "",
+      "max_stack": 99,
+      "is_hidden": true,
+      "type": "class"
+    },
+    "cost_reduction": {
+      "id": "cost_reduction",
+      "name": "减费",
+      "stack_rule": "stack",
+      "timing_hooks": [
+        "card_cost"
+      ],
+      "params": {},
+      "effect_group_id": "",
+      "max_stack": 99,
+      "is_hidden": true,
+      "type": "class"
+    },
     "cache": {
       "id": "cache",
       "name": "缓存",
@@ -5441,17 +5469,18 @@
       ],
       "entries": [
         {
-          "effect_type": "gain_block",
-          "target_type": "self",
-          "params": {
-            "amount": 10
-          }
-        },
-        {
           "effect_type": "add_cache",
           "target_type": "self",
           "params": {
-            "amount": 1
+            "amount": 3
+          }
+        },
+        {
+          "effect_type": "apply_status",
+          "target_type": "self",
+          "params": {
+            "amount": 1,
+            "status_id": "redis_warmup"
           }
         }
       ]
@@ -9672,20 +9701,21 @@
       "id": "eg_card_backend_redis_warmup_e01",
       "effect_group_id": "eg_card_backend_redis_warmup",
       "order": 1,
-      "effect_type": "gain_block",
+      "effect_type": "add_cache",
       "target_type": "self",
       "params": {
-        "amount": 10
+        "amount": 3
       }
     },
     "eg_card_backend_redis_warmup_e02": {
       "id": "eg_card_backend_redis_warmup_e02",
       "effect_group_id": "eg_card_backend_redis_warmup",
       "order": 2,
-      "effect_type": "add_cache",
+      "effect_type": "apply_status",
       "target_type": "self",
       "params": {
-        "amount": 1
+        "amount": 1,
+        "status_id": "redis_warmup"
       }
     },
     "eg_card_backend_message_queue_e01": {

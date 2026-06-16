@@ -8,6 +8,10 @@
   - generated config applies a new `api_gateway` self status instead of the generic service placeholder
   - `api_gateway` declares a `round_start` hook with configurable block amount, service threshold, and draw amount
   - runtime grants block each player round start and draws extra cards when the backend has at least 2 services online
+- Backend `card_backend_redis_warmup` now works as the designed next-turn tempo setup:
+  - generated config grants a large cache burst and applies hidden `redis_warmup`
+  - round start converts `redis_warmup` into a hidden one-card `cost_reduction`
+  - hand card costs and play validation read the live discounted cost, and the discount is consumed after use
 - Backend `card_backend_flush_all` now works as the designed cache finisher:
   - generated config marks `cache` as a `deal_damage` hook
   - the card consumes all stored cache and converts each stack into bonus single-target damage
@@ -130,6 +134,7 @@ Result:
 - Godot test runner now checks `StatusDef.timing_hooks` declarations for anxiety, overtime, weak, vulnerable, and service online.
 - Godot test runner now checks every EnemyDef has a configured and loadable `art_path`.
 - Godot test runner now checks `api_gateway` config, `card_backend_api_gateway` generated effect, status application, round-start block, and service-threshold draw.
+- Godot test runner now checks `redis_warmup` / `cost_reduction` config, `card_backend_redis_warmup` generated effect, cache gain, same-turn no-discount behavior, next-round cost discount, UI-facing cost preview, play validation, and discount consumption.
 - Godot test runner now checks the live `service_online` round-start and round-end hooks.
 - Godot test runner now checks frontend `style_layer` damage bonus and consumption from both resource-sourced and status-sourced stacks.
 - Godot test runner now checks frontend `card_frontend_component_reuse` generated params, copy-on-existing-component behavior, draw-on-success behavior, and no-copy/no-draw behavior without an existing component.

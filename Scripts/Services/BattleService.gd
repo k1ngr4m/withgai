@@ -4,6 +4,8 @@ extends RefCounted
 const PLAYER_POSITIVE_STATUS_IDS := [
 	"service_online",
 	"api_gateway",
+	"redis_warmup",
+	"cost_reduction",
 	"cache",
 	"component",
 	"style_layer",
@@ -160,6 +162,14 @@ func can_play_card(hand_index: int) -> bool:
 	var cost := _actual_cost(card, hand[hand_index])
 	return int(player.get("current_energy", 0)) >= cost
 
+func hand_card_cost(hand_index: int) -> int:
+	var player: Dictionary = battle_state.get("player", {})
+	var hand: Array = player.get("hand", [])
+	if hand_index < 0 or hand_index >= hand.size():
+		return 0
+	var card: Dictionary = content_resolver.card_def(hand[hand_index])
+	return _actual_cost(card, hand[hand_index])
+
 func play_card(run_state: Dictionary, hand_index: int, target_index := 0) -> void:
 	if not can_play_card(hand_index):
 		battle_state["log"].append("精力不足或牌不可用")
@@ -168,9 +178,11 @@ func play_card(run_state: Dictionary, hand_index: int, target_index := 0) -> voi
 	var hand: Array = player.get("hand", [])
 	var card_id := String(hand[hand_index])
 	var card: Dictionary = content_resolver.card_def(card_id)
+	var base_cost := _base_cost(card, card_id)
 	var cost := _actual_cost(card, card_id)
 	player["current_energy"] = int(player.get("current_energy", 0)) - cost
 	hand.remove_at(hand_index)
+	_consume_cost_reduction(player, card, base_cost)
 	player["cards_played_this_turn"] = int(player.get("cards_played_this_turn", 0)) + 1
 	_apply_frontend_card_played_statuses(player)
 	var upgraded := _is_card_upgraded(card_id)
@@ -212,12 +224,36 @@ func card_needs_target(card_id: String) -> bool:
 	return ["single_enemy", "selected"].has(target_type)
 
 func _actual_cost(card: Dictionary, card_id := "") -> int:
+	var base_cost := _base_cost(card, card_id)
+	if int(card.get("cost", 1)) < 0:
+		return base_cost
+	return max(0, base_cost - _cost_reduction_count())
+
+func _base_cost(card: Dictionary, card_id := "") -> int:
 	var cost: int = int(card.get("cost", 1))
 	if cost < 0:
 		return int(battle_state.get("player", {}).get("current_energy", 0))
 	if _is_card_upgraded(card_id):
 		return max(0, cost - 1)
 	return cost
+
+func _cost_reduction_count() -> int:
+	var player: Dictionary = battle_state.get("player", {})
+	var statuses: Dictionary = player.get("status_list", {})
+	return int(statuses.get("cost_reduction", 0))
+
+func _consume_cost_reduction(player: Dictionary, card: Dictionary, base_cost: int) -> void:
+	if int(card.get("cost", 1)) < 0:
+		return
+	var statuses: Dictionary = player.get("status_list", {})
+	var reduction: int = int(statuses.get("cost_reduction", 0))
+	if reduction <= 0:
+		return
+	statuses.erase("cost_reduction")
+	player["status_list"] = statuses
+	var applied: int = min(base_cost, reduction)
+	if applied > 0:
+		battle_state["log"].append("Redis预热使本张牌费用 -%d" % applied)
 
 func _actual_effect_entries(card: Dictionary) -> Array:
 	var entries: Array = content_resolver.effect_entries(card.get("effect_group_id", ""))
@@ -593,6 +629,13 @@ func _round_start_triggers(run_state: Dictionary, first_turn: bool) -> void:
 		player["current_spirit"] = max(0, int(player.get("current_spirit", 0)) - int(statuses.get("overtime", 0)))
 		statuses["overtime"] = max(0, int(statuses.get("overtime", 0)) - 1)
 		battle_state["log"].append("加班造成精神消耗")
+	var redis_warmup_stacks: int = int(statuses.get("redis_warmup", 0))
+	if redis_warmup_stacks > 0:
+		var redis_params: Dictionary = _status_params("redis_warmup")
+		var reduction_amount: int = max(1, int(redis_params.get("cost_reduction_amount", 1))) * redis_warmup_stacks
+		statuses.erase("redis_warmup")
+		statuses["cost_reduction"] = int(statuses.get("cost_reduction", 0)) + reduction_amount
+		battle_state["log"].append("Redis预热完成：下张牌费用 -%d" % reduction_amount)
 	player["status_list"] = statuses
 	_apply_complexity_pressure(player)
 	var vue_suite_stacks := _vue_suite_count(player)

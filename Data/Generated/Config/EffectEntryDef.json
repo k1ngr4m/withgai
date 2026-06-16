@@ -314,20 +314,21 @@
     "id": "eg_card_backend_redis_warmup_e01",
     "effect_group_id": "eg_card_backend_redis_warmup",
     "order": 1,
-    "effect_type": "gain_block",
+    "effect_type": "add_cache",
     "target_type": "self",
     "params": {
-      "amount": 10
+      "amount": 3
     }
   },
   {
     "id": "eg_card_backend_redis_warmup_e02",
     "effect_group_id": "eg_card_backend_redis_warmup",
     "order": 2,
-    "effect_type": "add_cache",
+    "effect_type": "apply_status",
     "target_type": "self",
     "params": {
-      "amount": 1
+      "amount": 1,
+      "status_id": "redis_warmup"
     }
   },
   {

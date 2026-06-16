@@ -94,8 +94,7 @@ func _enemy_panel(enemy: Dictionary, enemy_index: int) -> Control:
 
 func _card_button(card_id: String, hand_index: int) -> Button:
 	var card: Dictionary = AppRoot.config_service.get_def("cards", card_id)
-	var upgraded: bool = AppRoot.battle_service.battle_state.get("upgraded_card_ids", []).has(card_id)
-	var cost: String = "X" if int(card.get("cost", 0)) < 0 else str(max(0, int(card.get("cost", 0)) - (1 if upgraded else 0)))
+	var cost: String = "X" if int(card.get("cost", 0)) < 0 else str(AppRoot.battle_service.hand_card_cost(hand_index))
 	var b: Button = UiFactory.card_button(card, "%s [%s]\n%s\n%s" % [card.get("name", card_id), cost, card.get("type", ""), card.get("description", "")], Vector2(190, 150))
 	b.disabled = not AppRoot.battle_service.can_play_card(hand_index)
 	b.pressed.connect(func(): _play_card(hand_index))
@@ -150,5 +149,7 @@ func _status_text(statuses: Dictionary) -> String:
 		if amount <= 0:
 			continue
 		var def: Dictionary = AppRoot.config_service.get_def("statuses", String(status_id))
+		if bool(def.get("is_hidden", false)):
+			continue
 		parts.append("%s:%d" % [def.get("name", status_id), amount])
 	return "无" if parts.is_empty() else " ".join(parts)

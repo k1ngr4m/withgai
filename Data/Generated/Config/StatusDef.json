@@ -91,6 +91,34 @@
     "type": "class"
   },
   {
+    "id": "redis_warmup",
+    "name": "Redis预热",
+    "stack_rule": "stack",
+    "timing_hooks": [
+      "round_start"
+    ],
+    "params": {
+      "cost_reduction_amount": 1
+    },
+    "effect_group_id": "",
+    "max_stack": 99,
+    "is_hidden": true,
+    "type": "class"
+  },
+  {
+    "id": "cost_reduction",
+    "name": "减费",
+    "stack_rule": "stack",
+    "timing_hooks": [
+      "card_cost"
+    ],
+    "params": {},
+    "effect_group_id": "",
+    "max_stack": 99,
+    "is_hidden": true,
+    "type": "class"
+  },
+  {
     "id": "cache",
     "name": "缓存",
     "stack_rule": "stack",

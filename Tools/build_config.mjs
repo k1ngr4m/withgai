@@ -94,6 +94,7 @@ const specialCardDescriptions = {
   card_shared_standup: "晨会同步：获得防线，抽牌并返还精力。",
   card_shared_meeting_mute: "会议静音：获得防线并削弱目标攻击意图。",
   card_backend_api_gateway: "API网关：建立长期状态，每回合开始获得防线；若服务不少于 2 个则额外抽牌。",
+  card_backend_redis_warmup: "Redis预热：获得大量缓存，下回合首张牌费用降低。",
   card_backend_flush_all: "全量回写：消耗全部缓存并按缓存层数造成高额伤害。",
   card_frontend_component_reuse: "组件复用：若已有组件，复制 1 个组件并抽牌。",
   card_frontend_state_boost: "状态提升：建立长期状态，每回合第 4 张牌获得样式层增伤。",
@@ -163,6 +164,12 @@ function cardEffects(classId, cardId, type, cost, idx) {
   if (cardId === "card_backend_api_gateway") {
     return [
       { effect_type: "apply_status", target_type: "self", params: { status_id: "api_gateway", amount: 1 } },
+    ];
+  }
+  if (cardId === "card_backend_redis_warmup") {
+    return [
+      { effect_type: "add_cache", target_type: "self", params: { amount: 3 } },
+      { effect_type: "apply_status", target_type: "self", params: { status_id: "redis_warmup", amount: 1 } },
     ];
   }
   if (cardId === "card_frontend_component_reuse") {
@@ -519,7 +526,7 @@ const events = [
 
 const statuses = [
   ["anxiety", "焦虑", "debuff"], ["overtime", "加班", "debuff"], ["vulnerable", "易伤", "debuff"], ["weak", "脆弱", "debuff"],
-  ["service_online", "服务在线", "class"], ["api_gateway", "API网关", "class"], ["cache", "缓存", "class"], ["component", "组件", "class"], ["style_layer", "样式层", "class"],
+  ["service_online", "服务在线", "class"], ["api_gateway", "API网关", "class"], ["redis_warmup", "Redis预热", "class"], ["cost_reduction", "减费", "class"], ["cache", "缓存", "class"], ["component", "组件", "class"], ["style_layer", "样式层", "class"],
   ["state_boost", "状态提升", "class"],
   ["vue_suite", "Vue三件套", "class"],
   ["bug", "Bug", "class"], ["case_mark", "用例", "class"], ["diff", "Diff", "class"], ["compute", "算力", "class"], ["complexity", "复杂度", "class"],
@@ -532,6 +539,8 @@ const statusTimingHooks = {
   weak: ["deal_damage", "round_end", "enemy_action_end", "expire"],
   service_online: ["round_start", "round_end"],
   api_gateway: ["round_start"],
+  redis_warmup: ["round_start"],
+  cost_reduction: ["card_cost"],
   cache: ["deal_damage"],
   style_layer: ["deal_damage"],
   state_boost: ["card_played"],
@@ -561,6 +570,9 @@ const statusParams = {
     service_threshold: 2,
     draw_amount: 1,
   },
+  redis_warmup: {
+    cost_reduction_amount: 1,
+  },
   state_boost: {
     trigger_play_count: 4,
     style_layer_amount: 1,
@@ -580,7 +592,7 @@ const statusList = statuses.map(([id, name, type]) => ({
   params: statusParams[id] ?? {},
   effect_group_id: "",
   max_stack: 99,
-  is_hidden: false,
+  is_hidden: ["redis_warmup", "cost_reduction"].includes(id),
   type,
 }));
 
@@ -735,6 +747,7 @@ const lubanDefines = `<module name="">
     <var name="block_amount" type="int?"/>
     <var name="service_threshold" type="int?"/>
     <var name="draw_amount" type="int?"/>
+    <var name="cost_reduction_amount" type="int?"/>
     <var name="trigger_play_count" type="int?"/>
     <var name="style_layer_amount" type="int?"/>
     <var name="component_amount" type="int?"/>

@@ -121,6 +121,17 @@ func _validate_config_references(config, content) -> void:
 		if entry.get("effect_type", "") == "apply_status" and params.get("status_id", "") == "api_gateway":
 			api_gateway_applies_status = true
 	_check(api_gateway_applies_status, "backend api gateway applies api gateway status")
+	var redis_entries: Array = content.effect_entries(content.card_def("card_backend_redis_warmup").get("effect_group_id", ""))
+	var redis_adds_cache := false
+	var redis_applies_warmup := false
+	for entry in redis_entries:
+		var params: Dictionary = entry.get("params", {})
+		if entry.get("effect_type", "") == "add_cache" and int(params.get("amount", 0)) >= 3:
+			redis_adds_cache = true
+		if entry.get("effect_type", "") == "apply_status" and params.get("status_id", "") == "redis_warmup":
+			redis_applies_warmup = true
+	_check(redis_adds_cache, "backend redis warmup adds large cache")
+	_check(redis_applies_warmup, "backend redis warmup applies next-turn warmup status")
 	var component_reuse_art := String(content.card_def("card_frontend_component_reuse").get("art_path", ""))
 	_check(component_reuse_art.ends_with("card_illust_frontend_component_reuse_v1/final.png"), "frontend component reuse card art configured")
 	var component_reuse_entries: Array = content.effect_entries(content.card_def("card_frontend_component_reuse").get("effect_group_id", ""))
@@ -273,6 +284,10 @@ func _validate_config_references(config, content) -> void:
 	_check(int(api_gateway_params.get("block_amount", 0)) > 0, "api gateway config has block amount")
 	_check(int(api_gateway_params.get("service_threshold", 0)) == 2, "api gateway config has service threshold")
 	_check(int(api_gateway_params.get("draw_amount", 0)) > 0, "api gateway config has draw amount")
+	_check(config.get_def("statuses", "redis_warmup").get("timing_hooks", []).has("round_start"), "redis warmup declares round start hook")
+	var redis_params: Dictionary = config.get_def("statuses", "redis_warmup").get("params", {})
+	_check(int(redis_params.get("cost_reduction_amount", 0)) > 0, "redis warmup config has cost reduction amount")
+	_check(config.get_def("statuses", "cost_reduction").get("timing_hooks", []).has("card_cost"), "cost reduction declares card cost hook")
 	_check(config.get_def("statuses", "state_boost").get("timing_hooks", []).has("card_played"), "state boost declares card played hook")
 	var state_boost_params: Dictionary = config.get_def("statuses", "state_boost").get("params", {})
 	_check(int(state_boost_params.get("trigger_play_count", 0)) == 4, "state boost config has fourth-card trigger")
@@ -601,6 +616,29 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	player["current_energy"] = 3
 	battle.play_card(run, 0, 0)
 	_check(int(player.get("class_resource_state", {}).get("services", 0)) >= 1, "backend publish script deploys service")
+
+	run = run_session.create_new_run("backend")
+	run["owned_relic_ids"] = []
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	player["hand"] = ["card_backend_redis_warmup"]
+	player["current_energy"] = 3
+	player["class_resource_state"]["cache"] = 0
+	player["status_list"] = {}
+	battle.play_card(run, 0, 0)
+	_check(int(player.get("class_resource_state", {}).get("cache", 0)) == 3, "backend redis warmup grants large cache")
+	_check(int(player.get("status_list", {}).get("redis_warmup", 0)) == 1, "backend redis warmup status is pending")
+	player["hand"] = ["card_backend_api_gateway"]
+	player["current_energy"] = 1
+	_check(not battle.can_play_card(0), "backend redis warmup does not discount same turn")
+	battle.call("_round_start_triggers", run, false)
+	_check(int(player.get("status_list", {}).get("redis_warmup", 0)) == 0, "backend redis warmup clears at next round start")
+	_check(int(player.get("status_list", {}).get("cost_reduction", 0)) == 1, "backend redis warmup enables next card discount")
+	_check(battle.hand_card_cost(0) == 1, "backend redis warmup previews discounted cost")
+	_check(battle.can_play_card(0), "backend redis warmup lets discounted card play")
+	battle.play_card(run, 0, 0)
+	_check(int(player.get("current_energy", 0)) == 0, "backend redis warmup charges discounted cost")
+	_check(int(player.get("status_list", {}).get("cost_reduction", 0)) == 0, "backend redis warmup discount is consumed")
 
 	run = run_session.create_new_run("backend")
 	battle = _start_first_battle(run, content, map, executor)
