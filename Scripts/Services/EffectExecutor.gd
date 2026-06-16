@@ -46,10 +46,7 @@ func _execute_entry(entry: Dictionary, battle_state: Dictionary, run_state: Dict
 		"add_style_layer":
 			_add_class_resource(battle_state, "style_layers", amount, battle_log, "样式层")
 		"inject_bug":
-			for enemy in _target_enemies(entry.get("target_type", "selected"), battle_state, target_index):
-				var bug_amount := _bug_amount_with_diff(enemy, battle_state, max(1, amount), battle_log)
-				_enemy_status(enemy, battle_state, run_state, "bug", bug_amount, battle_log)
-				_modify_intent(enemy, battle_state, run_state, -2 * bug_amount, battle_log)
+			_inject_bug(entry.get("target_type", "selected"), battle_state, run_state, target_index, params, battle_log)
 		"upgrade_bug":
 			_upgrade_bug(entry.get("target_type", "selected"), battle_state, run_state, target_index, max(1, amount), battle_log)
 		"confirm_regression":
@@ -288,6 +285,19 @@ func _bug_amount_with_diff(enemy: Dictionary, battle_state: Dictionary, base_amo
 	_sync_status_resource(battle_state, "diff", -1, battle_log)
 	battle_log.append("%s 的 Diff 被复现，Bug +1" % enemy.get("name", "敌人"))
 	return base_amount + 1
+
+func _inject_bug(target_type: String, battle_state: Dictionary, run_state: Dictionary, target_index: int, params: Dictionary, battle_log: Array) -> void:
+	var base_amount: int = max(1, int(params.get("amount", 1)))
+	var hit_count: int = max(1, int(params.get("hits", 1)))
+	for enemy in _target_enemies(target_type, battle_state, target_index):
+		var total_bug := 0
+		for _hit_index in range(hit_count):
+			var bug_amount := _bug_amount_with_diff(enemy, battle_state, base_amount, battle_log)
+			total_bug += bug_amount
+			_enemy_status(enemy, battle_state, run_state, "bug", bug_amount, battle_log)
+			_modify_intent(enemy, battle_state, run_state, -2 * bug_amount, battle_log)
+		if hit_count > 1:
+			battle_log.append("%s 连续注入 Bug x%d，总层数 +%d" % [enemy.get("name", "敌人"), hit_count, total_bug])
 
 func _upgrade_bug(target_type: String, battle_state: Dictionary, run_state: Dictionary, target_index: int, amount: int, battle_log: Array) -> void:
 	for enemy in _target_enemies(target_type, battle_state, target_index):

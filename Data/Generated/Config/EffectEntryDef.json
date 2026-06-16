@@ -1562,20 +1562,11 @@
     "id": "eg_card_tester_92_bugs_e01",
     "effect_group_id": "eg_card_tester_92_bugs",
     "order": 1,
-    "effect_type": "gain_block",
-    "target_type": "self",
-    "params": {
-      "amount": 18
-    }
-  },
-  {
-    "id": "eg_card_tester_92_bugs_e02",
-    "effect_group_id": "eg_card_tester_92_bugs",
-    "order": 2,
     "effect_type": "inject_bug",
     "target_type": "selected",
     "params": {
-      "amount": 1
+      "amount": 1,
+      "hits": 4
     }
   },
   {

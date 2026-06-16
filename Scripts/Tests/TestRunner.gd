@@ -368,6 +368,14 @@ func _validate_config_references(config, content) -> void:
 		if entry.get("effect_type", "") == "deal_damage" and int(params.get("bug_multiplier", 0)) >= 2 and int(params.get("case_multiplier", 0)) >= 2 and int(params.get("diff_multiplier", 0)) >= 3:
 			report_lock_scales_status = true
 	_check(report_lock_scales_status, "tester report lock scales target statuses")
+	_check(content.card_def("card_tester_92_bugs").get("target_type", "") == "selected", "tester fatal bug submission targets selected enemy")
+	var fatal_bug_entries: Array = content.effect_entries(content.card_def("card_tester_92_bugs").get("effect_group_id", ""))
+	var fatal_bug_has_hits := false
+	for entry in fatal_bug_entries:
+		var params: Dictionary = entry.get("params", {})
+		if entry.get("effect_type", "") == "inject_bug" and entry.get("target_type", "") == "selected" and int(params.get("amount", 0)) > 0 and int(params.get("hits", 0)) >= 4:
+			fatal_bug_has_hits = true
+	_check(fatal_bug_has_hits, "tester fatal bug submission injects multiple bug hits")
 	var auto_regression_entries: Array = content.effect_entries(content.card_def("card_tester_auto_regression").get("effect_group_id", ""))
 	var auto_regression_applies_status := false
 	for entry in auto_regression_entries:
@@ -860,6 +868,24 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(status.get("diff", 0)) == 1, "diff is consumed by bug reproduction")
 	_check(int(tester_resources.get("diff_tags", 0)) == 1, "diff resource decrements after reproduction")
 	_check(int(battle.battle_state["enemies"][0].get("intent", {}).get("amount", 0)) == 4, "diff-boosted bug weakens intent by final bug amount")
+
+	run = run_session.create_new_run("tester")
+	run["owned_relic_ids"] = []
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	var fatal_bug_enemy: Dictionary = battle.battle_state.get("enemies", [])[0]
+	fatal_bug_enemy["status_list"] = { "diff": 2 }
+	fatal_bug_enemy["intent"] = { "intent_type": "attack", "amount": 14 }
+	player["class_resource_state"]["bugs"] = 0
+	player["class_resource_state"]["diff_tags"] = 2
+	player["hand"] = ["card_tester_92_bugs"]
+	player["current_energy"] = 3
+	battle.play_card(run, 0, 0)
+	_check(int(fatal_bug_enemy.get("status_list", {}).get("bug", 0)) == 6, "tester fatal bug submission injects multiple bug stacks")
+	_check(int(fatal_bug_enemy.get("status_list", {}).get("diff", 0)) == 0, "tester fatal bug submission consumes diff across hits")
+	_check(int(player.get("class_resource_state", {}).get("bugs", 0)) == 6, "tester fatal bug submission syncs bug resource")
+	_check(int(player.get("class_resource_state", {}).get("diff_tags", 0)) == 0, "tester fatal bug submission syncs consumed diff")
+	_check(int(fatal_bug_enemy.get("intent", {}).get("amount", 0)) == 2, "tester fatal bug submission weakens intent per injected bug")
 
 	run = run_session.create_new_run("tester")
 	run["owned_relic_ids"] = []

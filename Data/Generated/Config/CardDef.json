@@ -1436,12 +1436,12 @@
     "rarity": "rare",
     "type": "skill",
     "cost": 3,
-    "target_type": "self",
+    "target_type": "selected",
     "keywords": [],
     "effect_group_id": "eg_card_tester_92_bugs",
     "upgrade_to": "card_tester_92_bugs_plus",
     "enabled_in_first_playable": true,
-    "description": "提交92个致命Bug：获得防线并触发职业资源。",
+    "description": "提交92个致命Bug：向目标连续注入多段 Bug。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_tester_92_bugs_v1/final.png"
   },
   {

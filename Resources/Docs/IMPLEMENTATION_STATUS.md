@@ -69,6 +69,10 @@
   - generated config marks the starter card as selected-target instead of self-target filler
   - runtime `confirm_regression` requires the target to already have case marks before drawing and adding Diff
   - targets without case marks do not receive Diff and do not trigger the draw
+- Tester `card_tester_92_bugs` now works as the designed multi-Bug rare skill:
+  - generated config marks the card as selected-target and uses the shared `inject_bug` effect with multiple hits
+  - runtime `inject_bug` now honors data-driven hit count while reusing Diff consumption, Bug resource sync, and intent weakening
+  - each hit resolves as a real Bug injection, so existing Bug/Diff relic hooks still apply consistently
 - Tester `card_tester_report_lock` now works as the designed status finisher:
   - generated config gives it Bug, case, and Diff damage multipliers
   - Bug and Diff now declare `deal_damage` timing hooks
@@ -183,6 +187,7 @@ Result:
 - Godot test runner now checks tester `card_tester_bug_upgrade` selected targeting, generated `upgrade_bug` effect, block gain, existing-Bug upgrade, resource sync, intent weakening, and no-Bug no-op behavior.
 - Godot test runner now checks tester `card_tester_case_matrix` generated status hook/params, status application, first-case bonus, once-per-turn gating, and next-turn reset.
 - Godot test runner now checks tester `card_tester_regression_confirm` selected targeting, generated `confirm_regression` effect, case-gated Diff/resource sync, draw, and no-case no-op behavior.
+- Godot test runner now checks tester `card_tester_92_bugs` selected targeting, generated multi-hit `inject_bug` params, multi-Bug injection, Diff consumption across hits, resource sync, and per-Bug intent weakening.
 - Godot test runner now checks tester `card_tester_report_lock` generated params, Bug/Diff damage-hook declarations, and real combat damage scaling from Bug, case, and Diff stacks.
 - Godot test runner now checks tester `Diff` hook declaration, extra Bug injection, Diff consumption, `diff_tags` resource sync, and final intent reduction.
 - Godot test runner now checks backend `cache` damage-hook declaration, `card_backend_flush_all` generated params, cache-scaled damage, and cache consumption.
