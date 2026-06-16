@@ -103,6 +103,7 @@ const specialCardDescriptions = {
   card_backend_service_degrade: "服务降级：降低所有敌方攻击意图，按已有服务获得额外防线并保留服务。",
   card_backend_trace_chain: "追踪链路：检索抽牌堆并抽取一张服务相关牌。",
   card_backend_flush_all: "全量回写：消耗全部缓存并按缓存层数造成高额伤害。",
+  card_frontend_flex_layout: "Flex排版：获得防线并生成 1 个组件。",
   card_frontend_component_reuse: "组件复用：若已有组件，复制 1 个组件并抽牌。",
   card_frontend_state_boost: "状态提升：建立长期状态，每回合第 4 张牌获得样式层增伤。",
   card_frontend_motion_overload: "动效超载：根据本回合已打出的牌数追加高额伤害。",
@@ -228,6 +229,12 @@ function cardEffects(classId, cardId, type, cost, idx) {
   if (cardId === "card_frontend_component_reuse") {
     return [
       { effect_type: "add_component", target_type: "self", params: { amount: 1, requires_existing_component: true, draw_if_success: true } },
+    ];
+  }
+  if (cardId === "card_frontend_flex_layout") {
+    return [
+      { effect_type: "gain_block", target_type: "self", params: { amount: 8 } },
+      { effect_type: "add_component", target_type: "self", params: { amount: 1 } },
     ];
   }
   if (cardId === "card_frontend_pixel_align") {

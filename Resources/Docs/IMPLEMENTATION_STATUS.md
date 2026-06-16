@@ -45,6 +45,10 @@
   - generated config requires an existing component before copying
   - successful reuse copies one component and draws a card
   - failed reuse does not fabricate a component or draw
+- Frontend `card_frontend_flex_layout` now works as the designed starter component-builder:
+  - generated config uses block plus `add_component` instead of default style-layer filler
+  - runtime grants the configured block and creates one component without creating style layers
+  - this makes the four-copy frontend starter defense card feed component-combo cards as intended
 - Frontend `card_frontend_pixel_align` now works as the designed component-aware repair card:
   - generated config uses a dedicated `pixel_align` effect instead of generic block/draw/component filler
   - runtime grants base block, then adds bonus block when the frontend already has at least one component
@@ -232,6 +236,7 @@ Result:
 - Godot test runner now checks `card_backend_trace_chain` generated tutor effect, draw-pile service-card search, non-service preservation, card-cost charge, and discard-pile exclusion.
 - Godot test runner now checks the live `service_online` round-start and round-end hooks.
 - Godot test runner now checks frontend `style_layer` damage bonus and consumption from both resource-sourced and status-sourced stacks.
+- Godot test runner now checks frontend `card_frontend_flex_layout` generated block/component effects, live block gain, component generation, no style-layer generation, and cost charge.
 - Godot test runner now checks frontend `card_frontend_component_reuse` generated params, copy-on-existing-component behavior, draw-on-success behavior, and no-copy/no-draw behavior without an existing component.
 - Godot test runner now checks frontend `card_frontend_pixel_align` generated component-bonus params, base block without components, bonus block with components, no component generation, no draw, and component preservation.
 - Godot test runner now checks frontend `card_frontend_compat_patch` generated cleanse/preserve effects, hidden status hooks, debuff cleansing, style bonus damage with preserved style layers, and turn-end expiry.

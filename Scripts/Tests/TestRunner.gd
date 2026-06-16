@@ -202,6 +202,21 @@ func _validate_config_references(config, content) -> void:
 	_check(traffic_shapes_damage, "backend traffic shaping converts damage taken to cache")
 	var component_reuse_art := String(content.card_def("card_frontend_component_reuse").get("art_path", ""))
 	_check(component_reuse_art.ends_with("card_illust_frontend_component_reuse_v1/final.png"), "frontend component reuse card art configured")
+	var flex_layout_entries: Array = content.effect_entries(content.card_def("card_frontend_flex_layout").get("effect_group_id", ""))
+	var flex_layout_blocks := false
+	var flex_layout_adds_component := false
+	var flex_layout_adds_style := false
+	for entry in flex_layout_entries:
+		var params: Dictionary = entry.get("params", {})
+		if entry.get("effect_type", "") == "gain_block" and int(params.get("amount", 0)) > 0:
+			flex_layout_blocks = true
+		if entry.get("effect_type", "") == "add_component" and int(params.get("amount", 0)) > 0:
+			flex_layout_adds_component = true
+		if entry.get("effect_type", "") == "add_style_layer":
+			flex_layout_adds_style = true
+	_check(flex_layout_blocks, "frontend flex layout grants block")
+	_check(flex_layout_adds_component, "frontend flex layout creates component")
+	_check(not flex_layout_adds_style, "frontend flex layout does not add style layer")
 	var component_reuse_entries: Array = content.effect_entries(content.card_def("card_frontend_component_reuse").get("effect_group_id", ""))
 	var component_reuse_requires_component := false
 	for entry in component_reuse_entries:
@@ -694,6 +709,24 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	battle.play_card(run, 0, 0)
 	_check(int(player.get("class_resource_state", {}).get("components", 0)) == 0, "frontend component reuse needs an existing component")
 	_check(not player.get("hand", []).has("card_frontend_pixel_tap"), "frontend component reuse does not draw without copy")
+
+	run = run_session.create_new_run("frontend")
+	run["owned_relic_ids"] = []
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	player["hand"] = ["card_frontend_flex_layout"]
+	player["draw_pile"] = []
+	player["discard_pile"] = []
+	player["current_energy"] = 3
+	player["current_block"] = 0
+	player["class_resource_state"]["components"] = 0
+	player["class_resource_state"]["style_layers"] = 0
+	player["status_list"] = {}
+	battle.play_card(run, 0, 0)
+	_check(int(player.get("current_block", 0)) == 8, "frontend flex layout grants configured block")
+	_check(int(player.get("class_resource_state", {}).get("components", 0)) == 1, "frontend flex layout creates a component")
+	_check(int(player.get("class_resource_state", {}).get("style_layers", 0)) == 0, "frontend flex layout does not create style layers")
+	_check(int(player.get("current_energy", 0)) == 2, "frontend flex layout charges card cost")
 
 	run = run_session.create_new_run("frontend")
 	run["owned_relic_ids"] = []

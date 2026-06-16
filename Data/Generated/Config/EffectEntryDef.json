@@ -581,7 +581,7 @@
     "id": "eg_card_frontend_flex_layout_e02",
     "effect_group_id": "eg_card_frontend_flex_layout",
     "order": 2,
-    "effect_type": "add_style_layer",
+    "effect_type": "add_component",
     "target_type": "self",
     "params": {
       "amount": 1

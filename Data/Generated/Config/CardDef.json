@@ -540,7 +540,7 @@
     "effect_group_id": "eg_card_frontend_flex_layout",
     "upgrade_to": "card_frontend_flex_layout_plus",
     "enabled_in_first_playable": true,
-    "description": "Flex排版：获得防线并触发职业资源。",
+    "description": "Flex排版：获得防线并生成 1 个组件。",
     "art_path": ""
   },
   {
