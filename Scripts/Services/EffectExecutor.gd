@@ -150,7 +150,8 @@ func _damage_enemies(target_type: String, battle_state: Dictionary, run_state: D
 		hit_count += style_layer_count * int(max(1, int(params.get("style_layer_hit_multiplier", 1))))
 	var backend_context := _backend_damage_context(player, params)
 	var algorithm_context := _algorithm_damage_context(player, battle_state, params)
-	var resource_bonus := int(backend_context.get("bonus", 0)) + int(algorithm_context.get("bonus", 0))
+	var cards_played_bonus := _cards_played_damage_bonus(player, params)
+	var resource_bonus := int(backend_context.get("bonus", 0)) + int(algorithm_context.get("bonus", 0)) + cards_played_bonus
 	for enemy in targets:
 		for _hit_index in range(hit_count):
 			_damage_enemy(enemy, battle_state, run_state, amount, battle_log, style_layer_bonus, resource_bonus, params)
@@ -189,6 +190,12 @@ func _target_status_damage_bonus(enemy: Dictionary, params: Dictionary) -> int:
 	bonus += int(statuses.get("case_mark", 0)) * int(params.get("case_multiplier", 0))
 	bonus += int(statuses.get("diff", 0)) * int(params.get("diff_multiplier", 0))
 	return bonus
+
+func _cards_played_damage_bonus(player: Dictionary, params: Dictionary) -> int:
+	var multiplier := int(params.get("cards_played_multiplier", 0))
+	if multiplier <= 0:
+		return 0
+	return int(player.get("cards_played_this_turn", 0)) * multiplier
 
 func _style_layer_count(player: Dictionary) -> int:
 	var resources: Dictionary = player.get("class_resource_state", {})

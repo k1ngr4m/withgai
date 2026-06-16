@@ -963,7 +963,7 @@
       "effect_group_id": "eg_card_frontend_motion_overload",
       "upgrade_to": "card_frontend_motion_overload_plus",
       "enabled_in_first_playable": true,
-      "description": "动效超载：造成伤害。",
+      "description": "动效超载：根据本回合已打出的牌数追加高额伤害。",
       "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_frontend_motion_overload_v1/final.png"
     },
     "card_frontend_vue_suite": {
@@ -6108,7 +6108,8 @@
           "effect_type": "deal_damage",
           "target_type": "single_enemy",
           "params": {
-            "amount": 16
+            "amount": 6,
+            "cards_played_multiplier": 3
           }
         }
       ]
@@ -10256,7 +10257,8 @@
       "effect_type": "deal_damage",
       "target_type": "single_enemy",
       "params": {
-        "amount": 16
+        "amount": 6,
+        "cards_played_multiplier": 3
       }
     },
     "eg_card_frontend_vue_suite_e01": {

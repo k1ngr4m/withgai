@@ -16,6 +16,10 @@
   - generated config applies the new `vue_suite` self status instead of the generic style-layer placeholder
   - `vue_suite` declares a `round_start` hook and configurable `component_amount`
   - each player round start generates components through the existing `add_component` path, including component relic hooks such as Figma library
+- Frontend `card_frontend_motion_overload` now works as the designed played-card-count attack:
+  - generated config gives it a `cards_played_multiplier`
+  - runtime damage now reads `cards_played_this_turn`, including the current card after it is played
+  - the card scales from low setup damage into a high-output combo payoff later in the turn
 - Frontend `card_frontend_crash_animation` now works as the designed style-layer finisher:
   - generated config converts style layers into extra damage hits instead of generic single-hit attack damage
   - runtime damage can now treat style layers as hit-count scaling and consume all style layers after the attack resolves
@@ -113,6 +117,7 @@ Result:
 - Godot test runner now checks frontend `style_layer` damage bonus and consumption from both resource-sourced and status-sourced stacks.
 - Godot test runner now checks frontend `card_frontend_component_reuse` generated params, copy-on-existing-component behavior, draw-on-success behavior, and no-copy/no-draw behavior without an existing component.
 - Godot test runner now checks `vue_suite` config, `card_frontend_vue_suite` generated effect, status application, and round-start component generation.
+- Godot test runner now checks `card_frontend_motion_overload` generated play-count scaling params and live damage based on the current turn's played-card count.
 - Godot test runner now checks `card_frontend_crash_animation` generated style-layer finisher params, style-layer-to-extra-hit conversion, and full style-layer consumption.
 - Godot test runner now checks tester `card_tester_report_lock` generated params, Bug/Diff damage-hook declarations, and real combat damage scaling from Bug, case, and Diff stacks.
 - Godot test runner now checks tester `Diff` hook declaration, extra Bug injection, Diff consumption, `diff_tags` resource sync, and final intent reduction.

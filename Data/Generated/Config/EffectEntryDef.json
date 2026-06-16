@@ -916,7 +916,8 @@
     "effect_type": "deal_damage",
     "target_type": "single_enemy",
     "params": {
-      "amount": 16
+      "amount": 6,
+      "cards_played_multiplier": 3
     }
   },
   {
