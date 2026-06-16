@@ -276,6 +276,21 @@
     "type": "class"
   },
   {
+    "id": "case_matrix",
+    "name": "用例矩阵",
+    "stack_rule": "stack",
+    "timing_hooks": [
+      "add_case"
+    ],
+    "params": {
+      "case_amount": 1
+    },
+    "effect_group_id": "",
+    "max_stack": 99,
+    "is_hidden": false,
+    "type": "class"
+  },
+  {
     "id": "compute",
     "name": "算力",
     "stack_rule": "stack",

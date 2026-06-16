@@ -78,7 +78,7 @@
 ,card_tester_ticket_chase,工单追击,"[""tester""]",common,attack,1,single_enemy,[],eg_card_tester_ticket_chase,card_tester_ticket_chase_plus,true,工单追击：造成伤害。,
 ,card_tester_auto_regression,自动化回归,"[""tester""]",uncommon,power,2,self,[],eg_card_tester_auto_regression,card_tester_auto_regression_plus,true,自动化回归：建立长期状态，回合结束时触发一个已挂 Bug 并补充用例。,res://Resources/Art/Generated/P0/cards/card_illust_tester_auto_regression_v1/final.png
 ,card_tester_bug_upgrade,缺陷升级,"[""tester""]",uncommon,skill,1,self,[],eg_card_tester_bug_upgrade,card_tester_bug_upgrade_plus,true,缺陷升级：获得防线并触发职业资源。,res://Resources/Art/Generated/P0/cards/card_illust_tester_bug_upgrade_v1/final.png
-,card_tester_case_matrix,用例矩阵,"[""tester""]",uncommon,power,1,self,[],eg_card_tester_case_matrix,card_tester_case_matrix_plus,true,用例矩阵：建立长期收益。,res://Resources/Art/Generated/P0/cards/card_illust_tester_case_matrix_v1/final.png
+,card_tester_case_matrix,用例矩阵,"[""tester""]",uncommon,power,1,self,[],eg_card_tester_case_matrix,card_tester_case_matrix_plus,true,用例矩阵：建立长期状态，每回合首次施加用例时额外施加用例。,res://Resources/Art/Generated/P0/cards/card_illust_tester_case_matrix_v1/final.png
 ,card_tester_stress_test,压力测试,"[""tester""]",uncommon,attack,2,single_enemy,[],eg_card_tester_stress_test,card_tester_stress_test_plus,true,压力测试：造成伤害。,
 ,card_tester_stability_sample,稳定性抽检,"[""tester""]",uncommon,skill,1,self,[],eg_card_tester_stability_sample,card_tester_stability_sample_plus,true,稳定性抽检：获得防线并触发职业资源。,
 ,card_tester_rollback_review,回滚复盘,"[""tester""]",uncommon,skill,1,self,[],eg_card_tester_rollback_review,card_tester_rollback_review_plus,true,回滚复盘：获得防线并触发职业资源。,

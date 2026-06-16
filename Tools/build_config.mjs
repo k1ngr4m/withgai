@@ -105,6 +105,7 @@ const specialCardDescriptions = {
   card_frontend_vue_suite: "Vue三件套：建立长期状态，每回合开始生成 1 个组件。",
   card_frontend_crash_animation: "崩溃动画：消耗全部样式层，将样式层转化为多段爆发伤害。",
   card_tester_auto_regression: "自动化回归：建立长期状态，回合结束时触发一个已挂 Bug 并补充用例。",
+  card_tester_case_matrix: "用例矩阵：建立长期状态，每回合首次施加用例时额外施加用例。",
   card_tester_report_lock: "测试报告封板：按目标 Bug、用例和 Diff 层数结算高额伤害。",
   card_algo_global_optimum: "全局最优解：消耗全部精力与算力，按投入造成高额伤害。",
   card_pm_scope_spread: "范围蔓延：建立长期状态，使每次需求变更额外影响另一个敌人。",
@@ -220,6 +221,11 @@ function cardEffects(classId, cardId, type, cost, idx) {
   if (cardId === "card_tester_auto_regression") {
     return [
       { effect_type: "apply_status", target_type: "self", params: { status_id: "auto_regression", amount: 1 } },
+    ];
+  }
+  if (cardId === "card_tester_case_matrix") {
+    return [
+      { effect_type: "apply_status", target_type: "self", params: { status_id: "case_matrix", amount: 1 } },
     ];
   }
   if (cardId === "card_tester_report_lock") {
@@ -554,7 +560,7 @@ const statuses = [
   ["service_online", "服务在线", "class"], ["api_gateway", "API网关", "class"], ["redis_warmup", "Redis预热", "class"], ["cost_reduction", "减费", "class"], ["request_queue", "请求", "class"], ["sharding", "分库分表", "class"], ["cache", "缓存", "class"], ["component", "组件", "class"], ["style_layer", "样式层", "class"],
   ["state_boost", "状态提升", "class"],
   ["vue_suite", "Vue三件套", "class"],
-  ["bug", "Bug", "class"], ["case_mark", "用例", "class"], ["diff", "Diff", "class"], ["auto_regression", "自动化回归", "class"], ["compute", "算力", "class"], ["complexity", "复杂度", "class"],
+  ["bug", "Bug", "class"], ["case_mark", "用例", "class"], ["diff", "Diff", "class"], ["auto_regression", "自动化回归", "class"], ["case_matrix", "用例矩阵", "class"], ["compute", "算力", "class"], ["complexity", "复杂度", "class"],
   ["requirement_change", "需求变更", "class"], ["priority", "优先级", "class"], ["scope_spread", "范围蔓延", "class"], ["performance", "绩效", "class"], ["optimization_target", "优化名单", "class"],
 ];
 const statusTimingHooks = {
@@ -576,6 +582,7 @@ const statusTimingHooks = {
   case_mark: ["deal_damage"],
   diff: ["inject_bug", "deal_damage"],
   auto_regression: ["round_end"],
+  case_matrix: ["add_case"],
   compute: ["deal_damage"],
   complexity: ["add_compute", "round_start"],
   priority: ["target_resolution"],
@@ -616,6 +623,9 @@ const statusParams = {
   },
   auto_regression: {
     trigger_damage: 4,
+    case_amount: 1,
+  },
+  case_matrix: {
     case_amount: 1,
   },
   scope_spread: {

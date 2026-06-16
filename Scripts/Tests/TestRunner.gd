@@ -329,6 +329,9 @@ func _validate_config_references(config, content) -> void:
 	var auto_regression_params: Dictionary = config.get_def("statuses", "auto_regression").get("params", {})
 	_check(int(auto_regression_params.get("trigger_damage", 0)) > 0, "auto regression config has trigger damage")
 	_check(int(auto_regression_params.get("case_amount", 0)) > 0, "auto regression config has case amount")
+	_check(config.get_def("statuses", "case_matrix").get("timing_hooks", []).has("add_case"), "case matrix declares add case hook")
+	var case_matrix_params: Dictionary = config.get_def("statuses", "case_matrix").get("params", {})
+	_check(int(case_matrix_params.get("case_amount", 0)) > 0, "case matrix config has case amount")
 	_check(config.get_def("statuses", "cache").get("timing_hooks", []).has("deal_damage"), "cache declares damage hook")
 	_check(config.get_def("statuses", "compute").get("timing_hooks", []).has("deal_damage"), "compute declares damage hook")
 	_check(config.get_def("statuses", "complexity").get("timing_hooks", []).has("add_compute"), "complexity declares compute gain hook")
@@ -372,6 +375,13 @@ func _validate_config_references(config, content) -> void:
 		if entry.get("effect_type", "") == "apply_status" and params.get("status_id", "") == "auto_regression":
 			auto_regression_applies_status = true
 	_check(auto_regression_applies_status, "tester auto regression applies auto regression status")
+	var case_matrix_entries: Array = content.effect_entries(content.card_def("card_tester_case_matrix").get("effect_group_id", ""))
+	var case_matrix_applies_status := false
+	for entry in case_matrix_entries:
+		var params: Dictionary = entry.get("params", {})
+		if entry.get("effect_type", "") == "apply_status" and params.get("status_id", "") == "case_matrix":
+			case_matrix_applies_status = true
+	_check(case_matrix_applies_status, "tester case matrix applies case matrix status")
 	_check(content.card_def("card_pm_schedule_compress").get("target_type", "") == "highest_priority_enemy", "pm schedule compress targets priority")
 	_check(_has_intent_type(content.intent_entries_for_enemy("enemy_salesman"), "pollute"), "salesman has pollute intent")
 	_check(_has_intent_type(content.intent_entries_for_enemy("enemy_workaholic_coworker"), "multi_attack"), "workaholic has multi attack intent")
@@ -855,6 +865,25 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(regression_enemy.get("current_hp", 0)) == 36, "tester auto regression triggers bug damage at round end")
 	_check(int(regression_enemy.get("status_list", {}).get("case_mark", 0)) == 1, "tester auto regression adds case to bugged target")
 	_check(int(player.get("class_resource_state", {}).get("cases", 0)) == 1, "tester auto regression syncs case resource")
+
+	run = run_session.create_new_run("tester")
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	var matrix_enemy: Dictionary = battle.battle_state.get("enemies", [])[0]
+	matrix_enemy["status_list"] = {}
+	player["hand"] = ["card_tester_case_matrix"]
+	player["current_energy"] = 3
+	player["class_resource_state"]["cases"] = 0
+	battle.play_card(run, 0, 0)
+	_check(int(player.get("status_list", {}).get("case_matrix", 0)) == 1, "tester case matrix status is applied")
+	executor.execute([{ "effect_type": "add_case", "target_type": "selected", "params": { "amount": 1 } }], battle.battle_state, run, 0, battle.battle_state["log"])
+	_check(int(matrix_enemy.get("status_list", {}).get("case_mark", 0)) == 2, "tester case matrix doubles first case each turn")
+	_check(int(player.get("class_resource_state", {}).get("cases", 0)) == 2, "tester case matrix syncs bonus case resource")
+	executor.execute([{ "effect_type": "add_case", "target_type": "selected", "params": { "amount": 1 } }], battle.battle_state, run, 0, battle.battle_state["log"])
+	_check(int(matrix_enemy.get("status_list", {}).get("case_mark", 0)) == 3, "tester case matrix triggers only once per turn")
+	battle.call("_start_player_turn", run, false)
+	executor.execute([{ "effect_type": "add_case", "target_type": "selected", "params": { "amount": 1 } }], battle.battle_state, run, 0, battle.battle_state["log"])
+	_check(int(matrix_enemy.get("status_list", {}).get("case_mark", 0)) == 5, "tester case matrix resets on next turn")
 
 	run = run_session.create_new_run("frontend")
 	battle = _start_first_battle(run, content, map, executor)

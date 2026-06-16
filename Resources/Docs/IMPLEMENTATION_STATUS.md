@@ -53,6 +53,10 @@
   - generated config applies a new `auto_regression` self status instead of generic case/draw power filler
   - `auto_regression` declares a `round_end` hook with configurable trigger damage and case gain
   - runtime finds a live enemy with Bug at player round end, triggers regression damage, and syncs the added case resource
+- Tester `card_tester_case_matrix` now works as the designed first-case amplifier:
+  - generated config applies a new `case_matrix` self status instead of generic case/draw power filler
+  - `case_matrix` declares an `add_case` hook with configurable bonus case amount
+  - runtime adds the bonus case only on the first case application each player turn, then resets the trigger next turn
 - Tester `card_tester_report_lock` now works as the designed status finisher:
   - generated config gives it Bug, case, and Diff damage multipliers
   - Bug and Diff now declare `deal_damage` timing hooks
@@ -163,6 +167,7 @@ Result:
 - Godot test runner now checks `card_frontend_motion_overload` generated play-count scaling params and live damage based on the current turn's played-card count.
 - Godot test runner now checks `card_frontend_crash_animation` generated style-layer finisher params, style-layer-to-extra-hit conversion, and full style-layer consumption.
 - Godot test runner now checks tester `card_tester_auto_regression` generated status hook/params, status application, round-end Bug trigger damage, and case/resource sync.
+- Godot test runner now checks tester `card_tester_case_matrix` generated status hook/params, status application, first-case bonus, once-per-turn gating, and next-turn reset.
 - Godot test runner now checks tester `card_tester_report_lock` generated params, Bug/Diff damage-hook declarations, and real combat damage scaling from Bug, case, and Diff stacks.
 - Godot test runner now checks tester `Diff` hook declaration, extra Bug injection, Diff consumption, `diff_tags` resource sync, and final intent reduction.
 - Godot test runner now checks backend `cache` damage-hook declaration, `card_backend_flush_all` generated params, cache-scaled damage, and cache consumption.

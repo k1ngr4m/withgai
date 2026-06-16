@@ -326,8 +326,30 @@ func _enemy_status(enemy: Dictionary, battle_state: Dictionary, run_state: Dicti
 	enemy["status_list"] = statuses
 	battle_log.append("%s 获得 %s x%d" % [enemy.get("name", "敌人"), status_id, amount])
 	_sync_status_resource(battle_state, status_id, amount, battle_log, run_state)
+	_apply_case_matrix(battle_state, run_state, enemy, status_id, battle_log)
 	_apply_status_relics(battle_state, run_state, enemy, status_id, amount, battle_log)
 	_apply_scope_spread(battle_state, run_state, enemy, status_id, battle_log)
+
+func _apply_case_matrix(battle_state: Dictionary, run_state: Dictionary, enemy: Dictionary, status_id: String, battle_log: Array) -> void:
+	if status_id != "case_mark":
+		return
+	var player := _player(battle_state)
+	var statuses: Dictionary = player.get("status_list", {})
+	var case_matrix_stacks := int(statuses.get("case_matrix", 0))
+	if case_matrix_stacks <= 0:
+		return
+	var flags: Dictionary = player.get("relic_runtime_flags", {})
+	if bool(flags.get("case_matrix_used_this_turn", false)):
+		return
+	flags["case_matrix_used_this_turn"] = true
+	player["relic_runtime_flags"] = flags
+	var params: Dictionary = config_service.get_def("statuses", "case_matrix").get("params", {})
+	var extra_cases: int = case_matrix_stacks * max(1, int(params.get("case_amount", 1)))
+	var enemy_statuses: Dictionary = enemy.get("status_list", {})
+	enemy_statuses["case_mark"] = int(enemy_statuses.get("case_mark", 0)) + extra_cases
+	enemy["status_list"] = enemy_statuses
+	_sync_status_resource(battle_state, "case_mark", extra_cases, battle_log, run_state)
+	battle_log.append("用例矩阵追加用例 +%d" % extra_cases)
 
 func _apply_scope_spread(battle_state: Dictionary, run_state: Dictionary, source_enemy: Dictionary, status_id: String, battle_log: Array) -> void:
 	if status_id != "requirement_change":

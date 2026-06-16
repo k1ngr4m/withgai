@@ -1305,7 +1305,7 @@
     "effect_group_id": "eg_card_tester_case_matrix",
     "upgrade_to": "card_tester_case_matrix_plus",
     "enabled_in_first_playable": true,
-    "description": "用例矩阵：建立长期收益。",
+    "description": "用例矩阵：建立长期状态，每回合首次施加用例时额外施加用例。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_tester_case_matrix_v1/final.png"
   },
   {

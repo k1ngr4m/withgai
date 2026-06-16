@@ -16,6 +16,7 @@ const PLAYER_POSITIVE_STATUS_IDS := [
 	"case_mark",
 	"diff",
 	"auto_regression",
+	"case_matrix",
 	"compute",
 	"complexity",
 	"requirement_change",
@@ -564,6 +565,7 @@ func _start_player_turn(run_state: Dictionary, first_turn := false) -> void:
 	player["relic_runtime_flags"]["standing_desk_block_used"] = false
 	player["relic_runtime_flags"]["meeting_room_claim_used_this_turn"] = false
 	player["relic_runtime_flags"]["sharding_cache_used_this_turn"] = false
+	player["relic_runtime_flags"]["case_matrix_used_this_turn"] = false
 	player["current_energy"] = int(player.get("base_energy", 3))
 	_round_start_triggers(run_state, first_turn)
 	_roll_enemy_intents()
