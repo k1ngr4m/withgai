@@ -461,6 +461,14 @@ func _validate_config_references(config, content) -> void:
 		if entry.get("effect_type", "") == "apply_status" and params.get("status_id", "") == "auto_regression":
 			auto_regression_applies_status = true
 	_check(auto_regression_applies_status, "tester auto regression applies auto regression status")
+	_check(content.card_def("card_tester_repro_steps").get("target_type", "") == "selected", "tester repro steps targets selected enemy")
+	var repro_steps_entries: Array = content.effect_entries(content.card_def("card_tester_repro_steps").get("effect_group_id", ""))
+	var repro_steps_injects_bug := false
+	for entry in repro_steps_entries:
+		var params: Dictionary = entry.get("params", {})
+		if entry.get("effect_type", "") == "inject_bug" and entry.get("target_type", "") == "selected" and int(params.get("amount", 0)) > 0:
+			repro_steps_injects_bug = true
+	_check(repro_steps_injects_bug, "tester repro steps injects bug")
 	_check(content.card_def("card_tester_boundary_check").get("target_type", "") == "selected", "tester boundary check targets selected enemy")
 	var boundary_check_entries: Array = content.effect_entries(content.card_def("card_tester_boundary_check").get("effect_group_id", ""))
 	var boundary_check_has_params := false
@@ -1127,11 +1135,31 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	player["current_energy"] = 3
 	battle.play_card(run, 0, battle.selected_target_index())
 	_check(int(battle.battle_state["enemies"][1].get("current_hp", 0)) < second_before, "selected target receives card damage")
+	battle.battle_state["enemies"][0]["status_list"] = {}
+	battle.battle_state["enemies"][1]["status_list"] = {}
+	player["class_resource_state"]["bugs"] = 0
+	player["class_resource_state"]["cases"] = 0
+	player["hand"] = ["card_tester_repro_steps"]
+	player["current_energy"] = 3
+	battle.select_target(1)
+	battle.play_card(run, 0, battle.selected_target_index())
+	var repro_primary_status: Dictionary = battle.battle_state["enemies"][0].get("status_list", {})
+	var repro_selected_status: Dictionary = battle.battle_state["enemies"][1].get("status_list", {})
+	var tester_resources: Dictionary = player.get("class_resource_state", {})
+	_check(int(repro_primary_status.get("bug", 0)) == 0, "tester repro steps ignores unselected target")
+	_check(int(repro_selected_status.get("bug", 0)) >= 1, "tester repro steps injects bug into selected target")
+	_check(int(repro_selected_status.get("case_mark", 0)) >= 1, "tester repro steps triggers starter relic case")
+	_check(int(tester_resources.get("bugs", 0)) >= 1, "tester repro steps syncs bug resource")
+	_check(int(tester_resources.get("cases", 0)) >= 1, "tester repro steps syncs case resource")
+	battle.battle_state["enemies"][0]["status_list"] = {}
+	player["class_resource_state"]["bugs"] = 0
+	player["class_resource_state"]["cases"] = 0
+	player["relic_runtime_flags"] = {}
 	executor.execute([{ "effect_type": "inject_bug", "target_type": "selected", "params": { "amount": 1 } }], battle.battle_state, run, 0, battle.battle_state["log"])
 	var status: Dictionary = battle.battle_state["enemies"][0].get("status_list", {})
 	_check(int(status.get("bug", 0)) >= 1, "tester injects bug")
 	_check(int(status.get("case_mark", 0)) >= 1, "tester starter relic adds case")
-	var tester_resources: Dictionary = player.get("class_resource_state", {})
+	tester_resources = player.get("class_resource_state", {})
 	_check(int(tester_resources.get("bugs", 0)) >= 1, "tester bug status syncs resource")
 	_check(int(tester_resources.get("cases", 0)) >= 1, "tester case status syncs resource")
 	status["diff"] = 2

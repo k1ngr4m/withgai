@@ -93,6 +93,10 @@
   - generated config marks the starter card as selected-target instead of self-target filler
   - runtime `confirm_regression` requires the target to already have case marks before drawing and adding Diff
   - targets without case marks do not receive Diff and do not trigger the draw
+- Tester `card_tester_repro_steps` now works as the designed targeted Bug injection starter:
+  - generated config marks the card as selected-target and uses `inject_bug` instead of default self-target skill filler
+  - runtime injects Bug into the chosen enemy only, leaving unselected enemies untouched
+  - the tester starter relic still adds case marks to the reproduced target and syncs Bug/case resources
 - Tester `card_tester_92_bugs` now works as the designed multi-Bug rare skill:
   - generated config marks the card as selected-target and uses the shared `inject_bug` effect with multiple hits
   - runtime `inject_bug` now honors data-driven hit count while reusing Diff consumption, Bug resource sync, and intent weakening
@@ -239,6 +243,7 @@ Result:
 - Godot test runner now checks tester `card_tester_boundary_check` selected targeting, generated `boundary_check` params, low-HP bonus, high-attack bonus, base no-boundary behavior, and case resource sync.
 - Godot test runner now checks tester `card_tester_bug_upgrade` selected targeting, generated `upgrade_bug` effect, block gain, existing-Bug upgrade, resource sync, intent weakening, and no-Bug no-op behavior.
 - Godot test runner now checks tester `card_tester_case_matrix` generated status hook/params, status application, first-case bonus, once-per-turn gating, and next-turn reset.
+- Godot test runner now checks tester `card_tester_repro_steps` generated selected-target Bug injection, selected enemy application, unselected enemy preservation, starter relic case trigger, and Bug/case resource sync.
 - Godot test runner now checks tester `card_tester_regression_confirm` selected targeting, generated `confirm_regression` effect, case-gated Diff/resource sync, draw, and no-case no-op behavior.
 - Godot test runner now checks tester `card_tester_92_bugs` selected targeting, generated multi-hit `inject_bug` params, multi-Bug injection, Diff consumption across hits, resource sync, and per-Bug intent weakening.
 - Godot test runner now checks tester `card_tester_report_lock` generated params, Bug/Diff damage-hook declarations, and real combat damage scaling from Bug, case, and Diff stacks.
