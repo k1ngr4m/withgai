@@ -95,6 +95,7 @@ const specialCardDescriptions = {
   card_shared_meeting_mute: "会议静音：获得防线并削弱目标攻击意图。",
   card_backend_flush_all: "全量回写：消耗全部缓存并按缓存层数造成高额伤害。",
   card_frontend_component_reuse: "组件复用：若已有组件，复制 1 个组件并抽牌。",
+  card_frontend_vue_suite: "Vue三件套：建立长期状态，每回合开始生成 1 个组件。",
   card_tester_report_lock: "测试报告封板：按目标 Bug、用例和 Diff 层数结算高额伤害。",
   card_algo_global_optimum: "全局最优解：消耗全部精力与算力，按投入造成高额伤害。",
   card_pm_scope_spread: "范围蔓延：建立长期状态，使每次需求变更额外影响另一个敌人。",
@@ -158,6 +159,11 @@ function cardEffects(classId, cardId, type, cost, idx) {
   if (cardId === "card_frontend_component_reuse") {
     return [
       { effect_type: "add_component", target_type: "self", params: { amount: 1, requires_existing_component: true, draw_if_success: true } },
+    ];
+  }
+  if (cardId === "card_frontend_vue_suite") {
+    return [
+      { effect_type: "apply_status", target_type: "self", params: { status_id: "vue_suite", amount: 1 } },
     ];
   }
   if (cardId === "card_tester_report_lock") {
@@ -490,6 +496,7 @@ const events = [
 const statuses = [
   ["anxiety", "焦虑", "debuff"], ["overtime", "加班", "debuff"], ["vulnerable", "易伤", "debuff"], ["weak", "脆弱", "debuff"],
   ["service_online", "服务在线", "class"], ["cache", "缓存", "class"], ["component", "组件", "class"], ["style_layer", "样式层", "class"],
+  ["vue_suite", "Vue三件套", "class"],
   ["bug", "Bug", "class"], ["case_mark", "用例", "class"], ["diff", "Diff", "class"], ["compute", "算力", "class"], ["complexity", "复杂度", "class"],
   ["requirement_change", "需求变更", "class"], ["priority", "优先级", "class"], ["scope_spread", "范围蔓延", "class"], ["performance", "绩效", "class"], ["optimization_target", "优化名单", "class"],
 ];
@@ -501,6 +508,7 @@ const statusTimingHooks = {
   service_online: ["round_start", "round_end"],
   cache: ["deal_damage"],
   style_layer: ["deal_damage"],
+  vue_suite: ["round_start"],
   bug: ["enemy_before_action", "enemy_action_end", "deal_damage", "expire"],
   case_mark: ["deal_damage"],
   diff: ["inject_bug", "deal_damage"],
@@ -520,6 +528,9 @@ const statusParams = {
   requirement_change: {
     intent_amount_reduction: 4,
     consume_per_action: 1,
+  },
+  vue_suite: {
+    component_amount: 1,
   },
   scope_spread: {
     spread_amount: 1,
@@ -685,6 +696,7 @@ const lubanDefines = `<module name="">
     <var name="spirit_loss" type="int?"/>
     <var name="intent_amount_reduction" type="int?"/>
     <var name="consume_per_action" type="int?"/>
+    <var name="component_amount" type="int?"/>
     <var name="spread_amount" type="int?"/>
   </bean>
   <bean name="EffectParams">

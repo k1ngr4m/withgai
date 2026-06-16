@@ -6,6 +6,7 @@ const PLAYER_POSITIVE_STATUS_IDS := [
 	"cache",
 	"component",
 	"style_layer",
+	"vue_suite",
 	"case_mark",
 	"diff",
 	"compute",
@@ -578,6 +579,18 @@ func _round_start_triggers(run_state: Dictionary, first_turn: bool) -> void:
 		battle_state["log"].append("加班造成精神消耗")
 	player["status_list"] = statuses
 	_apply_complexity_pressure(player)
+	var vue_suite_stacks := _vue_suite_count(player)
+	if vue_suite_stacks > 0 and effect_executor != null:
+		var params: Dictionary = _status_params("vue_suite")
+		var component_amount: int = int(max(1, int(params.get("component_amount", 1)))) * vue_suite_stacks
+		effect_executor.execute(
+			[{ "effect_type": "add_component", "target_type": "self", "params": { "amount": component_amount } }],
+			battle_state,
+			run_state,
+			0,
+			battle_state["log"]
+		)
+		battle_state["log"].append("Vue三件套在回合开始生成组件")
 	var resources: Dictionary = player.get("class_resource_state", {})
 	var services := _service_online_count(player)
 	if services > 0:
@@ -631,6 +644,10 @@ func _complexity_count(player: Dictionary) -> int:
 	var resources: Dictionary = player.get("class_resource_state", {})
 	var statuses: Dictionary = player.get("status_list", {})
 	return max(int(resources.get("complexity", 0)), int(statuses.get("complexity", 0)))
+
+func _vue_suite_count(player: Dictionary) -> int:
+	var statuses: Dictionary = player.get("status_list", {})
+	return int(statuses.get("vue_suite", 0))
 
 func _status_params(status_id: String) -> Dictionary:
 	if content_resolver == null or content_resolver.config_service == null:

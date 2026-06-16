@@ -114,6 +114,13 @@ func _validate_config_references(config, content) -> void:
 		if entry.get("effect_type", "") == "add_component" and bool(params.get("requires_existing_component", false)) and bool(params.get("draw_if_success", false)):
 			component_reuse_requires_component = true
 	_check(component_reuse_requires_component, "frontend component reuse requires component and draws")
+	var vue_suite_entries: Array = content.effect_entries(content.card_def("card_frontend_vue_suite").get("effect_group_id", ""))
+	var vue_suite_applies_status := false
+	for entry in vue_suite_entries:
+		var params: Dictionary = entry.get("params", {})
+		if entry.get("effect_type", "") == "apply_status" and params.get("status_id", "") == "vue_suite":
+			vue_suite_applies_status = true
+	_check(vue_suite_applies_status, "frontend vue suite applies vue suite status")
 	var circuit_breaker_art := String(content.card_def("card_backend_circuit_breaker").get("art_path", ""))
 	_check(circuit_breaker_art.ends_with("card_illust_backend_circuit_breaker_v1/final.png"), "backend circuit breaker card art auto configured")
 	var gpu_relic: Dictionary = content.relic_def("relic_gpu_training_card")
@@ -205,6 +212,9 @@ func _validate_config_references(config, content) -> void:
 	_check(config.get_def("statuses", "weak").get("timing_hooks", []).has("deal_damage"), "weak declares damage hook")
 	_check(config.get_def("statuses", "vulnerable").get("timing_hooks", []).has("damage_taken"), "vulnerable declares damage taken hook")
 	_check(config.get_def("statuses", "style_layer").get("timing_hooks", []).has("deal_damage"), "style layer declares damage hook")
+	_check(config.get_def("statuses", "vue_suite").get("timing_hooks", []).has("round_start"), "vue suite declares round start hook")
+	var vue_params: Dictionary = config.get_def("statuses", "vue_suite").get("params", {})
+	_check(int(vue_params.get("component_amount", 0)) > 0, "vue suite config has component amount")
 	_check(config.get_def("statuses", "bug").get("timing_hooks", []).has("deal_damage"), "bug declares damage hook")
 	_check(config.get_def("statuses", "diff").get("timing_hooks", []).has("inject_bug"), "diff declares bug injection hook")
 	_check(config.get_def("statuses", "diff").get("timing_hooks", []).has("deal_damage"), "diff declares damage hook")
@@ -361,6 +371,20 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	battle.play_card(run, 0, 0)
 	_check(int(player.get("class_resource_state", {}).get("components", 0)) == 0, "frontend component reuse needs an existing component")
 	_check(not player.get("hand", []).has("card_frontend_pixel_tap"), "frontend component reuse does not draw without copy")
+
+	run = run_session.create_new_run("frontend")
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	player["hand"] = ["card_frontend_vue_suite"]
+	player["draw_pile"] = []
+	player["discard_pile"] = []
+	player["current_energy"] = 3
+	player["class_resource_state"]["components"] = 0
+	player["status_list"] = {}
+	battle.play_card(run, 0, 0)
+	_check(int(player.get("status_list", {}).get("vue_suite", 0)) == 1, "frontend vue suite status is applied")
+	battle.call("_round_start_triggers", run, false)
+	_check(int(player.get("class_resource_state", {}).get("components", 0)) == 1, "frontend vue suite creates a component on round start")
 
 	run = run_session.create_new_run("product_manager")
 	run["owned_relic_ids"] = ["relic_gantt_roadmap"]

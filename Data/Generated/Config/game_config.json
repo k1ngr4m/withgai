@@ -980,7 +980,7 @@
       "effect_group_id": "eg_card_frontend_vue_suite",
       "upgrade_to": "card_frontend_vue_suite_plus",
       "enabled_in_first_playable": true,
-      "description": "Vue三件套：建立长期收益。",
+      "description": "Vue三件套：建立长期状态，每回合开始生成 1 个组件。",
       "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_frontend_vue_suite_v1/final.png"
     },
     "card_frontend_style_isolate": {
@@ -4731,6 +4731,21 @@
       "is_hidden": false,
       "type": "class"
     },
+    "vue_suite": {
+      "id": "vue_suite",
+      "name": "Vue三件套",
+      "stack_rule": "stack",
+      "timing_hooks": [
+        "round_start"
+      ],
+      "params": {
+        "component_amount": 1
+      },
+      "effect_group_id": "",
+      "max_stack": 99,
+      "is_hidden": false,
+      "type": "class"
+    },
     "bug": {
       "id": "bug",
       "name": "Bug",
@@ -6101,8 +6116,7 @@
     "eg_card_frontend_vue_suite": {
       "id": "eg_card_frontend_vue_suite",
       "entry_ids": [
-        "eg_card_frontend_vue_suite_e01",
-        "eg_card_frontend_vue_suite_e02"
+        "eg_card_frontend_vue_suite_e01"
       ],
       "entries": [
         {
@@ -6110,14 +6124,7 @@
           "target_type": "self",
           "params": {
             "amount": 1,
-            "status_id": "style_layer"
-          }
-        },
-        {
-          "effect_type": "draw_cards",
-          "target_type": "self",
-          "params": {
-            "amount": 1
+            "status_id": "vue_suite"
           }
         }
       ]
@@ -10256,17 +10263,7 @@
       "target_type": "self",
       "params": {
         "amount": 1,
-        "status_id": "style_layer"
-      }
-    },
-    "eg_card_frontend_vue_suite_e02": {
-      "id": "eg_card_frontend_vue_suite_e02",
-      "effect_group_id": "eg_card_frontend_vue_suite",
-      "order": 2,
-      "effect_type": "draw_cards",
-      "target_type": "self",
-      "params": {
-        "amount": 1
+        "status_id": "vue_suite"
       }
     },
     "eg_card_frontend_style_isolate_e01": {

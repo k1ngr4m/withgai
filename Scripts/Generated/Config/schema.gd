@@ -544,6 +544,7 @@ class StatusParams:
     var spirit_loss: int
     var intent_amount_reduction: int
     var consume_per_action: int
+    var component_amount: int
     var spread_amount: int
 
     func _init(_json_) -> void:
@@ -553,6 +554,7 @@ class StatusParams:
         if _json_.get('spirit_loss') != null: self.spirit_loss = _json_["spirit_loss"]
         if _json_.get('intent_amount_reduction') != null: self.intent_amount_reduction = _json_["intent_amount_reduction"]
         if _json_.get('consume_per_action') != null: self.consume_per_action = _json_["consume_per_action"]
+        if _json_.get('component_amount') != null: self.component_amount = _json_["component_amount"]
         if _json_.get('spread_amount') != null: self.spread_amount = _json_["spread_amount"]
 
 
