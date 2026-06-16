@@ -4,6 +4,8 @@
     <var name="pressure_threshold" type="int?"/>
     <var name="energy_loss" type="int?"/>
     <var name="spirit_loss" type="int?"/>
+    <var name="intent_amount_reduction" type="int?"/>
+    <var name="consume_per_action" type="int?"/>
   </bean>
   <bean name="EffectParams">
     <var name="amount" type="int?"/>

@@ -542,12 +542,16 @@ class StatusParams:
     var pressure_threshold: int
     var energy_loss: int
     var spirit_loss: int
+    var intent_amount_reduction: int
+    var consume_per_action: int
 
     func _init(_json_) -> void:
         if _json_.get('compute_complexity_gain') != null: self.compute_complexity_gain = _json_["compute_complexity_gain"]
         if _json_.get('pressure_threshold') != null: self.pressure_threshold = _json_["pressure_threshold"]
         if _json_.get('energy_loss') != null: self.energy_loss = _json_["energy_loss"]
         if _json_.get('spirit_loss') != null: self.spirit_loss = _json_["spirit_loss"]
+        if _json_.get('intent_amount_reduction') != null: self.intent_amount_reduction = _json_["intent_amount_reduction"]
+        if _json_.get('consume_per_action') != null: self.consume_per_action = _json_["consume_per_action"]
 
 
 ## ClassDef table

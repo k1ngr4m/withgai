@@ -498,7 +498,7 @@ const statusTimingHooks = {
   compute: ["deal_damage"],
   complexity: ["add_compute", "round_start"],
   priority: ["target_resolution"],
-  requirement_change: ["apply_status", "modify_intent"],
+  requirement_change: ["apply_status", "enemy_before_action", "modify_intent"],
 };
 const statusParams = {
   complexity: {
@@ -506,6 +506,10 @@ const statusParams = {
     pressure_threshold: 3,
     energy_loss: 1,
     spirit_loss: 0,
+  },
+  requirement_change: {
+    intent_amount_reduction: 4,
+    consume_per_action: 1,
   },
 };
 const statusList = statuses.map(([id, name, type]) => ({
@@ -666,6 +670,8 @@ const lubanDefines = `<module name="">
     <var name="pressure_threshold" type="int?"/>
     <var name="energy_loss" type="int?"/>
     <var name="spirit_loss" type="int?"/>
+    <var name="intent_amount_reduction" type="int?"/>
+    <var name="consume_per_action" type="int?"/>
   </bean>
   <bean name="EffectParams">
     <var name="amount" type="int?"/>

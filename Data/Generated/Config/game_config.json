@@ -4797,9 +4797,13 @@
       "stack_rule": "stack",
       "timing_hooks": [
         "apply_status",
+        "enemy_before_action",
         "modify_intent"
       ],
-      "params": {},
+      "params": {
+        "intent_amount_reduction": 4,
+        "consume_per_action": 1
+      },
       "effect_group_id": "",
       "max_stack": 99,
       "is_hidden": false,

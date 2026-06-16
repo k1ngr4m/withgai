@@ -282,6 +282,7 @@ func _enemy_turn(run_state: Dictionary) -> void:
 			enemy["status_list"] = statuses
 			battle_state["log"].append("%s 的行动被 Bug 卡住" % enemy.get("name", "敌人"))
 			continue
+		_apply_requirement_change_before_action(enemy)
 		var intent: Dictionary = enemy.get("intent", {})
 		match intent.get("intent_type", ""):
 			"attack":
@@ -473,6 +474,28 @@ func _add_enemy_status(enemy: Dictionary, status_id: String, amount: int) -> voi
 	enemy["status_list"] = statuses
 	battle_state["log"].append("%s 获得 %s x%d" % [enemy.get("name", "敌人"), status_id, max(1, amount)])
 
+func _apply_requirement_change_before_action(enemy: Dictionary) -> void:
+	var statuses: Dictionary = enemy.get("status_list", {})
+	var stacks := int(statuses.get("requirement_change", 0))
+	if stacks <= 0:
+		return
+	var intent: Dictionary = enemy.get("intent", {})
+	var intent_type := String(intent.get("intent_type", ""))
+	if not ["attack", "multi_attack", "block", "debuff"].has(intent_type):
+		return
+	var params := _status_params("requirement_change")
+	var consume: int = int(clamp(int(params.get("consume_per_action", 1)), 1, stacks))
+	var reduction: int = int(max(0, int(params.get("intent_amount_reduction", 0)))) * consume
+	if reduction <= 0:
+		return
+	var before_amount: int = int(intent.get("amount", 0))
+	intent["amount"] = max(0, before_amount - reduction)
+	enemy["intent"] = intent
+	statuses["requirement_change"] = max(0, stacks - consume)
+	enemy["status_list"] = statuses
+	_adjust_player_class_resource("requirement_change_marks", -consume)
+	battle_state["log"].append("%s 的需求被改写，%s 意图 -%d" % [enemy.get("name", "敌人"), intent_type, min(before_amount, reduction)])
+
 func _start_player_turn(run_state: Dictionary, first_turn := false) -> void:
 	var player: Dictionary = battle_state.get("player", {})
 	if not first_turn:
@@ -611,6 +634,12 @@ func _status_params(status_id: String) -> Dictionary:
 	if content_resolver == null or content_resolver.config_service == null:
 		return {}
 	return content_resolver.config_service.get_def("statuses", status_id).get("params", {})
+
+func _adjust_player_class_resource(resource_key: String, amount: int) -> void:
+	var player: Dictionary = battle_state.get("player", {})
+	var resources: Dictionary = player.get("class_resource_state", {})
+	resources[resource_key] = max(0, int(resources.get(resource_key, 0)) + amount)
+	player["class_resource_state"] = resources
 
 func _tick_player_turn_end_statuses(player: Dictionary) -> void:
 	var statuses: Dictionary = player.get("status_list", {})

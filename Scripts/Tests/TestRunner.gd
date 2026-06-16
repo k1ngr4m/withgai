@@ -211,6 +211,10 @@ func _validate_config_references(config, content) -> void:
 	var complexity_params: Dictionary = config.get_def("statuses", "complexity").get("params", {})
 	_check(int(complexity_params.get("compute_complexity_gain", 0)) > 0, "complexity config gains from compute")
 	_check(int(complexity_params.get("pressure_threshold", 0)) > 0, "complexity config has pressure threshold")
+	_check(config.get_def("statuses", "requirement_change").get("timing_hooks", []).has("enemy_before_action"), "requirement change declares enemy action hook")
+	var requirement_params: Dictionary = config.get_def("statuses", "requirement_change").get("params", {})
+	_check(int(requirement_params.get("intent_amount_reduction", 0)) > 0, "requirement change config reduces intent amount")
+	_check(int(requirement_params.get("consume_per_action", 0)) > 0, "requirement change config consumes stacks")
 	_check(config.get_def("statuses", "service_online").get("timing_hooks", []).has("round_end"), "service online declares round end hook")
 	var flush_entries: Array = content.effect_entries(content.card_def("card_backend_flush_all").get("effect_group_id", ""))
 	var flush_consumes_cache := false
@@ -553,6 +557,24 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(battle.battle_state["enemies"][0].get("current_hp", 0)) == 50, "pm priority attack ignores selected low priority target")
 	_check(int(battle.battle_state["enemies"][1].get("current_hp", 0)) < 50, "pm priority attack hits highest priority target")
 	_check(int(battle.battle_state["enemies"][1].get("status_list", {}).get("requirement_change", 0)) >= 1, "pm priority attack marks hit target")
+
+	run = run_session.create_new_run("product_manager")
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	var changed_enemy: Dictionary = battle.battle_state.get("enemies", [])[0]
+	changed_enemy["current_hp"] = 50
+	changed_enemy["current_block"] = 0
+	changed_enemy["intent"] = { "intent_type": "attack", "amount": 10 }
+	changed_enemy["status_list"] = { "requirement_change": 2 }
+	battle.battle_state["enemies"] = [changed_enemy]
+	player["current_spirit"] = 50
+	player["current_block"] = 0
+	player["status_list"] = {}
+	player["class_resource_state"]["requirement_change_marks"] = 2
+	battle.call("_enemy_turn", run)
+	_check(int(player.get("current_spirit", 0)) == 44, "requirement change reduces next attack before enemy action")
+	_check(int(changed_enemy.get("status_list", {}).get("requirement_change", 0)) == 1, "requirement change consumes one stack before action")
+	_check(int(player.get("class_resource_state", {}).get("requirement_change_marks", 0)) == 1, "requirement change resource syncs after consumption")
 
 	run = run_session.create_new_run("algorithm")
 	battle = _start_first_battle(run, content, map, executor)

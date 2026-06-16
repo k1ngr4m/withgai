@@ -51,6 +51,10 @@
   - `card_pm_schedule_compress`, `card_pm_roadmap`, and `card_pm_snowball` target the highest-priority enemy.
   - Auto-resolved target cards no longer require manual enemy selection in battle UI.
   - Requirement-change marks from those attacks are applied to the resolved priority target.
+- Product manager `requirement_change` now has live enemy-action rewriting:
+  - `StatusDef.params` configures intent amount reduction and per-action stack consumption.
+  - before affected enemies act, attack / multi-attack / block / debuff intent amounts are reduced.
+  - consumed marks reduce both the enemy status stack and the product manager `requirement_change_marks` resource display.
 - Automated meta-progression coverage now verifies all six global workstation upgrades through their live runtime paths:
   - `meta_chair`, `meta_coffee_beans`, `meta_privacy_screen`, and `meta_hard_drive` at run start
   - `meta_nap_bed` at rest recovery
@@ -100,6 +104,7 @@ Result:
 - Godot test runner now checks `relic_gpu_training_card` config, algorithm ownership, compute trigger declaration, first compute bonus, and one-shot behavior.
 - Godot test runner now checks `complexity` status params, compute-to-complexity gain, GPU bonus complexity gain, high-complexity round-start pressure, and resource/status no-double-count behavior.
 - Godot test runner now checks product manager priority target routing, including ignored low-priority selected targets and requirement-change marking on the resolved target.
+- Godot test runner now checks product manager `requirement_change` status params, enemy-action intent reduction, stack consumption, and resource sync after consumption.
 - Godot test runner now checks career-tree labels, HR non-playable status, and milestone progress text.
 - Godot test runner now checks global workstation upgrade purchases plus run-start, rest, and shop effects for every implemented upgrade.
 - Godot test runner now checks `move_card` named-card and top-card movement across combat piles.
