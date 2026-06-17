@@ -51,8 +51,8 @@
       "programmer_shared"
     ],
     "recommended_difficulty": 2,
-    "enabled_in_first_playable": true,
-    "summary": "连击、组件、样式层滚雪球",
+    "enabled_in_first_playable": false,
+    "summary": "占位锁定：组件、样式层系统后续开放",
     "color": "#E676AF"
   },
   {
@@ -79,8 +79,8 @@
       "programmer_shared"
     ],
     "recommended_difficulty": 3,
-    "enabled_in_first_playable": true,
-    "summary": "Bug、用例、Diff 锁场",
+    "enabled_in_first_playable": false,
+    "summary": "占位锁定：Bug、用例、Diff 后续开放",
     "color": "#F0B64D"
   },
   {
@@ -107,8 +107,8 @@
       "programmer_shared"
     ],
     "recommended_difficulty": 5,
-    "enabled_in_first_playable": true,
-    "summary": "算力、复杂度、高爆发",
+    "enabled_in_first_playable": false,
+    "summary": "占位锁定：算力、复杂度系统后续开放",
     "color": "#8B7FF5"
   },
   {
@@ -133,8 +133,8 @@
     ],
     "shared_pool_refs": [],
     "recommended_difficulty": 3,
-    "enabled_in_first_playable": true,
-    "summary": "需求变更、优先级、意图操控",
+    "enabled_in_first_playable": false,
+    "summary": "占位锁定：需求变更、优先级后续开放",
     "color": "#6BB7F0"
   },
   {

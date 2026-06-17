@@ -16,7 +16,7 @@ func _ready() -> void:
 	var main := UiFactory.vbox(12)
 	margin.add_child(main)
 	main.add_child(UiFactory.label("选择本局职业", 34))
-	main.add_child(UiFactory.label("五职业已接入 First Playable；HR 作为后续扩展职业展示。", 18, Color(0.86, 0.93, 0.96)))
+	main.add_child(UiFactory.label("当前仅后端开放；前端 / 测试 / 算法 / 产品经理先作为占位锁定。", 18, Color(0.86, 0.93, 0.96)))
 	var row := UiFactory.hbox(12)
 	main.add_child(UiFactory.scroll(row))
 	for cls in AppRoot.config_service.first_playable_classes(true):
@@ -54,12 +54,16 @@ func _availability_color(cls: Dictionary) -> Color:
 			return Color(0.58, 0.95, 0.74)
 		"未解锁":
 			return Color(0.95, 0.75, 0.42)
+		"锁定占位":
+			return Color(0.74, 0.78, 0.84)
 		"扩展占位":
 			return Color(0.74, 0.78, 0.84)
 		_:
 			return Color(0.68, 0.72, 0.76)
 
 func _start_class(class_id: String) -> void:
+	if not AppRoot.meta_service.is_class_playable(class_id):
+		return
 	AppRoot.run_session.create_new_run(class_id)
 	AppRoot.save_service.save_suspend(AppRoot.run_session.run_state, AppRoot.meta_service.meta_state)
 	AppRoot.flow_controller.show_scene("map")

@@ -32,7 +32,7 @@ func _init() -> void:
 	reward_service.call("setup", content, map, meta)
 	_validate_main_menu_scene()
 	_validate_config_references(config, content)
-	for class_id in ["backend", "frontend", "tester", "algorithm", "product_manager"]:
+	for class_id in ["backend"]:
 		var run := run_session.create_new_run(class_id)
 		_check(run.get("deck_state", {}).get("master_deck", []).size() == 10, "%s starter deck" % class_id)
 		_check(run.get("map_state", {}).get("floors", []).size() == 6, "%s chapter map" % class_id)
@@ -87,17 +87,22 @@ func _validate_config_references(config, content) -> void:
 	_check(not content.shop_pool("shop_default").is_empty(), "default shop pool exists")
 	for class_id in ["backend", "frontend", "tester", "algorithm", "product_manager"]:
 		var cls: Dictionary = content.class_def(class_id)
-		_check(content.is_run_class_enabled(class_id), "%s enabled as run class" % class_id)
 		_check(not content.relic_def(cls.get("starter_relic_id", "")).is_empty(), "%s starter relic resolves" % class_id)
 		for card_id in cls.get("starter_deck", []):
 			_check(not content.card_def(card_id).is_empty(), "%s starter card resolves" % card_id)
+	_check(content.is_run_class_enabled("backend"), "backend enabled as run class")
+	var backend_pool: Array = content.cards_for_run_class("backend", true)
+	_check(backend_pool.size() >= 30, "backend content pool has cards")
+	var has_hr_card := false
+	for card in backend_pool:
+		if String(card.get("id", "")).begins_with("card_hr_"):
+			has_hr_card = true
+	_check(not has_hr_card, "backend pool excludes hr cards")
+	for class_id in ["frontend", "tester", "algorithm", "product_manager", "hr"]:
+		_check(not content.is_run_class_enabled(class_id), "%s locked as placeholder run class" % class_id)
 		var pool: Array = content.cards_for_run_class(class_id, true)
-		_check(pool.size() >= 30, "%s content pool has cards" % class_id)
-		var has_hr_card := false
-		for card in pool:
-			if String(card.get("id", "")).begins_with("card_hr_"):
-				has_hr_card = true
-		_check(not has_hr_card, "%s pool excludes hr cards" % class_id)
+		_check(pool.is_empty(), "%s excluded from run card pool" % class_id)
+		_check(content.relics_for_run_class(class_id, true).is_empty(), "%s excluded from run relic pool" % class_id)
 	var enabled_cards_missing_group := 0
 	var enabled_cards_missing_entries := 0
 	for card in config.all_defs("cards"):
@@ -2675,7 +2680,7 @@ func _validate_map_constraints(run: Dictionary, label: String) -> void:
 func _validate_shop_event_rest(config, content, map, meta, reward_service) -> void:
 	var run_session = RunSessionScript.new()
 	run_session.call("setup", config, map, meta)
-	var run := run_session.create_new_run("frontend")
+	var run := run_session.create_new_run("backend")
 	reward_service.prepare_shop_stock(run)
 	_check(run.get("shop_state", {}).get("card_stock", []).size() > 0, "shop has card stock")
 	_check(run.get("shop_state", {}).get("relic_stock", []).size() > 0, "shop has relic stock")
@@ -2725,7 +2730,7 @@ func _validate_shop_event_rest(config, content, map, meta, reward_service) -> vo
 	_check(run.get("shop_state", {}).get("card_stock", []).size() > 0, "shop refresh keeps card stock")
 	_check(not run.get("shop_state", {}).get("relic_stock", []).has("relic_blue_light_glasses"), "shop refresh keeps owned relics out")
 
-	run = run_session.create_new_run("frontend")
+	run = run_session.create_new_run("backend")
 	run["owned_relic_ids"].append("relic_employee_coupon")
 	run["currency_perf_points"] = 200
 	reward_service.prepare_shop_stock(run)
@@ -2737,7 +2742,7 @@ func _validate_shop_event_rest(config, content, map, meta, reward_service) -> vo
 	_check(reward_service.refresh_shop_stock(run), "shop refresh after remove succeeds")
 	_check(bool(run.get("shop_state", {}).get("removed", false)), "shop refresh preserves remove flag")
 
-	run = run_session.create_new_run("tester")
+	run = run_session.create_new_run("backend")
 	reward_service.prepare_event(run)
 	_check(not reward_service.current_event(run).is_empty(), "event prepared")
 	var history_before := int(run.get("event_history_ids", []).size())
@@ -2746,7 +2751,7 @@ func _validate_shop_event_rest(config, content, map, meta, reward_service) -> vo
 	_check(run.get("event_state", {}).is_empty(), "event state cleared")
 	_validate_event_effect_resolution(config, content, map, meta, reward_service)
 
-	run = run_session.create_new_run("algorithm")
+	run = run_session.create_new_run("backend")
 	var ps: Dictionary = run.get("player_state", {})
 	ps["current_spirit"] = 10
 	run["player_state"] = ps
@@ -2754,7 +2759,7 @@ func _validate_shop_event_rest(config, content, map, meta, reward_service) -> vo
 	run["current_node_id"] = rest_id
 	reward_service.rest_recover(run)
 	_check(int(run.get("player_state", {}).get("current_spirit", 0)) > 10, "rest recover increases spirit")
-	run = run_session.create_new_run("algorithm")
+	run = run_session.create_new_run("backend")
 	rest_id = _first_node_of_type(run, "rest")
 	run["current_node_id"] = rest_id
 	reward_service.rest_upgrade(run)
@@ -2782,13 +2787,13 @@ func _validate_event_effect_resolution(config, content, map, meta, reward_servic
 	_check(int(run.get("deck_state", {}).get("upgraded_cards", []).size()) == 2, "event upgrade skips already upgraded card")
 	_check(run.get("deck_state", {}).get("upgraded_cards", []).has("card_backend_circuit_breaker"), "event upgrade records next eligible card")
 
-	run = run_session.create_new_run("frontend")
+	run = run_session.create_new_run("backend")
 	run["event_state"] = { "event_id": "event_wrong_email" }
 	var deck_before := int(run.get("deck_state", {}).get("master_deck", []).size())
 	reward_service.choose_event_option(run, 0)
 	_check(int(run.get("deck_state", {}).get("master_deck", []).size()) == deck_before + 1, "event draw card adds run card outside battle")
 
-	run = run_session.create_new_run("tester")
+	run = run_session.create_new_run("backend")
 	var ps: Dictionary = run.get("player_state", {})
 	ps["current_spirit"] = 20
 	run["player_state"] = ps
@@ -2796,14 +2801,14 @@ func _validate_event_effect_resolution(config, content, map, meta, reward_servic
 	reward_service.choose_event_option(run, 0)
 	_check(int(run.get("player_state", {}).get("current_spirit", 0)) == 32, "event recover spirit applies")
 
-	run = run_session.create_new_run("tester")
+	run = run_session.create_new_run("backend")
 	run["event_state"] = { "event_id": "event_pantry_gossip" }
 	deck_before = int(run.get("deck_state", {}).get("master_deck", []).size())
 	reward_service.choose_event_option(run, 1)
 	_check(int(run.get("deck_state", {}).get("master_deck", []).size()) == deck_before - 1, "event remove card shrinks deck")
 	_check(int(run.get("deck_state", {}).get("removed_cards", []).size()) == 1, "event remove card records removal")
 
-	run = run_session.create_new_run("algorithm")
+	run = run_session.create_new_run("backend")
 	run["currency_perf_points"] = 10
 	run["event_state"] = { "event_id": "event_vending_bug" }
 	deck_before = int(run.get("deck_state", {}).get("master_deck", []).size())
@@ -2811,7 +2816,7 @@ func _validate_event_effect_resolution(config, content, map, meta, reward_servic
 	_check(int(run.get("currency_perf_points", 0)) == 0, "event negative currency clamps at zero")
 	_check(int(run.get("deck_state", {}).get("master_deck", []).size()) == deck_before + 1, "event add random card applies")
 
-	run = run_session.create_new_run("product_manager")
+	run = run_session.create_new_run("backend")
 	ps = run.get("player_state", {})
 	ps["current_spirit"] = 30
 	run["player_state"] = ps
@@ -2821,7 +2826,7 @@ func _validate_event_effect_resolution(config, content, map, meta, reward_servic
 	_check(int(run.get("player_state", {}).get("current_spirit", 0)) == 22, "event lose spirit applies")
 	_check(int(run.get("deck_state", {}).get("master_deck", []).size()) == deck_before + 1, "event combined add card applies")
 
-	run = run_session.create_new_run("frontend")
+	run = run_session.create_new_run("backend")
 	run["event_state"] = { "event_id": "event_private_talk" }
 	var relic_before := int(run.get("owned_relic_ids", []).size())
 	reward_service.choose_event_option(run, 1)
@@ -2882,7 +2887,7 @@ func _validate_reward_economy(config, map, meta, reward_service) -> void:
 	_check(int(run.get("deck_state", {}).get("master_deck", []).size()) == deck_before, "reward ignores non-candidate card")
 	_check(_array_has_no_duplicates(run.get("owned_relic_ids", [])), "reward ignores duplicate relic")
 
-	run = run_session.create_new_run("frontend")
+	run = run_session.create_new_run("backend")
 	run["owned_relic_ids"].append("relic_employee_coupon")
 	run["currency_perf_points"] = 100
 	reward_service.prepare_shop_stock(run)
@@ -2897,7 +2902,7 @@ func _validate_reward_economy(config, map, meta, reward_service) -> void:
 func _validate_save_roundtrip(config, map, meta, save) -> void:
 	var run_session = RunSessionScript.new()
 	run_session.call("setup", config, map, meta)
-	var run := run_session.create_new_run("product_manager")
+	var run := run_session.create_new_run("backend")
 	run["current_scene_tag"] = "map"
 	save.save_suspend(run, meta.meta_state)
 	_check(save.has_suspend(), "suspend save exists")
@@ -2905,7 +2910,7 @@ func _validate_save_roundtrip(config, map, meta, save) -> void:
 	var restored_session = RunSessionScript.new()
 	restored_session.call("setup", config, map, meta)
 	_check(restored_session.restore_from_suspend(save.load_suspend()), "suspend restore succeeds")
-	_check(restored_session.run_state.get("selected_class_id", "") == "product_manager", "suspend selected class roundtrip")
+	_check(restored_session.run_state.get("selected_class_id", "") == "backend", "suspend selected class roundtrip")
 	save.clear_suspend()
 
 	run_session = RunSessionScript.new()
@@ -2938,14 +2943,15 @@ func _validate_meta_settlement(config, map, meta) -> void:
 	var tester_class: Dictionary = config.get_def("classes", "tester")
 	var hr_class: Dictionary = config.get_def("classes", "hr")
 	_check(meta.is_class_playable("backend"), "meta marks backend playable")
-	_check(meta.is_class_playable("product_manager"), "meta marks first playable office class playable")
+	_check(not meta.is_class_playable("product_manager"), "meta keeps product manager locked as placeholder")
 	_check(not meta.is_class_playable("hr"), "meta keeps hr out of playable classes")
 	_check(meta.class_availability_label(backend_class) == "可出战", "career tree labels playable class")
-	_check(meta.class_availability_label(hr_class) == "未开放", "career tree labels locked hr placeholder")
+	_check(meta.class_availability_label(tester_class) == "锁定占位", "career tree labels locked office placeholder")
+	_check(meta.class_availability_label(hr_class) == "扩展占位", "career tree labels locked hr placeholder")
 	_check(meta.class_unlock_label(hr_class).contains("扩展预留"), "career tree explains hr placeholder")
-	_check(meta.class_unlock_progress(tester_class) == "0/3", "career tree reports elite unlock progress")
+	_check(meta.class_unlock_progress(tester_class) == "占位", "career tree reports placeholder progress")
 	meta.meta_state["career_milestones"] = { "elite_wins": 2, "events_resolved": 4, "highest_floor_reached": 12 }
-	_check(meta.class_unlock_progress(tester_class) == "2/3", "career tree updates milestone progress")
+	_check(meta.class_unlock_progress(tester_class) == "占位", "career tree keeps placeholder progress")
 
 	var run_session = RunSessionScript.new()
 	run_session.call("setup", config, map, meta)
@@ -3005,7 +3011,7 @@ func _validate_meta_upgrades(config, map, meta, reward_service) -> void:
 
 	meta.meta_state = meta.default_meta_state()
 	meta.meta_state["meta_upgrade_levels"] = { "meta_nap_bed": 3 }
-	run = run_session.create_new_run("algorithm")
+	run = run_session.create_new_run("backend")
 	ps = run.get("player_state", {})
 	ps["max_spirit"] = 100
 	ps["current_spirit"] = 40
@@ -3016,7 +3022,7 @@ func _validate_meta_upgrades(config, map, meta, reward_service) -> void:
 
 	meta.meta_state = meta.default_meta_state()
 	meta.meta_state["meta_upgrade_levels"] = { "meta_canteen_card": 2 }
-	run = run_session.create_new_run("frontend")
+	run = run_session.create_new_run("backend")
 	run["currency_perf_points"] = 100
 	reward_service.prepare_shop_stock(run)
 	var card_id := String(run.get("shop_state", {}).get("card_stock", [])[0])

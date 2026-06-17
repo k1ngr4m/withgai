@@ -3,7 +3,7 @@ extends Control
 const MAIN_BG := "res://Resources/Art/Generated/P0/backgrounds/ui_main_menu_bg_v1.png"
 const COMPACT_BREAKPOINT := 900.0
 const SHORT_BREAKPOINT := 620.0
-const BUILD_LABEL := "首个可玩版本"
+const BUILD_LABEL := "后端首个可玩"
 const MENU_WIDTH := 384.0
 const DESKTOP_MARGIN := 44
 const COMPACT_MARGIN := 22
@@ -59,7 +59,7 @@ const BROADCASTS := [
 	"楼宇广播：今日电梯优先服务正在爬楼的打工人。",
 	"会议室提示：画饼主管已占用 6F，请携带防线入场。",
 	"工位小报：窝囊费可在成长页兑换长期体面。",
-	"系统提示：五个职业已开放，HR 暂在解锁树占位。",
+	"系统提示：当前仅后端开放，其余职业暂在解锁树占位。",
 ]
 
 var _content_layer: Control
@@ -315,7 +315,7 @@ func _menu_panel(compact := false) -> PanelContainer:
 	title.custom_minimum_size = Vector2(260, 34)
 	box.add_child(title)
 
-	var copy := _label("选职业、接着打，或者先去工位树垫点底气。", 14, Color(0.67, 0.78, 0.80))
+	var copy := _label("用后端开局、接着打，或者先去工位树垫点底气。", 14, Color(0.67, 0.78, 0.80))
 	copy.custom_minimum_size = Vector2(260, 44)
 	box.add_child(copy)
 
@@ -683,11 +683,11 @@ func _shift_board_panel(compact := false) -> PanelContainer:
 	var header := UiFactory.hbox(8)
 	header.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	box.add_child(header)
-	header.add_child(_label("值班看板", 15, Color(0.88, 0.97, 1.0)))
+	header.add_child(_nowrap_label("值班看板", 15, Color(0.88, 0.97, 1.0), 72))
 	var spacer := Control.new()
 	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	header.add_child(spacer)
-	header.add_child(_label("首屏状态", 12, Color(0.60, 0.74, 0.78)))
+	header.add_child(_nowrap_label("首屏状态", 12, Color(0.60, 0.74, 0.78), 62))
 
 	var stats: Container
 	var narrow := compact and get_viewport_rect().size.x < 560
@@ -702,7 +702,7 @@ func _shift_board_panel(compact := false) -> PanelContainer:
 	stats.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	box.add_child(stats)
 
-	stats.add_child(_shift_stat("可选职业", "%d" % _playable_class_count(), "五职业首个可玩", Color(0.42, 0.88, 0.82)))
+	stats.add_child(_shift_stat("可选职业", "%d" % _playable_class_count(), "后端全链路优先", Color(0.42, 0.88, 0.82)))
 	stats.add_child(_shift_stat("中断档", "有" if _has_valid_suspend() else "无", _save_resume_summary(), Color(0.96, 0.72, 0.36)))
 	stats.add_child(_shift_stat("窝囊费", str(_meta_currency()), "局外成长资源", Color(0.70, 0.62, 0.96)))
 	return panel
@@ -745,11 +745,11 @@ func _route_panel(compact := false) -> PanelContainer:
 	var header := UiFactory.hbox(8)
 	header.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	box.add_child(header)
-	header.add_child(_label("今晚路线", 15, Color(0.88, 0.97, 1.0)))
+	header.add_child(_nowrap_label("今晚路线", 15, Color(0.88, 0.97, 1.0), 72))
 	var spacer := Control.new()
 	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	header.add_child(spacer)
-	header.add_child(_label("16-20 个节点", 12, Color(0.60, 0.74, 0.78)))
+	header.add_child(_nowrap_label("16-20 个节点", 12, Color(0.60, 0.74, 0.78), 88))
 
 	var route: Container
 	if compact and get_viewport_rect().size.x < 560:
@@ -1070,6 +1070,15 @@ func _risk_chip(compact := false) -> PanelContainer:
 func _label(text: String, font_size := 18, color := Color.WHITE) -> Label:
 	var label := UiFactory.label(text, font_size, color)
 	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	return label
+
+
+func _nowrap_label(text: String, font_size := 18, color := Color.WHITE, min_width := 0.0) -> Label:
+	var label := _label(text, font_size, color)
+	label.autowrap_mode = TextServer.AUTOWRAP_OFF
+	label.clip_text = true
+	if min_width > 0.0:
+		label.custom_minimum_size = Vector2(min_width, font_size + 8)
 	return label
 
 

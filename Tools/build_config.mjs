@@ -11,10 +11,10 @@ fs.mkdirSync(definesOut, { recursive: true });
 
 const classDefs = [
   ["backend", "后端", "programmer", 1, "default", "", "relic_backend_gray_release", ["card_backend_interface_probe", "card_backend_interface_probe", "card_backend_interface_probe", "card_backend_interface_probe", "card_backend_circuit_breaker", "card_backend_circuit_breaker", "card_backend_circuit_breaker", "card_backend_circuit_breaker", "card_backend_publish_script", "card_backend_hotfix_rollback"], ["programmer_shared"], 1, true, "稳健、防守、服务引擎", "#3AA7A3"],
-  ["frontend", "前端", "programmer", 2, "boss_defeated", "boss_pitch_supervisor", "relic_frontend_design_link", ["card_frontend_pixel_tap", "card_frontend_pixel_tap", "card_frontend_pixel_tap", "card_frontend_pixel_tap", "card_frontend_flex_layout", "card_frontend_flex_layout", "card_frontend_flex_layout", "card_frontend_flex_layout", "card_frontend_slice_sprint", "card_frontend_hotfix_style"], ["programmer_shared"], 2, true, "连击、组件、样式层滚雪球", "#E676AF"],
-  ["tester", "测试", "programmer", 3, "elite_wins", "3", "relic_tester_automation_framework", ["card_tester_defect_log", "card_tester_defect_log", "card_tester_defect_log", "card_tester_defect_log", "card_tester_smoke_test", "card_tester_smoke_test", "card_tester_smoke_test", "card_tester_smoke_test", "card_tester_repro_steps", "card_tester_regression_confirm"], ["programmer_shared"], 3, true, "Bug、用例、Diff 锁场", "#F0B64D"],
-  ["algorithm", "算法", "programmer", 5, "reach_floor", "top", "relic_algorithm_local_cluster", ["card_algo_linear_probe", "card_algo_linear_probe", "card_algo_linear_probe", "card_algo_linear_probe", "card_algo_complexity_compress", "card_algo_complexity_compress", "card_algo_complexity_compress", "card_algo_complexity_compress", "card_algo_heuristic_search", "card_algo_local_opt"], ["programmer_shared"], 5, true, "算力、复杂度、高爆发", "#8B7FF5"],
-  ["product_manager", "产品经理", "office_other", 3, "event_count", "6", "relic_pm_review_minutes", ["card_pm_schedule_compress", "card_pm_schedule_compress", "card_pm_schedule_compress", "card_pm_schedule_compress", "card_pm_priority_shuffle", "card_pm_priority_shuffle", "card_pm_priority_shuffle", "card_pm_priority_shuffle", "card_pm_meeting_minutes", "card_pm_revision_notice"], [], 3, true, "需求变更、优先级、意图操控", "#6BB7F0"],
+  ["frontend", "前端", "programmer", 2, "boss_defeated", "boss_pitch_supervisor", "relic_frontend_design_link", ["card_frontend_pixel_tap", "card_frontend_pixel_tap", "card_frontend_pixel_tap", "card_frontend_pixel_tap", "card_frontend_flex_layout", "card_frontend_flex_layout", "card_frontend_flex_layout", "card_frontend_flex_layout", "card_frontend_slice_sprint", "card_frontend_hotfix_style"], ["programmer_shared"], 2, false, "占位锁定：组件、样式层系统后续开放", "#E676AF"],
+  ["tester", "测试", "programmer", 3, "elite_wins", "3", "relic_tester_automation_framework", ["card_tester_defect_log", "card_tester_defect_log", "card_tester_defect_log", "card_tester_defect_log", "card_tester_smoke_test", "card_tester_smoke_test", "card_tester_smoke_test", "card_tester_smoke_test", "card_tester_repro_steps", "card_tester_regression_confirm"], ["programmer_shared"], 3, false, "占位锁定：Bug、用例、Diff 后续开放", "#F0B64D"],
+  ["algorithm", "算法", "programmer", 5, "reach_floor", "top", "relic_algorithm_local_cluster", ["card_algo_linear_probe", "card_algo_linear_probe", "card_algo_linear_probe", "card_algo_linear_probe", "card_algo_complexity_compress", "card_algo_complexity_compress", "card_algo_complexity_compress", "card_algo_complexity_compress", "card_algo_heuristic_search", "card_algo_local_opt"], ["programmer_shared"], 5, false, "占位锁定：算力、复杂度系统后续开放", "#8B7FF5"],
+  ["product_manager", "产品经理", "office_other", 3, "event_count", "6", "relic_pm_review_minutes", ["card_pm_schedule_compress", "card_pm_schedule_compress", "card_pm_schedule_compress", "card_pm_schedule_compress", "card_pm_priority_shuffle", "card_pm_priority_shuffle", "card_pm_priority_shuffle", "card_pm_priority_shuffle", "card_pm_meeting_minutes", "card_pm_revision_notice"], [], 3, false, "占位锁定：需求变更、优先级后续开放", "#6BB7F0"],
   ["hr", "HR", "office_other", 4, "boss_defeated", "boss_mutant_hr", "relic_hr_annual_review", ["card_hr_performance_talk", "card_hr_performance_talk", "card_hr_performance_talk", "card_hr_performance_talk", "card_hr_compliance_reminder", "card_hr_compliance_reminder", "card_hr_compliance_reminder", "card_hr_compliance_reminder", "card_hr_optimization_warning", "card_hr_attendance_check"], [], 4, false, "绩效、优化名单、经济收割", "#77C776"],
 ];
 
@@ -523,6 +523,7 @@ function cardEffects(classId, cardId, type, cost, idx) {
 }
 
 const cards = [];
+const playableCardClasses = new Set(["backend", "shared"]);
 function cardArtPath(cardId) {
   const slug = cardArtSlugAliases[cardId] ?? cardId.replace(/^card_/, "");
   const relativePath = path.join("Resources", "Art", "Generated", "P0", "cards", `card_illust_${slug}_v1`, "final.png");
@@ -535,7 +536,7 @@ for (const [classId, names] of Object.entries(cardNames)) {
     cards.push({
       id, name, class_tags: isShared ? ["programmer_shared"] : [classId], rarity: isShared ? "common" : rarityByIndex(i),
       type, cost, target_type: targetForCard(type, id), keywords: [], effect_group_id: `eg_${id}`, upgrade_to: `${id}_plus`,
-      enabled_in_first_playable: !["hr"].includes(classId), description: descriptionForCard(id, name, type),
+      enabled_in_first_playable: playableCardClasses.has(classId), description: descriptionForCard(id, name, type),
       art_path: cardArtPath(id),
     });
   }
@@ -913,10 +914,10 @@ const metaUpgrades = [
   ["meta_nap_bed", "午休折叠床", "global_upgrade", [20, 45, 90], 3, "休息处恢复量增加。"],
   ["meta_canteen_card", "员工食堂月卡", "global_upgrade", [25, 50], 2, "商店首次消费折扣。"],
   ["unlock_backend", "后端", "career_unlock", [0], 1, "默认开放。"],
-  ["unlock_frontend", "前端", "career_unlock", [0], 1, "First Playable 开放。"],
-  ["unlock_tester", "测试", "career_unlock", [0], 1, "First Playable 开放。"],
-  ["unlock_algorithm", "算法", "career_unlock", [0], 1, "First Playable 开放。"],
-  ["unlock_product_manager", "产品经理", "career_unlock", [0], 1, "First Playable 开放。"],
+  ["unlock_frontend", "前端", "career_unlock", [0], 1, "占位锁定，后端全链路完成后开放。"],
+  ["unlock_tester", "测试", "career_unlock", [0], 1, "占位锁定，后端全链路完成后开放。"],
+  ["unlock_algorithm", "算法", "career_unlock", [0], 1, "占位锁定，后端全链路完成后开放。"],
+  ["unlock_product_manager", "产品经理", "career_unlock", [0], 1, "占位锁定，后端全链路完成后开放。"],
   ["unlock_hr", "HR", "career_unlock", [999], 1, "扩展职业，当前只展示。"],
 ].map(([id, name, type, cost_curve, max_level, description]) => ({ id, type, name, cost_curve, max_level, effect_group_id: "", prerequisite_ids: [], description }));
 

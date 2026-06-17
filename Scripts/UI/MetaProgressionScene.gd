@@ -63,4 +63,6 @@ func _career_card(cls: Dictionary) -> PanelContainer:
 	box.add_child(UiFactory.label("当前进度：%s" % AppRoot.meta_service.class_unlock_progress(cls), 13, Color(0.70, 0.82, 0.85)))
 	if class_id == "hr":
 		box.add_child(UiFactory.label("当前只展示职业树节点，不进入战斗、奖励或商店池。", 13, Color(0.95, 0.76, 0.52)))
+	elif not bool(cls.get("enabled_in_first_playable", false)):
+		box.add_child(UiFactory.label("当前只展示职业树节点；后端全链路完成后再接入战斗、奖励和商店池。", 13, Color(0.95, 0.76, 0.52)))
 	return panel

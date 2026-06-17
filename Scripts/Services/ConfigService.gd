@@ -27,10 +27,10 @@ func get_def(table_name: String, id: String) -> Dictionary:
 func all_defs(table_name: String) -> Array:
 	return get_table(table_name).values()
 
-func first_playable_classes(include_hr := true) -> Array:
+func first_playable_classes(include_placeholders := true) -> Array:
 	var result: Array = []
 	for cls in all_defs("classes"):
-		if cls.get("enabled_in_first_playable", false) or (include_hr and cls.get("id", "") == "hr"):
+		if cls.get("enabled_in_first_playable", false) or include_placeholders:
 			result.append(cls)
 	result.sort_custom(func(a, b): return int(a.get("unlock_order", 0)) < int(b.get("unlock_order", 0)))
 	return result

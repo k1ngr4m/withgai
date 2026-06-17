@@ -13,7 +13,7 @@ func setup(p_save_service: SaveService, p_config_service: ConfigService) -> void
 func default_meta_state() -> Dictionary:
 	return {
 		"owned_discomfort_currency": 0,
-		"unlocked_class_ids": ["backend", "frontend", "tester", "algorithm", "product_manager"],
+		"unlocked_class_ids": ["backend"],
 		"meta_upgrade_levels": {},
 		"career_milestones": {},
 		"highest_floor_reached": 1,
@@ -29,8 +29,11 @@ func is_class_playable(class_id: String) -> bool:
 
 func class_unlock_label(cls: Dictionary) -> String:
 	var class_id := String(cls.get("id", ""))
-	if class_id == "hr" and not bool(cls.get("enabled_in_first_playable", false)):
+	var enabled := bool(cls.get("enabled_in_first_playable", false))
+	if class_id == "hr" and not enabled:
 		return "扩展预留：击败变异HR后开放完整战斗系统"
+	if not enabled:
+		return "后端全链路优先：该职业暂锁定占位"
 	match String(cls.get("unlock_type", "")):
 		"default":
 			return "默认开放"
@@ -46,6 +49,8 @@ func class_unlock_label(cls: Dictionary) -> String:
 			return "解锁条件未配置"
 
 func class_unlock_progress(cls: Dictionary) -> String:
+	if not bool(cls.get("enabled_in_first_playable", false)):
+		return "占位"
 	var milestones: Dictionary = meta_state.get("career_milestones", {})
 	var bosses: Array = meta_state.get("defeated_boss_records", [])
 	match String(cls.get("unlock_type", "")):
@@ -69,8 +74,8 @@ func class_availability_label(cls: Dictionary) -> String:
 	var class_id := String(cls.get("id", ""))
 	if is_class_playable(class_id):
 		return "可出战"
-	if is_class_unlocked(class_id) and not bool(cls.get("enabled_in_first_playable", false)):
-		return "扩展占位"
+	if not bool(cls.get("enabled_in_first_playable", false)):
+		return "扩展占位" if class_id == "hr" else "锁定占位"
 	if bool(cls.get("enabled_in_first_playable", false)):
 		return "未解锁"
 	return "未开放"
@@ -159,6 +164,8 @@ func _unlock_available_careers() -> void:
 	var bosses: Array = meta_state.get("defeated_boss_records", [])
 	for cls in config_service.all_defs("classes"):
 		var class_id := String(cls.get("id", ""))
+		if not bool(cls.get("enabled_in_first_playable", false)):
+			continue
 		if unlocked.has(class_id):
 			continue
 		if _is_unlock_condition_met(cls, milestones, bosses):

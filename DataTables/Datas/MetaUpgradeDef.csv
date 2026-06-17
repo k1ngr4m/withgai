@@ -9,8 +9,8 @@
 ,meta_nap_bed,global_upgrade,午休折叠床,"[20,45,90]",3,,[],休息处恢复量增加。
 ,meta_canteen_card,global_upgrade,员工食堂月卡,"[25,50]",2,,[],商店首次消费折扣。
 ,unlock_backend,career_unlock,后端,[0],1,,[],默认开放。
-,unlock_frontend,career_unlock,前端,[0],1,,[],First Playable 开放。
-,unlock_tester,career_unlock,测试,[0],1,,[],First Playable 开放。
-,unlock_algorithm,career_unlock,算法,[0],1,,[],First Playable 开放。
-,unlock_product_manager,career_unlock,产品经理,[0],1,,[],First Playable 开放。
+,unlock_frontend,career_unlock,前端,[0],1,,[],占位锁定，后端全链路完成后开放。
+,unlock_tester,career_unlock,测试,[0],1,,[],占位锁定，后端全链路完成后开放。
+,unlock_algorithm,career_unlock,算法,[0],1,,[],占位锁定，后端全链路完成后开放。
+,unlock_product_manager,career_unlock,产品经理,[0],1,,[],占位锁定，后端全链路完成后开放。
 ,unlock_hr,career_unlock,HR,[999],1,,[],扩展职业，当前只展示。

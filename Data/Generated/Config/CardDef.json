@@ -522,7 +522,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_frontend_pixel_tap",
     "upgrade_to": "card_frontend_pixel_tap_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "像素敲击：造成基础伤害；若本回合已打出其他牌则追加轻伤。",
     "art_path": ""
   },
@@ -539,7 +539,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_frontend_flex_layout",
     "upgrade_to": "card_frontend_flex_layout_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "Flex排版：获得防线并生成 1 个组件。",
     "art_path": ""
   },
@@ -556,7 +556,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_frontend_slice_sprint",
     "upgrade_to": "card_frontend_slice_sprint_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "切图冲刺：抽牌并获得样式层。",
     "art_path": ""
   },
@@ -573,7 +573,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_frontend_hotfix_style",
     "upgrade_to": "card_frontend_hotfix_style_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "热更新样式：使下一张攻击牌追加样式层收益。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_frontend_hotfix_style_v1/final.png"
   },
@@ -590,7 +590,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_frontend_pixel_align",
     "upgrade_to": "card_frontend_pixel_align_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "像素级对齐：获得防线；若已有组件则获得额外防线。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_frontend_pixel_alignment_v1/final.png"
   },
@@ -607,7 +607,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_frontend_compat_patch",
     "upgrade_to": "card_frontend_compat_patch_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "兼容性补丁：清除 1 层负面，本回合样式层不会被消耗。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_frontend_compat_patch_v1/final.png"
   },
@@ -624,7 +624,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_frontend_button_bounce",
     "upgrade_to": "card_frontend_button_bounce_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "按钮回弹：造成伤害。",
     "art_path": ""
   },
@@ -641,7 +641,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_frontend_component_mount",
     "upgrade_to": "card_frontend_component_mount_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "组件挂载：获得防线并触发职业资源。",
     "art_path": ""
   },
@@ -658,7 +658,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_frontend_css_override",
     "upgrade_to": "card_frontend_css_override_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "CSS覆盖：获得防线并触发职业资源。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_frontend_css_override_v1/final.png"
   },
@@ -675,7 +675,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_frontend_first_screen",
     "upgrade_to": "card_frontend_first_screen_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "首屏优化：本回合接下来两张牌费用降低。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_frontend_first_screen_opt_v1/final.png"
   },
@@ -692,7 +692,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_frontend_grid_stretch",
     "upgrade_to": "card_frontend_grid_stretch_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "栅格拉伸：造成伤害。",
     "art_path": ""
   },
@@ -709,7 +709,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_frontend_event_bubble",
     "upgrade_to": "card_frontend_event_bubble_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "事件冒泡：造成伤害。",
     "art_path": ""
   },
@@ -726,7 +726,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_frontend_breakpoint_adapt",
     "upgrade_to": "card_frontend_breakpoint_adapt_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "断点适配：获得防线并触发职业资源。",
     "art_path": ""
   },
@@ -743,7 +743,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_frontend_tracking",
     "upgrade_to": "card_frontend_tracking_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "交互埋点：获得防线并触发职业资源。",
     "art_path": ""
   },
@@ -760,7 +760,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_frontend_component_reuse",
     "upgrade_to": "card_frontend_component_reuse_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "组件复用：若已有组件，复制 1 个组件并抽牌。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_frontend_component_reuse_v1/final.png"
   },
@@ -777,7 +777,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_frontend_state_boost",
     "upgrade_to": "card_frontend_state_boost_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "状态提升：建立长期状态，每回合第 4 张牌获得样式层增伤。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_frontend_state_boost_v1/final.png"
   },
@@ -794,7 +794,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_frontend_motion_overload",
     "upgrade_to": "card_frontend_motion_overload_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "动效超载：根据本回合已打出的牌数追加高额伤害。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_frontend_motion_overload_v1/final.png"
   },
@@ -811,7 +811,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_frontend_vue_suite",
     "upgrade_to": "card_frontend_vue_suite_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "Vue三件套：建立长期状态，每回合开始生成 1 个组件。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_frontend_vue_suite_v1/final.png"
   },
@@ -828,7 +828,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_frontend_style_isolate",
     "upgrade_to": "card_frontend_style_isolate_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "样式隔离：获得防线并触发职业资源。",
     "art_path": ""
   },
@@ -845,7 +845,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_frontend_night_theme",
     "upgrade_to": "card_frontend_night_theme_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "夜间主题：获得防线并触发职业资源。",
     "art_path": ""
   },
@@ -862,7 +862,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_frontend_h5_accel",
     "upgrade_to": "card_frontend_h5_accel_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "H5加速：获得防线并触发职业资源。",
     "art_path": ""
   },
@@ -879,7 +879,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_frontend_lazy_load",
     "upgrade_to": "card_frontend_lazy_load_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "懒加载：获得防线并触发职业资源。",
     "art_path": ""
   },
@@ -896,7 +896,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_frontend_design_system",
     "upgrade_to": "card_frontend_design_system_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "设计系统：建立长期收益。",
     "art_path": ""
   },
@@ -913,7 +913,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_frontend_animation_compose",
     "upgrade_to": "card_frontend_animation_compose_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "动画编排：造成伤害。",
     "art_path": ""
   },
@@ -930,7 +930,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_frontend_crash_animation",
     "upgrade_to": "card_frontend_crash_animation_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "崩溃动画：消耗全部样式层，将样式层转化为多段爆发伤害。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_frontend_crash_animation_v1/final.png"
   },
@@ -947,7 +947,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_frontend_site_refactor",
     "upgrade_to": "card_frontend_site_refactor_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "全站重构：建立长期收益。",
     "art_path": ""
   },
@@ -964,7 +964,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_frontend_cross_platform",
     "upgrade_to": "card_frontend_cross_platform_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "跨端统一：获得防线并触发职业资源。",
     "art_path": ""
   },
@@ -981,7 +981,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_frontend_ssr",
     "upgrade_to": "card_frontend_ssr_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "SSR直出：获得防线并触发职业资源。",
     "art_path": ""
   },
@@ -998,7 +998,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_frontend_visual_climax",
     "upgrade_to": "card_frontend_visual_climax_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "视觉高潮：造成伤害。",
     "art_path": ""
   },
@@ -1015,7 +1015,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_frontend_infinite_scroll",
     "upgrade_to": "card_frontend_infinite_scroll_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "无限滚动：建立长期收益。",
     "art_path": ""
   },
@@ -1032,7 +1032,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_tester_defect_log",
     "upgrade_to": "card_tester_defect_log_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "缺陷登记：造成伤害。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_tester_defect_log_v1/final.png"
   },
@@ -1049,7 +1049,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_tester_smoke_test",
     "upgrade_to": "card_tester_smoke_test_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "冒烟测试：获得防线并预判敌方下一步意图。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_tester_smoke_test_v1/final.png"
   },
@@ -1066,7 +1066,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_tester_repro_steps",
     "upgrade_to": "card_tester_repro_steps_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "复现步骤：向选定目标注入 Bug；若目标已有 Diff 则额外追加 Bug。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_tester_repro_steps_v1/final.png"
   },
@@ -1083,7 +1083,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_tester_regression_confirm",
     "upgrade_to": "card_tester_regression_confirm_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "回归确认：若目标已有用例，抽牌并施加 Diff。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_tester_regression_confirm_v1/final.png"
   },
@@ -1100,7 +1100,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_tester_assert_fail",
     "upgrade_to": "card_tester_assert_fail_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "断言失败：造成伤害。",
     "art_path": ""
   },
@@ -1117,7 +1117,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_tester_boundary_check",
     "upgrade_to": "card_tester_boundary_check_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "边界值校验：施加用例；目标低生命或高攻击时额外施加用例。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_tester_boundary_check_v1/final.png"
   },
@@ -1134,7 +1134,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_tester_log_screenshot",
     "upgrade_to": "card_tester_log_screenshot_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "日志截图：获得防线并触发职业资源。",
     "art_path": ""
   },
@@ -1151,7 +1151,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_tester_env_reset",
     "upgrade_to": "card_tester_env_reset_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "环境重置：获得防线并触发职业资源。",
     "art_path": ""
   },
@@ -1168,7 +1168,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_tester_version_compare",
     "upgrade_to": "card_tester_version_compare_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "版本比对：获得防线并触发职业资源。",
     "art_path": ""
   },
@@ -1185,7 +1185,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_tester_whitebox",
     "upgrade_to": "card_tester_whitebox_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "白盒排查：造成伤害。",
     "art_path": ""
   },
@@ -1202,7 +1202,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_tester_blackbox",
     "upgrade_to": "card_tester_blackbox_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "黑盒巡检：获得防线并触发职业资源。",
     "art_path": ""
   },
@@ -1219,7 +1219,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_tester_case_add",
     "upgrade_to": "card_tester_case_add_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "Case补录：获得防线并触发职业资源。",
     "art_path": ""
   },
@@ -1236,7 +1236,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_tester_missed_test",
     "upgrade_to": "card_tester_missed_test_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "漏测补刀：造成伤害。",
     "art_path": ""
   },
@@ -1253,7 +1253,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_tester_ticket_chase",
     "upgrade_to": "card_tester_ticket_chase_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "工单追击：造成伤害。",
     "art_path": ""
   },
@@ -1270,7 +1270,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_tester_auto_regression",
     "upgrade_to": "card_tester_auto_regression_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "自动化回归：建立长期状态，回合结束时触发一个已挂 Bug 并补充用例。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_tester_auto_regression_v1/final.png"
   },
@@ -1287,7 +1287,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_tester_bug_upgrade",
     "upgrade_to": "card_tester_bug_upgrade_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "缺陷升级：获得防线；若目标已有 Bug，则追加 Bug 并进一步削弱意图。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_tester_bug_upgrade_v1/final.png"
   },
@@ -1304,7 +1304,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_tester_case_matrix",
     "upgrade_to": "card_tester_case_matrix_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "用例矩阵：建立长期状态，每回合首次施加用例时额外施加用例。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_tester_case_matrix_v1/final.png"
   },
@@ -1321,7 +1321,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_tester_stress_test",
     "upgrade_to": "card_tester_stress_test_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "压力测试：造成伤害。",
     "art_path": ""
   },
@@ -1338,7 +1338,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_tester_stability_sample",
     "upgrade_to": "card_tester_stability_sample_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "稳定性抽检：获得防线并触发职业资源。",
     "art_path": ""
   },
@@ -1355,7 +1355,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_tester_rollback_review",
     "upgrade_to": "card_tester_rollback_review_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "回滚复盘：获得防线并触发职业资源。",
     "art_path": ""
   },
@@ -1372,7 +1372,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_tester_smoke_recheck",
     "upgrade_to": "card_tester_smoke_recheck_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "冒烟复检：获得防线并触发职业资源。",
     "art_path": ""
   },
@@ -1389,7 +1389,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_tester_permission_retest",
     "upgrade_to": "card_tester_permission_retest_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "权限复测：获得防线并触发职业资源。",
     "art_path": ""
   },
@@ -1406,7 +1406,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_tester_night_patrol",
     "upgrade_to": "card_tester_night_patrol_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "夜间巡检：获得防线并触发职业资源。",
     "art_path": ""
   },
@@ -1423,7 +1423,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_tester_repro_harden",
     "upgrade_to": "card_tester_repro_harden_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "复现加严：获得防线并触发职业资源。",
     "art_path": ""
   },
@@ -1440,7 +1440,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_tester_92_bugs",
     "upgrade_to": "card_tester_92_bugs_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "提交92个致命Bug：向目标连续注入多段 Bug。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_tester_92_bugs_v1/final.png"
   },
@@ -1457,7 +1457,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_tester_report_lock",
     "upgrade_to": "card_tester_report_lock_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "测试报告封板：按目标 Bug、用例和 Diff 层数结算高额伤害。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_tester_report_lock_v1/final.png"
   },
@@ -1474,7 +1474,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_tester_full_chain",
     "upgrade_to": "card_tester_full_chain_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "全链路压测：造成伤害。",
     "art_path": ""
   },
@@ -1491,7 +1491,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_tester_shutdown_verify",
     "upgrade_to": "card_tester_shutdown_verify_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "停服验证：获得防线并触发职业资源。",
     "art_path": ""
   },
@@ -1508,7 +1508,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_tester_zero_bug_fantasy",
     "upgrade_to": "card_tester_zero_bug_fantasy_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "零缺陷幻想：建立长期收益。",
     "art_path": ""
   },
@@ -1525,7 +1525,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_tester_release_block",
     "upgrade_to": "card_tester_release_block_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "上线拦截：获得防线并触发职业资源。",
     "art_path": ""
   },
@@ -1542,7 +1542,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_algo_linear_probe",
     "upgrade_to": "card_algo_linear_probe_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "线性试探：造成基础伤害并获得少量算力。",
     "art_path": ""
   },
@@ -1559,7 +1559,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_algo_complexity_compress",
     "upgrade_to": "card_algo_complexity_compress_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "复杂度压缩：获得防线并降低复杂度。",
     "art_path": ""
   },
@@ -1576,7 +1576,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_algo_heuristic_search",
     "upgrade_to": "card_algo_heuristic_search_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "启发式搜索：抽牌并获得算力。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_algo_heuristic_search_v1/final.png"
   },
@@ -1593,7 +1593,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_algo_local_opt",
     "upgrade_to": "card_algo_local_opt_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "局部最优：降低复杂度，并让下一张牌费用降低。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_algo_local_opt_v1/final.png"
   },
@@ -1610,7 +1610,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_algo_greedy_sample",
     "upgrade_to": "card_algo_greedy_sample_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "贪心取样：造成伤害。",
     "art_path": ""
   },
@@ -1627,7 +1627,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_algo_pruning",
     "upgrade_to": "card_algo_pruning_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "剪枝优化：降低复杂度，并让下一张牌费用降低。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_algo_pruning_v1/final.png"
   },
@@ -1644,7 +1644,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_algo_recursion",
     "upgrade_to": "card_algo_recursion_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "递归下钻：造成伤害。",
     "art_path": ""
   },
@@ -1661,7 +1661,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_algo_state_compress",
     "upgrade_to": "card_algo_state_compress_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "状态压缩：获得防线并触发职业资源。",
     "art_path": ""
   },
@@ -1678,7 +1678,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_algo_hash_accel",
     "upgrade_to": "card_algo_hash_accel_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "哈希加速：获得防线并触发职业资源。",
     "art_path": ""
   },
@@ -1695,7 +1695,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_algo_eval_func",
     "upgrade_to": "card_algo_eval_func_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "估值函数：获得防线并触发职业资源。",
     "art_path": ""
   },
@@ -1712,7 +1712,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_algo_data_clean",
     "upgrade_to": "card_algo_data_clean_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "数据清洗：获得防线并触发职业资源。",
     "art_path": ""
   },
@@ -1729,7 +1729,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_algo_backtrack",
     "upgrade_to": "card_algo_backtrack_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "搜索回溯：造成伤害。",
     "art_path": ""
   },
@@ -1746,7 +1746,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_algo_path_read",
     "upgrade_to": "card_algo_path_read_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "路径预读：获得防线并触发职业资源。",
     "art_path": ""
   },
@@ -1763,7 +1763,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_algo_edge_reweight",
     "upgrade_to": "card_algo_edge_reweight_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "边权重排：获得防线并触发职业资源。",
     "art_path": ""
   },
@@ -1780,7 +1780,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_algo_dynamic_programming",
     "upgrade_to": "card_algo_dynamic_programming_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "动态规划：建立长期状态，每种牌型首次重复使用时获得算力并抽牌。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_algo_dynamic_programming_v1/final.png"
   },
@@ -1797,7 +1797,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_algo_complexity_burst",
     "upgrade_to": "card_algo_complexity_burst_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "复杂度爆炸：按当前复杂度追加高额伤害。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_algo_complexity_burst_v1/final.png"
   },
@@ -1814,7 +1814,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_algo_big_o_compress",
     "upgrade_to": "card_algo_big_o_compress_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "大O压缩：将复杂度转换成算力和防线。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_algo_big_o_compress_v1/final.png"
   },
@@ -1831,7 +1831,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_algo_monte_carlo",
     "upgrade_to": "card_algo_monte_carlo_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "蒙特卡洛试投：随机生成一张算法方案牌到手牌，并抽一张牌。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_algo_monte_carlo_v1/final.png"
   },
@@ -1848,7 +1848,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_algo_astar",
     "upgrade_to": "card_algo_astar_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "A星寻路：检索关键算法牌到手牌，并把优先牌排到下一抽。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_algo_astar_v1/final.png"
   },
@@ -1865,7 +1865,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_algo_convolution",
     "upgrade_to": "card_algo_convolution_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "卷积加速：造成伤害。",
     "art_path": ""
   },
@@ -1882,7 +1882,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_algo_memo_search",
     "upgrade_to": "card_algo_memo_search_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "记忆化搜索：建立长期收益。",
     "art_path": ""
   },
@@ -1899,7 +1899,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_algo_binary_cut",
     "upgrade_to": "card_algo_binary_cut_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "二分切割：造成伤害。",
     "art_path": ""
   },
@@ -1916,7 +1916,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_algo_graph_opt",
     "upgrade_to": "card_algo_graph_opt_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "图优化：获得防线并触发职业资源。",
     "art_path": ""
   },
@@ -1933,7 +1933,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_algo_matrix_warmup",
     "upgrade_to": "card_algo_matrix_warmup_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "矩阵预热：获得防线并触发职业资源。",
     "art_path": ""
   },
@@ -1950,7 +1950,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_algo_global_optimum",
     "upgrade_to": "card_algo_global_optimum_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "全局最优解：消耗全部精力与算力，按投入造成高额伤害。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_algo_global_optimum_v1/final.png"
   },
@@ -1967,7 +1967,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_algo_matrix_mul",
     "upgrade_to": "card_algo_matrix_mul_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "矩阵乘法：算力达到阈值时打出极高单体伤害。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_algo_matrix_mul_v1/final.png"
   },
@@ -1984,7 +1984,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_algo_distill",
     "upgrade_to": "card_algo_distill_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "神经网络蒸馏：建立长期收益。",
     "art_path": ""
   },
@@ -2001,7 +2001,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_algo_compute_surge",
     "upgrade_to": "card_algo_compute_surge_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "算力洪峰：获得防线并触发职业资源。",
     "art_path": ""
   },
@@ -2018,7 +2018,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_algo_model_converge",
     "upgrade_to": "card_algo_model_converge_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "模型收敛：造成伤害。",
     "art_path": ""
   },
@@ -2035,7 +2035,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_algo_zero_complexity",
     "upgrade_to": "card_algo_zero_complexity_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "复杂度归零：获得防线并触发职业资源。",
     "art_path": ""
   },
@@ -2052,7 +2052,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_pm_change_wording",
     "upgrade_to": "card_pm_change_wording_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "需求改口：降低选定目标攻击意图；会议纪要可追加降低量。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_pm_change_request_v1/final.png"
   },
@@ -2069,7 +2069,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_pm_priority_shuffle",
     "upgrade_to": "card_pm_priority_shuffle_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "优先级重排：获得防线，将选定目标排为最高优先级，并给其他目标低优先级。",
     "art_path": ""
   },
@@ -2086,7 +2086,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_pm_meeting_minutes",
     "upgrade_to": "card_pm_meeting_minutes_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "会议纪要：抽牌，并让下一张需求变更或改写意图牌增强。",
     "art_path": ""
   },
@@ -2103,7 +2103,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_pm_revision_notice",
     "upgrade_to": "card_pm_revision_notice_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "改版通知：对选定目标施加需求变更；会议纪要可追加层数。",
     "art_path": ""
   },
@@ -2120,7 +2120,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_pm_message_align",
     "upgrade_to": "card_pm_message_align_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "口径统一：获得防线并触发职业资源。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_pm_message_align_v1/final.png"
   },
@@ -2137,7 +2137,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_pm_schedule_compress",
     "upgrade_to": "card_pm_schedule_compress_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "排期压缩：造成伤害。",
     "art_path": ""
   },
@@ -2154,7 +2154,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_pm_scope_confirm",
     "upgrade_to": "card_pm_scope_confirm_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "范围确认：获得防线并触发职业资源。",
     "art_path": ""
   },
@@ -2171,7 +2171,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_pm_prd_append",
     "upgrade_to": "card_pm_prd_append_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "PRD增补：获得防线并触发职业资源。",
     "art_path": ""
   },
@@ -2188,7 +2188,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_pm_reopen_task",
     "upgrade_to": "card_pm_reopen_task_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "任务重开：造成伤害。",
     "art_path": ""
   },
@@ -2205,7 +2205,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_pm_tracking_backfill",
     "upgrade_to": "card_pm_tracking_backfill_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "埋点回填：获得防线并触发职业资源。",
     "art_path": ""
   },
@@ -2222,7 +2222,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_pm_split_ticket",
     "upgrade_to": "card_pm_split_ticket_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "需求拆票：获得防线并触发职业资源。",
     "art_path": ""
   },
@@ -2239,7 +2239,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_pm_extra_requirement",
     "upgrade_to": "card_pm_extra_requirement_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "临时加需求：获得防线并触发职业资源。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_pm_extra_requirement_v1/final.png"
   },
@@ -2256,7 +2256,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_pm_sync_conclusion",
     "upgrade_to": "card_pm_sync_conclusion_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "同步结论：获得防线并触发职业资源。",
     "art_path": ""
   },
@@ -2273,7 +2273,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_pm_pending_item",
     "upgrade_to": "card_pm_pending_item_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "待确认项：获得防线并触发职业资源。",
     "art_path": ""
   },
@@ -2290,7 +2290,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_pm_review",
     "upgrade_to": "card_pm_review_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "需求评审：建立长期状态，每回合首次改写敌方意图时获得防线并抽牌。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_pm_review_v1/final.png"
   },
@@ -2307,7 +2307,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_pm_delay_meeting",
     "upgrade_to": "card_pm_delay_meeting_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "会议延期：若选定目标正在准备高压攻击，将该意图延后到下回合。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_pm_delay_meeting_v1/final.png"
   },
@@ -2324,7 +2324,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_pm_priority_top",
     "upgrade_to": "card_pm_priority_top_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "优先级置顶：将选定目标置为最高优先级，清空其他目标优先级并抽牌。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_pm_priority_top_v1/final.png"
   },
@@ -2341,7 +2341,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_pm_milestone_split",
     "upgrade_to": "card_pm_milestone_split_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "里程碑拆分：把选定目标的强攻击拆成多段较弱动作。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_pm_milestone_split_v1/final.png"
   },
@@ -2358,7 +2358,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_pm_scope_spread",
     "upgrade_to": "card_pm_scope_spread_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "范围蔓延：建立长期状态，使每次需求变更额外影响另一个敌人。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_pm_scope_spread_v1/final.png"
   },
@@ -2375,7 +2375,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_pm_department_align",
     "upgrade_to": "card_pm_department_align_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "部门对齐：获得防线并触发职业资源。",
     "art_path": ""
   },
@@ -2392,7 +2392,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_pm_proto_walkthrough",
     "upgrade_to": "card_pm_proto_walkthrough_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "原型走查：获得防线并触发职业资源。",
     "art_path": ""
   },
@@ -2409,7 +2409,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_pm_weekly_sync",
     "upgrade_to": "card_pm_weekly_sync_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "周会拉通：获得防线并触发职业资源。",
     "art_path": ""
   },
@@ -2426,7 +2426,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_pm_urgent_schedule",
     "upgrade_to": "card_pm_urgent_schedule_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "紧急排期：造成伤害。",
     "art_path": ""
   },
@@ -2443,7 +2443,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_pm_verbal_promise",
     "upgrade_to": "card_pm_verbal_promise_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "口头承诺：获得防线并触发职业资源。",
     "art_path": ""
   },
@@ -2460,7 +2460,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_pm_align_all",
     "upgrade_to": "card_pm_align_all_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "全员对齐：重置所有敌人的当前意图，清理延期和预判安排。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_pm_align_all_v1/final.png"
   },
@@ -2477,7 +2477,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_pm_roadmap",
     "upgrade_to": "card_pm_roadmap_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "版本路线图：按最高优先级目标身上的需求变更层数造成结算伤害。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_pm_roadmap_v1/final.png"
   },
@@ -2494,7 +2494,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_pm_snowball",
     "upgrade_to": "card_pm_snowball_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "需求雪崩：造成伤害。",
     "art_path": ""
   },
@@ -2511,7 +2511,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_pm_goal_drift",
     "upgrade_to": "card_pm_goal_drift_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "目标漂移：获得防线并触发职业资源。",
     "art_path": ""
   },
@@ -2528,7 +2528,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_pm_ceo_tone",
     "upgrade_to": "card_pm_ceo_tone_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "CEO口风：建立长期收益。",
     "art_path": ""
   },
@@ -2545,7 +2545,7 @@
     "keywords": [],
     "effect_group_id": "eg_card_pm_roadmap_reset",
     "upgrade_to": "card_pm_roadmap_reset_plus",
-    "enabled_in_first_playable": true,
+    "enabled_in_first_playable": false,
     "description": "路线图重置：获得防线并触发职业资源。",
     "art_path": ""
   },

@@ -102,7 +102,7 @@
     "max_level": 1,
     "effect_group_id": "",
     "prerequisite_ids": [],
-    "description": "First Playable 开放。"
+    "description": "占位锁定，后端全链路完成后开放。"
   },
   {
     "id": "unlock_tester",
@@ -114,7 +114,7 @@
     "max_level": 1,
     "effect_group_id": "",
     "prerequisite_ids": [],
-    "description": "First Playable 开放。"
+    "description": "占位锁定，后端全链路完成后开放。"
   },
   {
     "id": "unlock_algorithm",
@@ -126,7 +126,7 @@
     "max_level": 1,
     "effect_group_id": "",
     "prerequisite_ids": [],
-    "description": "First Playable 开放。"
+    "description": "占位锁定，后端全链路完成后开放。"
   },
   {
     "id": "unlock_product_manager",
@@ -138,7 +138,7 @@
     "max_level": 1,
     "effect_group_id": "",
     "prerequisite_ids": [],
-    "description": "First Playable 开放。"
+    "description": "占位锁定，后端全链路完成后开放。"
   },
   {
     "id": "unlock_hr",

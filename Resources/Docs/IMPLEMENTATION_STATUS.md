@@ -1,5 +1,18 @@
 # IMPLEMENTATION_STATUS
 
+## 2026-06-17
+
+### Implemented
+
+- First Playable scope is now backend-first:
+  - only `backend` remains `enabled_in_first_playable=true` and unlocked by default
+  - `frontend`, `tester`, `algorithm`, and `product_manager` stay visible in class select / career tree as locked placeholders
+  - `hr` remains an expansion placeholder and is still excluded from battle, reward, and shop pools
+- Main menu and class select now present the current backend-only playable scope:
+  - quick-start spotlight, playable badges, and the duty board only count runnable classes
+  - locked careers keep their art, summary, unlock tree cards, and disabled start buttons
+- Reward, shop, event, rest, save, and meta tests now validate the public full chain through backend while retaining internal mechanics coverage for the placeholder careers.
+
 ## 2026-06-16
 
 ### Implemented
