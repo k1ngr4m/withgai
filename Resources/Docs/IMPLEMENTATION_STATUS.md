@@ -44,6 +44,9 @@
 - Continue-run now normalizes restored scene tags:
   - known run scenes resume directly
   - stale or unknown scene tags fall back to the map instead of trapping the player on the main menu
+- Suspend restore now treats the top-level `scene_tag` as the authoritative resume destination:
+  - restored `RunState.current_scene_tag` is synchronized from `SuspendSaveState.scene_tag`
+  - automated roundtrip coverage includes mismatched legacy saves where the nested run scene tag is stale
 - MapRunState now keeps a populated `node_graph` index:
   - generated chapters write every floor node into `node_graph`
   - node lookup self-heals old saves with missing or incomplete map indexes

@@ -79,4 +79,7 @@ func restore_from_suspend(save_state: Dictionary) -> bool:
 	if restored.is_empty():
 		return false
 	run_state = restored
+	var scene_tag := String(save_state.get("scene_tag", ""))
+	if not scene_tag.is_empty():
+		run_state["current_scene_tag"] = scene_tag
 	return true

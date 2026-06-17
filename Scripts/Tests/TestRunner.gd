@@ -2962,6 +2962,15 @@ func _validate_save_roundtrip(config, map, meta, save) -> void:
 	restored_session.call("setup", config, map, meta)
 	_check(restored_session.restore_from_suspend(save.load_suspend()), "suspend restore succeeds")
 	_check(restored_session.run_state.get("selected_class_id", "") == "backend", "suspend selected class roundtrip")
+	var mismatched_suspend: Dictionary = save.load_suspend().duplicate(true)
+	var mismatched_run: Dictionary = mismatched_suspend.get("serialized_run_state", {}).duplicate(true)
+	mismatched_suspend["scene_tag"] = "shop"
+	mismatched_run["current_scene_tag"] = "map"
+	mismatched_suspend["serialized_run_state"] = mismatched_run
+	var scene_tag_session = RunSessionScript.new()
+	scene_tag_session.call("setup", config, map, meta)
+	_check(scene_tag_session.restore_from_suspend(mismatched_suspend), "mismatched suspend restore succeeds")
+	_check(String(scene_tag_session.run_state.get("current_scene_tag", "")) == "shop", "suspend top-level scene tag wins on restore")
 	save.clear_suspend()
 	run["map_state"]["node_graph"] = {}
 	var first_available_node_id := String(run.get("map_state", {}).get("available_next_nodes", [])[0])
