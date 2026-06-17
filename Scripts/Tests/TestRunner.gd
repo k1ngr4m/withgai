@@ -37,6 +37,7 @@ func _init() -> void:
 	_validate_shop_scene()
 	_validate_event_scene()
 	_validate_rest_scene()
+	_validate_run_result_scene()
 	_validate_config_references(config, content)
 	_validate_run_class_locks(config, map, meta)
 	_validate_run_reset_cleanup()
@@ -202,6 +203,19 @@ func _validate_rest_scene() -> void:
 	_check(source.contains("UpgradeCardButton"), "rest scene upgrade card buttons configured")
 	_check(source.contains("_rest_recover_preview"), "rest scene previews recovery amount")
 	_check(source.contains("_eligible_upgrade_count"), "rest scene counts eligible upgrades")
+
+
+func _validate_run_result_scene() -> void:
+	_check(ResourceLoader.exists("res://Scenes/RunResultScene.tscn"), "run result scene resource exists")
+	var source := FileAccess.get_file_as_string("res://Scripts/UI/RunResultScene.gd")
+	_check(source.contains("RunResultHeader"), "run result scene header configured")
+	_check(source.contains("ResultSummaryPanel"), "run result summary panel configured")
+	_check(source.contains("MetaRewardPanel"), "run result meta reward panel configured")
+	_check(source.contains("ReturnButton"), "run result return button configured")
+	_check(source.contains("MetaProgressionButton"), "run result meta progression button configured")
+	_check(source.contains("_has_result_run"), "run result scene guards empty run state")
+	_check(source.contains("clear_suspend"), "run result clears suspend save")
+	_check(source.contains("settle_run"), "run result settles meta progression")
 
 
 func _validate_config_references(config, content) -> void:
