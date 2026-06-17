@@ -23,6 +23,10 @@
   - players can toggle fullscreen/windowed mode and adjust the master audio volume
   - settings now persist through `MetaState.settings` and are applied when the main menu boots
   - automated scene checks now cover the settings button, overlay, volume slider, and persisted-settings path
+- Map scene now exposes the spec-level route selection panels:
+  - `ChapterHeader`, `MapGraphPanel`, `FloorInfoPanel`, `NodeDetailPanel`, and `ResumeButton` are present in the route UI
+  - clicking a reachable node previews its floor, type, expected reward, and follow-up route count before entering
+  - entering a route node now requires the selected-node confirm button, reducing accidental battle/shop/event transitions
 - Reward, shop, event, rest, save, and meta tests now validate the public full chain through backend while retaining internal mechanics coverage for the placeholder careers.
 - `RunSession.create_new_run()` now enforces public career availability at the service layer:
   - backend public runs still create normally

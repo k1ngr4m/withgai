@@ -31,6 +31,7 @@ func _init() -> void:
 	var reward_service = RewardServiceScript.new()
 	reward_service.call("setup", content, map, meta)
 	_validate_main_menu_scene()
+	_validate_map_scene()
 	_validate_config_references(config, content)
 	_validate_run_class_locks(config, map, meta)
 	_validate_run_reset_cleanup()
@@ -114,6 +115,20 @@ func _validate_main_menu_scene() -> void:
 	]
 	for asset_path in main_menu_assets:
 		_check(load(asset_path) != null, "%s main menu asset loads" % asset_path)
+
+
+func _validate_map_scene() -> void:
+	_check(ResourceLoader.exists("res://Scenes/MapScene.tscn"), "map scene resource exists")
+	var source := FileAccess.get_file_as_string("res://Scripts/UI/MapScene.gd")
+	_check(source.contains("ChapterHeader"), "map scene chapter header configured")
+	_check(source.contains("MapGraphPanel"), "map scene graph panel configured")
+	_check(source.contains("FloorInfoPanel"), "map scene floor info panel configured")
+	_check(source.contains("NodeDetailPanel"), "map scene node detail panel configured")
+	_check(source.contains("ResumeButton"), "map scene confirm enter button configured")
+	_check(source.contains("_select_node"), "map scene supports node preview selection")
+	_check(source.contains("_enter_selected_node"), "map scene confirms selected node before entering")
+	_check(source.contains("_node_reward_hint"), "map scene explains node reward expectations")
+
 
 func _validate_config_references(config, content) -> void:
 	_check(not config.get_def("classes", "hr").get("enabled_in_first_playable", true), "hr remains placeholder")
