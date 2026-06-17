@@ -8,6 +8,7 @@ func _ready() -> void:
 
 func _prepare_stock() -> void:
 	AppRoot.reward_service.prepare_shop_stock(AppRoot.run_session.run_state)
+	AppRoot.save_service.save_suspend(AppRoot.run_session.run_state, AppRoot.meta_service.meta_state)
 
 func _build() -> void:
 	for child in get_children():
@@ -66,20 +67,24 @@ func _build() -> void:
 	actions.add_child(leave)
 
 func _buy_card(card_id: String) -> void:
-	AppRoot.reward_service.buy_shop_card(AppRoot.run_session.run_state, card_id)
+	if AppRoot.reward_service.buy_shop_card(AppRoot.run_session.run_state, card_id):
+		AppRoot.save_service.save_suspend(AppRoot.run_session.run_state, AppRoot.meta_service.meta_state)
 	_build()
 
 func _buy_relic(relic_id: String) -> void:
-	AppRoot.reward_service.buy_shop_relic(AppRoot.run_session.run_state, relic_id)
+	if AppRoot.reward_service.buy_shop_relic(AppRoot.run_session.run_state, relic_id):
+		AppRoot.save_service.save_suspend(AppRoot.run_session.run_state, AppRoot.meta_service.meta_state)
 	_build()
 
 func _remove_card() -> void:
-	AppRoot.reward_service.remove_shop_card(AppRoot.run_session.run_state, selected_remove_card_id)
+	if AppRoot.reward_service.remove_shop_card(AppRoot.run_session.run_state, selected_remove_card_id):
+		AppRoot.save_service.save_suspend(AppRoot.run_session.run_state, AppRoot.meta_service.meta_state)
 	selected_remove_card_id = ""
 	_build()
 
 func _refresh_stock() -> void:
-	AppRoot.reward_service.refresh_shop_stock(AppRoot.run_session.run_state)
+	if AppRoot.reward_service.refresh_shop_stock(AppRoot.run_session.run_state):
+		AppRoot.save_service.save_suspend(AppRoot.run_session.run_state, AppRoot.meta_service.meta_state)
 	_build()
 
 func _leave() -> void:

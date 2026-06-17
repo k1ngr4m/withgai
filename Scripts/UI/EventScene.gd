@@ -6,6 +6,7 @@ func _ready() -> void:
 
 func _prepare_event() -> void:
 	AppRoot.reward_service.prepare_event(AppRoot.run_session.run_state)
+	AppRoot.save_service.save_suspend(AppRoot.run_session.run_state, AppRoot.meta_service.meta_state)
 
 func _build() -> void:
 	UiFactory.fill(self)

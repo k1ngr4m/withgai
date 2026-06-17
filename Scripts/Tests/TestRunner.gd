@@ -70,6 +70,10 @@ func _validate_main_menu_scene() -> void:
 	_check(source.contains("ContinueButton"), "main menu continue button configured")
 	_check(source.contains("MetaButton"), "main menu meta button configured")
 	_check(source.contains("ExitButton"), "main menu exit button configured")
+	var event_source := FileAccess.get_file_as_string("res://Scripts/UI/EventScene.gd")
+	var shop_source := FileAccess.get_file_as_string("res://Scripts/UI/ShopScene.gd")
+	_check(event_source.contains("save_suspend"), "event scene persists prepared event state")
+	_check(shop_source.contains("save_suspend"), "shop scene persists stock and purchases")
 	var main_menu_assets := [
 		"res://Resources/Art/Generated/P0/backgrounds/ui_main_menu_bg_v1.png",
 		"res://Resources/Art/Generated/P0/characters/char_backend_keyart_v1.png",
@@ -2933,6 +2937,8 @@ func _validate_save_roundtrip(config, map, meta, save) -> void:
 	run_session.call("setup", config, map, meta)
 	var content = ContentResolverScript.new()
 	content.call("setup", config)
+	var reward_service = RewardServiceScript.new()
+	reward_service.call("setup", content, map, meta)
 	var executor = EffectExecutorScript.new()
 	executor.call("setup", config)
 	run = run_session.create_new_run("backend")
@@ -2951,6 +2957,41 @@ func _validate_save_roundtrip(config, map, meta, save) -> void:
 	_check(restored_battle.restore_battle(restored_battle_session.run_state), "battle suspend restores battle service")
 	_check(int(restored_battle.battle_state.get("player", {}).get("current_energy", 0)) == 1, "battle suspend restores player energy")
 	_check(restored_battle.battle_state.get("log", []).has("battle_roundtrip_marker"), "battle suspend restores battle log")
+	save.clear_suspend()
+
+	run_session = RunSessionScript.new()
+	run_session.call("setup", config, map, meta)
+	run = run_session.create_new_run("backend")
+	run["current_scene_tag"] = "event"
+	reward_service.prepare_event(run)
+	var prepared_event_id := String(run.get("event_state", {}).get("event_id", ""))
+	save.save_suspend(run, meta.meta_state)
+	var event_save: Dictionary = save.load_suspend()
+	_check(String(event_save.get("scene_tag", "")) == "event", "event suspend scene tag stored")
+	_check(String(event_save.get("serialized_run_state", {}).get("event_state", {}).get("event_id", "")) == prepared_event_id, "event suspend keeps prepared event")
+	save.clear_suspend()
+
+	run_session = RunSessionScript.new()
+	run_session.call("setup", config, map, meta)
+	run = run_session.create_new_run("backend")
+	run["current_scene_tag"] = "shop"
+	run["currency_perf_points"] = 500
+	reward_service.prepare_shop_stock(run)
+	var shop_card_id := String(run.get("shop_state", {}).get("card_stock", [])[0])
+	var shop_stock_before: Array = run.get("shop_state", {}).get("card_stock", []).duplicate(true)
+	save.save_suspend(run, meta.meta_state)
+	var shop_save: Dictionary = save.load_suspend()
+	_check(String(shop_save.get("scene_tag", "")) == "shop", "shop suspend scene tag stored")
+	_check(shop_save.get("serialized_run_state", {}).get("shop_state", {}).get("card_stock", []) == shop_stock_before, "shop suspend keeps rolled stock")
+	reward_service.buy_shop_card(run, shop_card_id)
+	save.save_suspend(run, meta.meta_state)
+	shop_save = save.load_suspend()
+	_check(shop_save.get("serialized_run_state", {}).get("deck_state", {}).get("master_deck", []).has(shop_card_id), "shop suspend keeps purchased card")
+	_check(not shop_save.get("serialized_run_state", {}).get("shop_state", {}).get("card_stock", []).has(shop_card_id), "shop suspend removes purchased stock")
+	reward_service.refresh_shop_stock(run)
+	save.save_suspend(run, meta.meta_state)
+	shop_save = save.load_suspend()
+	_check(int(shop_save.get("serialized_run_state", {}).get("shop_state", {}).get("refresh_count", 0)) == 1, "shop suspend keeps refresh count")
 	save.clear_suspend()
 
 func _validate_meta_settlement(config, map, meta) -> void:

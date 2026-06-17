@@ -16,6 +16,11 @@
   - backend public runs still create normally
   - locked placeholder careers return an empty run and preserve any active backend run
   - automated placeholder-career mechanics coverage must opt in explicitly with `allow_locked=true`
+- Event and shop node pages now persist their prepared state for interruption recovery:
+  - entering an event saves the selected event id after preparation
+  - entering the shop saves rolled stock after preparation
+  - successful shop card/relic purchases, card removal, and refreshes save immediately
+  - automated suspend roundtrips now verify event state, shop stock, purchased cards, and refresh count
 
 ## 2026-06-16
 
