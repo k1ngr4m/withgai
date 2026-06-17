@@ -931,6 +931,7 @@ func _validate_battle(class_id: String, config, content, map, meta, reward_servi
 	_check(run.get("pending_reward_state", {}).is_empty(), "%s reward cleared" % class_id)
 	_check(int(run.get("deck_state", {}).get("master_deck", []).size()) == deck_before + 1, "%s reward card added" % class_id)
 	_check(int(run.get("currency_perf_points", 0)) > 0, "%s reward currency added" % class_id)
+	_check(String(run.get("current_node_id", "")) == "", "%s completed node is cleared after reward" % class_id)
 
 func _validate_combat_mechanics(config, content, map, meta) -> void:
 	var run_session = RunSessionScript.new()
@@ -2810,16 +2811,19 @@ func _validate_shop_event_rest(config, content, map, meta, reward_service) -> vo
 	run["current_node_id"] = rest_id
 	reward_service.rest_recover(run)
 	_check(int(run.get("player_state", {}).get("current_spirit", 0)) > 10, "rest recover increases spirit")
+	_check(String(run.get("current_node_id", "")) == "", "rest recover clears completed node")
 	run = run_session.create_new_run("backend")
 	rest_id = _first_node_of_type(run, "rest")
 	run["current_node_id"] = rest_id
 	reward_service.rest_upgrade(run)
 	_check(int(run.get("deck_state", {}).get("upgraded_cards", []).size()) == 1, "rest upgrade records card")
+	_check(String(run.get("current_node_id", "")) == "", "rest upgrade clears completed node")
 	run = run_session.create_new_run("backend")
 	rest_id = _first_node_of_type(run, "rest")
 	run["current_node_id"] = rest_id
 	reward_service.rest_upgrade_card(run, "card_backend_publish_script")
 	_check(run.get("deck_state", {}).get("upgraded_cards", []).has("card_backend_publish_script"), "rest selected upgrade records chosen card")
+	_check(String(run.get("current_node_id", "")) == "", "rest selected upgrade clears completed node")
 
 func _validate_event_effect_resolution(config, content, map, meta, reward_service) -> void:
 	var run_session = RunSessionScript.new()
@@ -3194,11 +3198,13 @@ func _validate_boss_progression(config, map, meta, reward_service) -> void:
 	_check(result == "next_chapter", "chapter 1 boss advances chapter")
 	_check(int(run.get("current_chapter", 0)) == 2, "chapter index is 2 after boss")
 	_check(int(run.get("current_floor", 0)) == 7, "chapter 2 map starts on floor 7 after boss")
+	_check(String(run.get("current_node_id", "")) == "", "chapter boss clears completed node")
 	map.generate_chapter(run, 3)
 	run["current_node_id"] = String(run.get("map_state", {}).get("boss_node_id", ""))
 	result = map.complete_current_node(run)
 	_check(result == "run_victory", "chapter 3 boss yields run victory")
 	_check(int(run.get("current_floor", 0)) == 18, "chapter 3 boss completion records top floor")
+	_check(String(run.get("current_node_id", "")) == "", "final boss clears completed node")
 
 func _check(condition: bool, label: String) -> void:
 	if condition:

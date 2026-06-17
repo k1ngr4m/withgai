@@ -55,6 +55,9 @@
   - generating a new chapter moves the run to that chapter's entry floor
   - completing a Boss records the Boss floor before advancing or settling victory
   - Boss progression tests cover the 7F chapter-2 entry and 18F final-floor record
+- Completed map nodes now clear `RunState.current_node_id`:
+  - reward, rest, chapter transition, and final Boss tests verify completed-node cleanup
+  - saves taken on the map no longer retain stale node ids from prior pages
 - Meta progression copy now reflects the current backend-first scope:
   - backend is described as connected to battle, reward, shop, and suspend/continue
   - locked careers remain visible as career-tree placeholders

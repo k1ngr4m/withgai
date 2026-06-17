@@ -109,6 +109,7 @@ func complete_current_node(run_state: Dictionary) -> String:
 	run_state["visited_node_ids"] = visited
 	var map_state: Dictionary = run_state.get("map_state", {})
 	map_state["visited_nodes"] = visited
+	run_state["current_node_id"] = ""
 	if node.get("node_type", "") == "boss":
 		var boss_id: String = _boss_for_chapter(int(run_state.get("current_chapter", 1)))
 		var defeated: Array = run_state.get("defeated_boss_ids", [])
