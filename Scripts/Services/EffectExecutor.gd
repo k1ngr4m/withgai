@@ -82,9 +82,9 @@ func _execute_entry(entry: Dictionary, battle_state: Dictionary, run_state: Dict
 		"modify_intent":
 			_modify_intents(entry.get("target_type", "selected"), battle_state, run_state, target_index, amount, battle_log)
 		"delay_intent":
-			_delay_intent(entry.get("target_type", "selected"), battle_state, target_index, params, battle_log)
+			_delay_intent(entry.get("target_type", "selected"), battle_state, run_state, target_index, params, battle_log)
 		"split_intent":
-			_split_intent(entry.get("target_type", "selected"), battle_state, target_index, params, battle_log)
+			_split_intent(entry.get("target_type", "selected"), battle_state, run_state, target_index, params, battle_log)
 		"reroll_intent":
 			_reroll_intents(entry.get("target_type", "selected"), battle_state, run_state, target_index, battle_log)
 		"shuffle_priority":
@@ -871,9 +871,10 @@ func _modify_intents(target_type: String, battle_state: Dictionary, run_state: D
 	for enemy in _target_enemies(target_type, battle_state, target_index):
 		_modify_intent(enemy, battle_state, run_state, amount, battle_log)
 
-func _delay_intent(target_type: String, battle_state: Dictionary, target_index: int, params: Dictionary, battle_log: Array) -> void:
+func _delay_intent(target_type: String, battle_state: Dictionary, run_state: Dictionary, target_index: int, params: Dictionary, battle_log: Array) -> void:
 	var threshold: int = max(1, int(params.get("high_attack_threshold", 10)))
 	var fallback_block: int = max(0, int(params.get("block_amount", 0)))
+	var changed := 0
 	for enemy in _target_enemies(target_type, battle_state, target_index):
 		var intent: Dictionary = enemy.get("intent", {})
 		var total_amount: int = _attack_intent_total(intent)
@@ -884,11 +885,15 @@ func _delay_intent(target_type: String, battle_state: Dictionary, target_index: 
 		flags["forced_next_intent"] = intent.duplicate(true)
 		enemy["runtime_flags"] = flags
 		enemy["intent"] = { "intent_type": "block", "amount": fallback_block }
+		changed += 1
 		battle_log.append("%s 的高压会议被延期到下回合" % enemy.get("name", "敌人"))
+	if changed > 0:
+		_apply_modify_intent_relics(battle_state, run_state, battle_log)
 
-func _split_intent(target_type: String, battle_state: Dictionary, target_index: int, params: Dictionary, battle_log: Array) -> void:
+func _split_intent(target_type: String, battle_state: Dictionary, run_state: Dictionary, target_index: int, params: Dictionary, battle_log: Array) -> void:
 	var threshold: int = max(1, int(params.get("high_attack_threshold", 10)))
 	var hits: int = max(2, int(params.get("hits", 2)))
+	var changed := 0
 	for enemy in _target_enemies(target_type, battle_state, target_index):
 		var intent: Dictionary = enemy.get("intent", {})
 		var total_amount: int = _attack_intent_total(intent)
@@ -897,7 +902,10 @@ func _split_intent(target_type: String, battle_state: Dictionary, target_index: 
 			continue
 		var split_amount: int = max(1, int(floor(float(total_amount) / float(hits))))
 		enemy["intent"] = { "intent_type": "multi_attack", "amount": split_amount, "hits": hits }
+		changed += 1
 		battle_log.append("%s 的里程碑被拆成 %d 段" % [enemy.get("name", "敌人"), hits])
+	if changed > 0:
+		_apply_modify_intent_relics(battle_state, run_state, battle_log)
 
 func _reroll_intents(target_type: String, battle_state: Dictionary, run_state: Dictionary, target_index: int, battle_log: Array) -> void:
 	var changed := 0
@@ -1040,18 +1048,32 @@ func _apply_modify_intent_relics(battle_state: Dictionary, run_state: Dictionary
 	var player := _player(battle_state)
 	var flags: Dictionary = player.get("relic_runtime_flags", {})
 	var relics: Array = run_state.get("owned_relic_ids", [])
+	var statuses: Dictionary = player.get("status_list", {})
+	var pm_review_stacks := int(statuses.get("pm_review", 0))
+	if pm_review_stacks > 0 and not flags.get("pm_review_used_this_turn", false):
+		flags["pm_review_used_this_turn"] = true
+		player["relic_runtime_flags"] = flags
+		var params: Dictionary = _status_params("pm_review")
+		var block_amount: int = max(0, int(params.get("block_amount", 0))) * pm_review_stacks
+		var draw_amount: int = max(0, int(params.get("draw_amount", 0))) * pm_review_stacks
+		if block_amount > 0:
+			_gain_block(battle_state, run_state, block_amount, battle_log)
+		if draw_amount > 0:
+			_draw_cards(battle_state, draw_amount, battle_log)
+		battle_log.append("需求评审记录了本回合首次意图变更")
+		flags = player.get("relic_runtime_flags", {})
 	if relics.has("relic_gantt_roadmap") and not flags.get("gantt_roadmap_used", false):
 		flags["gantt_roadmap_used"] = true
 		player["relic_runtime_flags"] = flags
 		_draw_cards(battle_state, 1, battle_log)
-	if relics.has("relic_pm_review_minutes") and not flags.get("pm_review_minutes_used", false):
 		flags = player.get("relic_runtime_flags", {})
+	if relics.has("relic_pm_review_minutes") and not flags.get("pm_review_minutes_used", false):
 		flags["pm_review_minutes_used"] = true
 		player["relic_runtime_flags"] = flags
 		_gain_block(battle_state, run_state, 4, battle_log)
 		_draw_cards(battle_state, 1, battle_log)
-	else:
-		player["relic_runtime_flags"] = flags
+		flags = player.get("relic_runtime_flags", {})
+	player["relic_runtime_flags"] = flags
 
 func _apply_component_relics(battle_state: Dictionary, run_state: Dictionary, battle_log: Array) -> void:
 	var player := _player(battle_state)

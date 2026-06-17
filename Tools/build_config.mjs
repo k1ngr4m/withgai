@@ -136,6 +136,7 @@ const specialCardDescriptions = {
   card_pm_change_wording: "需求改口：降低选定目标攻击意图；会议纪要可追加降低量。",
   card_pm_meeting_minutes: "会议纪要：抽牌，并让下一张需求变更或改写意图牌增强。",
   card_pm_revision_notice: "改版通知：对选定目标施加需求变更；会议纪要可追加层数。",
+  card_pm_review: "需求评审：建立长期状态，每回合首次改写敌方意图时获得防线并抽牌。",
   card_pm_delay_meeting: "会议延期：若选定目标正在准备高压攻击，将该意图延后到下回合。",
   card_pm_milestone_split: "里程碑拆分：把选定目标的强攻击拆成多段较弱动作。",
   card_pm_priority_top: "优先级置顶：将选定目标置为最高优先级，清空其他目标优先级并抽牌。",
@@ -416,6 +417,11 @@ function cardEffects(classId, cardId, type, cost, idx) {
   if (cardId === "card_pm_revision_notice") {
     return [
       { effect_type: "apply_status", target_type: "selected", params: { status_id: "requirement_change", amount: 1 } },
+    ];
+  }
+  if (cardId === "card_pm_review") {
+    return [
+      { effect_type: "apply_status", target_type: "self", params: { status_id: "pm_review", amount: 1 } },
     ];
   }
   if (cardId === "card_pm_delay_meeting") {
@@ -767,7 +773,7 @@ const statuses = [
   ["state_boost", "状态提升", "class"], ["first_screen_optimization", "首屏优化", "class"], ["compatibility_patch", "兼容性补丁", "class"], ["hotfix_style", "热更新样式", "class"],
   ["vue_suite", "Vue三件套", "class"],
   ["bug", "Bug", "class"], ["case_mark", "用例", "class"], ["diff", "Diff", "class"], ["auto_regression", "自动化回归", "class"], ["case_matrix", "用例矩阵", "class"], ["compute", "算力", "class"], ["complexity", "复杂度", "class"],
-  ["requirement_change", "需求变更", "class"], ["priority", "优先级", "class"], ["meeting_minutes_boost", "会议纪要", "class"], ["scope_spread", "范围蔓延", "class"], ["performance", "绩效", "class"], ["optimization_target", "优化名单", "class"],
+  ["requirement_change", "需求变更", "class"], ["priority", "优先级", "class"], ["meeting_minutes_boost", "会议纪要", "class"], ["pm_review", "需求评审", "class"], ["scope_spread", "范围蔓延", "class"], ["performance", "绩效", "class"], ["optimization_target", "优化名单", "class"],
 ];
 const statusTimingHooks = {
   anxiety: ["round_start", "expire"],
@@ -797,6 +803,7 @@ const statusTimingHooks = {
   priority: ["target_resolution"],
   requirement_change: ["apply_status", "enemy_before_action", "modify_intent"],
   meeting_minutes_boost: ["apply_status", "modify_intent"],
+  pm_review: ["modify_intent", "round_start"],
   scope_spread: ["apply_status"],
 };
 const statusParams = {
@@ -813,6 +820,10 @@ const statusParams = {
   meeting_minutes_boost: {
     requirement_change_bonus: 1,
     intent_reduction_bonus: 2,
+  },
+  pm_review: {
+    block_amount: 4,
+    draw_amount: 1,
   },
   api_gateway: {
     block_amount: 4,

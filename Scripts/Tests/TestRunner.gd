@@ -567,6 +567,11 @@ func _validate_config_references(config, content) -> void:
 	var meeting_minutes_params: Dictionary = config.get_def("statuses", "meeting_minutes_boost").get("params", {})
 	_check(int(meeting_minutes_params.get("requirement_change_bonus", 0)) > 0, "meeting minutes boost config has requirement bonus")
 	_check(int(meeting_minutes_params.get("intent_reduction_bonus", 0)) > 0, "meeting minutes boost config has intent bonus")
+	_check(config.get_def("statuses", "pm_review").get("timing_hooks", []).has("modify_intent"), "pm review declares intent hook")
+	_check(config.get_def("statuses", "pm_review").get("timing_hooks", []).has("round_start"), "pm review declares round reset hook")
+	var pm_review_params: Dictionary = config.get_def("statuses", "pm_review").get("params", {})
+	_check(int(pm_review_params.get("block_amount", 0)) > 0, "pm review config has block amount")
+	_check(int(pm_review_params.get("draw_amount", 0)) > 0, "pm review config has draw amount")
 	_check(config.get_def("statuses", "scope_spread").get("timing_hooks", []).has("apply_status"), "scope spread declares status hook")
 	var scope_params: Dictionary = config.get_def("statuses", "scope_spread").get("params", {})
 	_check(int(scope_params.get("spread_amount", 0)) > 0, "scope spread config has spread amount")
@@ -686,6 +691,18 @@ func _validate_config_references(config, content) -> void:
 			revision_notice_blocks = true
 	_check(revision_notice_applies_requirement, "pm revision notice applies requirement change")
 	_check(not revision_notice_blocks, "pm revision notice does not use generic block")
+	_check(content.card_def("card_pm_review").get("target_type", "") == "self", "pm review targets self")
+	var pm_review_entries: Array = content.effect_entries(content.card_def("card_pm_review").get("effect_group_id", ""))
+	var pm_review_applies_status := false
+	var pm_review_generic_blocks := false
+	for entry in pm_review_entries:
+		var params: Dictionary = entry.get("params", {})
+		if entry.get("effect_type", "") == "apply_status" and entry.get("target_type", "") == "self" and params.get("status_id", "") == "pm_review":
+			pm_review_applies_status = true
+		if entry.get("effect_type", "") == "gain_block":
+			pm_review_generic_blocks = true
+	_check(pm_review_applies_status, "pm review applies review status")
+	_check(not pm_review_generic_blocks, "pm review is not generic block")
 	_check(content.card_def("card_pm_delay_meeting").get("target_type", "") == "selected", "pm delay meeting targets selected enemy")
 	var delay_meeting_entries: Array = content.effect_entries(content.card_def("card_pm_delay_meeting").get("effect_group_id", ""))
 	var delay_meeting_delays := false
@@ -1815,6 +1832,40 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(meeting_revision_enemy.get("status_list", {}).get("requirement_change", 0)) == 2, "pm meeting minutes strengthens revision notice")
 	_check(int(player.get("status_list", {}).get("meeting_minutes_boost", 0)) == 0, "pm revision boost is consumed")
 	_check(int(player.get("class_resource_state", {}).get("requirement_change_marks", 0)) == 2, "pm boosted revision syncs requirement resource")
+
+	run = run_session.create_new_run("product_manager")
+	run["owned_relic_ids"] = []
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	var review_enemy: Dictionary = battle.battle_state.get("enemies", [])[0]
+	review_enemy["intent"] = { "intent_type": "attack", "amount": 12 }
+	player["hand"] = ["card_pm_review"]
+	player["draw_pile"] = []
+	player["discard_pile"] = []
+	player["current_energy"] = 3
+	player["current_block"] = 0
+	player["status_list"] = {}
+	battle.play_card(run, 0, 0)
+	_check(int(player.get("status_list", {}).get("pm_review", 0)) == 1, "pm review status is applied")
+	_check(int(player.get("current_block", 0)) == 0, "pm review does not grant immediate block")
+	player["draw_pile"] = ["card_pm_change_wording", "card_pm_priority_shuffle"]
+	executor.execute([{ "effect_type": "modify_intent", "target_type": "selected", "params": { "amount": -2 } }], battle.battle_state, run, 0, battle.battle_state["log"])
+	_check(int(player.get("current_block", 0)) == 4, "pm review grants block on first intent change")
+	_check(player.get("hand", []).has("card_pm_priority_shuffle"), "pm review draws on first intent change")
+	_check(bool(player.get("relic_runtime_flags", {}).get("pm_review_used_this_turn", false)), "pm review records turn trigger")
+	var review_hand_after_first := int(player.get("hand", []).size())
+	executor.execute([{ "effect_type": "modify_intent", "target_type": "selected", "params": { "amount": -2 } }], battle.battle_state, run, 0, battle.battle_state["log"])
+	_check(int(player.get("current_block", 0)) == 4, "pm review triggers only once per turn")
+	_check(int(player.get("hand", []).size()) == review_hand_after_first, "pm review does not draw twice in one turn")
+	player["hand"] = []
+	player["draw_pile"] = []
+	player["discard_pile"] = []
+	battle.call("_start_player_turn", run, false)
+	review_enemy["intent"] = { "intent_type": "attack", "amount": 12 }
+	player["draw_pile"] = ["card_pm_revision_notice"]
+	executor.execute([{ "effect_type": "modify_intent", "target_type": "selected", "params": { "amount": -2 } }], battle.battle_state, run, 0, battle.battle_state["log"])
+	_check(int(player.get("current_block", 0)) == 4, "pm review resets next turn and grants block again")
+	_check(player.get("hand", []).has("card_pm_revision_notice"), "pm review draws again after round reset")
 
 	run = run_session.create_new_run("product_manager")
 	run["owned_relic_ids"] = []

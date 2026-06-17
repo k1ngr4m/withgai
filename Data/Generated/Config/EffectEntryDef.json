@@ -2445,17 +2445,7 @@
     "target_type": "self",
     "params": {
       "amount": 1,
-      "status_id": "priority"
-    }
-  },
-  {
-    "id": "eg_card_pm_review_e02",
-    "effect_group_id": "eg_card_pm_review",
-    "order": 2,
-    "effect_type": "draw_cards",
-    "target_type": "self",
-    "params": {
-      "amount": 1
+      "status_id": "pm_review"
     }
   },
   {

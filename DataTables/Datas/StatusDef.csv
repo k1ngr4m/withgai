@@ -30,6 +30,7 @@
 ,requirement_change,需求变更,stack,"[""apply_status"",""enemy_before_action"",""modify_intent""]","{""intent_amount_reduction"":4,""consume_per_action"":1}",,99,false,class
 ,priority,优先级,stack,"[""target_resolution""]",{},,99,false,class
 ,meeting_minutes_boost,会议纪要,stack,"[""apply_status"",""modify_intent""]","{""requirement_change_bonus"":1,""intent_reduction_bonus"":2}",,99,true,class
+,pm_review,需求评审,stack,"[""modify_intent"",""round_start""]","{""block_amount"":4,""draw_amount"":1}",,99,false,class
 ,scope_spread,范围蔓延,stack,"[""apply_status""]","{""spread_amount"":1}",,99,false,class
 ,performance,绩效,stack,[],{},,99,false,class
 ,optimization_target,优化名单,stack,[],{},,99,false,class

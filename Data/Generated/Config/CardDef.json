@@ -2291,7 +2291,7 @@
     "effect_group_id": "eg_card_pm_review",
     "upgrade_to": "card_pm_review_plus",
     "enabled_in_first_playable": true,
-    "description": "需求评审：建立长期收益。",
+    "description": "需求评审：建立长期状态，每回合首次改写敌方意图时获得防线并抽牌。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_pm_review_v1/final.png"
   },
   {

@@ -210,6 +210,10 @@
   - generated config uses `reroll_intent` on `all_enemies` instead of generic block/intent reduction filler
   - runtime rerolls each live enemy's current intent from its configured intent group
   - rerolling clears delayed and observed next-intent flags so stale schedules do not override the reset
+- Product manager `card_pm_review` now works as the designed recurring intent-change payoff:
+  - generated config applies a visible `pm_review` status instead of generic priority/block filler
+  - the first intent change each player turn grants configured block and draw
+  - delaying, splitting, direct intent reduction, and all-enemy rerolls now share the same intent-change trigger path
 - Product manager `requirement_change` now has live enemy-action rewriting:
   - `StatusDef.params` configures intent amount reduction and per-action stack consumption.
   - before affected enemies act, attack / multi-attack / block / debuff intent amounts are reduced.
@@ -311,6 +315,7 @@ Result:
 - Godot test runner now checks product manager `card_pm_delay_meeting` and `card_pm_milestone_split` generated effects, selected targeting, no-generic-block behavior, forced next-turn delayed intent, and high-attack split intent output.
 - Godot test runner now checks product manager `card_pm_roadmap` generated priority-target payoff params, live requirement-change damage scaling, priority targeting, no-generic-mark behavior, and card-cost charge.
 - Godot test runner now checks product manager `card_pm_align_all` generated all-enemy reroll effect, live current-intent rerolling, delayed/observed flag clearing, no-generic-block behavior, and card-cost charge.
+- Godot test runner now checks product manager `card_pm_review` generated status, `pm_review` status params/hooks, first intent-change block/draw, once-per-turn gating, and next-turn reset.
 - Godot test runner now checks product manager `requirement_change` status params, enemy-action intent reduction, stack consumption, and resource sync after consumption.
 - Godot test runner now checks `relic_pm_meeting_room_claim` config, first requirement-change boost, once-per-turn gating, next-turn reset, and boosted resource sync.
 - Godot test runner now checks `scope_spread` config, `card_pm_scope_spread` generated effect, requirement-change spread to another enemy, and spread resource sync.

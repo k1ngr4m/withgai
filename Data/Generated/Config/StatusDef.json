@@ -417,6 +417,23 @@
     "type": "class"
   },
   {
+    "id": "pm_review",
+    "name": "需求评审",
+    "stack_rule": "stack",
+    "timing_hooks": [
+      "modify_intent",
+      "round_start"
+    ],
+    "params": {
+      "block_amount": 4,
+      "draw_amount": 1
+    },
+    "effect_group_id": "",
+    "max_stack": 99,
+    "is_hidden": false,
+    "type": "class"
+  },
+  {
     "id": "scope_spread",
     "name": "范围蔓延",
     "stack_rule": "stack",
