@@ -15,6 +15,9 @@
   - backend remains highlighted as the only playable launch option in the current scope
   - frontend, tester, algorithm, and product manager stay visible as muted locked placeholders
   - the top-bar status summarizes playable versus placeholder careers
+- Main menu now has a playable-facing briefing panel and safer responsive layout:
+  - the primary action column shows duty target, runnable/placeholder career counts, and current KPI risk
+  - short displays switch into the scrollable compact menu earlier to keep primary actions reachable
 - Main menu now includes an in-game settings overlay:
   - `OptionsButton` opens a modal panel from the primary action column
   - players can toggle fullscreen/windowed mode and adjust the master audio volume
@@ -25,6 +28,9 @@
   - backend public runs still create normally
   - locked placeholder careers return an empty run and preserve any active backend run
   - automated placeholder-career mechanics coverage must opt in explicitly with `allow_locked=true`
+- New-run entry points now reset stale runtime state before creating a backend run:
+  - main-menu quick start and class-select start both call `AppRoot.reset_run()`
+  - starting over from a paused battle no longer carries old `BattleService` memory into the new map
 - Event and shop node pages now persist their prepared state for interruption recovery:
   - entering an event saves the selected event id after preparation
   - entering the shop saves rolled stock after preparation

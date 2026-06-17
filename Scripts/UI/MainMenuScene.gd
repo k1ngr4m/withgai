@@ -2,7 +2,7 @@ extends Control
 
 const MAIN_BG := "res://Resources/Art/Generated/P0/backgrounds/ui_main_menu_bg_v1.png"
 const COMPACT_BREAKPOINT := 900.0
-const SHORT_BREAKPOINT := 620.0
+const SHORT_BREAKPOINT := 860.0
 const BUILD_LABEL := "后端首个可玩"
 const MENU_WIDTH := 384.0
 const DESKTOP_MARGIN := 44
@@ -330,6 +330,10 @@ func _menu_panel(compact := false) -> PanelContainer:
 	copy.custom_minimum_size = Vector2(260, 44)
 	box.add_child(copy)
 
+	var briefing := _menu_briefing_panel(compact)
+	briefing.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	box.add_child(briefing)
+
 	var badges := _playable_class_badge_row(compact)
 	badges.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	box.add_child(badges)
@@ -421,6 +425,48 @@ func _save_status_card() -> PanelContainer:
 	box.add_child(_record_row("窝囊费", str(currency)))
 	box.add_child(_record_row("最高楼层", "%dF" % floor_record))
 	return panel
+
+
+func _menu_briefing_panel(compact := false) -> PanelContainer:
+	var panel := _panel(Color(0.032, 0.056, 0.064, 0.78), Color(0.52, 0.82, 0.82, 0.44), 7)
+	panel.name = "MainMenuBriefingPanel"
+	var pad := _pad(11 if compact else 12)
+	panel.add_child(pad)
+
+	var box := UiFactory.vbox(5)
+	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	pad.add_child(box)
+
+	var header := UiFactory.hbox(8)
+	header.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	box.add_child(header)
+	header.add_child(_nowrap_label("值班简报", 15, Color(0.88, 0.97, 1.0), 72))
+	var spacer := Control.new()
+	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	header.add_child(spacer)
+	header.add_child(_nowrap_label("今晚", 12, Color(0.62, 0.76, 0.78), 34))
+
+	box.add_child(_briefing_line("本班目标", "从 1F 爬到顶层"))
+	box.add_child(_briefing_line("值班职业", "%d 可出战 / %d 占位" % [_playable_class_count(), _placeholder_class_count(false)]))
+	box.add_child(_briefing_line("当前风险", String(_risk_state().get("label", "稳定"))))
+	return panel
+
+
+func _briefing_line(label_text: String, value_text: String) -> Control:
+	var row := UiFactory.hbox(8)
+	row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var label := _label(label_text, 12, Color(0.60, 0.74, 0.77))
+	label.autowrap_mode = TextServer.AUTOWRAP_OFF
+	label.clip_text = true
+	label.custom_minimum_size = Vector2(64, 19)
+	row.add_child(label)
+	var value := _label(value_text, 12, Color(0.82, 0.94, 0.95))
+	value.autowrap_mode = TextServer.AUTOWRAP_OFF
+	value.clip_text = true
+	value.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	value.custom_minimum_size = Vector2(144, 19)
+	row.add_child(value)
+	return row
 
 
 func _broadcast_strip(compact := false) -> PanelContainer:
@@ -1080,6 +1126,21 @@ func _status_chip(text: String) -> PanelContainer:
 
 
 func _risk_chip(compact := false) -> PanelContainer:
+	var risk_state := _risk_state()
+	var risk := String(risk_state.get("label", "稳定"))
+	var accent: Color = risk_state.get("accent", Color(0.58, 0.96, 0.82))
+	var chip := _panel(Color(0.04, 0.07, 0.08, 0.70), Color(accent.r, accent.g, accent.b, 0.48), 6)
+	var pad := _pad(8)
+	chip.add_child(pad)
+	var label := _label("KPI风险 %s" % risk, 12 if compact else 13, Color(accent.r, accent.g, accent.b, 0.94))
+	label.autowrap_mode = TextServer.AUTOWRAP_OFF
+	label.custom_minimum_size = Vector2(92, 18)
+	label.clip_text = true
+	pad.add_child(label)
+	return chip
+
+
+func _risk_state() -> Dictionary:
 	var risk := "稳定"
 	var accent := Color(0.58, 0.96, 0.82)
 	var app = _app_root()
@@ -1096,15 +1157,10 @@ func _risk_chip(compact := false) -> PanelContainer:
 		elif hp <= 42 or current_floor >= 7:
 			risk = "攀升"
 			accent = Color(0.94, 0.76, 0.38)
-	var chip := _panel(Color(0.04, 0.07, 0.08, 0.70), Color(accent.r, accent.g, accent.b, 0.48), 6)
-	var pad := _pad(8)
-	chip.add_child(pad)
-	var label := _label("KPI风险 %s" % risk, 12 if compact else 13, Color(accent.r, accent.g, accent.b, 0.94))
-	label.autowrap_mode = TextServer.AUTOWRAP_OFF
-	label.custom_minimum_size = Vector2(92, 18)
-	label.clip_text = true
-	pad.add_child(label)
-	return chip
+	return {
+		"label": risk,
+		"accent": accent,
+	}
 
 
 func _label(text: String, font_size := 18, color := Color.WHITE) -> Label:
@@ -1519,6 +1575,7 @@ func _start_class_from_menu(class_id: String) -> void:
 		return
 	if not app.meta_service.is_class_playable(class_id):
 		return
+	app.reset_run()
 	var run: Dictionary = app.run_session.create_new_run(class_id)
 	if run.is_empty():
 		return

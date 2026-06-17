@@ -64,6 +64,7 @@ func _availability_color(cls: Dictionary) -> Color:
 func _start_class(class_id: String) -> void:
 	if not AppRoot.meta_service.is_class_playable(class_id):
 		return
+	AppRoot.reset_run()
 	var run: Dictionary = AppRoot.run_session.create_new_run(class_id)
 	if run.is_empty():
 		return
