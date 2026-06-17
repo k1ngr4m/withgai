@@ -12,6 +12,10 @@
   - quick-start spotlight, playable badges, and the duty board only count runnable classes
   - locked careers keep their art, summary, unlock tree cards, and disabled start buttons
 - Reward, shop, event, rest, save, and meta tests now validate the public full chain through backend while retaining internal mechanics coverage for the placeholder careers.
+- `RunSession.create_new_run()` now enforces public career availability at the service layer:
+  - backend public runs still create normally
+  - locked placeholder careers return an empty run and preserve any active backend run
+  - automated placeholder-career mechanics coverage must opt in explicitly with `allow_locked=true`
 
 ## 2026-06-16
 

@@ -32,6 +32,7 @@ func _init() -> void:
 	reward_service.call("setup", content, map, meta)
 	_validate_main_menu_scene()
 	_validate_config_references(config, content)
+	_validate_run_class_locks(config, map, meta)
 	for class_id in ["backend"]:
 		var run := run_session.create_new_run(class_id)
 		_check(run.get("deck_state", {}).get("master_deck", []).size() == 10, "%s starter deck" % class_id)
@@ -120,6 +121,7 @@ func _validate_config_references(config, content) -> void:
 		if config.get_def("effect_groups", entry.get("effect_group_id", "")).is_empty():
 			orphan_effect_entries += 1
 	_check(orphan_effect_entries == 0, "effect entries resolve parent groups")
+
 	var enemies_missing_intents := 0
 	var enemies_missing_rewards := 0
 	var enemies_missing_art := 0
@@ -850,6 +852,20 @@ func _validate_config_references(config, content) -> void:
 	_check(content.phase_entries_for_enemy("boss_mutant_ceo").size() >= 3, "ceo boss phase group resolves")
 	_check(content.phase_entries_for_enemy("elite_outsource_manager").size() >= 1, "elite phase group resolves")
 
+func _validate_run_class_locks(config, map, meta) -> void:
+	var run_session = RunSessionScript.new()
+	run_session.call("setup", config, map, meta)
+	var backend_run: Dictionary = run_session.create_new_run("backend")
+	_check(not backend_run.is_empty(), "run session creates backend public run")
+	for class_id in ["frontend", "tester", "algorithm", "product_manager", "hr"]:
+		var locked_run: Dictionary = run_session.create_new_run(class_id)
+		_check(locked_run.is_empty(), "%s public run creation is locked" % class_id)
+		_check(String(run_session.run_state.get("selected_class_id", "")) == "backend", "%s locked creation preserves active run" % class_id)
+		var internal_run: Dictionary = run_session.create_new_run(class_id, true)
+		_check(not internal_run.is_empty(), "%s internal coverage run can still be created" % class_id)
+		_check(String(run_session.run_state.get("selected_class_id", "")) == class_id, "%s internal run updates active run" % class_id)
+		run_session.create_new_run("backend")
+
 func _validate_class_resources(class_id: String) -> void:
 	var battle = BattleServiceScript.new()
 	var resources = battle.call("_initial_class_resources", class_id)
@@ -941,7 +957,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	battle.call("_round_start_triggers", run, false)
 	_check(player.get("hand", []).has("card_backend_interface_probe"), "backend api gateway draws with enough services")
 
-	run = run_session.create_new_run("frontend")
+	run = run_session.create_new_run("frontend", true)
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
 	player["hand"] = ["card_shared_coffee_boost", "card_shared_coffee_boost", "card_shared_coffee_boost"]
@@ -952,7 +968,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 		battle.play_card(run, 0, 0)
 	_check(int(player.get("class_resource_state", {}).get("style_layers", 0)) >= 1, "frontend design link grants style layer on third card")
 
-	run = run_session.create_new_run("frontend")
+	run = run_session.create_new_run("frontend", true)
 	run["owned_relic_ids"] = []
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
@@ -969,7 +985,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	battle.play_card(run, 0, 0)
 	_check(int(pixel_tap_enemy.get("current_hp", 0)) == 40, "frontend pixel tap deals base damage as first card")
 
-	run = run_session.create_new_run("frontend")
+	run = run_session.create_new_run("frontend", true)
 	run["owned_relic_ids"] = []
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
@@ -986,7 +1002,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	battle.play_card(run, 0, 0)
 	_check(int(pixel_tap_enemy.get("current_hp", 0)) == 37, "frontend pixel tap adds light damage after another card")
 
-	run = run_session.create_new_run("frontend")
+	run = run_session.create_new_run("frontend", true)
 	run["owned_relic_ids"].append("relic_figma_library")
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
@@ -996,7 +1012,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(components_after_first == 2, "figma library duplicates first component")
 	_check(int(player.get("class_resource_state", {}).get("components", 0)) == 3, "figma library triggers only once")
 
-	run = run_session.create_new_run("frontend")
+	run = run_session.create_new_run("frontend", true)
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
 	player["hand"] = ["card_frontend_component_reuse"]
@@ -1008,7 +1024,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(player.get("class_resource_state", {}).get("components", 0)) == 3, "frontend component reuse copies existing component")
 	_check(player.get("hand", []).has("card_frontend_pixel_tap"), "frontend component reuse draws after copy")
 
-	run = run_session.create_new_run("frontend")
+	run = run_session.create_new_run("frontend", true)
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
 	player["hand"] = ["card_frontend_component_reuse"]
@@ -1020,7 +1036,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(player.get("class_resource_state", {}).get("components", 0)) == 0, "frontend component reuse needs an existing component")
 	_check(not player.get("hand", []).has("card_frontend_pixel_tap"), "frontend component reuse does not draw without copy")
 
-	run = run_session.create_new_run("frontend")
+	run = run_session.create_new_run("frontend", true)
 	run["owned_relic_ids"] = []
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
@@ -1038,7 +1054,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(player.get("class_resource_state", {}).get("style_layers", 0)) == 0, "frontend flex layout does not create style layers")
 	_check(int(player.get("current_energy", 0)) == 2, "frontend flex layout charges card cost")
 
-	run = run_session.create_new_run("frontend")
+	run = run_session.create_new_run("frontend", true)
 	run["owned_relic_ids"] = []
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
@@ -1057,7 +1073,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(player.get("current_block", 0)) == 0, "frontend slice sprint does not grant block")
 	_check(int(player.get("current_energy", 0)) == 0, "frontend slice sprint stays zero cost")
 
-	run = run_session.create_new_run("frontend")
+	run = run_session.create_new_run("frontend", true)
 	run["owned_relic_ids"] = []
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
@@ -1082,7 +1098,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(player.get("status_list", {}).get("hotfix_style", 0)) == 0, "frontend hotfix style is consumed by attack")
 	_check(int(player.get("class_resource_state", {}).get("style_layers", 0)) == 0, "frontend hotfix style uses virtual style layer")
 
-	run = run_session.create_new_run("frontend")
+	run = run_session.create_new_run("frontend", true)
 	run["owned_relic_ids"] = []
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
@@ -1095,7 +1111,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	battle.call("_tick_player_turn_end_statuses", player)
 	_check(int(player.get("status_list", {}).get("hotfix_style", 0)) == 0, "frontend hotfix style expires at turn end")
 
-	run = run_session.create_new_run("frontend")
+	run = run_session.create_new_run("frontend", true)
 	run["owned_relic_ids"] = []
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
@@ -1111,7 +1127,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(player.get("class_resource_state", {}).get("components", 0)) == 0, "frontend pixel align does not generate components")
 	_check(not player.get("hand", []).has("card_frontend_pixel_tap"), "frontend pixel align does not draw")
 
-	run = run_session.create_new_run("frontend")
+	run = run_session.create_new_run("frontend", true)
 	run["owned_relic_ids"] = []
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
@@ -1126,7 +1142,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(player.get("current_block", 0)) == 9, "frontend pixel align gains bonus block with component")
 	_check(int(player.get("class_resource_state", {}).get("components", 0)) == 2, "frontend pixel align keeps existing components")
 
-	run = run_session.create_new_run("frontend")
+	run = run_session.create_new_run("frontend", true)
 	run["owned_relic_ids"] = []
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
@@ -1150,7 +1166,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	battle.call("_tick_player_turn_end_statuses", player)
 	_check(int(player.get("status_list", {}).get("compatibility_patch", 0)) == 0, "frontend compatibility patch expires at turn end")
 
-	run = run_session.create_new_run("frontend")
+	run = run_session.create_new_run("frontend", true)
 	run["owned_relic_ids"] = []
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
@@ -1168,7 +1184,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(state_boost_enemy.get("current_hp", 0)) == 36, "frontend state boost buffs the fourth card")
 	_check(int(player.get("class_resource_state", {}).get("style_layers", 0)) == 0, "frontend state boost style layer is consumed by attack")
 
-	run = run_session.create_new_run("frontend")
+	run = run_session.create_new_run("frontend", true)
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
 	player["hand"] = ["card_frontend_vue_suite"]
@@ -1182,7 +1198,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	battle.call("_round_start_triggers", run, false)
 	_check(int(player.get("class_resource_state", {}).get("components", 0)) == 1, "frontend vue suite creates a component on round start")
 
-	run = run_session.create_new_run("frontend")
+	run = run_session.create_new_run("frontend", true)
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
 	var motion_enemy: Dictionary = battle.battle_state.get("enemies", [])[0]
@@ -1198,7 +1214,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	battle.play_card(run, 0, 0)
 	_check(int(motion_enemy.get("current_hp", 0)) == 32, "frontend motion overload uses current turn play count")
 
-	run = run_session.create_new_run("frontend")
+	run = run_session.create_new_run("frontend", true)
 	run["owned_relic_ids"] = []
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
@@ -1224,7 +1240,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(player.get("status_list", {}).get("first_screen_optimization", 0)) == 0, "frontend first screen consumes both discounts")
 	_check(battle.hand_card_cost(0) == 1, "frontend first screen does not discount third following card")
 
-	run = run_session.create_new_run("frontend")
+	run = run_session.create_new_run("frontend", true)
 	run["owned_relic_ids"] = []
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
@@ -1240,7 +1256,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	battle.end_turn(run)
 	_check(int(player.get("status_list", {}).get("first_screen_optimization", 0)) == 0, "frontend first screen expires at turn end")
 
-	run = run_session.create_new_run("frontend")
+	run = run_session.create_new_run("frontend", true)
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
 	var crash_enemy: Dictionary = battle.battle_state.get("enemies", [])[0]
@@ -1256,7 +1272,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(crash_enemy.get("current_hp", 0)) == 35, "frontend crash animation converts style layers into extra hits")
 	_check(int(player.get("class_resource_state", {}).get("style_layers", 0)) == 0, "frontend crash animation consumes all style layers")
 
-	run = run_session.create_new_run("product_manager")
+	run = run_session.create_new_run("product_manager", true)
 	run["owned_relic_ids"] = ["relic_gantt_roadmap"]
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
@@ -1270,7 +1286,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(gantt_hand_after_first == 1, "gantt roadmap draws on first intent change")
 	_check(int(player.get("hand", []).size()) == 1, "gantt roadmap triggers only once")
 
-	run = run_session.create_new_run("product_manager")
+	run = run_session.create_new_run("product_manager", true)
 	run["owned_relic_ids"] = ["relic_pm_meeting_room_claim"]
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
@@ -1289,7 +1305,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	executor.execute([{ "effect_type": "apply_status", "target_type": "selected", "params": { "status_id": "requirement_change", "amount": 1 } }], battle.battle_state, run, 0, battle.battle_state["log"])
 	_check(int(claim_enemy.get("status_list", {}).get("requirement_change", 0)) == 5, "meeting room claim resets on next turn")
 
-	run = run_session.create_new_run("algorithm")
+	run = run_session.create_new_run("algorithm", true)
 	run["owned_relic_ids"] = ["relic_paper_citation"]
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
@@ -1300,7 +1316,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	executor.execute([{ "effect_type": "deal_damage", "target_type": "selected", "params": { "amount": 5 } }], battle.battle_state, run, 0, battle.battle_state["log"])
 	_check(int(paper_enemy.get("current_hp", 0)) == 42, "paper citation adds damage at high complexity")
 
-	run = run_session.create_new_run("algorithm")
+	run = run_session.create_new_run("algorithm", true)
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
 	player["class_resource_state"]["compute"] = 0
@@ -1309,7 +1325,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(player.get("class_resource_state", {}).get("compute", 0)) == 2, "algorithm compute gain adds compute")
 	_check(int(player.get("class_resource_state", {}).get("complexity", 0)) == 2, "algorithm compute gain raises complexity")
 
-	run = run_session.create_new_run("algorithm")
+	run = run_session.create_new_run("algorithm", true)
 	run["owned_relic_ids"].append("relic_gpu_training_card")
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
@@ -1504,7 +1520,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(flush_enemy.get("current_hp", 0)) == 54, "backend flush all spends cache for damage")
 	_check(int(player.get("class_resource_state", {}).get("cache", 0)) == 0, "backend flush all consumes stored cache")
 
-	run = run_session.create_new_run("frontend")
+	run = run_session.create_new_run("frontend", true)
 	run["owned_relic_ids"].append("relic_standing_desk")
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
@@ -1542,7 +1558,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(_count_card(run.get("deck_state", {}).get("master_deck", []), "card_backend_circuit_breaker") == circuit_count_before - 1, "executor remove card updates run deck")
 	_check(run.get("deck_state", {}).get("removed_cards", []).has("card_backend_circuit_breaker"), "executor remove card records removed card")
 
-	run = run_session.create_new_run("tester")
+	run = run_session.create_new_run("tester", true)
 	battle = _start_first_battle(run, content, map, executor)
 	var enemies: Array = battle.battle_state.get("enemies", [])
 	if enemies.size() == 1:
@@ -1600,7 +1616,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(tester_resources.get("diff_tags", 0)) == 1, "diff resource decrements after reproduction")
 	_check(int(battle.battle_state["enemies"][0].get("intent", {}).get("amount", 0)) == 4, "diff-boosted bug weakens intent by final bug amount")
 
-	run = run_session.create_new_run("tester")
+	run = run_session.create_new_run("tester", true)
 	run["owned_relic_ids"] = []
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
@@ -1618,7 +1634,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(player.get("class_resource_state", {}).get("diff_tags", 0)) == 0, "tester fatal bug submission syncs consumed diff")
 	_check(int(fatal_bug_enemy.get("intent", {}).get("amount", 0)) == 2, "tester fatal bug submission weakens intent per injected bug")
 
-	run = run_session.create_new_run("tester")
+	run = run_session.create_new_run("tester", true)
 	run["owned_relic_ids"] = []
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
@@ -1648,7 +1664,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(boundary_enemy.get("status_list", {}).get("case_mark", 0)) == 2, "tester boundary check adds bonus case to high attack target")
 	_check(int(player.get("class_resource_state", {}).get("cases", 0)) == 2, "tester boundary check syncs high attack bonus cases")
 
-	run = run_session.create_new_run("tester")
+	run = run_session.create_new_run("tester", true)
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
 	var report_enemy: Dictionary = battle.battle_state.get("enemies", [])[0]
@@ -1660,7 +1676,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	battle.play_card(run, 0, 0)
 	_check(int(report_enemy.get("current_hp", 0)) == 57, "tester report lock scales bug case and diff damage")
 
-	run = run_session.create_new_run("tester")
+	run = run_session.create_new_run("tester", true)
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
 	var regression_enemy: Dictionary = battle.battle_state.get("enemies", [])[0]
@@ -1677,7 +1693,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(regression_enemy.get("status_list", {}).get("case_mark", 0)) == 1, "tester auto regression adds case to bugged target")
 	_check(int(player.get("class_resource_state", {}).get("cases", 0)) == 1, "tester auto regression syncs case resource")
 
-	run = run_session.create_new_run("tester")
+	run = run_session.create_new_run("tester", true)
 	run["owned_relic_ids"] = []
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
@@ -1698,7 +1714,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	executor.execute([{ "effect_type": "upgrade_bug", "target_type": "selected", "params": { "amount": 1 } }], battle.battle_state, run, 0, battle.battle_state["log"])
 	_check(int(upgrade_enemy.get("status_list", {}).get("bug", 0)) == 0, "tester bug upgrade needs an existing bug")
 
-	run = run_session.create_new_run("tester")
+	run = run_session.create_new_run("tester", true)
 	run["owned_relic_ids"] = []
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
@@ -1718,7 +1734,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(confirm_enemy.get("status_list", {}).get("diff", 0)) == 0, "tester regression confirm needs an existing case")
 	_check(int(player.get("hand", []).size()) == confirm_hand_size, "tester regression confirm does not draw without case")
 
-	run = run_session.create_new_run("tester")
+	run = run_session.create_new_run("tester", true)
 	run["owned_relic_ids"] = []
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
@@ -1743,7 +1759,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 		_check(smoke_enemy.get("intent", {}) == observed_intent, "tester smoke test next intent resolves from preview")
 		_check(not smoke_enemy.get("runtime_flags", {}).has("observed_next_intent"), "tester smoke test preview is consumed")
 
-	run = run_session.create_new_run("tester")
+	run = run_session.create_new_run("tester", true)
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
 	var matrix_enemy: Dictionary = battle.battle_state.get("enemies", [])[0]
@@ -1762,7 +1778,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	executor.execute([{ "effect_type": "add_case", "target_type": "selected", "params": { "amount": 1 } }], battle.battle_state, run, 0, battle.battle_state["log"])
 	_check(int(matrix_enemy.get("status_list", {}).get("case_mark", 0)) == 5, "tester case matrix resets on next turn")
 
-	run = run_session.create_new_run("frontend")
+	run = run_session.create_new_run("frontend", true)
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
 	var style_enemy: Dictionary = battle.battle_state.get("enemies", [])[0]
@@ -1781,7 +1797,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(style_enemy.get("current_hp", 0)) == 42, "style layer status boosts damage")
 	_check(int(player.get("status_list", {}).get("style_layer", 0)) == 2, "style layer status is consumed after damage")
 
-	run = run_session.create_new_run("product_manager")
+	run = run_session.create_new_run("product_manager", true)
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
 	player["draw_pile"] = ["card_pm_change_wording"]
@@ -1814,7 +1830,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(battle.battle_state["enemies"][1].get("current_hp", 0)) < 50, "pm priority attack hits highest priority target")
 	_check(int(battle.battle_state["enemies"][1].get("status_list", {}).get("requirement_change", 0)) >= 1, "pm priority attack marks hit target")
 
-	run = run_session.create_new_run("product_manager")
+	run = run_session.create_new_run("product_manager", true)
 	run["owned_relic_ids"] = []
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
@@ -1838,7 +1854,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(change_wording_enemies[1].get("intent", {}).get("amount", 0)) == 6, "pm change wording lowers selected attack intent")
 	_check(int(player.get("current_block", 0)) == 0, "pm change wording does not grant generic block")
 
-	run = run_session.create_new_run("product_manager")
+	run = run_session.create_new_run("product_manager", true)
 	run["owned_relic_ids"] = []
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
@@ -1858,7 +1874,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(meeting_change_enemy.get("intent", {}).get("amount", 0)) == 4, "pm meeting minutes strengthens next wording change")
 	_check(int(player.get("status_list", {}).get("meeting_minutes_boost", 0)) == 0, "pm wording boost is consumed")
 
-	run = run_session.create_new_run("product_manager")
+	run = run_session.create_new_run("product_manager", true)
 	run["owned_relic_ids"] = []
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
@@ -1882,7 +1898,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(player.get("class_resource_state", {}).get("requirement_change_marks", 0)) == 1, "pm revision notice syncs requirement resource")
 	_check(int(player.get("current_block", 0)) == 0, "pm revision notice does not grant generic block")
 
-	run = run_session.create_new_run("product_manager")
+	run = run_session.create_new_run("product_manager", true)
 	run["owned_relic_ids"] = []
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
@@ -1900,7 +1916,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(player.get("status_list", {}).get("meeting_minutes_boost", 0)) == 0, "pm revision boost is consumed")
 	_check(int(player.get("class_resource_state", {}).get("requirement_change_marks", 0)) == 2, "pm boosted revision syncs requirement resource")
 
-	run = run_session.create_new_run("product_manager")
+	run = run_session.create_new_run("product_manager", true)
 	run["owned_relic_ids"] = []
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
@@ -1934,7 +1950,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(player.get("current_block", 0)) == 4, "pm review resets next turn and grants block again")
 	_check(player.get("hand", []).has("card_pm_revision_notice"), "pm review draws again after round reset")
 
-	run = run_session.create_new_run("product_manager")
+	run = run_session.create_new_run("product_manager", true)
 	run["owned_relic_ids"] = []
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
@@ -1964,7 +1980,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(delay_enemies[1].get("intent", {}).get("amount", 0)) == 18, "pm delayed intent preserves original amount")
 	_check(not delay_enemies[1].get("runtime_flags", {}).has("forced_next_intent"), "pm delayed intent is consumed after return")
 
-	run = run_session.create_new_run("product_manager")
+	run = run_session.create_new_run("product_manager", true)
 	run["owned_relic_ids"] = []
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
@@ -1983,7 +1999,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(split_enemy.get("intent", {}).get("amount", 0)) == 6, "pm milestone split lowers each hit amount")
 	_check(int(player.get("current_block", 0)) == 0, "pm milestone split does not grant generic block")
 
-	run = run_session.create_new_run("product_manager")
+	run = run_session.create_new_run("product_manager", true)
 	run["owned_relic_ids"] = []
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
@@ -2011,7 +2027,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(roadmap_enemies[1].get("status_list", {}).get("requirement_change", 0)) == 3, "pm roadmap does not add generic requirement mark")
 	_check(int(player.get("current_energy", 0)) == 1, "pm roadmap charges card cost")
 
-	run = run_session.create_new_run("product_manager")
+	run = run_session.create_new_run("product_manager", true)
 	run["owned_relic_ids"] = []
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
@@ -2050,7 +2066,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(player.get("current_block", 0)) == 0, "pm align all does not grant generic block")
 	_check(int(player.get("current_energy", 0)) == 1, "pm align all charges card cost")
 
-	run = run_session.create_new_run("product_manager")
+	run = run_session.create_new_run("product_manager", true)
 	run["owned_relic_ids"] = []
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
@@ -2080,7 +2096,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(priority_shuffle_enemies[0].get("current_hp", 0)) < 50, "pm priority shuffle redirects next priority attack")
 	_check(int(priority_shuffle_enemies[1].get("current_hp", 0)) == 50, "pm priority shuffle prevents stale priority from controlling target")
 
-	run = run_session.create_new_run("product_manager")
+	run = run_session.create_new_run("product_manager", true)
 	run["owned_relic_ids"] = []
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
@@ -2109,7 +2125,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(priority_top_enemies[0].get("current_hp", 0)) < 50, "pm priority top redirects next priority attack to selected target")
 	_check(int(priority_top_enemies[1].get("current_hp", 0)) == 50, "pm priority top prevents old target from staying highest priority")
 
-	run = run_session.create_new_run("product_manager")
+	run = run_session.create_new_run("product_manager", true)
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
 	var changed_enemy: Dictionary = battle.battle_state.get("enemies", [])[0]
@@ -2127,7 +2143,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(changed_enemy.get("status_list", {}).get("requirement_change", 0)) == 1, "requirement change consumes one stack before action")
 	_check(int(player.get("class_resource_state", {}).get("requirement_change_marks", 0)) == 1, "requirement change resource syncs after consumption")
 
-	run = run_session.create_new_run("product_manager")
+	run = run_session.create_new_run("product_manager", true)
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
 	var spread_enemies: Array = battle.battle_state.get("enemies", [])
@@ -2144,7 +2160,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(spread_enemies[1].get("status_list", {}).get("requirement_change", 0)) == 1, "scope spread adds requirement change to another enemy")
 	_check(int(player.get("class_resource_state", {}).get("requirement_change_marks", 0)) >= 2, "scope spread syncs spread requirement resource")
 
-	run = run_session.create_new_run("algorithm")
+	run = run_session.create_new_run("algorithm", true)
 	run["owned_relic_ids"] = []
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
@@ -2160,7 +2176,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(player.get("class_resource_state", {}).get("compute", 0)) == 1, "algorithm linear probe gains compute")
 	_check(int(player.get("class_resource_state", {}).get("complexity", 0)) == 1, "algorithm linear probe compute raises complexity")
 
-	run = run_session.create_new_run("algorithm")
+	run = run_session.create_new_run("algorithm", true)
 	run["owned_relic_ids"] = []
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
@@ -2172,7 +2188,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(player.get("current_block", 0)) >= 8, "algorithm starter complexity compress grants block")
 	_check(int(player.get("class_resource_state", {}).get("complexity", 0)) == 2, "algorithm starter complexity compress reduces complexity")
 
-	run = run_session.create_new_run("algorithm")
+	run = run_session.create_new_run("algorithm", true)
 	run["owned_relic_ids"] = []
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
@@ -2189,7 +2205,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(player.get("class_resource_state", {}).get("complexity", 0)) == 1, "algorithm heuristic search compute raises complexity")
 	_check(int(player.get("current_block", 0)) == 0, "algorithm heuristic search does not grant generic block")
 
-	run = run_session.create_new_run("algorithm")
+	run = run_session.create_new_run("algorithm", true)
 	run["owned_relic_ids"] = []
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
@@ -2219,7 +2235,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(player.get("class_resource_state", {}).get("compute", 0)) == 1, "algorithm dynamic programming does not repeat same type compute")
 	_check(not player.get("hand", []).has("card_algo_global_optimum"), "algorithm dynamic programming does not draw twice for same type")
 
-	run = run_session.create_new_run("algorithm")
+	run = run_session.create_new_run("algorithm", true)
 	run["owned_relic_ids"] = []
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
@@ -2240,7 +2256,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(player.get("current_energy", 0)) == 0, "algorithm local optimum discount charges reduced cost")
 	_check(int(player.get("status_list", {}).get("cost_reduction", 0)) == 0, "algorithm local optimum discount is consumed")
 
-	run = run_session.create_new_run("algorithm")
+	run = run_session.create_new_run("algorithm", true)
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
 	var optimum_enemy: Dictionary = battle.battle_state.get("enemies", [])[0]
@@ -2254,7 +2270,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(player.get("class_resource_state", {}).get("compute", 0)) == 0, "algorithm x finisher consumes stored compute")
 	_check(int(player.get("current_energy", 0)) == 1, "algorithm starter relic refunds first x card")
 
-	run = run_session.create_new_run("algorithm")
+	run = run_session.create_new_run("algorithm", true)
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
 	var burst_enemy: Dictionary = battle.battle_state.get("enemies", [])[0]
@@ -2269,7 +2285,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(player.get("class_resource_state", {}).get("complexity", 0)) == 5, "algorithm complexity burst keeps complexity")
 	_check(int(player.get("class_resource_state", {}).get("compute", 0)) == 0, "algorithm complexity burst does not add generic compute")
 
-	run = run_session.create_new_run("algorithm")
+	run = run_session.create_new_run("algorithm", true)
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
 	var pruning_enemy: Dictionary = battle.battle_state.get("enemies", [])[0]
@@ -2290,7 +2306,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(player.get("current_energy", 0)) == 0, "algorithm pruning discount charges reduced cost")
 	_check(int(player.get("status_list", {}).get("cost_reduction", 0)) == 0, "algorithm pruning discount is consumed")
 
-	run = run_session.create_new_run("algorithm")
+	run = run_session.create_new_run("algorithm", true)
 	run["owned_relic_ids"] = []
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
@@ -2305,7 +2321,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(player.get("current_block", 0)) == 6, "algorithm big O compress converts complexity to block")
 	_check(int(player.get("current_energy", 0)) == 2, "algorithm big O compress charges card cost")
 
-	run = run_session.create_new_run("algorithm")
+	run = run_session.create_new_run("algorithm", true)
 	run["owned_relic_ids"] = []
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
@@ -2327,7 +2343,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(player.get("class_resource_state", {}).get("complexity", 0)) == 2, "algorithm monte carlo preserves complexity")
 	_check(int(player.get("current_energy", 0)) == 2, "algorithm monte carlo charges card cost")
 
-	run = run_session.create_new_run("algorithm")
+	run = run_session.create_new_run("algorithm", true)
 	run["owned_relic_ids"] = []
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
@@ -2345,7 +2361,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(player.get("class_resource_state", {}).get("compute", 0)) == 0, "algorithm astar does not add generic compute")
 	_check(int(player.get("current_energy", 0)) == 2, "algorithm astar charges card cost")
 
-	run = run_session.create_new_run("algorithm")
+	run = run_session.create_new_run("algorithm", true)
 	run["owned_relic_ids"] = []
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
@@ -2363,7 +2379,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(matrix_enemy_low.get("current_hp", 0)) == 102, "algorithm matrix multiplication low compute uses base damage")
 	_check(int(player.get("class_resource_state", {}).get("compute", 0)) == 2, "algorithm matrix multiplication does not add compute")
 
-	run = run_session.create_new_run("algorithm")
+	run = run_session.create_new_run("algorithm", true)
 	run["owned_relic_ids"] = []
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
@@ -2406,7 +2422,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(not rollback_status.has("anxiety"), "shared rollback clears anxiety")
 	_check(rollback_status.has("overtime"), "shared rollback keeps heavier overtime")
 
-	run = run_session.create_new_run("algorithm")
+	run = run_session.create_new_run("algorithm", true)
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
 	player["hand"] = ["card_shared_standup"]
@@ -2419,7 +2435,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(player.get("hand", []).has("card_shared_badge_throw"), "shared standup draws a replacement")
 	_check(int(player.get("current_block", 0)) >= 5, "shared standup grants block")
 
-	run = run_session.create_new_run("frontend")
+	run = run_session.create_new_run("frontend", true)
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
 	player["hand"] = ["card_shared_meeting_mute"]
@@ -2439,7 +2455,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	battle.call("_enemy_attack", player, battle.battle_state.get("enemies", [])[0], 6, run)
 	_check(int(player.get("class_resource_state", {}).get("cache", 0)) > cache_before, "read replica returns cache on damage")
 
-	run = run_session.create_new_run("tester")
+	run = run_session.create_new_run("tester", true)
 	run["owned_relic_ids"].append("relic_error_log_repo")
 	battle = _start_first_battle(run, content, map, executor)
 	var error_enemy: Dictionary = battle.battle_state.get("enemies", [])[0]
@@ -2480,7 +2496,7 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(player.get("current_spirit", 0)) == 38, "overtime damages at round start")
 	_check(int(player.get("status_list", {}).get("overtime", 0)) == 1, "overtime decays after triggering")
 
-	run = run_session.create_new_run("algorithm")
+	run = run_session.create_new_run("algorithm", true)
 	battle = _start_first_battle(run, content, map, executor)
 	player = battle.battle_state.get("player", {})
 	player["status_list"] = {}
@@ -2550,7 +2566,7 @@ func _validate_enemy_intent_actions(config, content, map, meta) -> void:
 	battle.call("_enemy_turn", run)
 	_check(_count_card(player.get("discard_pile", []), "card_status_option_promise") == 2, "enemy pollute adds status cards")
 
-	run = run_session.create_new_run("frontend")
+	run = run_session.create_new_run("frontend", true)
 	battle = _start_first_battle(run, content, map, executor)
 	_isolate_first_enemy(battle)
 	player = battle.battle_state.get("player", {})
@@ -2560,7 +2576,7 @@ func _validate_enemy_intent_actions(config, content, map, meta) -> void:
 	battle.call("_enemy_turn", run)
 	_check(int(player.get("current_spirit", 0)) == 33, "enemy multi attack consumes block across hits")
 
-	run = run_session.create_new_run("tester")
+	run = run_session.create_new_run("tester", true)
 	battle = _start_first_battle(run, content, map, executor)
 	_isolate_first_enemy(battle)
 	var enemies_before := int(battle.battle_state.get("enemies", []).size())
@@ -2570,7 +2586,7 @@ func _validate_enemy_intent_actions(config, content, map, meta) -> void:
 	_check(String(battle.battle_state["enemies"][1].get("enemy_def_id", "")) == "enemy_process_specialist", "spawned enemy uses requested def")
 	_check(not battle.battle_state["enemies"][1].get("intent", {}).is_empty(), "spawned enemy receives an intent")
 
-	run = run_session.create_new_run("algorithm")
+	run = run_session.create_new_run("algorithm", true)
 	battle = _start_first_battle(run, content, map, executor)
 	_isolate_first_enemy(battle)
 	player = battle.battle_state.get("player", {})
@@ -2584,7 +2600,7 @@ func _validate_enemy_intent_actions(config, content, map, meta) -> void:
 	_check(int(player.get("class_resource_state", {}).get("compute", 0)) == 1, "enemy cleanse reduces player resources")
 	_check(_count_card(player.get("discard_pile", []), "card_status_meeting_minutes") == 1, "enemy cleanse can add pollution")
 
-	run = run_session.create_new_run("product_manager")
+	run = run_session.create_new_run("product_manager", true)
 	battle = _start_first_battle(run, content, map, executor)
 	_isolate_first_enemy(battle)
 	var enemy: Dictionary = battle.battle_state["enemies"][0]
@@ -2625,7 +2641,7 @@ func _validate_enemy_phase_scripts(config, content, map, meta) -> void:
 	_check(String(boss.get("intent", {}).get("intent_type", "")) == "attack", "boss second phase forces intent")
 	_check(int(boss.get("intent", {}).get("amount", 0)) == 18, "boss forced intent keeps configured amount")
 
-	run = run_session.create_new_run("algorithm")
+	run = run_session.create_new_run("algorithm", true)
 	run["current_chapter"] = 3
 	run["current_floor"] = 18
 	var ceo_node := { "id": "test_boss_ch3", "node_type": "boss", "floor": 18 }
@@ -2639,7 +2655,7 @@ func _validate_enemy_phase_scripts(config, content, map, meta) -> void:
 	_check(int(battle.battle_state.get("enemies", []).size()) == enemies_before + 1, "ceo phase summons meeting enemy")
 	_check(int(ceo.get("current_block", 0)) >= 12, "ceo phase grants block")
 
-	run = run_session.create_new_run("tester")
+	run = run_session.create_new_run("tester", true)
 	battle = BattleServiceScript.new()
 	battle.call("setup", content, executor)
 	var elite: Dictionary = battle.call("_build_enemy", "elite_outsource_manager")
@@ -2955,7 +2971,7 @@ func _validate_meta_settlement(config, map, meta) -> void:
 
 	var run_session = RunSessionScript.new()
 	run_session.call("setup", config, map, meta)
-	var run := run_session.create_new_run("tester")
+	var run := run_session.create_new_run("tester", true)
 	run["current_floor"] = 8
 	run["run_counters"]["elite_wins"] = 2
 	run["run_counters"]["events_resolved"] = 3

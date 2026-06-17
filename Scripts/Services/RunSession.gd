@@ -17,8 +17,13 @@ func has_active_run() -> bool:
 func clear() -> void:
 	run_state = {}
 
-func create_new_run(class_id: String) -> Dictionary:
+func create_new_run(class_id: String, allow_locked := false) -> Dictionary:
 	var cls: Dictionary = config_service.get_def("classes", class_id)
+	if cls.is_empty():
+		push_warning("RunSession: unknown class id %s" % class_id)
+		return {}
+	if not allow_locked and not meta_service.is_class_playable(class_id):
+		return {}
 	var player_state := {
 		"max_spirit": 72,
 		"current_spirit": 72,

@@ -64,6 +64,8 @@ func _availability_color(cls: Dictionary) -> Color:
 func _start_class(class_id: String) -> void:
 	if not AppRoot.meta_service.is_class_playable(class_id):
 		return
-	AppRoot.run_session.create_new_run(class_id)
-	AppRoot.save_service.save_suspend(AppRoot.run_session.run_state, AppRoot.meta_service.meta_state)
+	var run: Dictionary = AppRoot.run_session.create_new_run(class_id)
+	if run.is_empty():
+		return
+	AppRoot.save_service.save_suspend(run, AppRoot.meta_service.meta_state)
 	AppRoot.flow_controller.show_scene("map")

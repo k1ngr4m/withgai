@@ -1304,6 +1304,8 @@ func _start_class_from_menu(class_id: String) -> void:
 		return
 	if not app.meta_service.is_class_playable(class_id):
 		return
-	app.run_session.create_new_run(class_id)
-	app.save_service.save_suspend(app.run_session.run_state, app.meta_service.meta_state)
+	var run: Dictionary = app.run_session.create_new_run(class_id)
+	if run.is_empty():
+		return
+	app.save_service.save_suspend(run, app.meta_service.meta_state)
 	_show_scene("map")
