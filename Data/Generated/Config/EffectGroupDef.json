@@ -812,9 +812,7 @@
   {
     "id": "eg_card_pm_change_wording",
     "entry_ids": [
-      "eg_card_pm_change_wording_e01",
-      "eg_card_pm_change_wording_e02",
-      "eg_card_pm_change_wording_e03"
+      "eg_card_pm_change_wording_e01"
     ]
   },
   {
@@ -828,16 +826,13 @@
     "id": "eg_card_pm_meeting_minutes",
     "entry_ids": [
       "eg_card_pm_meeting_minutes_e01",
-      "eg_card_pm_meeting_minutes_e02",
-      "eg_card_pm_meeting_minutes_e03"
+      "eg_card_pm_meeting_minutes_e02"
     ]
   },
   {
     "id": "eg_card_pm_revision_notice",
     "entry_ids": [
-      "eg_card_pm_revision_notice_e01",
-      "eg_card_pm_revision_notice_e02",
-      "eg_card_pm_revision_notice_e03"
+      "eg_card_pm_revision_notice_e01"
     ]
   },
   {

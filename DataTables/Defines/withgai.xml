@@ -6,6 +6,8 @@
     <var name="spirit_loss" type="int?"/>
     <var name="intent_amount_reduction" type="int?"/>
     <var name="consume_per_action" type="int?"/>
+    <var name="requirement_change_bonus" type="int?"/>
+    <var name="intent_reduction_bonus" type="int?"/>
     <var name="block_amount" type="int?"/>
     <var name="service_threshold" type="int?"/>
     <var name="draw_amount" type="int?"/>

@@ -29,6 +29,7 @@
 ,complexity,复杂度,stack,"[""add_compute"",""round_start""]","{""compute_complexity_gain"":1,""pressure_threshold"":3,""energy_loss"":1,""spirit_loss"":0}",,99,false,class
 ,requirement_change,需求变更,stack,"[""apply_status"",""enemy_before_action"",""modify_intent""]","{""intent_amount_reduction"":4,""consume_per_action"":1}",,99,false,class
 ,priority,优先级,stack,"[""target_resolution""]",{},,99,false,class
+,meeting_minutes_boost,会议纪要,stack,"[""apply_status"",""modify_intent""]","{""requirement_change_bonus"":1,""intent_reduction_bonus"":2}",,99,true,class
 ,scope_spread,范围蔓延,stack,"[""apply_status""]","{""spread_amount"":1}",,99,false,class
 ,performance,绩效,stack,[],{},,99,false,class
 ,optimization_target,优化名单,stack,[],{},,99,false,class

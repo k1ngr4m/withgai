@@ -2216,12 +2216,12 @@
       "rarity": "common",
       "type": "skill",
       "cost": 1,
-      "target_type": "self",
+      "target_type": "selected",
       "keywords": [],
       "effect_group_id": "eg_card_pm_change_wording",
       "upgrade_to": "card_pm_change_wording_plus",
       "enabled_in_first_playable": true,
-      "description": "需求改口：获得防线并触发职业资源。",
+      "description": "需求改口：降低选定目标攻击意图；会议纪要可追加降低量。",
       "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_pm_change_request_v1/final.png"
     },
     "card_pm_priority_shuffle": {
@@ -2255,7 +2255,7 @@
       "effect_group_id": "eg_card_pm_meeting_minutes",
       "upgrade_to": "card_pm_meeting_minutes_plus",
       "enabled_in_first_playable": true,
-      "description": "会议纪要：获得防线并触发职业资源。",
+      "description": "会议纪要：抽牌，并让下一张需求变更或改写意图牌增强。",
       "art_path": ""
     },
     "card_pm_revision_notice": {
@@ -2267,12 +2267,12 @@
       "rarity": "common",
       "type": "skill",
       "cost": 1,
-      "target_type": "self",
+      "target_type": "selected",
       "keywords": [],
       "effect_group_id": "eg_card_pm_revision_notice",
       "upgrade_to": "card_pm_revision_notice_plus",
       "enabled_in_first_playable": true,
-      "description": "改版通知：获得防线并触发职业资源。",
+      "description": "改版通知：对选定目标施加需求变更；会议纪要可追加层数。",
       "art_path": ""
     },
     "card_pm_message_align": {
@@ -2403,7 +2403,7 @@
       "rarity": "common",
       "type": "skill",
       "cost": 1,
-      "target_type": "self",
+      "target_type": "selected",
       "keywords": [],
       "effect_group_id": "eg_card_pm_extra_requirement",
       "upgrade_to": "card_pm_extra_requirement_plus",
@@ -5018,6 +5018,23 @@
       "effect_group_id": "",
       "max_stack": 99,
       "is_hidden": false,
+      "type": "class"
+    },
+    "meeting_minutes_boost": {
+      "id": "meeting_minutes_boost",
+      "name": "会议纪要",
+      "stack_rule": "stack",
+      "timing_hooks": [
+        "apply_status",
+        "modify_intent"
+      ],
+      "params": {
+        "requirement_change_bonus": 1,
+        "intent_reduction_bonus": 2
+      },
+      "effect_group_id": "",
+      "max_stack": 99,
+      "is_hidden": true,
       "type": "class"
     },
     "scope_spread": {
@@ -7796,31 +7813,14 @@
     "eg_card_pm_change_wording": {
       "id": "eg_card_pm_change_wording",
       "entry_ids": [
-        "eg_card_pm_change_wording_e01",
-        "eg_card_pm_change_wording_e02",
-        "eg_card_pm_change_wording_e03"
+        "eg_card_pm_change_wording_e01"
       ],
       "entries": [
-        {
-          "effect_type": "gain_block",
-          "target_type": "self",
-          "params": {
-            "amount": 8
-          }
-        },
-        {
-          "effect_type": "apply_status",
-          "target_type": "selected",
-          "params": {
-            "amount": 1,
-            "status_id": "requirement_change"
-          }
-        },
         {
           "effect_type": "modify_intent",
           "target_type": "selected",
           "params": {
-            "amount": -3
+            "amount": -4
           }
         }
       ]
@@ -7853,17 +7853,9 @@
       "id": "eg_card_pm_meeting_minutes",
       "entry_ids": [
         "eg_card_pm_meeting_minutes_e01",
-        "eg_card_pm_meeting_minutes_e02",
-        "eg_card_pm_meeting_minutes_e03"
+        "eg_card_pm_meeting_minutes_e02"
       ],
       "entries": [
-        {
-          "effect_type": "gain_block",
-          "target_type": "self",
-          "params": {
-            "amount": 5
-          }
-        },
         {
           "effect_type": "draw_cards",
           "target_type": "self",
@@ -7872,10 +7864,11 @@
           }
         },
         {
-          "effect_type": "modify_intent",
-          "target_type": "selected",
+          "effect_type": "apply_status",
+          "target_type": "self",
           "params": {
-            "amount": -3
+            "amount": 1,
+            "status_id": "meeting_minutes_boost"
           }
         }
       ]
@@ -7883,31 +7876,15 @@
     "eg_card_pm_revision_notice": {
       "id": "eg_card_pm_revision_notice",
       "entry_ids": [
-        "eg_card_pm_revision_notice_e01",
-        "eg_card_pm_revision_notice_e02",
-        "eg_card_pm_revision_notice_e03"
+        "eg_card_pm_revision_notice_e01"
       ],
       "entries": [
-        {
-          "effect_type": "gain_block",
-          "target_type": "self",
-          "params": {
-            "amount": 8
-          }
-        },
         {
           "effect_type": "apply_status",
           "target_type": "selected",
           "params": {
             "amount": 1,
             "status_id": "requirement_change"
-          }
-        },
-        {
-          "effect_type": "modify_intent",
-          "target_type": "selected",
-          "params": {
-            "amount": -3
           }
         }
       ]
@@ -11498,31 +11475,10 @@
       "id": "eg_card_pm_change_wording_e01",
       "effect_group_id": "eg_card_pm_change_wording",
       "order": 1,
-      "effect_type": "gain_block",
-      "target_type": "self",
-      "params": {
-        "amount": 8
-      }
-    },
-    "eg_card_pm_change_wording_e02": {
-      "id": "eg_card_pm_change_wording_e02",
-      "effect_group_id": "eg_card_pm_change_wording",
-      "order": 2,
-      "effect_type": "apply_status",
-      "target_type": "selected",
-      "params": {
-        "amount": 1,
-        "status_id": "requirement_change"
-      }
-    },
-    "eg_card_pm_change_wording_e03": {
-      "id": "eg_card_pm_change_wording_e03",
-      "effect_group_id": "eg_card_pm_change_wording",
-      "order": 3,
       "effect_type": "modify_intent",
       "target_type": "selected",
       "params": {
-        "amount": -3
+        "amount": -4
       }
     },
     "eg_card_pm_priority_shuffle_e01": {
@@ -11550,61 +11506,32 @@
       "id": "eg_card_pm_meeting_minutes_e01",
       "effect_group_id": "eg_card_pm_meeting_minutes",
       "order": 1,
-      "effect_type": "gain_block",
-      "target_type": "self",
-      "params": {
-        "amount": 5
-      }
-    },
-    "eg_card_pm_meeting_minutes_e02": {
-      "id": "eg_card_pm_meeting_minutes_e02",
-      "effect_group_id": "eg_card_pm_meeting_minutes",
-      "order": 2,
       "effect_type": "draw_cards",
       "target_type": "self",
       "params": {
         "amount": 1
       }
     },
-    "eg_card_pm_meeting_minutes_e03": {
-      "id": "eg_card_pm_meeting_minutes_e03",
+    "eg_card_pm_meeting_minutes_e02": {
+      "id": "eg_card_pm_meeting_minutes_e02",
       "effect_group_id": "eg_card_pm_meeting_minutes",
-      "order": 3,
-      "effect_type": "modify_intent",
-      "target_type": "selected",
+      "order": 2,
+      "effect_type": "apply_status",
+      "target_type": "self",
       "params": {
-        "amount": -3
+        "amount": 1,
+        "status_id": "meeting_minutes_boost"
       }
     },
     "eg_card_pm_revision_notice_e01": {
       "id": "eg_card_pm_revision_notice_e01",
       "effect_group_id": "eg_card_pm_revision_notice",
       "order": 1,
-      "effect_type": "gain_block",
-      "target_type": "self",
-      "params": {
-        "amount": 8
-      }
-    },
-    "eg_card_pm_revision_notice_e02": {
-      "id": "eg_card_pm_revision_notice_e02",
-      "effect_group_id": "eg_card_pm_revision_notice",
-      "order": 2,
       "effect_type": "apply_status",
       "target_type": "selected",
       "params": {
         "amount": 1,
         "status_id": "requirement_change"
-      }
-    },
-    "eg_card_pm_revision_notice_e03": {
-      "id": "eg_card_pm_revision_notice_e03",
-      "effect_group_id": "eg_card_pm_revision_notice",
-      "order": 3,
-      "effect_type": "modify_intent",
-      "target_type": "selected",
-      "params": {
-        "amount": -3
       }
     },
     "eg_card_pm_message_align_e01": {

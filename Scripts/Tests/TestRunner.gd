@@ -560,6 +560,12 @@ func _validate_config_references(config, content) -> void:
 	var requirement_params: Dictionary = config.get_def("statuses", "requirement_change").get("params", {})
 	_check(int(requirement_params.get("intent_amount_reduction", 0)) > 0, "requirement change config reduces intent amount")
 	_check(int(requirement_params.get("consume_per_action", 0)) > 0, "requirement change config consumes stacks")
+	_check(config.get_def("statuses", "meeting_minutes_boost").get("timing_hooks", []).has("apply_status"), "meeting minutes boost declares status hook")
+	_check(config.get_def("statuses", "meeting_minutes_boost").get("timing_hooks", []).has("modify_intent"), "meeting minutes boost declares intent hook")
+	_check(bool(config.get_def("statuses", "meeting_minutes_boost").get("is_hidden", false)), "meeting minutes boost is hidden")
+	var meeting_minutes_params: Dictionary = config.get_def("statuses", "meeting_minutes_boost").get("params", {})
+	_check(int(meeting_minutes_params.get("requirement_change_bonus", 0)) > 0, "meeting minutes boost config has requirement bonus")
+	_check(int(meeting_minutes_params.get("intent_reduction_bonus", 0)) > 0, "meeting minutes boost config has intent bonus")
 	_check(config.get_def("statuses", "scope_spread").get("timing_hooks", []).has("apply_status"), "scope spread declares status hook")
 	var scope_params: Dictionary = config.get_def("statuses", "scope_spread").get("params", {})
 	_check(int(scope_params.get("spread_amount", 0)) > 0, "scope spread config has spread amount")
@@ -639,6 +645,46 @@ func _validate_config_references(config, content) -> void:
 		if entry.get("effect_type", "") == "apply_status" and params.get("status_id", "") == "case_matrix":
 			case_matrix_applies_status = true
 	_check(case_matrix_applies_status, "tester case matrix applies case matrix status")
+	_check(content.card_def("card_pm_change_wording").get("target_type", "") == "selected", "pm change wording targets selected enemy")
+	var change_wording_entries: Array = content.effect_entries(content.card_def("card_pm_change_wording").get("effect_group_id", ""))
+	var change_wording_lowers_intent := false
+	var change_wording_blocks := false
+	for entry in change_wording_entries:
+		var params: Dictionary = entry.get("params", {})
+		if entry.get("effect_type", "") == "modify_intent" and entry.get("target_type", "") == "selected" and int(params.get("amount", 0)) < 0:
+			change_wording_lowers_intent = true
+		if entry.get("effect_type", "") == "gain_block":
+			change_wording_blocks = true
+	_check(change_wording_lowers_intent, "pm change wording lowers selected intent")
+	_check(not change_wording_blocks, "pm change wording does not use generic block")
+	_check(content.card_def("card_pm_meeting_minutes").get("target_type", "") == "self", "pm meeting minutes targets self")
+	var meeting_minutes_entries: Array = content.effect_entries(content.card_def("card_pm_meeting_minutes").get("effect_group_id", ""))
+	var meeting_minutes_draws := false
+	var meeting_minutes_applies_boost := false
+	var meeting_minutes_blocks := false
+	for entry in meeting_minutes_entries:
+		var params: Dictionary = entry.get("params", {})
+		if entry.get("effect_type", "") == "draw_cards" and int(params.get("amount", 0)) > 0:
+			meeting_minutes_draws = true
+		if entry.get("effect_type", "") == "apply_status" and entry.get("target_type", "") == "self" and params.get("status_id", "") == "meeting_minutes_boost":
+			meeting_minutes_applies_boost = true
+		if entry.get("effect_type", "") == "gain_block":
+			meeting_minutes_blocks = true
+	_check(meeting_minutes_draws, "pm meeting minutes draws")
+	_check(meeting_minutes_applies_boost, "pm meeting minutes stores control boost")
+	_check(not meeting_minutes_blocks, "pm meeting minutes does not use generic block")
+	_check(content.card_def("card_pm_revision_notice").get("target_type", "") == "selected", "pm revision notice targets selected enemy")
+	var revision_notice_entries: Array = content.effect_entries(content.card_def("card_pm_revision_notice").get("effect_group_id", ""))
+	var revision_notice_applies_requirement := false
+	var revision_notice_blocks := false
+	for entry in revision_notice_entries:
+		var params: Dictionary = entry.get("params", {})
+		if entry.get("effect_type", "") == "apply_status" and entry.get("target_type", "") == "selected" and params.get("status_id", "") == "requirement_change":
+			revision_notice_applies_requirement = true
+		if entry.get("effect_type", "") == "gain_block":
+			revision_notice_blocks = true
+	_check(revision_notice_applies_requirement, "pm revision notice applies requirement change")
+	_check(not revision_notice_blocks, "pm revision notice does not use generic block")
 	_check(content.card_def("card_pm_schedule_compress").get("target_type", "") == "highest_priority_enemy", "pm schedule compress targets priority")
 	_check(content.card_def("card_pm_priority_shuffle").get("target_type", "") == "selected", "pm priority shuffle targets selected enemy")
 	var priority_shuffle_entries: Array = content.effect_entries(content.card_def("card_pm_priority_shuffle").get("effect_group_id", ""))
@@ -1635,6 +1681,92 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(battle.battle_state["enemies"][0].get("current_hp", 0)) == 50, "pm priority attack ignores selected low priority target")
 	_check(int(battle.battle_state["enemies"][1].get("current_hp", 0)) < 50, "pm priority attack hits highest priority target")
 	_check(int(battle.battle_state["enemies"][1].get("status_list", {}).get("requirement_change", 0)) >= 1, "pm priority attack marks hit target")
+
+	run = run_session.create_new_run("product_manager")
+	run["owned_relic_ids"] = []
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	var change_wording_enemies: Array = battle.battle_state.get("enemies", [])
+	if change_wording_enemies.size() == 1:
+		change_wording_enemies.append(change_wording_enemies[0].duplicate(true))
+		change_wording_enemies[1]["name"] = "被改口目标"
+	change_wording_enemies[0]["intent"] = { "intent_type": "attack", "amount": 10 }
+	change_wording_enemies[0]["status_list"] = {}
+	change_wording_enemies[1]["intent"] = { "intent_type": "attack", "amount": 10 }
+	change_wording_enemies[1]["status_list"] = {}
+	battle.battle_state["enemies"] = change_wording_enemies
+	player["hand"] = ["card_pm_change_wording"]
+	player["draw_pile"] = []
+	player["discard_pile"] = []
+	player["current_energy"] = 3
+	player["current_block"] = 0
+	player["status_list"] = {}
+	battle.play_card(run, 0, 1)
+	_check(int(change_wording_enemies[0].get("intent", {}).get("amount", 0)) == 10, "pm change wording ignores unselected enemy")
+	_check(int(change_wording_enemies[1].get("intent", {}).get("amount", 0)) == 6, "pm change wording lowers selected attack intent")
+	_check(int(player.get("current_block", 0)) == 0, "pm change wording does not grant generic block")
+
+	run = run_session.create_new_run("product_manager")
+	run["owned_relic_ids"] = []
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	var meeting_change_enemy: Dictionary = battle.battle_state.get("enemies", [])[0]
+	meeting_change_enemy["intent"] = { "intent_type": "attack", "amount": 10 }
+	player["hand"] = ["card_pm_meeting_minutes", "card_pm_change_wording"]
+	player["draw_pile"] = ["card_pm_revision_notice"]
+	player["discard_pile"] = []
+	player["current_energy"] = 3
+	player["current_block"] = 0
+	player["status_list"] = {}
+	battle.play_card(run, 0, 0)
+	_check(int(player.get("status_list", {}).get("meeting_minutes_boost", 0)) == 1, "pm meeting minutes stores one boost")
+	_check(player.get("hand", []).has("card_pm_revision_notice"), "pm meeting minutes draws a card")
+	_check(int(player.get("current_block", 0)) == 0, "pm meeting minutes does not grant generic block")
+	battle.play_card(run, 0, 0)
+	_check(int(meeting_change_enemy.get("intent", {}).get("amount", 0)) == 4, "pm meeting minutes strengthens next wording change")
+	_check(int(player.get("status_list", {}).get("meeting_minutes_boost", 0)) == 0, "pm wording boost is consumed")
+
+	run = run_session.create_new_run("product_manager")
+	run["owned_relic_ids"] = []
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	var revision_enemies: Array = battle.battle_state.get("enemies", [])
+	if revision_enemies.size() == 1:
+		revision_enemies.append(revision_enemies[0].duplicate(true))
+		revision_enemies[1]["name"] = "改版目标"
+	revision_enemies[0]["status_list"] = {}
+	revision_enemies[1]["status_list"] = {}
+	battle.battle_state["enemies"] = revision_enemies
+	player["hand"] = ["card_pm_revision_notice"]
+	player["draw_pile"] = []
+	player["discard_pile"] = []
+	player["current_energy"] = 3
+	player["current_block"] = 0
+	player["status_list"] = {}
+	player["class_resource_state"]["requirement_change_marks"] = 0
+	battle.play_card(run, 0, 1)
+	_check(int(revision_enemies[0].get("status_list", {}).get("requirement_change", 0)) == 0, "pm revision notice ignores unselected enemy")
+	_check(int(revision_enemies[1].get("status_list", {}).get("requirement_change", 0)) == 1, "pm revision notice marks selected enemy")
+	_check(int(player.get("class_resource_state", {}).get("requirement_change_marks", 0)) == 1, "pm revision notice syncs requirement resource")
+	_check(int(player.get("current_block", 0)) == 0, "pm revision notice does not grant generic block")
+
+	run = run_session.create_new_run("product_manager")
+	run["owned_relic_ids"] = []
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	var meeting_revision_enemy: Dictionary = battle.battle_state.get("enemies", [])[0]
+	meeting_revision_enemy["status_list"] = {}
+	player["hand"] = ["card_pm_meeting_minutes", "card_pm_revision_notice"]
+	player["draw_pile"] = []
+	player["discard_pile"] = []
+	player["current_energy"] = 3
+	player["status_list"] = {}
+	player["class_resource_state"]["requirement_change_marks"] = 0
+	battle.play_card(run, 0, 0)
+	battle.play_card(run, 0, 0)
+	_check(int(meeting_revision_enemy.get("status_list", {}).get("requirement_change", 0)) == 2, "pm meeting minutes strengthens revision notice")
+	_check(int(player.get("status_list", {}).get("meeting_minutes_boost", 0)) == 0, "pm revision boost is consumed")
+	_check(int(player.get("class_resource_state", {}).get("requirement_change_marks", 0)) == 2, "pm boosted revision syncs requirement resource")
 
 	run = run_session.create_new_run("product_manager")
 	run["owned_relic_ids"] = []

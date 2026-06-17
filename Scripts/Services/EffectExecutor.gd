@@ -568,6 +568,8 @@ func _apply_status(target_type: String, battle_state: Dictionary, run_state: Dic
 		player["status_list"] = statuses
 		_sync_status_resource(battle_state, status_id, amount, battle_log, run_state)
 	else:
+		if status_id == "requirement_change":
+			amount += _consume_meeting_minutes_requirement_bonus(battle_state, battle_log)
 		for enemy in _target_enemies(target_type, battle_state, target_index):
 			_enemy_status(enemy, battle_state, run_state, status_id, amount, battle_log)
 
@@ -858,8 +860,48 @@ func _component_count(player: Dictionary) -> int:
 	return max(int(resources.get("components", 0)), int(statuses.get("component", 0)))
 
 func _modify_intents(target_type: String, battle_state: Dictionary, run_state: Dictionary, target_index: int, amount: int, battle_log: Array) -> void:
+	amount = _meeting_minutes_adjusted_intent_amount(battle_state, amount, battle_log)
 	for enemy in _target_enemies(target_type, battle_state, target_index):
 		_modify_intent(enemy, battle_state, run_state, amount, battle_log)
+
+func _consume_meeting_minutes_requirement_bonus(battle_state: Dictionary, battle_log: Array) -> int:
+	if _meeting_minutes_boost_count(battle_state) <= 0:
+		return 0
+	var params: Dictionary = _status_params("meeting_minutes_boost")
+	var bonus: int = max(0, int(params.get("requirement_change_bonus", 0)))
+	if bonus <= 0:
+		return 0
+	_consume_meeting_minutes_boost(battle_state, battle_log)
+	return bonus
+
+func _meeting_minutes_adjusted_intent_amount(battle_state: Dictionary, amount: int, battle_log: Array) -> int:
+	if amount >= 0 or _meeting_minutes_boost_count(battle_state) <= 0:
+		return amount
+	var params: Dictionary = _status_params("meeting_minutes_boost")
+	var bonus: int = max(0, int(params.get("intent_reduction_bonus", 0)))
+	if bonus <= 0:
+		return amount
+	_consume_meeting_minutes_boost(battle_state, battle_log)
+	return amount - bonus
+
+func _meeting_minutes_boost_count(battle_state: Dictionary) -> int:
+	var player := _player(battle_state)
+	var statuses: Dictionary = player.get("status_list", {})
+	return int(statuses.get("meeting_minutes_boost", 0))
+
+func _consume_meeting_minutes_boost(battle_state: Dictionary, battle_log: Array) -> void:
+	var player := _player(battle_state)
+	var statuses: Dictionary = player.get("status_list", {})
+	var stacks := int(statuses.get("meeting_minutes_boost", 0))
+	if stacks <= 0:
+		return
+	stacks -= 1
+	if stacks <= 0:
+		statuses.erase("meeting_minutes_boost")
+	else:
+		statuses["meeting_minutes_boost"] = stacks
+	player["status_list"] = statuses
+	battle_log.append("会议纪要强化本次控制")
 
 func _set_priority_top(target_type: String, battle_state: Dictionary, target_index: int, params: Dictionary, battle_log: Array) -> void:
 	var targets := _target_enemies(target_type, battle_state, target_index)

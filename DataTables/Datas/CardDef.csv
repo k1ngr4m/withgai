@@ -122,10 +122,10 @@
 ,card_algo_compute_surge,算力洪峰,"[""algorithm""]",rare,skill,2,self,[],eg_card_algo_compute_surge,card_algo_compute_surge_plus,true,算力洪峰：获得防线并触发职业资源。,
 ,card_algo_model_converge,模型收敛,"[""algorithm""]",rare,attack,2,single_enemy,[],eg_card_algo_model_converge,card_algo_model_converge_plus,true,模型收敛：造成伤害。,
 ,card_algo_zero_complexity,复杂度归零,"[""algorithm""]",rare,skill,2,self,[],eg_card_algo_zero_complexity,card_algo_zero_complexity_plus,true,复杂度归零：获得防线并触发职业资源。,
-,card_pm_change_wording,需求改口,"[""product_manager""]",common,skill,1,self,[],eg_card_pm_change_wording,card_pm_change_wording_plus,true,需求改口：获得防线并触发职业资源。,res://Resources/Art/Generated/P0/cards/card_illust_pm_change_request_v1/final.png
+,card_pm_change_wording,需求改口,"[""product_manager""]",common,skill,1,selected,[],eg_card_pm_change_wording,card_pm_change_wording_plus,true,需求改口：降低选定目标攻击意图；会议纪要可追加降低量。,res://Resources/Art/Generated/P0/cards/card_illust_pm_change_request_v1/final.png
 ,card_pm_priority_shuffle,优先级重排,"[""product_manager""]",common,skill,1,selected,[],eg_card_pm_priority_shuffle,card_pm_priority_shuffle_plus,true,优先级重排：获得防线，将选定目标排为最高优先级，并给其他目标低优先级。,
-,card_pm_meeting_minutes,会议纪要,"[""product_manager""]",common,skill,0,self,[],eg_card_pm_meeting_minutes,card_pm_meeting_minutes_plus,true,会议纪要：获得防线并触发职业资源。,
-,card_pm_revision_notice,改版通知,"[""product_manager""]",common,skill,1,self,[],eg_card_pm_revision_notice,card_pm_revision_notice_plus,true,改版通知：获得防线并触发职业资源。,
+,card_pm_meeting_minutes,会议纪要,"[""product_manager""]",common,skill,0,self,[],eg_card_pm_meeting_minutes,card_pm_meeting_minutes_plus,true,会议纪要：抽牌，并让下一张需求变更或改写意图牌增强。,
+,card_pm_revision_notice,改版通知,"[""product_manager""]",common,skill,1,selected,[],eg_card_pm_revision_notice,card_pm_revision_notice_plus,true,改版通知：对选定目标施加需求变更；会议纪要可追加层数。,
 ,card_pm_message_align,口径统一,"[""product_manager""]",common,skill,1,self,[],eg_card_pm_message_align,card_pm_message_align_plus,true,口径统一：获得防线并触发职业资源。,res://Resources/Art/Generated/P0/cards/card_illust_pm_message_align_v1/final.png
 ,card_pm_schedule_compress,排期压缩,"[""product_manager""]",common,attack,1,highest_priority_enemy,[],eg_card_pm_schedule_compress,card_pm_schedule_compress_plus,true,排期压缩：造成伤害。,
 ,card_pm_scope_confirm,范围确认,"[""product_manager""]",common,skill,1,self,[],eg_card_pm_scope_confirm,card_pm_scope_confirm_plus,true,范围确认：获得防线并触发职业资源。,
@@ -133,7 +133,7 @@
 ,card_pm_reopen_task,任务重开,"[""product_manager""]",common,attack,1,single_enemy,[],eg_card_pm_reopen_task,card_pm_reopen_task_plus,true,任务重开：造成伤害。,
 ,card_pm_tracking_backfill,埋点回填,"[""product_manager""]",common,skill,1,self,[],eg_card_pm_tracking_backfill,card_pm_tracking_backfill_plus,true,埋点回填：获得防线并触发职业资源。,
 ,card_pm_split_ticket,需求拆票,"[""product_manager""]",common,skill,1,self,[],eg_card_pm_split_ticket,card_pm_split_ticket_plus,true,需求拆票：获得防线并触发职业资源。,
-,card_pm_extra_requirement,临时加需求,"[""product_manager""]",common,skill,1,self,[],eg_card_pm_extra_requirement,card_pm_extra_requirement_plus,true,临时加需求：获得防线并触发职业资源。,res://Resources/Art/Generated/P0/cards/card_illust_pm_extra_requirement_v1/final.png
+,card_pm_extra_requirement,临时加需求,"[""product_manager""]",common,skill,1,selected,[],eg_card_pm_extra_requirement,card_pm_extra_requirement_plus,true,临时加需求：获得防线并触发职业资源。,res://Resources/Art/Generated/P0/cards/card_illust_pm_extra_requirement_v1/final.png
 ,card_pm_sync_conclusion,同步结论,"[""product_manager""]",common,skill,1,self,[],eg_card_pm_sync_conclusion,card_pm_sync_conclusion_plus,true,同步结论：获得防线并触发职业资源。,
 ,card_pm_pending_item,待确认项,"[""product_manager""]",common,skill,1,self,[],eg_card_pm_pending_item,card_pm_pending_item_plus,true,待确认项：获得防线并触发职业资源。,
 ,card_pm_review,需求评审,"[""product_manager""]",uncommon,power,2,self,[],eg_card_pm_review,card_pm_review_plus,true,需求评审：建立长期收益。,res://Resources/Art/Generated/P0/cards/card_illust_pm_review_v1/final.png

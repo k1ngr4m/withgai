@@ -586,6 +586,8 @@ class StatusParams:
     var spirit_loss: int
     var intent_amount_reduction: int
     var consume_per_action: int
+    var requirement_change_bonus: int
+    var intent_reduction_bonus: int
     var block_amount: int
     var service_threshold: int
     var draw_amount: int
@@ -606,6 +608,8 @@ class StatusParams:
         if _json_.get('spirit_loss') != null: self.spirit_loss = _json_["spirit_loss"]
         if _json_.get('intent_amount_reduction') != null: self.intent_amount_reduction = _json_["intent_amount_reduction"]
         if _json_.get('consume_per_action') != null: self.consume_per_action = _json_["consume_per_action"]
+        if _json_.get('requirement_change_bonus') != null: self.requirement_change_bonus = _json_["requirement_change_bonus"]
+        if _json_.get('intent_reduction_bonus') != null: self.intent_reduction_bonus = _json_["intent_reduction_bonus"]
         if _json_.get('block_amount') != null: self.block_amount = _json_["block_amount"]
         if _json_.get('service_threshold') != null: self.service_threshold = _json_["service_threshold"]
         if _json_.get('draw_amount') != null: self.draw_amount = _json_["draw_amount"]

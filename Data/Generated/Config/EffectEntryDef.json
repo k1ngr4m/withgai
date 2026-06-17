@@ -2162,31 +2162,10 @@
     "id": "eg_card_pm_change_wording_e01",
     "effect_group_id": "eg_card_pm_change_wording",
     "order": 1,
-    "effect_type": "gain_block",
-    "target_type": "self",
-    "params": {
-      "amount": 8
-    }
-  },
-  {
-    "id": "eg_card_pm_change_wording_e02",
-    "effect_group_id": "eg_card_pm_change_wording",
-    "order": 2,
-    "effect_type": "apply_status",
-    "target_type": "selected",
-    "params": {
-      "amount": 1,
-      "status_id": "requirement_change"
-    }
-  },
-  {
-    "id": "eg_card_pm_change_wording_e03",
-    "effect_group_id": "eg_card_pm_change_wording",
-    "order": 3,
     "effect_type": "modify_intent",
     "target_type": "selected",
     "params": {
-      "amount": -3
+      "amount": -4
     }
   },
   {
@@ -2214,16 +2193,6 @@
     "id": "eg_card_pm_meeting_minutes_e01",
     "effect_group_id": "eg_card_pm_meeting_minutes",
     "order": 1,
-    "effect_type": "gain_block",
-    "target_type": "self",
-    "params": {
-      "amount": 5
-    }
-  },
-  {
-    "id": "eg_card_pm_meeting_minutes_e02",
-    "effect_group_id": "eg_card_pm_meeting_minutes",
-    "order": 2,
     "effect_type": "draw_cards",
     "target_type": "self",
     "params": {
@@ -2231,44 +2200,25 @@
     }
   },
   {
-    "id": "eg_card_pm_meeting_minutes_e03",
+    "id": "eg_card_pm_meeting_minutes_e02",
     "effect_group_id": "eg_card_pm_meeting_minutes",
-    "order": 3,
-    "effect_type": "modify_intent",
-    "target_type": "selected",
+    "order": 2,
+    "effect_type": "apply_status",
+    "target_type": "self",
     "params": {
-      "amount": -3
+      "amount": 1,
+      "status_id": "meeting_minutes_boost"
     }
   },
   {
     "id": "eg_card_pm_revision_notice_e01",
     "effect_group_id": "eg_card_pm_revision_notice",
     "order": 1,
-    "effect_type": "gain_block",
-    "target_type": "self",
-    "params": {
-      "amount": 8
-    }
-  },
-  {
-    "id": "eg_card_pm_revision_notice_e02",
-    "effect_group_id": "eg_card_pm_revision_notice",
-    "order": 2,
     "effect_type": "apply_status",
     "target_type": "selected",
     "params": {
       "amount": 1,
       "status_id": "requirement_change"
-    }
-  },
-  {
-    "id": "eg_card_pm_revision_notice_e03",
-    "effect_group_id": "eg_card_pm_revision_notice",
-    "order": 3,
-    "effect_type": "modify_intent",
-    "target_type": "selected",
-    "params": {
-      "amount": -3
     }
   },
   {

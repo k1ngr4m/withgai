@@ -400,6 +400,23 @@
     "type": "class"
   },
   {
+    "id": "meeting_minutes_boost",
+    "name": "会议纪要",
+    "stack_rule": "stack",
+    "timing_hooks": [
+      "apply_status",
+      "modify_intent"
+    ],
+    "params": {
+      "requirement_change_bonus": 1,
+      "intent_reduction_bonus": 2
+    },
+    "effect_group_id": "",
+    "max_stack": 99,
+    "is_hidden": true,
+    "type": "class"
+  },
+  {
     "id": "scope_spread",
     "name": "范围蔓延",
     "stack_rule": "stack",

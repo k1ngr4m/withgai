@@ -79,7 +79,7 @@ const cardNames = {
 const rarityByIndex = (i) => (i < 14 ? "common" : i < 24 ? "uncommon" : "rare");
 const targetForType = (type) => (type === "attack" ? "single_enemy" : "self");
 const priorityTargetCards = new Set(["card_pm_schedule_compress", "card_pm_roadmap", "card_pm_snowball"]);
-const selectedTargetCards = new Set(["card_shared_meeting_mute", "card_tester_repro_steps", "card_tester_92_bugs", "card_tester_boundary_check", "card_tester_bug_upgrade", "card_tester_regression_confirm", "card_pm_priority_shuffle", "card_pm_priority_top"]);
+const selectedTargetCards = new Set(["card_shared_meeting_mute", "card_tester_repro_steps", "card_tester_92_bugs", "card_tester_boundary_check", "card_tester_bug_upgrade", "card_tester_regression_confirm", "card_pm_change_wording", "card_pm_revision_notice", "card_pm_extra_requirement", "card_pm_priority_shuffle", "card_pm_priority_top"]);
 const targetForCard = (type, id) => {
   if (priorityTargetCards.has(id)) return "highest_priority_enemy";
   return selectedTargetCards.has(id) ? "selected" : targetForType(type);
@@ -133,6 +133,9 @@ const specialCardDescriptions = {
   card_algo_pruning: "剪枝优化：降低复杂度，并让下一张牌费用降低。",
   card_algo_global_optimum: "全局最优解：消耗全部精力与算力，按投入造成高额伤害。",
   card_pm_priority_shuffle: "优先级重排：获得防线，将选定目标排为最高优先级，并给其他目标低优先级。",
+  card_pm_change_wording: "需求改口：降低选定目标攻击意图；会议纪要可追加降低量。",
+  card_pm_meeting_minutes: "会议纪要：抽牌，并让下一张需求变更或改写意图牌增强。",
+  card_pm_revision_notice: "改版通知：对选定目标施加需求变更；会议纪要可追加层数。",
   card_pm_priority_top: "优先级置顶：将选定目标置为最高优先级，清空其他目标优先级并抽牌。",
   card_pm_scope_spread: "范围蔓延：建立长期状态，使每次需求变更额外影响另一个敌人。",
 };
@@ -393,6 +396,22 @@ function cardEffects(classId, cardId, type, cost, idx) {
     return [
       { effect_type: "apply_status", target_type: "self", params: { status_id: "scope_spread", amount: 1 } },
       { effect_type: "draw_cards", target_type: "self", params: { amount: 1 } },
+    ];
+  }
+  if (cardId === "card_pm_change_wording") {
+    return [
+      { effect_type: "modify_intent", target_type: "selected", params: { amount: -4 } },
+    ];
+  }
+  if (cardId === "card_pm_meeting_minutes") {
+    return [
+      { effect_type: "draw_cards", target_type: "self", params: { amount: 1 } },
+      { effect_type: "apply_status", target_type: "self", params: { status_id: "meeting_minutes_boost", amount: 1 } },
+    ];
+  }
+  if (cardId === "card_pm_revision_notice") {
+    return [
+      { effect_type: "apply_status", target_type: "selected", params: { status_id: "requirement_change", amount: 1 } },
     ];
   }
   if (cardId === "card_pm_priority_shuffle") {
@@ -724,7 +743,7 @@ const statuses = [
   ["state_boost", "状态提升", "class"], ["first_screen_optimization", "首屏优化", "class"], ["compatibility_patch", "兼容性补丁", "class"], ["hotfix_style", "热更新样式", "class"],
   ["vue_suite", "Vue三件套", "class"],
   ["bug", "Bug", "class"], ["case_mark", "用例", "class"], ["diff", "Diff", "class"], ["auto_regression", "自动化回归", "class"], ["case_matrix", "用例矩阵", "class"], ["compute", "算力", "class"], ["complexity", "复杂度", "class"],
-  ["requirement_change", "需求变更", "class"], ["priority", "优先级", "class"], ["scope_spread", "范围蔓延", "class"], ["performance", "绩效", "class"], ["optimization_target", "优化名单", "class"],
+  ["requirement_change", "需求变更", "class"], ["priority", "优先级", "class"], ["meeting_minutes_boost", "会议纪要", "class"], ["scope_spread", "范围蔓延", "class"], ["performance", "绩效", "class"], ["optimization_target", "优化名单", "class"],
 ];
 const statusTimingHooks = {
   anxiety: ["round_start", "expire"],
@@ -753,6 +772,7 @@ const statusTimingHooks = {
   complexity: ["add_compute", "round_start"],
   priority: ["target_resolution"],
   requirement_change: ["apply_status", "enemy_before_action", "modify_intent"],
+  meeting_minutes_boost: ["apply_status", "modify_intent"],
   scope_spread: ["apply_status"],
 };
 const statusParams = {
@@ -765,6 +785,10 @@ const statusParams = {
   requirement_change: {
     intent_amount_reduction: 4,
     consume_per_action: 1,
+  },
+  meeting_minutes_boost: {
+    requirement_change_bonus: 1,
+    intent_reduction_bonus: 2,
   },
   api_gateway: {
     block_amount: 4,
@@ -812,7 +836,7 @@ const statusList = statuses.map(([id, name, type]) => ({
   params: statusParams[id] ?? {},
   effect_group_id: "",
   max_stack: 99,
-  is_hidden: ["redis_warmup", "cost_reduction", "first_screen_optimization", "compatibility_patch", "hotfix_style"].includes(id),
+  is_hidden: ["redis_warmup", "cost_reduction", "first_screen_optimization", "compatibility_patch", "hotfix_style", "meeting_minutes_boost"].includes(id),
   type,
 }));
 
@@ -964,6 +988,8 @@ const lubanDefines = `<module name="">
     <var name="spirit_loss" type="int?"/>
     <var name="intent_amount_reduction" type="int?"/>
     <var name="consume_per_action" type="int?"/>
+    <var name="requirement_change_bonus" type="int?"/>
+    <var name="intent_reduction_bonus" type="int?"/>
     <var name="block_amount" type="int?"/>
     <var name="service_threshold" type="int?"/>
     <var name="draw_amount" type="int?"/>

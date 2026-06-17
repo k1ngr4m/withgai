@@ -193,6 +193,10 @@
   - generated config targets a selected enemy and uses `set_priority_top` instead of generic block/priority filler
   - runtime raises the selected target to a configured top priority and clears old priority from other live enemies
   - the product manager priority resource display is recomputed from enemy priority stacks, so follow-up priority attacks route to the newly topped target
+- Product manager starter/control cards now have dedicated control behavior:
+  - `card_pm_change_wording` lowers the selected target's attack intent instead of granting generic block
+  - `card_pm_meeting_minutes` draws a card and stores hidden `meeting_minutes_boost` for the next control card
+  - `card_pm_revision_notice` applies selected-target `requirement_change`, with meeting-minutes boost adding extra stacks
 - Product manager `requirement_change` now has live enemy-action rewriting:
   - `StatusDef.params` configures intent amount reduction and per-action stack consumption.
   - before affected enemies act, attack / multi-attack / block / debuff intent amounts are reduced.
@@ -290,6 +294,7 @@ Result:
 - Godot test runner now checks product manager priority target routing, including ignored low-priority selected targets and requirement-change marking on the resolved target.
 - Godot test runner now checks product manager `card_pm_priority_shuffle` generated target/effects, block gain, selected-target promotion, other-target demotion, resource recompute, and follow-up priority-attack routing.
 - Godot test runner now checks product manager `card_pm_priority_top` generated target/effects, selected target priority replacement, old priority clearing, resource recompute, draw, and follow-up priority-attack routing.
+- Godot test runner now checks product manager `card_pm_change_wording`, `card_pm_meeting_minutes`, and `card_pm_revision_notice` generated effects, selected targeting, no-generic-block behavior, meeting-minutes boost bonuses, consumption, and resource sync.
 - Godot test runner now checks product manager `requirement_change` status params, enemy-action intent reduction, stack consumption, and resource sync after consumption.
 - Godot test runner now checks `relic_pm_meeting_room_claim` config, first requirement-change boost, once-per-turn gating, next-turn reset, and boosted resource sync.
 - Godot test runner now checks `scope_spread` config, `card_pm_scope_spread` generated effect, requirement-change spread to another enemy, and spread resource sync.

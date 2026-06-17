@@ -2048,12 +2048,12 @@
     "rarity": "common",
     "type": "skill",
     "cost": 1,
-    "target_type": "self",
+    "target_type": "selected",
     "keywords": [],
     "effect_group_id": "eg_card_pm_change_wording",
     "upgrade_to": "card_pm_change_wording_plus",
     "enabled_in_first_playable": true,
-    "description": "需求改口：获得防线并触发职业资源。",
+    "description": "需求改口：降低选定目标攻击意图；会议纪要可追加降低量。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_pm_change_request_v1/final.png"
   },
   {
@@ -2087,7 +2087,7 @@
     "effect_group_id": "eg_card_pm_meeting_minutes",
     "upgrade_to": "card_pm_meeting_minutes_plus",
     "enabled_in_first_playable": true,
-    "description": "会议纪要：获得防线并触发职业资源。",
+    "description": "会议纪要：抽牌，并让下一张需求变更或改写意图牌增强。",
     "art_path": ""
   },
   {
@@ -2099,12 +2099,12 @@
     "rarity": "common",
     "type": "skill",
     "cost": 1,
-    "target_type": "self",
+    "target_type": "selected",
     "keywords": [],
     "effect_group_id": "eg_card_pm_revision_notice",
     "upgrade_to": "card_pm_revision_notice_plus",
     "enabled_in_first_playable": true,
-    "description": "改版通知：获得防线并触发职业资源。",
+    "description": "改版通知：对选定目标施加需求变更；会议纪要可追加层数。",
     "art_path": ""
   },
   {
@@ -2235,7 +2235,7 @@
     "rarity": "common",
     "type": "skill",
     "cost": 1,
-    "target_type": "self",
+    "target_type": "selected",
     "keywords": [],
     "effect_group_id": "eg_card_pm_extra_requirement",
     "upgrade_to": "card_pm_extra_requirement_plus",
