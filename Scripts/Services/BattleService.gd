@@ -91,6 +91,9 @@ func restore_battle(run_state: Dictionary) -> bool:
 	run_state["active_battle_state"] = battle_state
 	return true
 
+func persist_current_battle(run_state: Dictionary) -> void:
+	_persist_battle(run_state)
+
 func _persist_battle(run_state: Dictionary) -> void:
 	if battle_state.is_empty() or ["victory", "defeat"].has(String(battle_state.get("phase", ""))):
 		run_state["active_battle_state"] = {}

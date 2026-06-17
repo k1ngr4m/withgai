@@ -75,8 +75,10 @@ func _validate_main_menu_scene() -> void:
 	_check(source.contains("ExitButton"), "main menu exit button configured")
 	var event_source := FileAccess.get_file_as_string("res://Scripts/UI/EventScene.gd")
 	var shop_source := FileAccess.get_file_as_string("res://Scripts/UI/ShopScene.gd")
+	var battle_source := FileAccess.get_file_as_string("res://Scripts/UI/BattleScene.gd")
 	_check(event_source.contains("save_suspend"), "event scene persists prepared event state")
 	_check(shop_source.contains("save_suspend"), "shop scene persists stock and purchases")
+	_check(battle_source.contains("persist_current_battle"), "battle scene persists current battle before suspend")
 	var main_menu_assets := [
 		"res://Resources/Art/Generated/P0/backgrounds/ui_main_menu_bg_v1.png",
 		"res://Resources/Art/Generated/P0/characters/char_backend_keyart_v1.png",
@@ -2949,6 +2951,16 @@ func _validate_save_roundtrip(config, map, meta, save) -> void:
 	run["current_scene_tag"] = "battle"
 	battle.battle_state["player"]["current_energy"] = 1
 	battle.battle_state["log"].append("battle_roundtrip_marker")
+	var enemies_for_selection: Array = battle.battle_state.get("enemies", [])
+	if enemies_for_selection.size() == 1:
+		var duplicate_enemy: Dictionary = enemies_for_selection[0].duplicate(true)
+		duplicate_enemy["name"] = "恢复目标"
+		duplicate_enemy["current_hp"] = max(1, int(duplicate_enemy.get("current_hp", 1)))
+		enemies_for_selection.append(duplicate_enemy)
+		battle.battle_state["enemies"] = enemies_for_selection
+	if enemies_for_selection.size() > 1:
+		battle.select_target(1)
+	battle.persist_current_battle(run)
 	save.save_suspend(run, meta.meta_state)
 	var battle_save: Dictionary = save.load_suspend()
 	_check(String(battle_save.get("scene_tag", "")) == "battle", "battle suspend scene tag stored")
@@ -2960,6 +2972,8 @@ func _validate_save_roundtrip(config, map, meta, save) -> void:
 	_check(restored_battle.restore_battle(restored_battle_session.run_state), "battle suspend restores battle service")
 	_check(int(restored_battle.battle_state.get("player", {}).get("current_energy", 0)) == 1, "battle suspend restores player energy")
 	_check(restored_battle.battle_state.get("log", []).has("battle_roundtrip_marker"), "battle suspend restores battle log")
+	_check(int(restored_battle.battle_state.get("enemies", []).size()) >= 2, "battle suspend restores battle enemies")
+	_check(restored_battle.selected_target_index() == 1, "battle suspend restores selected target")
 	save.clear_suspend()
 
 	run_session = RunSessionScript.new()

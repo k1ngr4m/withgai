@@ -64,7 +64,7 @@ func _build() -> void:
 	save.pressed.connect(_save_battle)
 	actions.add_child(save)
 	var menu := UiFactory.button("主菜单")
-	menu.pressed.connect(func(): AppRoot.flow_controller.show_scene("main_menu"))
+	menu.pressed.connect(_go_main_menu)
 	actions.add_child(menu)
 	var log_panel := UiFactory.panel()
 	log_panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -110,6 +110,7 @@ func _play_card(hand_index: int) -> void:
 
 func _select_target(enemy_index: int) -> void:
 	AppRoot.battle_service.select_target(enemy_index)
+	_persist_battle_suspend()
 	_build()
 
 func _end_turn() -> void:
@@ -128,7 +129,15 @@ func _after_action() -> void:
 		_build()
 
 func _save_battle() -> void:
+	_persist_battle_suspend()
+
+func _persist_battle_suspend() -> void:
+	AppRoot.battle_service.persist_current_battle(AppRoot.run_session.run_state)
 	AppRoot.save_service.save_suspend(AppRoot.run_session.run_state, AppRoot.meta_service.meta_state)
+
+func _go_main_menu() -> void:
+	AppRoot.battle_service.persist_current_battle(AppRoot.run_session.run_state)
+	AppRoot.flow_controller.show_scene("main_menu")
 
 func _go_reward() -> void:
 	AppRoot.flow_controller.show_scene("reward")

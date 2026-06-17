@@ -25,6 +25,10 @@
   - entering the shop saves rolled stock after preparation
   - successful shop card/relic purchases, card removal, and refreshes save immediately
   - automated suspend roundtrips now verify event state, shop stock, purchased cards, and refresh count
+- Battle UI now flushes current in-memory battle state before interruption points:
+  - selecting an enemy target immediately persists the selected target and current battle payload
+  - the manual save button and main-menu return path call `BattleService.persist_current_battle()`
+  - automated suspend roundtrips now verify restored enemy data and selected-target index
 
 ## 2026-06-16
 
