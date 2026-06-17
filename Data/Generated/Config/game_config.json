@@ -2000,7 +2000,7 @@
       "effect_group_id": "eg_card_algo_monte_carlo",
       "upgrade_to": "card_algo_monte_carlo_plus",
       "enabled_in_first_playable": true,
-      "description": "蒙特卡洛试投：获得防线并触发职业资源。",
+      "description": "蒙特卡洛试投：随机生成一张算法方案牌到手牌，并抽一张牌。",
       "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_algo_monte_carlo_v1/final.png"
     },
     "card_algo_astar": {
@@ -7546,17 +7546,19 @@
       ],
       "entries": [
         {
-          "effect_type": "gain_block",
+          "effect_type": "create_random_card",
           "target_type": "self",
           "params": {
-            "amount": 10
+            "amount": 1,
+            "card_id": "card_algo_greedy_sample|card_algo_state_compress|card_algo_hash_accel|card_algo_eval_func",
+            "destination": "hand"
           }
         },
         {
-          "effect_type": "modify_complexity",
+          "effect_type": "draw_cards",
           "target_type": "self",
           "params": {
-            "amount": -1
+            "amount": 1
           }
         }
       ]
@@ -11194,20 +11196,22 @@
       "id": "eg_card_algo_monte_carlo_e01",
       "effect_group_id": "eg_card_algo_monte_carlo",
       "order": 1,
-      "effect_type": "gain_block",
+      "effect_type": "create_random_card",
       "target_type": "self",
       "params": {
-        "amount": 10
+        "amount": 1,
+        "card_id": "card_algo_greedy_sample|card_algo_state_compress|card_algo_hash_accel|card_algo_eval_func",
+        "destination": "hand"
       }
     },
     "eg_card_algo_monte_carlo_e02": {
       "id": "eg_card_algo_monte_carlo_e02",
       "effect_group_id": "eg_card_algo_monte_carlo",
       "order": 2,
-      "effect_type": "modify_complexity",
+      "effect_type": "draw_cards",
       "target_type": "self",
       "params": {
-        "amount": -1
+        "amount": 1
       }
     },
     "eg_card_algo_astar_e01": {

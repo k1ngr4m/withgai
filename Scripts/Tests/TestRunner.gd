@@ -574,6 +574,25 @@ func _validate_config_references(config, content) -> void:
 			pruning_discounts_next_card = true
 	_check(pruning_reduces_complexity, "algorithm pruning lowers complexity")
 	_check(pruning_discounts_next_card, "algorithm pruning discounts next card")
+	var monte_entries: Array = content.effect_entries(content.card_def("card_algo_monte_carlo").get("effect_group_id", ""))
+	var monte_creates_random := false
+	var monte_draws := false
+	var monte_blocks := false
+	var monte_reduces_complexity := false
+	for entry in monte_entries:
+		var params: Dictionary = entry.get("params", {})
+		if entry.get("effect_type", "") == "create_random_card" and String(params.get("card_id", "")).contains("card_algo_greedy_sample") and params.get("destination", "") == "hand":
+			monte_creates_random = true
+		if entry.get("effect_type", "") == "draw_cards" and int(params.get("amount", 0)) > 0:
+			monte_draws = true
+		if entry.get("effect_type", "") == "gain_block":
+			monte_blocks = true
+		if entry.get("effect_type", "") == "modify_complexity" and int(params.get("amount", 0)) < 0:
+			monte_reduces_complexity = true
+	_check(monte_creates_random, "algorithm monte carlo creates a random scheme card")
+	_check(monte_draws, "algorithm monte carlo draws")
+	_check(not monte_blocks, "algorithm monte carlo does not grant generic block")
+	_check(not monte_reduces_complexity, "algorithm monte carlo does not use generic complexity reduction")
 	_check(config.get_def("statuses", "requirement_change").get("timing_hooks", []).has("enemy_before_action"), "requirement change declares enemy action hook")
 	var requirement_params: Dictionary = config.get_def("statuses", "requirement_change").get("params", {})
 	_check(int(requirement_params.get("intent_amount_reduction", 0)) > 0, "requirement change config reduces intent amount")
@@ -2254,6 +2273,28 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(player.get("class_resource_state", {}).get("compute", 0)) == 3, "algorithm big O compress converts complexity to compute")
 	_check(int(player.get("current_block", 0)) == 6, "algorithm big O compress converts complexity to block")
 	_check(int(player.get("current_energy", 0)) == 2, "algorithm big O compress charges card cost")
+
+	run = run_session.create_new_run("algorithm")
+	run["owned_relic_ids"] = []
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	player["hand"] = ["card_algo_monte_carlo"]
+	player["draw_pile"] = ["card_algo_linear_probe"]
+	player["discard_pile"] = []
+	player["current_energy"] = 3
+	player["current_block"] = 0
+	player["class_resource_state"]["complexity"] = 2
+	battle.play_card(run, 0, 0)
+	var monte_candidates := ["card_algo_greedy_sample", "card_algo_state_compress", "card_algo_hash_accel", "card_algo_eval_func"]
+	var monte_generated := false
+	for generated_card_id in monte_candidates:
+		if player.get("hand", []).has(generated_card_id):
+			monte_generated = true
+	_check(monte_generated, "algorithm monte carlo creates a scheme card in hand")
+	_check(player.get("hand", []).has("card_algo_linear_probe"), "algorithm monte carlo draws a card")
+	_check(int(player.get("current_block", 0)) == 0, "algorithm monte carlo does not grant generic block")
+	_check(int(player.get("class_resource_state", {}).get("complexity", 0)) == 2, "algorithm monte carlo preserves complexity")
+	_check(int(player.get("current_energy", 0)) == 2, "algorithm monte carlo charges card cost")
 
 	run = run_session.create_new_run("backend")
 	run["owned_relic_ids"].append("relic_cold_brew_bucket")

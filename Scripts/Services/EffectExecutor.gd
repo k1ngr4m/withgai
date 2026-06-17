@@ -93,6 +93,8 @@ func _execute_entry(entry: Dictionary, battle_state: Dictionary, run_state: Dict
 			_set_priority_top(entry.get("target_type", "selected"), battle_state, target_index, params, battle_log)
 		"create_card":
 			_create_card(battle_state, String(params.get("card_id", "")), String(params.get("destination", "discard")), max(1, amount), battle_log)
+		"create_random_card":
+			_create_random_card(battle_state, String(params.get("card_id", "")), String(params.get("destination", "discard")), max(1, amount), battle_log)
 		"move_card":
 			_move_card(
 				battle_state,
@@ -1100,6 +1102,27 @@ func _create_card(battle_state: Dictionary, card_id: String, destination: String
 	for i in range(amount):
 		player[pile_name].append(card_id)
 	battle_log.append("生成卡牌 %s x%d" % [card_id, amount])
+
+func _create_random_card(battle_state: Dictionary, candidate_spec: String, destination: String, amount: int, battle_log: Array) -> void:
+	var candidates := _valid_card_candidates(candidate_spec)
+	if candidates.is_empty():
+		battle_log.append("随机方案：没有可生成卡牌")
+		return
+	for _index in range(amount):
+		var card_id := String(candidates.pick_random())
+		_create_card(battle_state, card_id, destination, 1, battle_log)
+		battle_log.append("蒙特卡洛试投生成方案：%s" % _card_name(card_id))
+
+func _valid_card_candidates(candidate_spec: String) -> Array:
+	var candidates: Array = []
+	for raw_id in candidate_spec.split("|", false):
+		var card_id := String(raw_id).strip_edges()
+		if card_id.is_empty():
+			continue
+		if config_service != null and config_service.get_def("cards", card_id).is_empty():
+			continue
+		candidates.append(card_id)
+	return candidates
 
 func _move_card(battle_state: Dictionary, source: String, destination: String, amount: int, card_id: String, battle_log: Array) -> void:
 	var source_key := _pile_key(source, "discard_pile")

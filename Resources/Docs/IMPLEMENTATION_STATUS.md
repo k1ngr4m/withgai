@@ -181,6 +181,10 @@
   - generated config applies a visible `dynamic_programming` status instead of a generic draw filler
   - runtime tracks card type play counts for the battle and triggers only on the first repeat of each type
   - repeated types grant data-driven compute and draw, while subsequent repeats of the same type do not trigger again
+- Algorithm `card_algo_monte_carlo` now works as the designed random scheme generator:
+  - generated config uses `create_random_card` plus draw instead of generic block and complexity reduction
+  - the effect executor filters configured card candidates, picks one valid algorithm scheme card, and creates it in the requested pile
+  - the live card generates a scheme card into hand, draws from the draw pile, and preserves current complexity
 - Algorithm `relic_gpu_training_card` now exists in the generated relic pool and adds one extra compute the first time compute is gained each battle.
 - Algorithm `complexity` is now a real pressure resource instead of a passive counter:
   - `StatusDef.params` is now available in Luban CSV/JSON/GDScript output for status-specific tuning.
@@ -312,6 +316,7 @@ Result:
 - Godot test runner now checks algorithm `card_algo_big_o_compress` generated conversion params, live complexity consumption, compute conversion, block conversion, and card-cost charge.
 - Godot test runner now checks algorithm `card_algo_pruning` generated complexity-reduction/discount params, live complexity reduction, discounted next-card preview/play validation, reduced energy charge, and discount consumption.
 - Godot test runner now checks algorithm `card_algo_dynamic_programming` status hooks/params, generated status effect, live first-repeat skill trigger, no immediate generic draw, and no repeated same-type trigger.
+- Godot test runner now checks algorithm `card_algo_monte_carlo` generated random-card candidates, draw effect, no generic block/complexity filler, live scheme creation, draw, complexity preservation, and energy charge.
 - Godot test runner now checks `relic_gpu_training_card` config, algorithm ownership, compute trigger declaration, first compute bonus, and one-shot behavior.
 - Godot test runner now checks `complexity` status params, compute-to-complexity gain, GPU bonus complexity gain, high-complexity round-start pressure, and resource/status no-double-count behavior.
 - Godot test runner now checks product manager priority target routing, including ignored low-priority selected targets and requirement-change marking on the resolved target.

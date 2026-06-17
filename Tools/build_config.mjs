@@ -132,6 +132,7 @@ const specialCardDescriptions = {
   card_algo_complexity_burst: "复杂度爆炸：按当前复杂度追加高额伤害。",
   card_algo_big_o_compress: "大O压缩：将复杂度转换成算力和防线。",
   card_algo_pruning: "剪枝优化：降低复杂度，并让下一张牌费用降低。",
+  card_algo_monte_carlo: "蒙特卡洛试投：随机生成一张算法方案牌到手牌，并抽一张牌。",
   card_algo_global_optimum: "全局最优解：消耗全部精力与算力，按投入造成高额伤害。",
   card_pm_priority_shuffle: "优先级重排：获得防线，将选定目标排为最高优先级，并给其他目标低优先级。",
   card_pm_change_wording: "需求改口：降低选定目标攻击意图；会议纪要可追加降低量。",
@@ -396,6 +397,12 @@ function cardEffects(classId, cardId, type, cost, idx) {
   if (cardId === "card_algo_dynamic_programming") {
     return [
       { effect_type: "apply_status", target_type: "self", params: { status_id: "dynamic_programming", amount: 1 } },
+    ];
+  }
+  if (cardId === "card_algo_monte_carlo") {
+    return [
+      { effect_type: "create_random_card", target_type: "self", params: { card_id: "card_algo_greedy_sample|card_algo_state_compress|card_algo_hash_accel|card_algo_eval_func", destination: "hand", amount: 1 } },
+      { effect_type: "draw_cards", target_type: "self", params: { amount: 1 } },
     ];
   }
   if (cardId === "card_algo_global_optimum") {
