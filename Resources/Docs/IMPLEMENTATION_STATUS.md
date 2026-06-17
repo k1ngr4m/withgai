@@ -38,6 +38,9 @@
   - each page has a manual save button and a main-menu return path that preserves its scene tag
   - reward suspend roundtrips now verify pending card/relic candidates
   - rest suspend roundtrips now verify the current spirit payload
+- Rest page rebuilds now clear stale UI before switching between meditation and card-review choices:
+  - returning from the card-review picker rebuilds the main rest view without stacking duplicate controls
+  - fully upgraded decks show a clear no-upgrade-available message
 - Continue-run now normalizes restored scene tags:
   - known run scenes resume directly
   - stale or unknown scene tags fall back to the map instead of trapping the player on the main menu

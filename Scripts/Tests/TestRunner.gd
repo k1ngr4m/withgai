@@ -92,6 +92,9 @@ func _validate_main_menu_scene() -> void:
 	_check(shop_source.contains("_go_main_menu"), "shop scene has pause-to-menu action")
 	_check(reward_source.contains("_go_main_menu"), "reward scene has pause-to-menu action")
 	_check(rest_source.contains("_go_main_menu"), "rest scene has pause-to-menu action")
+	_check(rest_source.contains("_clear_children"), "rest scene clears old UI before rebuilding")
+	_check(rest_source.contains("back.pressed.connect(_build_main)"), "rest scene upgrade back button rebuilds clean main view")
+	_check(not rest_source.contains("back.pressed.connect(_ready)"), "rest scene upgrade back button does not stack ready UI")
 	var main_menu_assets := [
 		"res://Resources/Art/Generated/P0/backgrounds/ui_main_menu_bg_v1.png",
 		"res://Resources/Art/Generated/P0/characters/char_backend_keyart_v1.png",

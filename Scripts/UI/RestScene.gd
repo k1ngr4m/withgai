@@ -1,6 +1,10 @@
 extends Control
 
 func _ready() -> void:
+	_build_main()
+
+func _build_main() -> void:
+	_clear_children()
 	UiFactory.fill(self)
 	UiFactory.add_background(self, "res://Resources/Art/Generated/P0/backgrounds/bg_rest_break_room_v1.png")
 	var run := AppRoot.run_session.run_state
@@ -17,13 +21,17 @@ func _ready() -> void:
 	main.add_child(upgrade)
 	main.add_child(_pause_actions())
 
+func _clear_children() -> void:
+	for child in get_children():
+		remove_child(child)
+		child.queue_free()
+
 func _recover() -> void:
 	AppRoot.reward_service.rest_recover(AppRoot.run_session.run_state)
 	AppRoot.flow_controller.show_scene("map")
 
 func _show_upgrade_choices() -> void:
-	for child in get_children():
-		child.queue_free()
+	_clear_children()
 	UiFactory.fill(self)
 	UiFactory.add_background(self, "res://Resources/Art/Generated/P0/backgrounds/bg_rest_break_room_v1.png")
 	var run := AppRoot.run_session.run_state
@@ -37,18 +45,23 @@ func _show_upgrade_choices() -> void:
 	var master_deck: Array = deck_state.get("master_deck", [])
 	var upgraded_cards: Array = deck_state.get("upgraded_cards", [])
 	var seen: Array = []
+	var eligible_count := 0
 	for card_id in master_deck:
 		if seen.has(card_id):
 			continue
 		seen.append(card_id)
 		var card: Dictionary = AppRoot.config_service.get_def("cards", card_id)
 		var upgraded: bool = upgraded_cards.has(card_id)
+		if not upgraded:
+			eligible_count += 1
 		var b := UiFactory.button("%s%s\n%s" % [card.get("name", card_id), " +" if upgraded else "", card.get("description", "")])
 		b.disabled = upgraded
 		b.pressed.connect(func(): _upgrade(card_id))
 		choices.add_child(b)
+	if eligible_count == 0:
+		choices.add_child(UiFactory.label("当前牌组已经全部复盘过。", 18, Color(0.88, 0.94, 0.95)))
 	var back := UiFactory.button("返回")
-	back.pressed.connect(_ready)
+	back.pressed.connect(_build_main)
 	main.add_child(back)
 	main.add_child(_pause_actions())
 
