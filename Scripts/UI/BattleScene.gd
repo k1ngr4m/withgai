@@ -79,17 +79,7 @@ func _build() -> void:
 	main.add_child(header)
 	main.add_child(_player_area(player, state))
 	main.add_child(_combat_area(player, state, visual_events))
-	var hand_row := UiFactory.hbox(8)
-	hand_row.name = "HandArea"
-	hand_row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	var hand_scroll := UiFactory.scroll(hand_row)
-	hand_scroll.name = "HandScroll"
-	hand_scroll.custom_minimum_size = Vector2(0, 174)
-	hand_scroll.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	main.add_child(hand_scroll)
-	var hand: Array = player.get("hand", [])
-	for i in range(hand.size()):
-		hand_row.add_child(_card_button(hand[i], i))
+	main.add_child(_hand_panel(player))
 	var actions := UiFactory.hbox(8)
 	actions.name = "BattleActionBar"
 	main.add_child(actions)
@@ -136,6 +126,35 @@ func _combat_area(player: Dictionary, state: Dictionary, visual_events: Array) -
 		enemy_row.add_child(_enemy_panel(enemies[i], i, visual_events))
 	row.add_child(enemy_row)
 	return row
+
+
+func _hand_panel(player: Dictionary) -> PanelContainer:
+	var panel := UiFactory.panel()
+	panel.name = "HandPanel"
+	panel.custom_minimum_size = Vector2(0, 206)
+	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	panel.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	var box := UiFactory.vbox(6)
+	panel.add_child(box)
+	var hand: Array = player.get("hand", [])
+	box.add_child(UiFactory.label("手牌 %d 张" % hand.size(), 16, Color(0.88, 0.97, 1.0)))
+	var hand_row := UiFactory.hbox(8)
+	hand_row.name = "HandArea"
+	hand_row.custom_minimum_size = Vector2(0, 156)
+	hand_row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	hand_row.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	var hand_scroll := UiFactory.scroll(hand_row)
+	hand_scroll.name = "HandScroll"
+	hand_scroll.custom_minimum_size = Vector2(0, 162)
+	hand_scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	hand_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	box.add_child(hand_scroll)
+	if hand.is_empty():
+		hand_row.add_child(UiFactory.label("没有可用手牌。", 14, Color(0.70, 0.80, 0.82)))
+	else:
+		for i in range(hand.size()):
+			hand_row.add_child(_card_button(hand[i], i))
+	return panel
 
 
 func _player_actor_panel(player: Dictionary) -> Control:

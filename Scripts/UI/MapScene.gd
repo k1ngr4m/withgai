@@ -70,10 +70,15 @@ func _build() -> void:
 	var visited: Array = run.get("visited_node_ids", [])
 	_selected_node_id = _default_selected_node(available, visited)
 	_build_map_tree(run, available, visited)
-	_refresh_node_details()
 
 	var bottom := UiFactory.hbox(8)
 	main.add_child(bottom)
+	_enter_button = UiFactory.button("进入选中节点")
+	_enter_button.name = "ResumeButton"
+	_enter_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_enter_button.disabled = true
+	_enter_button.pressed.connect(_enter_selected_node)
+	bottom.add_child(_enter_button)
 	var save := UiFactory.button("保存")
 	save.name = "SaveButton"
 	save.pressed.connect(func(): AppRoot.save_service.save_suspend(AppRoot.run_session.run_state, AppRoot.meta_service.meta_state))
@@ -82,6 +87,7 @@ func _build() -> void:
 	menu.name = "MainMenuButton"
 	menu.pressed.connect(func(): AppRoot.flow_controller.show_scene("main_menu"))
 	bottom.add_child(menu)
+	_refresh_node_details()
 	call_deferred("_animate_entry")
 
 
