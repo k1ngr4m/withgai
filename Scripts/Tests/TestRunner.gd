@@ -91,6 +91,7 @@ func _validate_main_menu_scene() -> void:
 	_check(battle_source.contains("persist_current_battle"), "battle scene persists current battle before suspend")
 	_check(battle_source.contains("_clear_resolved_battle"), "battle scene clears resolved battles before leaving")
 	_check(battle_source.contains("battle_service.clear()"), "battle scene clears battle service state after victory or defeat")
+	_check(not reward_source.contains("save_suspend(run"), "reward confirm lets flow controller save destination scene")
 	_check(event_source.contains("_go_main_menu"), "event scene has pause-to-menu action")
 	_check(shop_source.contains("_go_main_menu"), "shop scene has pause-to-menu action")
 	_check(reward_source.contains("_go_main_menu"), "reward scene has pause-to-menu action")

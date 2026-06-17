@@ -41,6 +41,9 @@
   - each page has a manual save button and a main-menu return path that preserves its scene tag
   - reward suspend roundtrips now verify pending card/relic candidates
   - rest suspend roundtrips now verify the current spirit payload
+- Reward confirmation now delegates destination-scene saves to `FlowController`:
+  - accepting a reward no longer writes an intermediate empty-reward `reward` suspend save
+  - the final map/result transition owns `current_scene_tag` and suspend persistence
 - Rest page rebuilds now clear stale UI before switching between meditation and card-review choices:
   - returning from the card-review picker rebuilds the main rest view without stacking duplicate controls
   - fully upgraded decks show a clear no-upgrade-available message
