@@ -685,6 +685,30 @@ func _validate_config_references(config, content) -> void:
 			revision_notice_blocks = true
 	_check(revision_notice_applies_requirement, "pm revision notice applies requirement change")
 	_check(not revision_notice_blocks, "pm revision notice does not use generic block")
+	_check(content.card_def("card_pm_delay_meeting").get("target_type", "") == "selected", "pm delay meeting targets selected enemy")
+	var delay_meeting_entries: Array = content.effect_entries(content.card_def("card_pm_delay_meeting").get("effect_group_id", ""))
+	var delay_meeting_delays := false
+	var delay_meeting_blocks := false
+	for entry in delay_meeting_entries:
+		var params: Dictionary = entry.get("params", {})
+		if entry.get("effect_type", "") == "delay_intent" and entry.get("target_type", "") == "selected" and int(params.get("high_attack_threshold", 0)) > 0:
+			delay_meeting_delays = true
+		if entry.get("effect_type", "") == "gain_block":
+			delay_meeting_blocks = true
+	_check(delay_meeting_delays, "pm delay meeting delays high pressure intent")
+	_check(not delay_meeting_blocks, "pm delay meeting does not use generic block")
+	_check(content.card_def("card_pm_milestone_split").get("target_type", "") == "selected", "pm milestone split targets selected enemy")
+	var milestone_split_entries: Array = content.effect_entries(content.card_def("card_pm_milestone_split").get("effect_group_id", ""))
+	var milestone_split_splits := false
+	var milestone_split_blocks := false
+	for entry in milestone_split_entries:
+		var params: Dictionary = entry.get("params", {})
+		if entry.get("effect_type", "") == "split_intent" and entry.get("target_type", "") == "selected" and int(params.get("hits", 0)) > 1:
+			milestone_split_splits = true
+		if entry.get("effect_type", "") == "gain_block":
+			milestone_split_blocks = true
+	_check(milestone_split_splits, "pm milestone split breaks high pressure intent into hits")
+	_check(not milestone_split_blocks, "pm milestone split does not use generic block")
 	_check(content.card_def("card_pm_schedule_compress").get("target_type", "") == "highest_priority_enemy", "pm schedule compress targets priority")
 	_check(content.card_def("card_pm_priority_shuffle").get("target_type", "") == "selected", "pm priority shuffle targets selected enemy")
 	var priority_shuffle_entries: Array = content.effect_entries(content.card_def("card_pm_priority_shuffle").get("effect_group_id", ""))
@@ -1767,6 +1791,55 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(meeting_revision_enemy.get("status_list", {}).get("requirement_change", 0)) == 2, "pm meeting minutes strengthens revision notice")
 	_check(int(player.get("status_list", {}).get("meeting_minutes_boost", 0)) == 0, "pm revision boost is consumed")
 	_check(int(player.get("class_resource_state", {}).get("requirement_change_marks", 0)) == 2, "pm boosted revision syncs requirement resource")
+
+	run = run_session.create_new_run("product_manager")
+	run["owned_relic_ids"] = []
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	var delay_enemies: Array = battle.battle_state.get("enemies", [])
+	if delay_enemies.size() == 1:
+		delay_enemies.append(delay_enemies[0].duplicate(true))
+		delay_enemies[1]["name"] = "延期目标"
+	delay_enemies[0]["intent"] = { "intent_type": "attack", "amount": 18 }
+	delay_enemies[0]["runtime_flags"] = {}
+	delay_enemies[1]["intent"] = { "intent_type": "attack", "amount": 18 }
+	delay_enemies[1]["runtime_flags"] = {}
+	battle.battle_state["enemies"] = delay_enemies
+	player["hand"] = ["card_pm_delay_meeting"]
+	player["draw_pile"] = []
+	player["discard_pile"] = []
+	player["current_energy"] = 3
+	player["current_block"] = 0
+	player["status_list"] = {}
+	battle.play_card(run, 0, 1)
+	_check(int(delay_enemies[0].get("intent", {}).get("amount", 0)) == 18, "pm delay meeting ignores unselected enemy")
+	_check(delay_enemies[1].get("intent", {}).get("intent_type", "") == "block", "pm delay meeting replaces selected intent this turn")
+	_check(int(delay_enemies[1].get("intent", {}).get("amount", 0)) == 3, "pm delay meeting changes selected target to low yield block")
+	_check(int(delay_enemies[1].get("runtime_flags", {}).get("forced_next_intent", {}).get("amount", 0)) == 18, "pm delay meeting stores delayed intent")
+	_check(int(player.get("current_block", 0)) == 0, "pm delay meeting does not grant generic block")
+	battle.call("_roll_enemy_intents")
+	_check(delay_enemies[1].get("intent", {}).get("intent_type", "") == "attack", "pm delayed intent returns next turn")
+	_check(int(delay_enemies[1].get("intent", {}).get("amount", 0)) == 18, "pm delayed intent preserves original amount")
+	_check(not delay_enemies[1].get("runtime_flags", {}).has("forced_next_intent"), "pm delayed intent is consumed after return")
+
+	run = run_session.create_new_run("product_manager")
+	run["owned_relic_ids"] = []
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	var split_enemy: Dictionary = battle.battle_state.get("enemies", [])[0]
+	split_enemy["intent"] = { "intent_type": "attack", "amount": 18 }
+	split_enemy["runtime_flags"] = {}
+	player["hand"] = ["card_pm_milestone_split"]
+	player["draw_pile"] = []
+	player["discard_pile"] = []
+	player["current_energy"] = 3
+	player["current_block"] = 0
+	player["status_list"] = {}
+	battle.play_card(run, 0, 0)
+	_check(split_enemy.get("intent", {}).get("intent_type", "") == "multi_attack", "pm milestone split converts strong attack to multi attack")
+	_check(int(split_enemy.get("intent", {}).get("hits", 0)) == 3, "pm milestone split uses configured hit count")
+	_check(int(split_enemy.get("intent", {}).get("amount", 0)) == 6, "pm milestone split lowers each hit amount")
+	_check(int(player.get("current_block", 0)) == 0, "pm milestone split does not grant generic block")
 
 	run = run_session.create_new_run("product_manager")
 	run["owned_relic_ids"] = []

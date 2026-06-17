@@ -156,6 +156,13 @@ func _roll_enemy_intents() -> void:
 		if int(enemy.get("current_hp", 0)) <= 0:
 			continue
 		var flags: Dictionary = enemy.get("runtime_flags", {})
+		var forced_next_intent: Dictionary = flags.get("forced_next_intent", {})
+		if not forced_next_intent.is_empty():
+			enemy["intent"] = forced_next_intent.duplicate(true)
+			flags.erase("forced_next_intent")
+			enemy["runtime_flags"] = flags
+			battle_state["log"].append("%s 处理被延期的意图：%s" % [enemy.get("name", "敌人"), enemy["intent"].get("intent_type", "")])
+			continue
 		var observed_next_intent: Dictionary = flags.get("observed_next_intent", {})
 		if not observed_next_intent.is_empty():
 			enemy["intent"] = observed_next_intent.duplicate(true)

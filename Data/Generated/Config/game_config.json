@@ -2471,12 +2471,12 @@
       "rarity": "uncommon",
       "type": "skill",
       "cost": 1,
-      "target_type": "self",
+      "target_type": "selected",
       "keywords": [],
       "effect_group_id": "eg_card_pm_delay_meeting",
       "upgrade_to": "card_pm_delay_meeting_plus",
       "enabled_in_first_playable": true,
-      "description": "会议延期：获得防线并触发职业资源。",
+      "description": "会议延期：若选定目标正在准备高压攻击，将该意图延后到下回合。",
       "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_pm_delay_meeting_v1/final.png"
     },
     "card_pm_priority_top": {
@@ -2505,12 +2505,12 @@
       "rarity": "uncommon",
       "type": "skill",
       "cost": 1,
-      "target_type": "self",
+      "target_type": "selected",
       "keywords": [],
       "effect_group_id": "eg_card_pm_milestone_split",
       "upgrade_to": "card_pm_milestone_split_plus",
       "enabled_in_first_playable": true,
-      "description": "里程碑拆分：获得防线并触发职业资源。",
+      "description": "里程碑拆分：把选定目标的强攻击拆成多段较弱动作。",
       "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_pm_milestone_split_v1/final.png"
     },
     "card_pm_scope_spread": {
@@ -8160,23 +8160,15 @@
     "eg_card_pm_delay_meeting": {
       "id": "eg_card_pm_delay_meeting",
       "entry_ids": [
-        "eg_card_pm_delay_meeting_e01",
-        "eg_card_pm_delay_meeting_e02"
+        "eg_card_pm_delay_meeting_e01"
       ],
       "entries": [
         {
-          "effect_type": "gain_block",
-          "target_type": "self",
-          "params": {
-            "amount": 10
-          }
-        },
-        {
-          "effect_type": "apply_status",
+          "effect_type": "delay_intent",
           "target_type": "selected",
           "params": {
-            "amount": 1,
-            "status_id": "priority"
+            "block_amount": 3,
+            "high_attack_threshold": 12
           }
         }
       ]
@@ -8208,23 +8200,15 @@
     "eg_card_pm_milestone_split": {
       "id": "eg_card_pm_milestone_split",
       "entry_ids": [
-        "eg_card_pm_milestone_split_e01",
-        "eg_card_pm_milestone_split_e02"
+        "eg_card_pm_milestone_split_e01"
       ],
       "entries": [
         {
-          "effect_type": "gain_block",
-          "target_type": "self",
-          "params": {
-            "amount": 10
-          }
-        },
-        {
-          "effect_type": "apply_status",
+          "effect_type": "split_intent",
           "target_type": "selected",
           "params": {
-            "amount": 1,
-            "status_id": "priority"
+            "hits": 3,
+            "high_attack_threshold": 10
           }
         }
       ]
@@ -11775,21 +11759,11 @@
       "id": "eg_card_pm_delay_meeting_e01",
       "effect_group_id": "eg_card_pm_delay_meeting",
       "order": 1,
-      "effect_type": "gain_block",
-      "target_type": "self",
-      "params": {
-        "amount": 10
-      }
-    },
-    "eg_card_pm_delay_meeting_e02": {
-      "id": "eg_card_pm_delay_meeting_e02",
-      "effect_group_id": "eg_card_pm_delay_meeting",
-      "order": 2,
-      "effect_type": "apply_status",
+      "effect_type": "delay_intent",
       "target_type": "selected",
       "params": {
-        "amount": 1,
-        "status_id": "priority"
+        "block_amount": 3,
+        "high_attack_threshold": 12
       }
     },
     "eg_card_pm_priority_top_e01": {
@@ -11817,21 +11791,11 @@
       "id": "eg_card_pm_milestone_split_e01",
       "effect_group_id": "eg_card_pm_milestone_split",
       "order": 1,
-      "effect_type": "gain_block",
-      "target_type": "self",
-      "params": {
-        "amount": 10
-      }
-    },
-    "eg_card_pm_milestone_split_e02": {
-      "id": "eg_card_pm_milestone_split_e02",
-      "effect_group_id": "eg_card_pm_milestone_split",
-      "order": 2,
-      "effect_type": "apply_status",
+      "effect_type": "split_intent",
       "target_type": "selected",
       "params": {
-        "amount": 1,
-        "status_id": "priority"
+        "hits": 3,
+        "high_attack_threshold": 10
       }
     },
     "eg_card_pm_scope_spread_e01": {

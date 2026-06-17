@@ -2303,12 +2303,12 @@
     "rarity": "uncommon",
     "type": "skill",
     "cost": 1,
-    "target_type": "self",
+    "target_type": "selected",
     "keywords": [],
     "effect_group_id": "eg_card_pm_delay_meeting",
     "upgrade_to": "card_pm_delay_meeting_plus",
     "enabled_in_first_playable": true,
-    "description": "会议延期：获得防线并触发职业资源。",
+    "description": "会议延期：若选定目标正在准备高压攻击，将该意图延后到下回合。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_pm_delay_meeting_v1/final.png"
   },
   {
@@ -2337,12 +2337,12 @@
     "rarity": "uncommon",
     "type": "skill",
     "cost": 1,
-    "target_type": "self",
+    "target_type": "selected",
     "keywords": [],
     "effect_group_id": "eg_card_pm_milestone_split",
     "upgrade_to": "card_pm_milestone_split_plus",
     "enabled_in_first_playable": true,
-    "description": "里程碑拆分：获得防线并触发职业资源。",
+    "description": "里程碑拆分：把选定目标的强攻击拆成多段较弱动作。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_pm_milestone_split_v1/final.png"
   },
   {

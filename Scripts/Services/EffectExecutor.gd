@@ -81,6 +81,10 @@ func _execute_entry(entry: Dictionary, battle_state: Dictionary, run_state: Dict
 			_compress_complexity(battle_state, run_state, params, battle_log)
 		"modify_intent":
 			_modify_intents(entry.get("target_type", "selected"), battle_state, run_state, target_index, amount, battle_log)
+		"delay_intent":
+			_delay_intent(entry.get("target_type", "selected"), battle_state, target_index, params, battle_log)
+		"split_intent":
+			_split_intent(entry.get("target_type", "selected"), battle_state, target_index, params, battle_log)
 		"shuffle_priority":
 			_shuffle_priority(entry.get("target_type", "selected"), battle_state, target_index, params, battle_log)
 		"set_priority_top":
@@ -863,6 +867,43 @@ func _modify_intents(target_type: String, battle_state: Dictionary, run_state: D
 	amount = _meeting_minutes_adjusted_intent_amount(battle_state, amount, battle_log)
 	for enemy in _target_enemies(target_type, battle_state, target_index):
 		_modify_intent(enemy, battle_state, run_state, amount, battle_log)
+
+func _delay_intent(target_type: String, battle_state: Dictionary, target_index: int, params: Dictionary, battle_log: Array) -> void:
+	var threshold: int = max(1, int(params.get("high_attack_threshold", 10)))
+	var fallback_block: int = max(0, int(params.get("block_amount", 0)))
+	for enemy in _target_enemies(target_type, battle_state, target_index):
+		var intent: Dictionary = enemy.get("intent", {})
+		var total_amount: int = _attack_intent_total(intent)
+		if total_amount < threshold:
+			battle_log.append("%s 的当前动作不值得延期" % enemy.get("name", "敌人"))
+			continue
+		var flags: Dictionary = enemy.get("runtime_flags", {})
+		flags["forced_next_intent"] = intent.duplicate(true)
+		enemy["runtime_flags"] = flags
+		enemy["intent"] = { "intent_type": "block", "amount": fallback_block }
+		battle_log.append("%s 的高压会议被延期到下回合" % enemy.get("name", "敌人"))
+
+func _split_intent(target_type: String, battle_state: Dictionary, target_index: int, params: Dictionary, battle_log: Array) -> void:
+	var threshold: int = max(1, int(params.get("high_attack_threshold", 10)))
+	var hits: int = max(2, int(params.get("hits", 2)))
+	for enemy in _target_enemies(target_type, battle_state, target_index):
+		var intent: Dictionary = enemy.get("intent", {})
+		var total_amount: int = _attack_intent_total(intent)
+		if total_amount < threshold:
+			battle_log.append("%s 的当前动作不足以拆分" % enemy.get("name", "敌人"))
+			continue
+		var split_amount: int = max(1, int(floor(float(total_amount) / float(hits))))
+		enemy["intent"] = { "intent_type": "multi_attack", "amount": split_amount, "hits": hits }
+		battle_log.append("%s 的里程碑被拆成 %d 段" % [enemy.get("name", "敌人"), hits])
+
+func _attack_intent_total(intent: Dictionary) -> int:
+	match String(intent.get("intent_type", "")):
+		"attack":
+			return max(0, int(intent.get("amount", 0)))
+		"multi_attack":
+			return max(0, int(intent.get("amount", 0))) * max(1, int(intent.get("hits", 1)))
+		_:
+			return 0
 
 func _consume_meeting_minutes_requirement_bonus(battle_state: Dictionary, battle_log: Array) -> int:
 	if _meeting_minutes_boost_count(battle_state) <= 0:

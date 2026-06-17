@@ -2462,21 +2462,11 @@
     "id": "eg_card_pm_delay_meeting_e01",
     "effect_group_id": "eg_card_pm_delay_meeting",
     "order": 1,
-    "effect_type": "gain_block",
-    "target_type": "self",
-    "params": {
-      "amount": 10
-    }
-  },
-  {
-    "id": "eg_card_pm_delay_meeting_e02",
-    "effect_group_id": "eg_card_pm_delay_meeting",
-    "order": 2,
-    "effect_type": "apply_status",
+    "effect_type": "delay_intent",
     "target_type": "selected",
     "params": {
-      "amount": 1,
-      "status_id": "priority"
+      "block_amount": 3,
+      "high_attack_threshold": 12
     }
   },
   {
@@ -2504,21 +2494,11 @@
     "id": "eg_card_pm_milestone_split_e01",
     "effect_group_id": "eg_card_pm_milestone_split",
     "order": 1,
-    "effect_type": "gain_block",
-    "target_type": "self",
-    "params": {
-      "amount": 10
-    }
-  },
-  {
-    "id": "eg_card_pm_milestone_split_e02",
-    "effect_group_id": "eg_card_pm_milestone_split",
-    "order": 2,
-    "effect_type": "apply_status",
+    "effect_type": "split_intent",
     "target_type": "selected",
     "params": {
-      "amount": 1,
-      "status_id": "priority"
+      "hits": 3,
+      "high_attack_threshold": 10
     }
   },
   {

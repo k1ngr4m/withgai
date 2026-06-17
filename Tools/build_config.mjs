@@ -79,7 +79,7 @@ const cardNames = {
 const rarityByIndex = (i) => (i < 14 ? "common" : i < 24 ? "uncommon" : "rare");
 const targetForType = (type) => (type === "attack" ? "single_enemy" : "self");
 const priorityTargetCards = new Set(["card_pm_schedule_compress", "card_pm_roadmap", "card_pm_snowball"]);
-const selectedTargetCards = new Set(["card_shared_meeting_mute", "card_tester_repro_steps", "card_tester_92_bugs", "card_tester_boundary_check", "card_tester_bug_upgrade", "card_tester_regression_confirm", "card_pm_change_wording", "card_pm_revision_notice", "card_pm_extra_requirement", "card_pm_priority_shuffle", "card_pm_priority_top"]);
+const selectedTargetCards = new Set(["card_shared_meeting_mute", "card_tester_repro_steps", "card_tester_92_bugs", "card_tester_boundary_check", "card_tester_bug_upgrade", "card_tester_regression_confirm", "card_pm_change_wording", "card_pm_revision_notice", "card_pm_extra_requirement", "card_pm_delay_meeting", "card_pm_milestone_split", "card_pm_priority_shuffle", "card_pm_priority_top"]);
 const targetForCard = (type, id) => {
   if (priorityTargetCards.has(id)) return "highest_priority_enemy";
   return selectedTargetCards.has(id) ? "selected" : targetForType(type);
@@ -136,6 +136,8 @@ const specialCardDescriptions = {
   card_pm_change_wording: "需求改口：降低选定目标攻击意图；会议纪要可追加降低量。",
   card_pm_meeting_minutes: "会议纪要：抽牌，并让下一张需求变更或改写意图牌增强。",
   card_pm_revision_notice: "改版通知：对选定目标施加需求变更；会议纪要可追加层数。",
+  card_pm_delay_meeting: "会议延期：若选定目标正在准备高压攻击，将该意图延后到下回合。",
+  card_pm_milestone_split: "里程碑拆分：把选定目标的强攻击拆成多段较弱动作。",
   card_pm_priority_top: "优先级置顶：将选定目标置为最高优先级，清空其他目标优先级并抽牌。",
   card_pm_scope_spread: "范围蔓延：建立长期状态，使每次需求变更额外影响另一个敌人。",
 };
@@ -412,6 +414,16 @@ function cardEffects(classId, cardId, type, cost, idx) {
   if (cardId === "card_pm_revision_notice") {
     return [
       { effect_type: "apply_status", target_type: "selected", params: { status_id: "requirement_change", amount: 1 } },
+    ];
+  }
+  if (cardId === "card_pm_delay_meeting") {
+    return [
+      { effect_type: "delay_intent", target_type: "selected", params: { high_attack_threshold: 12, block_amount: 3 } },
+    ];
+  }
+  if (cardId === "card_pm_milestone_split") {
+    return [
+      { effect_type: "split_intent", target_type: "selected", params: { high_attack_threshold: 10, hits: 3 } },
     ];
   }
   if (cardId === "card_pm_priority_shuffle") {

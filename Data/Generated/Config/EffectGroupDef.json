@@ -916,8 +916,7 @@
   {
     "id": "eg_card_pm_delay_meeting",
     "entry_ids": [
-      "eg_card_pm_delay_meeting_e01",
-      "eg_card_pm_delay_meeting_e02"
+      "eg_card_pm_delay_meeting_e01"
     ]
   },
   {
@@ -930,8 +929,7 @@
   {
     "id": "eg_card_pm_milestone_split",
     "entry_ids": [
-      "eg_card_pm_milestone_split_e01",
-      "eg_card_pm_milestone_split_e02"
+      "eg_card_pm_milestone_split_e01"
     ]
   },
   {
