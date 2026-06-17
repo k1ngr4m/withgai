@@ -29,6 +29,10 @@
   - selecting an enemy target immediately persists the selected target and current battle payload
   - the manual save button and main-menu return path call `BattleService.persist_current_battle()`
   - automated suspend roundtrips now verify restored enemy data and selected-target index
+- Reward, shop, event, and rest pages now expose explicit pause actions:
+  - each page has a manual save button and a main-menu return path that preserves its scene tag
+  - reward suspend roundtrips now verify pending card/relic candidates
+  - rest suspend roundtrips now verify the current spirit payload
 
 ## 2026-06-16
 

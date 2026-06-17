@@ -76,9 +76,15 @@ func _validate_main_menu_scene() -> void:
 	var event_source := FileAccess.get_file_as_string("res://Scripts/UI/EventScene.gd")
 	var shop_source := FileAccess.get_file_as_string("res://Scripts/UI/ShopScene.gd")
 	var battle_source := FileAccess.get_file_as_string("res://Scripts/UI/BattleScene.gd")
+	var reward_source := FileAccess.get_file_as_string("res://Scripts/UI/RewardScene.gd")
+	var rest_source := FileAccess.get_file_as_string("res://Scripts/UI/RestScene.gd")
 	_check(event_source.contains("save_suspend"), "event scene persists prepared event state")
 	_check(shop_source.contains("save_suspend"), "shop scene persists stock and purchases")
 	_check(battle_source.contains("persist_current_battle"), "battle scene persists current battle before suspend")
+	_check(event_source.contains("_go_main_menu"), "event scene has pause-to-menu action")
+	_check(shop_source.contains("_go_main_menu"), "shop scene has pause-to-menu action")
+	_check(reward_source.contains("_go_main_menu"), "reward scene has pause-to-menu action")
+	_check(rest_source.contains("_go_main_menu"), "rest scene has pause-to-menu action")
 	var main_menu_assets := [
 		"res://Resources/Art/Generated/P0/backgrounds/ui_main_menu_bg_v1.png",
 		"res://Resources/Art/Generated/P0/characters/char_backend_keyart_v1.png",
@@ -2979,6 +2985,23 @@ func _validate_save_roundtrip(config, map, meta, save) -> void:
 	run_session = RunSessionScript.new()
 	run_session.call("setup", config, map, meta)
 	run = run_session.create_new_run("backend")
+	run["current_scene_tag"] = "reward"
+	run["pending_reward_state"] = {
+		"candidate_card_ids": ["card_backend_interface_probe"],
+		"candidate_relic_ids": ["relic_lumbar_cushion"],
+		"currency_amount": 12,
+		"source_node_type": "normal_battle",
+	}
+	save.save_suspend(run, meta.meta_state)
+	var reward_save: Dictionary = save.load_suspend()
+	_check(String(reward_save.get("scene_tag", "")) == "reward", "reward suspend scene tag stored")
+	_check(reward_save.get("serialized_run_state", {}).get("pending_reward_state", {}).get("candidate_card_ids", []).has("card_backend_interface_probe"), "reward suspend keeps card candidates")
+	_check(reward_save.get("serialized_run_state", {}).get("pending_reward_state", {}).get("candidate_relic_ids", []).has("relic_lumbar_cushion"), "reward suspend keeps relic candidates")
+	save.clear_suspend()
+
+	run_session = RunSessionScript.new()
+	run_session.call("setup", config, map, meta)
+	run = run_session.create_new_run("backend")
 	run["current_scene_tag"] = "event"
 	reward_service.prepare_event(run)
 	var prepared_event_id := String(run.get("event_state", {}).get("event_id", ""))
@@ -3009,6 +3032,17 @@ func _validate_save_roundtrip(config, map, meta, save) -> void:
 	save.save_suspend(run, meta.meta_state)
 	shop_save = save.load_suspend()
 	_check(int(shop_save.get("serialized_run_state", {}).get("shop_state", {}).get("refresh_count", 0)) == 1, "shop suspend keeps refresh count")
+	save.clear_suspend()
+
+	run_session = RunSessionScript.new()
+	run_session.call("setup", config, map, meta)
+	run = run_session.create_new_run("backend")
+	run["current_scene_tag"] = "rest"
+	run["player_state"]["current_spirit"] = 37
+	save.save_suspend(run, meta.meta_state)
+	var rest_save: Dictionary = save.load_suspend()
+	_check(String(rest_save.get("scene_tag", "")) == "rest", "rest suspend scene tag stored")
+	_check(int(rest_save.get("serialized_run_state", {}).get("player_state", {}).get("current_spirit", 0)) == 37, "rest suspend keeps player spirit")
 	save.clear_suspend()
 
 func _validate_meta_settlement(config, map, meta) -> void:

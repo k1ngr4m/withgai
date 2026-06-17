@@ -24,7 +24,23 @@ func _build() -> void:
 		var b: Button = UiFactory.button(option.get("text", "选择"))
 		b.pressed.connect(func(): _choose(i))
 		main.add_child(b)
+	var actions := UiFactory.hbox(8)
+	main.add_child(actions)
+	var save := UiFactory.button("保存")
+	save.pressed.connect(_save_event)
+	actions.add_child(save)
+	var menu := UiFactory.button("主菜单")
+	menu.pressed.connect(_go_main_menu)
+	actions.add_child(menu)
 
 func _choose(option_index: int) -> void:
 	AppRoot.reward_service.choose_event_option(AppRoot.run_session.run_state, option_index)
 	AppRoot.flow_controller.show_scene("map")
+
+func _save_event() -> void:
+	AppRoot.run_session.run_state["current_scene_tag"] = "event"
+	AppRoot.save_service.save_suspend(AppRoot.run_session.run_state, AppRoot.meta_service.meta_state)
+
+func _go_main_menu() -> void:
+	_save_event()
+	AppRoot.flow_controller.show_scene("main_menu")

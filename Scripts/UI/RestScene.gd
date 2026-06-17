@@ -15,6 +15,7 @@ func _ready() -> void:
 	var upgrade := UiFactory.button("复盘：升级一张牌")
 	upgrade.pressed.connect(_show_upgrade_choices)
 	main.add_child(upgrade)
+	main.add_child(_pause_actions())
 
 func _recover() -> void:
 	AppRoot.reward_service.rest_recover(AppRoot.run_session.run_state)
@@ -49,7 +50,26 @@ func _show_upgrade_choices() -> void:
 	var back := UiFactory.button("返回")
 	back.pressed.connect(_ready)
 	main.add_child(back)
+	main.add_child(_pause_actions())
 
 func _upgrade(card_id: String) -> void:
 	AppRoot.reward_service.rest_upgrade_card(AppRoot.run_session.run_state, card_id)
 	AppRoot.flow_controller.show_scene("map")
+
+func _pause_actions() -> Control:
+	var actions := UiFactory.hbox(8)
+	var save := UiFactory.button("保存")
+	save.pressed.connect(_save_rest)
+	actions.add_child(save)
+	var menu := UiFactory.button("主菜单")
+	menu.pressed.connect(_go_main_menu)
+	actions.add_child(menu)
+	return actions
+
+func _save_rest() -> void:
+	AppRoot.run_session.run_state["current_scene_tag"] = "rest"
+	AppRoot.save_service.save_suspend(AppRoot.run_session.run_state, AppRoot.meta_service.meta_state)
+
+func _go_main_menu() -> void:
+	_save_rest()
+	AppRoot.flow_controller.show_scene("main_menu")

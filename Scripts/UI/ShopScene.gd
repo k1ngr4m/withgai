@@ -65,6 +65,12 @@ func _build() -> void:
 	var leave := UiFactory.button("离开商店")
 	leave.pressed.connect(_leave)
 	actions.add_child(leave)
+	var save := UiFactory.button("保存")
+	save.pressed.connect(_save_shop)
+	actions.add_child(save)
+	var menu := UiFactory.button("主菜单")
+	menu.pressed.connect(_go_main_menu)
+	actions.add_child(menu)
 
 func _buy_card(card_id: String) -> void:
 	if AppRoot.reward_service.buy_shop_card(AppRoot.run_session.run_state, card_id):
@@ -90,6 +96,14 @@ func _refresh_stock() -> void:
 func _leave() -> void:
 	AppRoot.reward_service.leave_shop(AppRoot.run_session.run_state)
 	AppRoot.flow_controller.show_scene("map")
+
+func _save_shop() -> void:
+	AppRoot.run_session.run_state["current_scene_tag"] = "shop"
+	AppRoot.save_service.save_suspend(AppRoot.run_session.run_state, AppRoot.meta_service.meta_state)
+
+func _go_main_menu() -> void:
+	_save_shop()
+	AppRoot.flow_controller.show_scene("main_menu")
 
 func _select_remove_card(card_id: String) -> void:
 	selected_remove_card_id = card_id

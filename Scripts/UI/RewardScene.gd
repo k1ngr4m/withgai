@@ -52,6 +52,14 @@ func _build() -> void:
 	var confirm := UiFactory.button("确认领取")
 	confirm.pressed.connect(_accept_reward)
 	main.add_child(confirm)
+	var actions := UiFactory.hbox(8)
+	main.add_child(actions)
+	var save := UiFactory.button("保存")
+	save.pressed.connect(_save_reward)
+	actions.add_child(save)
+	var menu := UiFactory.button("主菜单")
+	menu.pressed.connect(_go_main_menu)
+	actions.add_child(menu)
 
 func _select_card(card_id: String) -> void:
 	selected_card_id = card_id
@@ -69,3 +77,11 @@ func _accept_reward() -> void:
 	else:
 		AppRoot.save_service.save_suspend(run, AppRoot.meta_service.meta_state)
 		AppRoot.flow_controller.show_scene("map")
+
+func _save_reward() -> void:
+	AppRoot.run_session.run_state["current_scene_tag"] = "reward"
+	AppRoot.save_service.save_suspend(AppRoot.run_session.run_state, AppRoot.meta_service.meta_state)
+
+func _go_main_menu() -> void:
+	_save_reward()
+	AppRoot.flow_controller.show_scene("main_menu")
