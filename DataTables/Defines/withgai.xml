@@ -56,6 +56,8 @@
     <var name="cache_multiplier" type="int?"/>
     <var name="consume_compute" type="bool?"/>
     <var name="compute_multiplier" type="int?"/>
+    <var name="compute_threshold" type="int?"/>
+    <var name="compute_threshold_bonus" type="int?"/>
     <var name="complexity_multiplier" type="int?"/>
     <var name="compute_per_complexity" type="int?"/>
     <var name="block_per_complexity" type="int?"/>

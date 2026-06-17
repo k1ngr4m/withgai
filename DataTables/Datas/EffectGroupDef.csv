@@ -117,7 +117,7 @@
 ,eg_card_algo_graph_opt,"[""eg_card_algo_graph_opt_e01"",""eg_card_algo_graph_opt_e02""]"
 ,eg_card_algo_matrix_warmup,"[""eg_card_algo_matrix_warmup_e01"",""eg_card_algo_matrix_warmup_e02""]"
 ,eg_card_algo_global_optimum,"[""eg_card_algo_global_optimum_e01""]"
-,eg_card_algo_matrix_mul,"[""eg_card_algo_matrix_mul_e01"",""eg_card_algo_matrix_mul_e02""]"
+,eg_card_algo_matrix_mul,"[""eg_card_algo_matrix_mul_e01""]"
 ,eg_card_algo_distill,"[""eg_card_algo_distill_e01"",""eg_card_algo_distill_e02""]"
 ,eg_card_algo_compute_surge,"[""eg_card_algo_compute_surge_e01"",""eg_card_algo_compute_surge_e02""]"
 ,eg_card_algo_model_converge,"[""eg_card_algo_model_converge_e01"",""eg_card_algo_model_converge_e02""]"

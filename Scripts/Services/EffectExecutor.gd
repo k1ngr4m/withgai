@@ -311,7 +311,9 @@ func _algorithm_damage_context(player: Dictionary, battle_state: Dictionary, par
 	var uses_x_energy := bool(params.get("x_energy_scaling", false))
 	var consumes_compute := bool(params.get("consume_compute", false))
 	var complexity_multiplier := int(params.get("complexity_multiplier", 0))
-	if not uses_x_energy and not consumes_compute and complexity_multiplier <= 0:
+	var compute_threshold := int(params.get("compute_threshold", 0))
+	var compute_threshold_bonus := int(params.get("compute_threshold_bonus", 0))
+	if not uses_x_energy and not consumes_compute and complexity_multiplier <= 0 and compute_threshold <= 0:
 		return result
 	var play_context: Dictionary = battle_state.get("last_play_context", {})
 	if uses_x_energy and bool(play_context.get("is_x_cost", false)):
@@ -320,6 +322,8 @@ func _algorithm_damage_context(player: Dictionary, battle_state: Dictionary, par
 	if consumes_compute and compute > 0:
 		result["bonus"] = int(result.get("bonus", 0)) + compute * int(params.get("compute_multiplier", 3))
 		result["consume_compute"] = compute
+	if compute_threshold > 0 and compute >= compute_threshold:
+		result["bonus"] = int(result.get("bonus", 0)) + max(0, compute_threshold_bonus)
 	if complexity_multiplier > 0:
 		result["bonus"] = int(result.get("bonus", 0)) + _complexity_count(player) * complexity_multiplier
 	return result

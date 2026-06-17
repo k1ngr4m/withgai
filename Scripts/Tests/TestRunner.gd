@@ -593,6 +593,17 @@ func _validate_config_references(config, content) -> void:
 	_check(monte_draws, "algorithm monte carlo draws")
 	_check(not monte_blocks, "algorithm monte carlo does not grant generic block")
 	_check(not monte_reduces_complexity, "algorithm monte carlo does not use generic complexity reduction")
+	var matrix_entries: Array = content.effect_entries(content.card_def("card_algo_matrix_mul").get("effect_group_id", ""))
+	var matrix_has_threshold_payoff := false
+	var matrix_adds_compute := false
+	for entry in matrix_entries:
+		var params: Dictionary = entry.get("params", {})
+		if entry.get("effect_type", "") == "deal_damage" and int(params.get("compute_threshold", 0)) > 0 and int(params.get("compute_threshold_bonus", 0)) > 0:
+			matrix_has_threshold_payoff = true
+		if entry.get("effect_type", "") == "add_compute":
+			matrix_adds_compute = true
+	_check(matrix_has_threshold_payoff, "algorithm matrix multiplication has compute threshold payoff")
+	_check(not matrix_adds_compute, "algorithm matrix multiplication does not add generic compute")
 	_check(config.get_def("statuses", "requirement_change").get("timing_hooks", []).has("enemy_before_action"), "requirement change declares enemy action hook")
 	var requirement_params: Dictionary = config.get_def("statuses", "requirement_change").get("params", {})
 	_check(int(requirement_params.get("intent_amount_reduction", 0)) > 0, "requirement change config reduces intent amount")
@@ -2295,6 +2306,43 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(player.get("current_block", 0)) == 0, "algorithm monte carlo does not grant generic block")
 	_check(int(player.get("class_resource_state", {}).get("complexity", 0)) == 2, "algorithm monte carlo preserves complexity")
 	_check(int(player.get("current_energy", 0)) == 2, "algorithm monte carlo charges card cost")
+
+	run = run_session.create_new_run("algorithm")
+	run["owned_relic_ids"] = []
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	var matrix_enemy_low: Dictionary = battle.battle_state.get("enemies", [])[0]
+	matrix_enemy_low["current_hp"] = 120
+	matrix_enemy_low["max_hp"] = 120
+	matrix_enemy_low["current_block"] = 0
+	matrix_enemy_low["status_list"] = {}
+	player["hand"] = ["card_algo_matrix_mul"]
+	player["current_energy"] = 3
+	player["current_block"] = 0
+	player["class_resource_state"]["compute"] = 2
+	player["class_resource_state"]["complexity"] = 0
+	battle.play_card(run, 0, 0)
+	_check(int(matrix_enemy_low.get("current_hp", 0)) == 102, "algorithm matrix multiplication low compute uses base damage")
+	_check(int(player.get("class_resource_state", {}).get("compute", 0)) == 2, "algorithm matrix multiplication does not add compute")
+
+	run = run_session.create_new_run("algorithm")
+	run["owned_relic_ids"] = []
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	var matrix_enemy_high: Dictionary = battle.battle_state.get("enemies", [])[0]
+	matrix_enemy_high["current_hp"] = 120
+	matrix_enemy_high["max_hp"] = 120
+	matrix_enemy_high["current_block"] = 0
+	matrix_enemy_high["status_list"] = {}
+	player["hand"] = ["card_algo_matrix_mul"]
+	player["current_energy"] = 3
+	player["current_block"] = 0
+	player["class_resource_state"]["compute"] = 4
+	player["class_resource_state"]["complexity"] = 0
+	battle.play_card(run, 0, 0)
+	_check(int(matrix_enemy_high.get("current_hp", 0)) == 72, "algorithm matrix multiplication high compute gains burst damage")
+	_check(int(player.get("class_resource_state", {}).get("compute", 0)) == 4, "algorithm matrix multiplication keeps compute after payoff")
+	_check(int(player.get("current_energy", 0)) == 1, "algorithm matrix multiplication charges card cost")
 
 	run = run_session.create_new_run("backend")
 	run["owned_relic_ids"].append("relic_cold_brew_bucket")

@@ -133,6 +133,7 @@ const specialCardDescriptions = {
   card_algo_big_o_compress: "大O压缩：将复杂度转换成算力和防线。",
   card_algo_pruning: "剪枝优化：降低复杂度，并让下一张牌费用降低。",
   card_algo_monte_carlo: "蒙特卡洛试投：随机生成一张算法方案牌到手牌，并抽一张牌。",
+  card_algo_matrix_mul: "矩阵乘法：算力达到阈值时打出极高单体伤害。",
   card_algo_global_optimum: "全局最优解：消耗全部精力与算力，按投入造成高额伤害。",
   card_pm_priority_shuffle: "优先级重排：获得防线，将选定目标排为最高优先级，并给其他目标低优先级。",
   card_pm_change_wording: "需求改口：降低选定目标攻击意图；会议纪要可追加降低量。",
@@ -408,6 +409,11 @@ function cardEffects(classId, cardId, type, cost, idx) {
   if (cardId === "card_algo_global_optimum") {
     return [
       { effect_type: "deal_damage", target_type: "single_enemy", params: { amount: 10, x_energy_scaling: true, x_energy_multiplier: 4, consume_compute: true, compute_multiplier: 3 } },
+    ];
+  }
+  if (cardId === "card_algo_matrix_mul") {
+    return [
+      { effect_type: "deal_damage", target_type: "single_enemy", params: { amount: 18, compute_threshold: 4, compute_threshold_bonus: 30 } },
     ];
   }
   if (cardId === "card_pm_scope_spread") {
@@ -1091,6 +1097,8 @@ const lubanDefines = `<module name="">
     <var name="cache_multiplier" type="int?"/>
     <var name="consume_compute" type="bool?"/>
     <var name="compute_multiplier" type="int?"/>
+    <var name="compute_threshold" type="int?"/>
+    <var name="compute_threshold_bonus" type="int?"/>
     <var name="complexity_multiplier" type="int?"/>
     <var name="compute_per_complexity" type="int?"/>
     <var name="block_per_complexity" type="int?"/>

@@ -185,6 +185,10 @@
   - generated config uses `create_random_card` plus draw instead of generic block and complexity reduction
   - the effect executor filters configured card candidates, picks one valid algorithm scheme card, and creates it in the requested pile
   - the live card generates a scheme card into hand, draws from the draw pile, and preserves current complexity
+- Algorithm `card_algo_matrix_mul` now works as the designed compute-threshold burst attack:
+  - generated config gives the attack `compute_threshold` and `compute_threshold_bonus` params instead of generic damage plus compute gain
+  - algorithm damage context adds the burst damage only when current compute reaches the configured threshold
+  - the payoff keeps stored compute intact, making it a high-output reward for prior compute setup rather than another compute builder
 - Algorithm `relic_gpu_training_card` now exists in the generated relic pool and adds one extra compute the first time compute is gained each battle.
 - Algorithm `complexity` is now a real pressure resource instead of a passive counter:
   - `StatusDef.params` is now available in Luban CSV/JSON/GDScript output for status-specific tuning.
@@ -317,6 +321,7 @@ Result:
 - Godot test runner now checks algorithm `card_algo_pruning` generated complexity-reduction/discount params, live complexity reduction, discounted next-card preview/play validation, reduced energy charge, and discount consumption.
 - Godot test runner now checks algorithm `card_algo_dynamic_programming` status hooks/params, generated status effect, live first-repeat skill trigger, no immediate generic draw, and no repeated same-type trigger.
 - Godot test runner now checks algorithm `card_algo_monte_carlo` generated random-card candidates, draw effect, no generic block/complexity filler, live scheme creation, draw, complexity preservation, and energy charge.
+- Godot test runner now checks algorithm `card_algo_matrix_mul` generated compute-threshold payoff, no generic compute gain, live low-compute base damage, live high-compute burst damage, compute preservation, and energy charge.
 - Godot test runner now checks `relic_gpu_training_card` config, algorithm ownership, compute trigger declaration, first compute bonus, and one-shot behavior.
 - Godot test runner now checks `complexity` status params, compute-to-complexity gain, GPU bonus complexity gain, high-complexity round-start pressure, and resource/status no-double-count behavior.
 - Godot test runner now checks product manager priority target routing, including ignored low-priority selected targets and requirement-change marking on the resolved target.

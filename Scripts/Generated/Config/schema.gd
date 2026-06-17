@@ -171,6 +171,8 @@ class EffectParams:
     var cache_multiplier: int
     var consume_compute: bool
     var compute_multiplier: int
+    var compute_threshold: int
+    var compute_threshold_bonus: int
     var complexity_multiplier: int
     var compute_per_complexity: int
     var block_per_complexity: int
@@ -215,6 +217,8 @@ class EffectParams:
         if _json_.get('cache_multiplier') != null: self.cache_multiplier = _json_["cache_multiplier"]
         if _json_.get('consume_compute') != null: self.consume_compute = _json_["consume_compute"]
         if _json_.get('compute_multiplier') != null: self.compute_multiplier = _json_["compute_multiplier"]
+        if _json_.get('compute_threshold') != null: self.compute_threshold = _json_["compute_threshold"]
+        if _json_.get('compute_threshold_bonus') != null: self.compute_threshold_bonus = _json_["compute_threshold_bonus"]
         if _json_.get('complexity_multiplier') != null: self.complexity_multiplier = _json_["complexity_multiplier"]
         if _json_.get('compute_per_complexity') != null: self.compute_per_complexity = _json_["compute_per_complexity"]
         if _json_.get('block_per_complexity') != null: self.block_per_complexity = _json_["block_per_complexity"]

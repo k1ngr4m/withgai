@@ -2056,17 +2056,9 @@
     "effect_type": "deal_damage",
     "target_type": "single_enemy",
     "params": {
-      "amount": 18
-    }
-  },
-  {
-    "id": "eg_card_algo_matrix_mul_e02",
-    "effect_group_id": "eg_card_algo_matrix_mul",
-    "order": 2,
-    "effect_type": "add_compute",
-    "target_type": "self",
-    "params": {
-      "amount": 2
+      "amount": 18,
+      "compute_threshold": 4,
+      "compute_threshold_bonus": 30
     }
   },
   {
