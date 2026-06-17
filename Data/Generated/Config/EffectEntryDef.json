@@ -1918,20 +1918,13 @@
     "id": "eg_card_algo_astar_e01",
     "effect_group_id": "eg_card_algo_astar",
     "order": 1,
-    "effect_type": "gain_block",
+    "effect_type": "fetch_key_card",
     "target_type": "self",
     "params": {
-      "amount": 10
-    }
-  },
-  {
-    "id": "eg_card_algo_astar_e02",
-    "effect_group_id": "eg_card_algo_astar",
-    "order": 2,
-    "effect_type": "add_compute",
-    "target_type": "self",
-    "params": {
-      "amount": 1
+      "amount": 1,
+      "card_id": "card_algo_global_optimum|card_algo_matrix_mul|card_algo_complexity_burst|card_algo_big_o_compress",
+      "next_card_id": "card_algo_heuristic_search|card_algo_pruning|card_algo_local_opt|card_algo_linear_probe",
+      "destination": "hand"
     }
   },
   {

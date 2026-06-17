@@ -133,6 +133,7 @@ const specialCardDescriptions = {
   card_algo_big_o_compress: "大O压缩：将复杂度转换成算力和防线。",
   card_algo_pruning: "剪枝优化：降低复杂度，并让下一张牌费用降低。",
   card_algo_monte_carlo: "蒙特卡洛试投：随机生成一张算法方案牌到手牌，并抽一张牌。",
+  card_algo_astar: "A星寻路：检索关键算法牌到手牌，并把优先牌排到下一抽。",
   card_algo_matrix_mul: "矩阵乘法：算力达到阈值时打出极高单体伤害。",
   card_algo_global_optimum: "全局最优解：消耗全部精力与算力，按投入造成高额伤害。",
   card_pm_priority_shuffle: "优先级重排：获得防线，将选定目标排为最高优先级，并给其他目标低优先级。",
@@ -404,6 +405,11 @@ function cardEffects(classId, cardId, type, cost, idx) {
     return [
       { effect_type: "create_random_card", target_type: "self", params: { card_id: "card_algo_greedy_sample|card_algo_state_compress|card_algo_hash_accel|card_algo_eval_func", destination: "hand", amount: 1 } },
       { effect_type: "draw_cards", target_type: "self", params: { amount: 1 } },
+    ];
+  }
+  if (cardId === "card_algo_astar") {
+    return [
+      { effect_type: "fetch_key_card", target_type: "self", params: { card_id: "card_algo_global_optimum|card_algo_matrix_mul|card_algo_complexity_burst|card_algo_big_o_compress", next_card_id: "card_algo_heuristic_search|card_algo_pruning|card_algo_local_opt|card_algo_linear_probe", destination: "hand", amount: 1 } },
     ];
   }
   if (cardId === "card_algo_global_optimum") {
@@ -1067,6 +1073,7 @@ const lubanDefines = `<module name="">
     <var name="amount" type="int?"/>
     <var name="status_id" type="string?"/>
     <var name="card_id" type="string?"/>
+    <var name="next_card_id" type="string?"/>
     <var name="destination" type="string?"/>
     <var name="relic_id" type="string?"/>
     <var name="enemy_id" type="string?"/>

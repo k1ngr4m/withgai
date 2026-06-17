@@ -141,6 +141,7 @@ class EffectParams:
     var amount: int
     var status_id: String
     var card_id: String
+    var next_card_id: String
     var destination: String
     var relic_id: String
     var enemy_id: String
@@ -187,6 +188,7 @@ class EffectParams:
         if _json_.get('amount') != null: self.amount = _json_["amount"]
         if _json_.get('status_id') != null: self.status_id = _json_["status_id"]
         if _json_.get('card_id') != null: self.card_id = _json_["card_id"]
+        if _json_.get('next_card_id') != null: self.next_card_id = _json_["next_card_id"]
         if _json_.get('destination') != null: self.destination = _json_["destination"]
         if _json_.get('relic_id') != null: self.relic_id = _json_["relic_id"]
         if _json_.get('enemy_id') != null: self.enemy_id = _json_["enemy_id"]

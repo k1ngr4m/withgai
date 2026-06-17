@@ -2017,7 +2017,7 @@
       "effect_group_id": "eg_card_algo_astar",
       "upgrade_to": "card_algo_astar_plus",
       "enabled_in_first_playable": true,
-      "description": "A星寻路：获得防线并触发职业资源。",
+      "description": "A星寻路：检索关键算法牌到手牌，并把优先牌排到下一抽。",
       "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_algo_astar_v1/final.png"
     },
     "card_algo_convolution": {
@@ -7566,22 +7566,17 @@
     "eg_card_algo_astar": {
       "id": "eg_card_algo_astar",
       "entry_ids": [
-        "eg_card_algo_astar_e01",
-        "eg_card_algo_astar_e02"
+        "eg_card_algo_astar_e01"
       ],
       "entries": [
         {
-          "effect_type": "gain_block",
+          "effect_type": "fetch_key_card",
           "target_type": "self",
           "params": {
-            "amount": 10
-          }
-        },
-        {
-          "effect_type": "add_compute",
-          "target_type": "self",
-          "params": {
-            "amount": 1
+            "amount": 1,
+            "card_id": "card_algo_global_optimum|card_algo_matrix_mul|card_algo_complexity_burst|card_algo_big_o_compress",
+            "next_card_id": "card_algo_heuristic_search|card_algo_pruning|card_algo_local_opt|card_algo_linear_probe",
+            "destination": "hand"
           }
         }
       ]
@@ -11212,20 +11207,13 @@
       "id": "eg_card_algo_astar_e01",
       "effect_group_id": "eg_card_algo_astar",
       "order": 1,
-      "effect_type": "gain_block",
+      "effect_type": "fetch_key_card",
       "target_type": "self",
       "params": {
-        "amount": 10
-      }
-    },
-    "eg_card_algo_astar_e02": {
-      "id": "eg_card_algo_astar_e02",
-      "effect_group_id": "eg_card_algo_astar",
-      "order": 2,
-      "effect_type": "add_compute",
-      "target_type": "self",
-      "params": {
-        "amount": 1
+        "amount": 1,
+        "card_id": "card_algo_global_optimum|card_algo_matrix_mul|card_algo_complexity_burst|card_algo_big_o_compress",
+        "next_card_id": "card_algo_heuristic_search|card_algo_pruning|card_algo_local_opt|card_algo_linear_probe",
+        "destination": "hand"
       }
     },
     "eg_card_algo_convolution_e01": {

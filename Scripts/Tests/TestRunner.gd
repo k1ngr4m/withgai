@@ -593,6 +593,21 @@ func _validate_config_references(config, content) -> void:
 	_check(monte_draws, "algorithm monte carlo draws")
 	_check(not monte_blocks, "algorithm monte carlo does not grant generic block")
 	_check(not monte_reduces_complexity, "algorithm monte carlo does not use generic complexity reduction")
+	var astar_entries: Array = content.effect_entries(content.card_def("card_algo_astar").get("effect_group_id", ""))
+	var astar_fetches_key := false
+	var astar_blocks := false
+	var astar_adds_compute := false
+	for entry in astar_entries:
+		var params: Dictionary = entry.get("params", {})
+		if entry.get("effect_type", "") == "fetch_key_card" and String(params.get("card_id", "")).contains("card_algo_matrix_mul") and String(params.get("next_card_id", "")).contains("card_algo_pruning"):
+			astar_fetches_key = true
+		if entry.get("effect_type", "") == "gain_block":
+			astar_blocks = true
+		if entry.get("effect_type", "") == "add_compute":
+			astar_adds_compute = true
+	_check(astar_fetches_key, "algorithm astar fetches key cards and sets next draw candidates")
+	_check(not astar_blocks, "algorithm astar does not grant generic block")
+	_check(not astar_adds_compute, "algorithm astar does not add generic compute")
 	var matrix_entries: Array = content.effect_entries(content.card_def("card_algo_matrix_mul").get("effect_group_id", ""))
 	var matrix_has_threshold_payoff := false
 	var matrix_adds_compute := false
@@ -2306,6 +2321,24 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(player.get("current_block", 0)) == 0, "algorithm monte carlo does not grant generic block")
 	_check(int(player.get("class_resource_state", {}).get("complexity", 0)) == 2, "algorithm monte carlo preserves complexity")
 	_check(int(player.get("current_energy", 0)) == 2, "algorithm monte carlo charges card cost")
+
+	run = run_session.create_new_run("algorithm")
+	run["owned_relic_ids"] = []
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	player["hand"] = ["card_algo_astar"]
+	player["draw_pile"] = ["card_algo_heuristic_search", "card_algo_pruning", "card_algo_matrix_mul", "card_algo_dynamic_programming"]
+	player["discard_pile"] = []
+	player["current_energy"] = 3
+	player["current_block"] = 0
+	player["class_resource_state"]["compute"] = 0
+	battle.play_card(run, 0, 0)
+	_check(player.get("hand", []).has("card_algo_matrix_mul"), "algorithm astar fetches matrix multiplication into hand")
+	_check(not player.get("draw_pile", []).has("card_algo_matrix_mul"), "algorithm astar removes fetched key card from draw")
+	_check(String(player.get("draw_pile", []).back()) == "card_algo_pruning", "algorithm astar puts priority card on top of draw pile")
+	_check(int(player.get("current_block", 0)) == 0, "algorithm astar does not grant generic block")
+	_check(int(player.get("class_resource_state", {}).get("compute", 0)) == 0, "algorithm astar does not add generic compute")
+	_check(int(player.get("current_energy", 0)) == 2, "algorithm astar charges card cost")
 
 	run = run_session.create_new_run("algorithm")
 	run["owned_relic_ids"] = []

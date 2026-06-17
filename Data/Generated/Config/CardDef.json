@@ -1849,7 +1849,7 @@
     "effect_group_id": "eg_card_algo_astar",
     "upgrade_to": "card_algo_astar_plus",
     "enabled_in_first_playable": true,
-    "description": "A星寻路：获得防线并触发职业资源。",
+    "description": "A星寻路：检索关键算法牌到手牌，并把优先牌排到下一抽。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_algo_astar_v1/final.png"
   },
   {

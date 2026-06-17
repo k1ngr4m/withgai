@@ -110,7 +110,7 @@
 ,card_algo_complexity_burst,复杂度爆炸,"[""algorithm""]",uncommon,attack,2,single_enemy,[],eg_card_algo_complexity_burst,card_algo_complexity_burst_plus,true,复杂度爆炸：按当前复杂度追加高额伤害。,res://Resources/Art/Generated/P0/cards/card_illust_algo_complexity_burst_v1/final.png
 ,card_algo_big_o_compress,大O压缩,"[""algorithm""]",uncommon,skill,1,self,[],eg_card_algo_big_o_compress,card_algo_big_o_compress_plus,true,大O压缩：将复杂度转换成算力和防线。,res://Resources/Art/Generated/P0/cards/card_illust_algo_big_o_compress_v1/final.png
 ,card_algo_monte_carlo,蒙特卡洛试投,"[""algorithm""]",uncommon,skill,1,self,[],eg_card_algo_monte_carlo,card_algo_monte_carlo_plus,true,蒙特卡洛试投：随机生成一张算法方案牌到手牌，并抽一张牌。,res://Resources/Art/Generated/P0/cards/card_illust_algo_monte_carlo_v1/final.png
-,card_algo_astar,A星寻路,"[""algorithm""]",uncommon,skill,1,self,[],eg_card_algo_astar,card_algo_astar_plus,true,A星寻路：获得防线并触发职业资源。,res://Resources/Art/Generated/P0/cards/card_illust_algo_astar_v1/final.png
+,card_algo_astar,A星寻路,"[""algorithm""]",uncommon,skill,1,self,[],eg_card_algo_astar,card_algo_astar_plus,true,A星寻路：检索关键算法牌到手牌，并把优先牌排到下一抽。,res://Resources/Art/Generated/P0/cards/card_illust_algo_astar_v1/final.png
 ,card_algo_convolution,卷积加速,"[""algorithm""]",uncommon,attack,2,single_enemy,[],eg_card_algo_convolution,card_algo_convolution_plus,true,卷积加速：造成伤害。,
 ,card_algo_memo_search,记忆化搜索,"[""algorithm""]",uncommon,power,2,self,[],eg_card_algo_memo_search,card_algo_memo_search_plus,true,记忆化搜索：建立长期收益。,
 ,card_algo_binary_cut,二分切割,"[""algorithm""]",uncommon,attack,1,single_enemy,[],eg_card_algo_binary_cut,card_algo_binary_cut_plus,true,二分切割：造成伤害。,

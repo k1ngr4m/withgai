@@ -25,6 +25,8 @@ func _execute_entry(entry: Dictionary, battle_state: Dictionary, run_state: Dict
 			_draw_cards(battle_state, amount, battle_log)
 		"fetch_service_card":
 			_fetch_service_card(battle_state, params, battle_log)
+		"fetch_key_card":
+			_fetch_key_card(battle_state, params, battle_log)
 		"gain_energy":
 			_player(battle_state)["current_energy"] = int(_player(battle_state).get("current_energy", 0)) + amount
 		"apply_status":
@@ -528,6 +530,42 @@ func _fetch_service_card(battle_state: Dictionary, params: Dictionary, battle_lo
 		battle_log.append("追踪链路找到：%s" % _card_name(card_id))
 	if fetched == 0:
 		battle_log.append("追踪链路未找到服务牌")
+
+func _fetch_key_card(battle_state: Dictionary, params: Dictionary, battle_log: Array) -> void:
+	var player := _player(battle_state)
+	var draw_pile: Array = player.get("draw_pile", [])
+	var hand: Array = player.get("hand", [])
+	var key_candidates := _valid_card_candidates(String(params.get("card_id", "")))
+	var fetched := 0
+	for _index in range(max(1, int(params.get("amount", 1)))):
+		var candidate_index := _find_candidate_index_from_top(draw_pile, key_candidates)
+		if candidate_index < 0:
+			break
+		var card_id := String(draw_pile[candidate_index])
+		draw_pile.remove_at(candidate_index)
+		hand.append(card_id)
+		fetched += 1
+		battle_log.append("A星寻路找到关键牌：%s" % _card_name(card_id))
+	player["hand"] = hand
+	if fetched == 0:
+		battle_log.append("A星寻路未找到关键牌")
+	var next_candidates := _valid_card_candidates(String(params.get("next_card_id", "")))
+	var next_index := _find_candidate_index_from_top(draw_pile, next_candidates)
+	if next_index >= 0:
+		var next_card_id := String(draw_pile[next_index])
+		draw_pile.remove_at(next_index)
+		draw_pile.append(next_card_id)
+		battle_log.append("A星寻路优化下一抽：%s" % _card_name(next_card_id))
+	player["draw_pile"] = draw_pile
+
+func _find_candidate_index_from_top(pile: Array, candidates: Array) -> int:
+	if candidates.is_empty():
+		return -1
+	for offset in range(pile.size()):
+		var index: int = pile.size() - 1 - offset
+		if candidates.has(String(pile[index])):
+			return index
+	return -1
 
 func _fetch_service_card_from_draw_pile(battle_state: Dictionary) -> String:
 	var player := _player(battle_state)

@@ -26,6 +26,7 @@
     <var name="amount" type="int?"/>
     <var name="status_id" type="string?"/>
     <var name="card_id" type="string?"/>
+    <var name="next_card_id" type="string?"/>
     <var name="destination" type="string?"/>
     <var name="relic_id" type="string?"/>
     <var name="enemy_id" type="string?"/>
