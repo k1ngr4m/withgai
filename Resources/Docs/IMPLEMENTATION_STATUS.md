@@ -58,6 +58,9 @@
 - Completed map nodes now clear `RunState.current_node_id`:
   - reward, rest, chapter transition, and final Boss tests verify completed-node cleanup
   - saves taken on the map no longer retain stale node ids from prior pages
+- Run reset now clears stale battle-service memory:
+  - `BattleService.clear()` empties the active battle payload
+  - `AppRoot.reset_run()` clears both `RunSession` and `BattleService` when leaving the result screen
 - Meta progression copy now reflects the current backend-first scope:
   - backend is described as connected to battle, reward, shop, and suspend/continue
   - locked careers remain visible as career-tree placeholders

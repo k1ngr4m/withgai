@@ -40,3 +40,5 @@ func boot() -> void:
 
 func reset_run() -> void:
 	run_session.clear()
+	if battle_service != null:
+		battle_service.clear()

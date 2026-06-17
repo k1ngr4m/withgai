@@ -33,6 +33,7 @@ func _init() -> void:
 	_validate_main_menu_scene()
 	_validate_config_references(config, content)
 	_validate_run_class_locks(config, map, meta)
+	_validate_run_reset_cleanup()
 	for class_id in ["backend"]:
 		var run := run_session.create_new_run(class_id)
 		_check(run.get("deck_state", {}).get("master_deck", []).size() == 10, "%s starter deck" % class_id)
@@ -890,6 +891,14 @@ func _validate_run_class_locks(config, map, meta) -> void:
 		_check(not internal_run.is_empty(), "%s internal coverage run can still be created" % class_id)
 		_check(String(run_session.run_state.get("selected_class_id", "")) == class_id, "%s internal run updates active run" % class_id)
 		run_session.create_new_run("backend")
+
+func _validate_run_reset_cleanup() -> void:
+	var battle = BattleServiceScript.new()
+	battle.battle_state = { "phase": "player", "log": ["leftover_battle_state"] }
+	battle.clear()
+	_check(battle.battle_state.is_empty(), "battle service clear removes active battle state")
+	var app_root_source := FileAccess.get_file_as_string("res://Scripts/Autoload/AppRoot.gd")
+	_check(app_root_source.contains("battle_service.clear()"), "app root reset clears battle service state")
 
 func _validate_class_resources(class_id: String) -> void:
 	var battle = BattleServiceScript.new()

@@ -40,6 +40,9 @@ func setup(p_content_resolver, p_effect_executor: EffectExecutor) -> void:
 	content_resolver = p_content_resolver
 	effect_executor = p_effect_executor
 
+func clear() -> void:
+	battle_state = {}
+
 func start_battle(run_state: Dictionary, node: Dictionary) -> Dictionary:
 	var encounter := _select_encounter(run_state, node)
 	var enemies: Array = []
