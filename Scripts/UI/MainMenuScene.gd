@@ -56,6 +56,7 @@ const SCENE_LABELS := {
 	"class_select": "职业选择",
 	"meta": "工位成长",
 }
+const RESUMABLE_SCENE_TAGS := ["map", "battle", "reward", "shop", "event", "rest", "run_result"]
 const BROADCASTS := [
 	"楼宇广播：今日电梯优先服务正在爬楼的打工人。",
 	"会议室提示：画饼主管已占用 6F，请携带防线入场。",
@@ -1456,12 +1457,17 @@ func _continue_run() -> void:
 	var app = _app_root()
 	if app == null or app.run_session == null or app.save_service == null:
 		return
-	if app.run_session.restore_from_suspend(app.save_service.load_suspend()):
-		var tag: String = String(app.run_session.run_state.get("current_scene_tag", "map"))
+	var suspend: Dictionary = app.save_service.load_suspend()
+	if app.run_session.restore_from_suspend(suspend):
+		var tag := _resume_scene_tag(String(app.run_session.run_state.get("current_scene_tag", suspend.get("scene_tag", "map"))))
 		if tag == "battle" and not app.battle_service.restore_battle(app.run_session.run_state):
 			tag = "map"
-			app.run_session.run_state["current_scene_tag"] = "map"
+		app.run_session.run_state["current_scene_tag"] = tag
 		_show_scene(tag)
+
+
+func _resume_scene_tag(scene_tag: String) -> String:
+	return scene_tag if RESUMABLE_SCENE_TAGS.has(scene_tag) else "map"
 
 
 func _start_spotlight_class() -> void:

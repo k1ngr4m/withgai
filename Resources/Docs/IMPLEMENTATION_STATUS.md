@@ -34,6 +34,9 @@
   - each page has a manual save button and a main-menu return path that preserves its scene tag
   - reward suspend roundtrips now verify pending card/relic candidates
   - rest suspend roundtrips now verify the current spirit payload
+- Continue-run now normalizes restored scene tags:
+  - known run scenes resume directly
+  - stale or unknown scene tags fall back to the map instead of trapping the player on the main menu
 - Meta progression copy now reflects the current backend-first scope:
   - backend is described as connected to battle, reward, shop, and suspend/continue
   - locked careers remain visible as career-tree placeholders
