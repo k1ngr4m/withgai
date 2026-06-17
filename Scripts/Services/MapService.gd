@@ -32,11 +32,12 @@ func generate_chapter(run_state: Dictionary, chapter: int) -> void:
 			for next_node in floors[i + 1]:
 				if abs(int(node["index"]) - int(next_node["index"])) <= 1 or floors[i + 1].size() == 1:
 					node["next_ids"].append(next_node["id"])
+	var node_graph := _build_node_graph(floors)
 	run_state["current_chapter"] = chapter
 	run_state["map_state"] = {
 		"chapter_index": chapter,
 		"floors": floors,
-		"node_graph": {},
+		"node_graph": node_graph,
 		"visited_nodes": [],
 		"available_next_nodes": floors[0].map(func(node): return node["id"]),
 		"boss_node_id": floors[5][0]["id"],
@@ -55,11 +56,34 @@ func _node_type_for(_chapter: int, local_floor: int, index: int, rng: RandomNumb
 	return pool[rng.randi_range(0, pool.size() - 1)]
 
 func find_node(run_state: Dictionary, node_id: String) -> Dictionary:
+	var node_graph := _ensure_node_graph(run_state)
+	if node_graph.has(node_id):
+		return node_graph[node_id]
 	for layer in run_state.get("map_state", {}).get("floors", []):
 		for node in layer:
 			if node.get("id", "") == node_id:
 				return node
 	return {}
+
+func _build_node_graph(floors: Array) -> Dictionary:
+	var graph := {}
+	for layer in floors:
+		for node in layer:
+			graph[String(node.get("id", ""))] = node
+	return graph
+
+func _ensure_node_graph(run_state: Dictionary) -> Dictionary:
+	var map_state: Dictionary = run_state.get("map_state", {})
+	var floors: Array = map_state.get("floors", [])
+	var node_graph: Dictionary = map_state.get("node_graph", {})
+	var node_count := 0
+	for layer in floors:
+		node_count += int(layer.size())
+	if not floors.is_empty() and node_graph.size() != node_count:
+		node_graph = _build_node_graph(floors)
+		map_state["node_graph"] = node_graph
+		run_state["map_state"] = map_state
+	return node_graph
 
 func choose_node(run_state: Dictionary, node_id: String) -> Dictionary:
 	var available: Array = run_state.get("map_state", {}).get("available_next_nodes", [])

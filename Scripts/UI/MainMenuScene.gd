@@ -256,7 +256,7 @@ func _top_bar(compact := false) -> Control:
 	row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 
 	row.add_child(_status_chip(BUILD_LABEL))
-	row.add_child(_status_chip("%d 组值班" % _playable_class_count()))
+	row.add_child(_status_chip("%d 可开 / %d 占位" % [_playable_class_count(), _placeholder_class_count(false)]))
 	if not compact:
 		row.add_child(_status_chip("三章爬楼"))
 
@@ -575,6 +575,17 @@ func _playable_class_preview_items() -> Array:
 			items.append(_class_preview_item(cls))
 	return items
 
+func _career_roster_items(include_hr := true) -> Array:
+	var items: Array = []
+	var app = _app_root()
+	if app == null or app.config_service == null:
+		return items
+	for cls in app.config_service.first_playable_classes(true):
+		if not include_hr and String(cls.get("id", "")) == "hr":
+			continue
+		items.append(_class_preview_item(cls))
+	return items
+
 
 func _set_spotlight_index(index: int, reset_timer := false) -> void:
 	if _spotlight_items.is_empty():
@@ -830,7 +841,7 @@ func _playable_class_badge_row(compact := false) -> PanelContainer:
 	row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	pad.add_child(row)
 
-	var items := _playable_class_preview_items()
+	var items := _career_roster_items(false)
 	if items.is_empty():
 		row.add_child(_label("职业数据加载中", 12, Color(0.68, 0.80, 0.82)))
 		return panel
@@ -842,10 +853,13 @@ func _playable_class_badge_row(compact := false) -> PanelContainer:
 
 func _class_badge_chip(item: Dictionary, compact := false) -> PanelContainer:
 	var accent: Color = item.get("color", Color(0.58, 0.86, 0.86))
-	var chip := _panel(Color(0.042, 0.064, 0.070, 0.88), Color(accent.r, accent.g, accent.b, 0.50), 6)
-	chip.custom_minimum_size = Vector2(46 if compact else 52, 62)
+	var available := bool(item.get("available", false))
+	var chip_bg := Color(0.042, 0.064, 0.070, 0.88) if available else Color(0.034, 0.044, 0.048, 0.82)
+	var border_alpha := 0.50 if available else 0.24
+	var chip := _panel(chip_bg, Color(accent.r, accent.g, accent.b, border_alpha), 6)
+	chip.custom_minimum_size = Vector2(42 if compact else 46, 62)
 	chip.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	chip.tooltip_text = String(item.get("name", ""))
+	chip.tooltip_text = "%s / %s" % [String(item.get("name", "")), String(item.get("availability", ""))]
 
 	var pad := _pad(5)
 	chip.add_child(pad)
@@ -855,9 +869,11 @@ func _class_badge_chip(item: Dictionary, compact := false) -> PanelContainer:
 
 	var portrait := _class_badge_portrait(item, accent)
 	portrait.custom_minimum_size = Vector2(30, 30)
+	portrait.modulate = Color(1, 1, 1, 0.96 if available else 0.42)
 	box.add_child(portrait)
 
-	var label := _label(String(item.get("short_name", "")), 11, Color(0.84, 0.94, 0.96))
+	var label_color := Color(0.84, 0.94, 0.96) if available else Color(0.48, 0.58, 0.60)
+	var label := _label(String(item.get("short_name", "")), 11, label_color)
 	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	label.autowrap_mode = TextServer.AUTOWRAP_OFF
 	label.clip_text = true
@@ -932,6 +948,11 @@ func _class_dossier(item: Dictionary, compact := false) -> PanelContainer:
 
 func _class_preview_item(cls: Dictionary) -> Dictionary:
 	var class_id := String(cls.get("id", ""))
+	var available := _can_start_class(class_id)
+	var availability := "可出战" if available else ("扩展占位" if class_id == "hr" else "锁定占位")
+	var app = _app_root()
+	if app != null and app.meta_service != null:
+		availability = app.meta_service.class_availability_label(cls)
 	return {
 		"id": class_id,
 		"name": String(cls.get("name", class_id)),
@@ -942,6 +963,8 @@ func _class_preview_item(cls: Dictionary) -> Dictionary:
 		"summary": String(cls.get("summary", "")),
 		"difficulty": int(cls.get("recommended_difficulty", 1)),
 		"resource_label": String(CLASS_RESOURCE_LABELS.get(class_id, "")),
+		"available": available,
+		"availability": availability,
 	}
 
 
@@ -1126,6 +1149,19 @@ func _playable_class_count() -> int:
 		return count
 	for cls in app.config_service.first_playable_classes(false):
 		if bool(cls.get("enabled_in_first_playable", false)):
+			count += 1
+	return count
+
+func _placeholder_class_count(include_hr := true) -> int:
+	var count := 0
+	var app = _app_root()
+	if app == null or app.config_service == null:
+		return count
+	for cls in app.config_service.first_playable_classes(true):
+		var class_id := String(cls.get("id", ""))
+		if not include_hr and class_id == "hr":
+			continue
+		if not _can_start_class(class_id):
 			count += 1
 	return count
 

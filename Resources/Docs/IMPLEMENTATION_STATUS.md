@@ -9,8 +9,12 @@
   - `frontend`, `tester`, `algorithm`, and `product_manager` stay visible in class select / career tree as locked placeholders
   - `hr` remains an expansion placeholder and is still excluded from battle, reward, and shop pools
 - Main menu and class select now present the current backend-only playable scope:
-  - quick-start spotlight, playable badges, and the duty board only count runnable classes
+  - quick-start spotlight and the duty board only count runnable classes
   - locked careers keep their art, summary, unlock tree cards, and disabled start buttons
+- Main menu first screen now exposes the five-career roster:
+  - backend remains highlighted as the only playable launch option in the current scope
+  - frontend, tester, algorithm, and product manager stay visible as muted locked placeholders
+  - the top-bar status summarizes playable versus placeholder careers
 - Main menu now includes an in-game settings overlay:
   - `OptionsButton` opens a modal panel from the primary action column
   - players can toggle fullscreen/windowed mode and adjust the master audio volume
@@ -37,6 +41,10 @@
 - Continue-run now normalizes restored scene tags:
   - known run scenes resume directly
   - stale or unknown scene tags fall back to the map instead of trapping the player on the main menu
+- MapRunState now keeps a populated `node_graph` index:
+  - generated chapters write every floor node into `node_graph`
+  - node lookup self-heals old saves with missing or incomplete map indexes
+  - automated map tests verify node, edge, available-node, and boss-node lookup coverage
 - Meta progression copy now reflects the current backend-first scope:
   - backend is described as connected to battle, reward, shop, and suspend/continue
   - locked careers remain visible as career-tree placeholders

@@ -2703,17 +2703,27 @@ func _validate_enemy_phase_scripts(config, content, map, meta) -> void:
 
 func _validate_map_constraints(run: Dictionary, label: String) -> void:
 	var floors: Array = run.get("map_state", {}).get("floors", [])
+	var node_graph: Dictionary = run.get("map_state", {}).get("node_graph", {})
 	var has_shop := false
 	var has_rest := false
 	var boss_count := 0
+	var node_count := 0
 	for layer in floors:
 		for node in layer:
+			node_count += 1
 			has_shop = has_shop or node.get("node_type", "") == "shop"
 			has_rest = has_rest or node.get("node_type", "") == "rest"
 			boss_count += 1 if node.get("node_type", "") == "boss" else 0
+			_check(node_graph.has(String(node.get("id", ""))), "%s node graph contains %s" % [label, node.get("id", "")])
+			for next_id in node.get("next_ids", []):
+				_check(node_graph.has(String(next_id)), "%s node graph resolves edge %s" % [label, next_id])
 	_check(has_shop, "%s includes shop" % label)
 	_check(has_rest, "%s includes rest" % label)
 	_check(boss_count == 1, "%s has one boss" % label)
+	_check(node_graph.size() == node_count, "%s node graph matches floor nodes" % label)
+	for node_id in run.get("map_state", {}).get("available_next_nodes", []):
+		_check(node_graph.has(String(node_id)), "%s node graph resolves available node" % label)
+	_check(node_graph.has(String(run.get("map_state", {}).get("boss_node_id", ""))), "%s node graph resolves boss" % label)
 
 func _validate_shop_event_rest(config, content, map, meta, reward_service) -> void:
 	var run_session = RunSessionScript.new()
@@ -2950,6 +2960,10 @@ func _validate_save_roundtrip(config, map, meta, save) -> void:
 	_check(restored_session.restore_from_suspend(save.load_suspend()), "suspend restore succeeds")
 	_check(restored_session.run_state.get("selected_class_id", "") == "backend", "suspend selected class roundtrip")
 	save.clear_suspend()
+	run["map_state"]["node_graph"] = {}
+	var first_available_node_id := String(run.get("map_state", {}).get("available_next_nodes", [])[0])
+	_check(not map.find_node(run, first_available_node_id).is_empty(), "map node graph rebuild finds available node")
+	_check(not run.get("map_state", {}).get("node_graph", {}).is_empty(), "map node graph rebuild persists index")
 
 	run_session = RunSessionScript.new()
 	run_session.call("setup", config, map, meta)
