@@ -42,6 +42,7 @@ const MENU_ICONS := {
 	"new_run": "res://Resources/Art/Generated/P0/icons/node_icon_combat_set_v1/processed/sheet-1.png",
 	"continue": "res://Resources/Art/Generated/P0/icons/node_icon_combat_set_v1/processed/sheet-2.png",
 	"meta": "res://Resources/Art/Generated/P0/icons/node_icon_combat_set_v1/processed/sheet-5.png",
+	"options": "res://Resources/Art/Generated/P0/icons/node_icon_combat_set_v1/processed/sheet-4.png",
 	"quit": "res://Resources/Art/Generated/P0/icons/node_icon_combat_set_v1/processed/sheet-6.png",
 }
 const SCENE_LABELS := {
@@ -83,6 +84,8 @@ var _spotlight_difficulty_label: Label
 var _spotlight_accent_bar: ColorRect
 var _spotlight_start_button: Button
 var _spotlight_tab_buttons: Array = []
+var _options_overlay: Control
+var _master_volume_label: Label
 var _app_root_node
 
 
@@ -124,6 +127,12 @@ func _process(delta: float) -> void:
 		_spotlight_timer += delta
 		if _spotlight_timer >= SPOTLIGHT_INTERVAL:
 			_set_spotlight_index((_spotlight_index + 1) % _spotlight_items.size(), true)
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if _options_overlay != null and is_instance_valid(_options_overlay) and event.is_action_pressed("ui_cancel"):
+		_close_options_panel()
+		accept_event()
 
 
 func _build_menu() -> void:
@@ -357,6 +366,12 @@ func _menu_panel(compact := false) -> PanelContainer:
 	box.add_child(filler)
 
 	box.add_child(_save_status_card())
+
+	var options_button := _menu_button("设置", false, "options")
+	options_button.name = "OptionsButton"
+	options_button.tooltip_text = "调整窗口模式和主音量"
+	options_button.pressed.connect(_open_options_panel)
+	box.add_child(options_button)
 
 	var quit_button := _menu_button("退出游戏", false, "quit")
 	quit_button.name = "ExitButton"
@@ -1277,6 +1292,136 @@ func _pad(margin_size: int) -> MarginContainer:
 	pad.add_theme_constant_override("margin_top", margin_size)
 	pad.add_theme_constant_override("margin_bottom", margin_size)
 	return pad
+
+
+func _open_options_panel() -> void:
+	_close_options_panel()
+	_options_overlay = Control.new()
+	_options_overlay.name = "OptionsOverlay"
+	_options_overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	UiFactory.fill(_options_overlay)
+	add_child(_options_overlay)
+
+	var scrim := ColorRect.new()
+	scrim.name = "OptionsScrim"
+	scrim.color = Color(0.006, 0.012, 0.015, 0.62)
+	scrim.mouse_filter = Control.MOUSE_FILTER_STOP
+	UiFactory.fill(scrim)
+	scrim.gui_input.connect(func(event: InputEvent):
+		if event is InputEventMouseButton and event.pressed:
+			_close_options_panel()
+	)
+	_options_overlay.add_child(scrim)
+
+	var center := CenterContainer.new()
+	center.name = "OptionsCenter"
+	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	UiFactory.fill(center)
+	_options_overlay.add_child(center)
+
+	var panel := _panel(Color(0.026, 0.044, 0.052, 0.96), Color(0.54, 0.88, 0.88, 0.72), 8)
+	panel.name = "OptionsPanel"
+	panel.custom_minimum_size = Vector2(430, 0)
+	panel.mouse_filter = Control.MOUSE_FILTER_STOP
+	center.add_child(panel)
+
+	var pad := _pad(22)
+	panel.add_child(pad)
+	var box := UiFactory.vbox(14)
+	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	pad.add_child(box)
+
+	var header := UiFactory.hbox(10)
+	header.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	box.add_child(header)
+	header.add_child(_label("设置", 26, Color(0.94, 0.99, 1.0)))
+	var spacer := Control.new()
+	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	header.add_child(spacer)
+	var close := Button.new()
+	close.text = "关闭"
+	close.custom_minimum_size = Vector2(82, 34)
+	close.add_theme_font_size_override("font_size", 13)
+	close.pressed.connect(_close_options_panel)
+	header.add_child(close)
+
+	var fullscreen := CheckButton.new()
+	fullscreen.name = "FullscreenToggle"
+	fullscreen.text = "全屏模式"
+	fullscreen.button_pressed = get_window().mode == Window.MODE_FULLSCREEN
+	fullscreen.add_theme_font_size_override("font_size", 16)
+	fullscreen.add_theme_color_override("font_color", Color(0.86, 0.96, 0.98))
+	fullscreen.toggled.connect(_set_fullscreen)
+	box.add_child(fullscreen)
+
+	var volume_panel := _panel(Color(0.038, 0.060, 0.068, 0.82), Color(0.46, 0.72, 0.76, 0.42), 7)
+	volume_panel.name = "AudioOptionsPanel"
+	box.add_child(volume_panel)
+	var volume_pad := _pad(12)
+	volume_panel.add_child(volume_pad)
+	var volume_box := UiFactory.vbox(7)
+	volume_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	volume_pad.add_child(volume_box)
+	_master_volume_label = _label("", 15, Color(0.84, 0.95, 0.97))
+	volume_box.add_child(_master_volume_label)
+	var slider := HSlider.new()
+	slider.name = "MasterVolumeSlider"
+	slider.min_value = 0.0
+	slider.max_value = 100.0
+	slider.step = 1.0
+	slider.value = float(_master_volume_percent())
+	slider.custom_minimum_size = Vector2(320, 32)
+	slider.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	slider.value_changed.connect(_set_master_volume)
+	volume_box.add_child(slider)
+	_refresh_master_volume_label(slider.value)
+
+	var hint := _label("设置只影响当前运行会话。", 12, Color(0.58, 0.70, 0.73))
+	hint.custom_minimum_size = Vector2(320, 22)
+	box.add_child(hint)
+	close.call_deferred("grab_focus")
+
+
+func _close_options_panel() -> void:
+	if _options_overlay == null:
+		return
+	if is_instance_valid(_options_overlay):
+		_options_overlay.queue_free()
+	_options_overlay = null
+	_master_volume_label = null
+
+
+func _set_fullscreen(enabled: bool) -> void:
+	get_window().mode = Window.MODE_FULLSCREEN if enabled else Window.MODE_WINDOWED
+
+
+func _set_master_volume(value: float) -> void:
+	var bus := _master_bus_index()
+	if value <= 0.0:
+		AudioServer.set_bus_mute(bus, true)
+	else:
+		AudioServer.set_bus_mute(bus, false)
+		AudioServer.set_bus_volume_db(bus, linear_to_db(clampf(value / 100.0, 0.01, 1.0)))
+	_refresh_master_volume_label(value)
+
+
+func _refresh_master_volume_label(value: float) -> void:
+	if _master_volume_label == null or not is_instance_valid(_master_volume_label):
+		return
+	_master_volume_label.text = "主音量 %d%%" % roundi(value)
+
+
+func _master_volume_percent() -> int:
+	var bus := _master_bus_index()
+	if AudioServer.is_bus_mute(bus):
+		return 0
+	var linear := db_to_linear(AudioServer.get_bus_volume_db(bus))
+	return clampi(roundi(linear * 100.0), 0, 100)
+
+
+func _master_bus_index() -> int:
+	var bus := AudioServer.get_bus_index("Master")
+	return bus if bus >= 0 else 0
 
 
 func _continue_run() -> void:

@@ -11,6 +11,10 @@
 - Main menu and class select now present the current backend-only playable scope:
   - quick-start spotlight, playable badges, and the duty board only count runnable classes
   - locked careers keep their art, summary, unlock tree cards, and disabled start buttons
+- Main menu now includes an in-game settings overlay:
+  - `OptionsButton` opens a modal panel from the primary action column
+  - players can toggle fullscreen/windowed mode and adjust the master audio volume for the current session
+  - automated scene checks now cover the settings button, overlay, and volume slider declarations
 - Reward, shop, event, rest, save, and meta tests now validate the public full chain through backend while retaining internal mechanics coverage for the placeholder careers.
 - `RunSession.create_new_run()` now enforces public career availability at the service layer:
   - backend public runs still create normally
