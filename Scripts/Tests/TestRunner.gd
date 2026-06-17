@@ -34,6 +34,7 @@ func _init() -> void:
 	_validate_map_scene()
 	_validate_battle_scene()
 	_validate_reward_scene()
+	_validate_shop_scene()
 	_validate_config_references(config, content)
 	_validate_run_class_locks(config, map, meta)
 	_validate_run_reset_cleanup()
@@ -158,6 +159,20 @@ func _validate_reward_scene() -> void:
 	_check(source.contains("_reward_selection_summary"), "reward scene summarizes current selection")
 	_check(source.contains("SkipCardButton"), "reward scene explicit card skip button configured")
 	_check(source.contains("SkipRelicButton"), "reward scene explicit relic skip button configured")
+
+
+func _validate_shop_scene() -> void:
+	_check(ResourceLoader.exists("res://Scenes/ShopScene.tscn"), "shop scene resource exists")
+	var source := FileAccess.get_file_as_string("res://Scripts/UI/ShopScene.gd")
+	_check(source.contains("ShopHeader"), "shop scene header configured")
+	_check(source.contains("PlayerCurrencyPanel"), "shop scene currency panel configured")
+	_check(source.contains("ShopStockPanel"), "shop scene stock panel configured")
+	_check(source.contains("DeckOperationPanel"), "shop scene deck operation panel configured")
+	_check(source.contains("RefreshButton"), "shop scene refresh button configured")
+	_check(source.contains("RemoveSelectedCardButton"), "shop scene remove card button configured")
+	_check(source.contains("ShopCardButton"), "shop scene card stock buttons configured")
+	_check(source.contains("ShopRelicButton"), "shop scene relic stock buttons configured")
+	_check(source.contains("DeckRemoveGrid"), "shop scene deck remove grid configured")
 
 
 func _validate_config_references(config, content) -> void:

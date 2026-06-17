@@ -35,6 +35,10 @@
   - `RewardHeader`, `CurrencyPanel`, `CardChoicePanel`, `RelicChoicePanel`, and `RewardConfirmPanel` organize post-battle choices
   - explicit skip buttons and a selection summary make card/relic skipping intentional before confirming
   - the confirm button remains wired to `RewardService.accept_battle_reward()` and returns to map or run result as before
+- Shop scene now exposes the spec-level shop panels:
+  - `PlayerCurrencyPanel`, `ShopStockPanel`, `DeckOperationPanel`, and `RefreshButton` are named in the shop UI
+  - the currency panel summarizes current performance points, card/relic/remove/refresh costs, deck size, relic count, and refresh count
+  - stock purchases, targeted card removal, refresh, save, and pause-to-menu remain wired to the existing `RewardService` shop flow
 - Reward, shop, event, rest, save, and meta tests now validate the public full chain through backend while retaining internal mechanics coverage for the placeholder careers.
 - `RunSession.create_new_run()` now enforces public career availability at the service layer:
   - backend public runs still create normally
