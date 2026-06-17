@@ -2653,18 +2653,8 @@
     "effect_type": "deal_damage",
     "target_type": "highest_priority_enemy",
     "params": {
-      "amount": 18
-    }
-  },
-  {
-    "id": "eg_card_pm_roadmap_e02",
-    "effect_group_id": "eg_card_pm_roadmap",
-    "order": 2,
-    "effect_type": "apply_status",
-    "target_type": "highest_priority_enemy",
-    "params": {
-      "amount": 1,
-      "status_id": "requirement_change"
+      "amount": 8,
+      "requirement_change_multiplier": 5
     }
   },
   {

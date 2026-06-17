@@ -61,6 +61,7 @@ func _validate_main_menu_scene() -> void:
 	_check(source.contains("SpotlightClassArt"), "main menu spotlight art configured")
 	_check(source.contains("SpotlightClassTabs"), "main menu spotlight tabs configured")
 	_check(source.contains("ShiftBoardPanel"), "main menu duty board configured")
+	_check(source.contains("PlayableClassBadges"), "main menu playable class badges configured")
 	_check(source.contains("CareerDossierStrip"), "main menu career dossiers configured")
 	_check(source.contains("NewGameButton"), "main menu new game button configured")
 	_check(source.contains("ContinueButton"), "main menu continue button configured")
@@ -710,6 +711,18 @@ func _validate_config_references(config, content) -> void:
 	_check(milestone_split_splits, "pm milestone split breaks high pressure intent into hits")
 	_check(not milestone_split_blocks, "pm milestone split does not use generic block")
 	_check(content.card_def("card_pm_schedule_compress").get("target_type", "") == "highest_priority_enemy", "pm schedule compress targets priority")
+	_check(content.card_def("card_pm_roadmap").get("target_type", "") == "highest_priority_enemy", "pm roadmap targets priority")
+	var roadmap_entries: Array = content.effect_entries(content.card_def("card_pm_roadmap").get("effect_group_id", ""))
+	var roadmap_scales_requirement := false
+	var roadmap_adds_requirement := false
+	for entry in roadmap_entries:
+		var params: Dictionary = entry.get("params", {})
+		if entry.get("effect_type", "") == "deal_damage" and entry.get("target_type", "") == "highest_priority_enemy" and int(params.get("requirement_change_multiplier", 0)) > 0:
+			roadmap_scales_requirement = true
+		if entry.get("effect_type", "") == "apply_status" and params.get("status_id", "") == "requirement_change":
+			roadmap_adds_requirement = true
+	_check(roadmap_scales_requirement, "pm roadmap scales damage from requirement change")
+	_check(not roadmap_adds_requirement, "pm roadmap is a payoff rather than another generic mark")
 	_check(content.card_def("card_pm_priority_shuffle").get("target_type", "") == "selected", "pm priority shuffle targets selected enemy")
 	var priority_shuffle_entries: Array = content.effect_entries(content.card_def("card_pm_priority_shuffle").get("effect_group_id", ""))
 	var priority_shuffle_blocks := false
@@ -1840,6 +1853,34 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(split_enemy.get("intent", {}).get("hits", 0)) == 3, "pm milestone split uses configured hit count")
 	_check(int(split_enemy.get("intent", {}).get("amount", 0)) == 6, "pm milestone split lowers each hit amount")
 	_check(int(player.get("current_block", 0)) == 0, "pm milestone split does not grant generic block")
+
+	run = run_session.create_new_run("product_manager")
+	run["owned_relic_ids"] = []
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	var roadmap_enemies: Array = battle.battle_state.get("enemies", [])
+	if roadmap_enemies.size() == 1:
+		roadmap_enemies.append(roadmap_enemies[0].duplicate(true))
+		roadmap_enemies[1]["name"] = "路线图主目标"
+	roadmap_enemies[0]["current_hp"] = 60
+	roadmap_enemies[0]["current_block"] = 0
+	roadmap_enemies[0]["status_list"] = { "requirement_change": 5 }
+	roadmap_enemies[1]["current_hp"] = 60
+	roadmap_enemies[1]["current_block"] = 0
+	roadmap_enemies[1]["status_list"] = { "priority": 4, "requirement_change": 3 }
+	battle.battle_state["enemies"] = roadmap_enemies
+	player["hand"] = ["card_pm_roadmap"]
+	player["draw_pile"] = []
+	player["discard_pile"] = []
+	player["current_energy"] = 3
+	player["current_block"] = 0
+	player["status_list"] = {}
+	battle.select_target(0)
+	battle.play_card(run, 0, battle.selected_target_index())
+	_check(int(roadmap_enemies[0].get("current_hp", 0)) == 60, "pm roadmap ignores selected low priority target")
+	_check(int(roadmap_enemies[1].get("current_hp", 0)) == 37, "pm roadmap scales damage from requirement changes")
+	_check(int(roadmap_enemies[1].get("status_list", {}).get("requirement_change", 0)) == 3, "pm roadmap does not add generic requirement mark")
+	_check(int(player.get("current_energy", 0)) == 1, "pm roadmap charges card cost")
 
 	run = run_session.create_new_run("product_manager")
 	run["owned_relic_ids"] = []

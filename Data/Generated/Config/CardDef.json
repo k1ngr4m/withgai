@@ -2478,7 +2478,7 @@
     "effect_group_id": "eg_card_pm_roadmap",
     "upgrade_to": "card_pm_roadmap_plus",
     "enabled_in_first_playable": true,
-    "description": "版本路线图：造成伤害。",
+    "description": "版本路线图：按最高优先级目标身上的需求变更层数造成结算伤害。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_pm_roadmap_v1/final.png"
   },
   {

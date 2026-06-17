@@ -140,6 +140,7 @@ const specialCardDescriptions = {
   card_pm_milestone_split: "里程碑拆分：把选定目标的强攻击拆成多段较弱动作。",
   card_pm_priority_top: "优先级置顶：将选定目标置为最高优先级，清空其他目标优先级并抽牌。",
   card_pm_scope_spread: "范围蔓延：建立长期状态，使每次需求变更额外影响另一个敌人。",
+  card_pm_roadmap: "版本路线图：按最高优先级目标身上的需求变更层数造成结算伤害。",
 };
 
 function descriptionForCard(id, name, type) {
@@ -424,6 +425,11 @@ function cardEffects(classId, cardId, type, cost, idx) {
   if (cardId === "card_pm_milestone_split") {
     return [
       { effect_type: "split_intent", target_type: "selected", params: { high_attack_threshold: 10, hits: 3 } },
+    ];
+  }
+  if (cardId === "card_pm_roadmap") {
+    return [
+      { effect_type: "deal_damage", target_type: "highest_priority_enemy", params: { amount: 8, requirement_change_multiplier: 5 } },
     ];
   }
   if (cardId === "card_pm_priority_shuffle") {
@@ -1042,6 +1048,7 @@ const lubanDefines = `<module name="">
     <var name="bug_multiplier" type="int?"/>
     <var name="case_multiplier" type="int?"/>
     <var name="diff_multiplier" type="int?"/>
+    <var name="requirement_change_multiplier" type="int?"/>
     <var name="x_energy_scaling" type="bool?"/>
     <var name="x_energy_multiplier" type="int?"/>
     <var name="consume_cache" type="bool?"/>

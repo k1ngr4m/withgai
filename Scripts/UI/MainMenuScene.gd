@@ -317,6 +317,10 @@ func _menu_panel(compact := false) -> PanelContainer:
 	copy.custom_minimum_size = Vector2(260, 44)
 	box.add_child(copy)
 
+	var badges := _playable_class_badge_row(compact)
+	badges.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	box.add_child(badges)
+
 	var button_gap := Control.new()
 	button_gap.custom_minimum_size = Vector2(1, 4)
 	box.add_child(button_gap)
@@ -742,6 +746,68 @@ func _career_dossier_strip(compact := false) -> Control:
 	for item in _playable_class_preview_items():
 		row.add_child(_class_dossier(item, compact))
 	return row
+
+
+func _playable_class_badge_row(compact := false) -> PanelContainer:
+	var panel := _panel(Color(0.030, 0.052, 0.058, 0.74), Color(0.48, 0.76, 0.80, 0.42), 7)
+	panel.name = "PlayableClassBadges"
+	var pad := _pad(8)
+	panel.add_child(pad)
+
+	var row := UiFactory.hbox(5 if compact else 6)
+	row.name = "ClassBadgeRow"
+	row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	pad.add_child(row)
+
+	var items := _playable_class_preview_items()
+	if items.is_empty():
+		row.add_child(_label("职业数据加载中", 12, Color(0.68, 0.80, 0.82)))
+		return panel
+
+	for item in items:
+		row.add_child(_class_badge_chip(item, compact))
+	return panel
+
+
+func _class_badge_chip(item: Dictionary, compact := false) -> PanelContainer:
+	var accent: Color = item.get("color", Color(0.58, 0.86, 0.86))
+	var chip := _panel(Color(0.042, 0.064, 0.070, 0.88), Color(accent.r, accent.g, accent.b, 0.50), 6)
+	chip.custom_minimum_size = Vector2(46 if compact else 52, 62)
+	chip.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	chip.tooltip_text = String(item.get("name", ""))
+
+	var pad := _pad(5)
+	chip.add_child(pad)
+	var box := UiFactory.vbox(2)
+	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	pad.add_child(box)
+
+	var portrait := _class_badge_portrait(item, accent)
+	portrait.custom_minimum_size = Vector2(30, 30)
+	box.add_child(portrait)
+
+	var label := _label(String(item.get("short_name", "")), 11, Color(0.84, 0.94, 0.96))
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.autowrap_mode = TextServer.AUTOWRAP_OFF
+	label.clip_text = true
+	label.custom_minimum_size = Vector2(34, 18)
+	box.add_child(label)
+	return chip
+
+
+func _class_badge_portrait(item: Dictionary, accent: Color) -> Control:
+	var art_path := String(item.get("art", ""))
+	if not art_path.is_empty():
+		var portrait := UiFactory.texture(art_path, Vector2(30, 30))
+		portrait.modulate = Color(1, 1, 1, 0.96)
+		return portrait
+	var fallback := _panel(accent.darkened(0.42), accent.lightened(0.12), 6)
+	fallback.custom_minimum_size = Vector2(30, 30)
+	var center := CenterContainer.new()
+	fallback.add_child(center)
+	var display_name := String(item.get("name", "?"))
+	center.add_child(_label(display_name.substr(0, 1), 14, Color(0.93, 0.98, 0.94)))
+	return fallback
 
 
 func _class_dossier(item: Dictionary, compact := false) -> PanelContainer:

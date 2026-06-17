@@ -138,6 +138,7 @@
   - dynamic building broadcast strip and KPI risk chip give the opening screen a live game-menu feel
   - rotating class spotlight panel uses existing profession keyart, class colors, resource labels, live card-pool counts, and clickable class tabs
   - right-side action panel for new run, continue, meta progression, and exit
+  - primary action panel now includes five playable-profession badges using existing portrait assets and class colors
   - bottom career dossier strip using existing class portrait assets, class colors, core resource labels, difficulty, and live card-pool counts
   - dynamic nodes now expose spec-aligned names such as `Root`, `TitlePanel`, `ClassSpotlightPanel`, `PrimaryActions`, `NewGameButton`, `ContinueButton`, `MetaButton`, and `ExitButton`
   - the first screen includes a compact duty board for playable career count, suspend-save presence, and current meta currency
@@ -201,6 +202,10 @@
   - `card_pm_delay_meeting` now stores a selected target's high attack intent for next turn and replaces the current action with a low-yield block intent
   - `card_pm_milestone_split` now converts a selected target's high single attack into configured multi-hit lower-amount actions
   - `BattleService` resolves delayed enemy intents before random intent rolls, so the postponed action reliably returns next turn
+- Product manager `card_pm_roadmap` now works as the designed requirement-change payoff:
+  - generated config targets the highest-priority enemy and scales damage from that target's `requirement_change` stacks
+  - runtime target-status damage bonuses now support `requirement_change_multiplier`
+  - the card no longer adds another generic requirement mark, making it a true payoff for prior setup
 - Product manager `requirement_change` now has live enemy-action rewriting:
   - `StatusDef.params` configures intent amount reduction and per-action stack consumption.
   - before affected enemies act, attack / multi-attack / block / debuff intent amounts are reduced.
@@ -300,6 +305,7 @@ Result:
 - Godot test runner now checks product manager `card_pm_priority_top` generated target/effects, selected target priority replacement, old priority clearing, resource recompute, draw, and follow-up priority-attack routing.
 - Godot test runner now checks product manager `card_pm_change_wording`, `card_pm_meeting_minutes`, and `card_pm_revision_notice` generated effects, selected targeting, no-generic-block behavior, meeting-minutes boost bonuses, consumption, and resource sync.
 - Godot test runner now checks product manager `card_pm_delay_meeting` and `card_pm_milestone_split` generated effects, selected targeting, no-generic-block behavior, forced next-turn delayed intent, and high-attack split intent output.
+- Godot test runner now checks product manager `card_pm_roadmap` generated priority-target payoff params, live requirement-change damage scaling, priority targeting, no-generic-mark behavior, and card-cost charge.
 - Godot test runner now checks product manager `requirement_change` status params, enemy-action intent reduction, stack consumption, and resource sync after consumption.
 - Godot test runner now checks `relic_pm_meeting_room_claim` config, first requirement-change boost, once-per-turn gating, next-turn reset, and boosted resource sync.
 - Godot test runner now checks `scope_spread` config, `card_pm_scope_spread` generated effect, requirement-change spread to another enemy, and spread resource sync.

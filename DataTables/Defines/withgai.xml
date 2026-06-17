@@ -48,6 +48,7 @@
     <var name="bug_multiplier" type="int?"/>
     <var name="case_multiplier" type="int?"/>
     <var name="diff_multiplier" type="int?"/>
+    <var name="requirement_change_multiplier" type="int?"/>
     <var name="x_energy_scaling" type="bool?"/>
     <var name="x_energy_multiplier" type="int?"/>
     <var name="consume_cache" type="bool?"/>

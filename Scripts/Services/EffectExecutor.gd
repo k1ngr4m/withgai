@@ -220,6 +220,7 @@ func _target_status_damage_bonus(enemy: Dictionary, params: Dictionary) -> int:
 	bonus += int(statuses.get("bug", 0)) * int(params.get("bug_multiplier", 0))
 	bonus += int(statuses.get("case_mark", 0)) * int(params.get("case_multiplier", 0))
 	bonus += int(statuses.get("diff", 0)) * int(params.get("diff_multiplier", 0))
+	bonus += int(statuses.get("requirement_change", 0)) * int(params.get("requirement_change_multiplier", 0))
 	return bonus
 
 func _cards_played_damage_bonus(player: Dictionary, params: Dictionary) -> int:

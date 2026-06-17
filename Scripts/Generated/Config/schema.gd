@@ -164,6 +164,7 @@ class EffectParams:
     var bug_multiplier: int
     var case_multiplier: int
     var diff_multiplier: int
+    var requirement_change_multiplier: int
     var x_energy_scaling: bool
     var x_energy_multiplier: int
     var consume_cache: bool
@@ -207,6 +208,7 @@ class EffectParams:
         if _json_.get('bug_multiplier') != null: self.bug_multiplier = _json_["bug_multiplier"]
         if _json_.get('case_multiplier') != null: self.case_multiplier = _json_["case_multiplier"]
         if _json_.get('diff_multiplier') != null: self.diff_multiplier = _json_["diff_multiplier"]
+        if _json_.get('requirement_change_multiplier') != null: self.requirement_change_multiplier = _json_["requirement_change_multiplier"]
         if _json_.get('x_energy_scaling') != null: self.x_energy_scaling = _json_["x_energy_scaling"]
         if _json_.get('x_energy_multiplier') != null: self.x_energy_multiplier = _json_["x_energy_multiplier"]
         if _json_.get('consume_cache') != null: self.consume_cache = _json_["consume_cache"]
