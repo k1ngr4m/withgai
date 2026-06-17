@@ -140,10 +140,17 @@ func _go_main_menu() -> void:
 	AppRoot.flow_controller.show_scene("main_menu")
 
 func _go_reward() -> void:
+	_clear_resolved_battle()
 	AppRoot.flow_controller.show_scene("reward")
 
 func _go_result() -> void:
+	_clear_resolved_battle()
 	AppRoot.flow_controller.show_scene("run_result")
+
+func _clear_resolved_battle() -> void:
+	var phase := String(AppRoot.battle_service.battle_state.get("phase", ""))
+	if ["victory", "defeat"].has(phase):
+		AppRoot.battle_service.clear()
 
 func _resource_text(player: Dictionary) -> String:
 	var resources: Dictionary = player.get("class_resource_state", {})

@@ -34,6 +34,9 @@
   - selecting an enemy target immediately persists the selected target and current battle payload
   - the manual save button and main-menu return path call `BattleService.persist_current_battle()`
   - automated suspend roundtrips now verify restored enemy data and selected-target index
+- Battle UI now clears resolved battle-service memory when leaving finished combat:
+  - victory-to-reward and defeat-to-result transitions call `BattleService.clear()` after the run payload has been settled
+  - in-progress save/main-menu paths still preserve active combat for continue-run
 - Reward, shop, event, and rest pages now expose explicit pause actions:
   - each page has a manual save button and a main-menu return path that preserves its scene tag
   - reward suspend roundtrips now verify pending card/relic candidates
