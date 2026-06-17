@@ -48,6 +48,10 @@
   - generated chapters write every floor node into `node_graph`
   - node lookup self-heals old saves with missing or incomplete map indexes
   - automated map tests verify node, edge, available-node, and boss-node lookup coverage
+- Chapter transitions now keep `RunState.current_floor` aligned with the active map:
+  - generating a new chapter moves the run to that chapter's entry floor
+  - completing a Boss records the Boss floor before advancing or settling victory
+  - Boss progression tests cover the 7F chapter-2 entry and 18F final-floor record
 - Meta progression copy now reflects the current backend-first scope:
   - backend is described as connected to battle, reward, shop, and suspend/continue
   - locked careers remain visible as career-tree placeholders

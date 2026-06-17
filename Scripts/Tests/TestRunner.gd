@@ -3184,10 +3184,12 @@ func _validate_boss_progression(config, map, meta, reward_service) -> void:
 	var result: String = map.complete_current_node(run)
 	_check(result == "next_chapter", "chapter 1 boss advances chapter")
 	_check(int(run.get("current_chapter", 0)) == 2, "chapter index is 2 after boss")
+	_check(int(run.get("current_floor", 0)) == 7, "chapter 2 map starts on floor 7 after boss")
 	map.generate_chapter(run, 3)
 	run["current_node_id"] = String(run.get("map_state", {}).get("boss_node_id", ""))
 	result = map.complete_current_node(run)
 	_check(result == "run_victory", "chapter 3 boss yields run victory")
+	_check(int(run.get("current_floor", 0)) == 18, "chapter 3 boss completion records top floor")
 
 func _check(condition: bool, label: String) -> void:
 	if condition:

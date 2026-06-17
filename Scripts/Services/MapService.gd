@@ -34,6 +34,7 @@ func generate_chapter(run_state: Dictionary, chapter: int) -> void:
 					node["next_ids"].append(next_node["id"])
 	var node_graph := _build_node_graph(floors)
 	run_state["current_chapter"] = chapter
+	run_state["current_floor"] = int(floors[0][0].get("floor", (chapter - 1) * 6 + 1))
 	run_state["map_state"] = {
 		"chapter_index": chapter,
 		"floors": floors,
@@ -101,6 +102,7 @@ func complete_current_node(run_state: Dictionary) -> String:
 	if node.is_empty():
 		return "map"
 	node["visited"] = true
+	run_state["current_floor"] = max(int(run_state.get("current_floor", 1)), int(node.get("floor", run_state.get("current_floor", 1))))
 	var visited: Array = run_state.get("visited_node_ids", [])
 	if not visited.has(node["id"]):
 		visited.append(node["id"])
