@@ -91,6 +91,7 @@ var _app_root_node
 
 func _ready() -> void:
 	_app_root()
+	_apply_saved_settings()
 	UiFactory.fill(self)
 	UiFactory.add_background(self, MAIN_BG)
 	_add_readability_scrims()
@@ -1376,7 +1377,7 @@ func _open_options_panel() -> void:
 	volume_box.add_child(slider)
 	_refresh_master_volume_label(slider.value)
 
-	var hint := _label("设置只影响当前运行会话。", 12, Color(0.58, 0.70, 0.73))
+	var hint := _label("设置会保存到局外档。", 12, Color(0.58, 0.70, 0.73))
 	hint.custom_minimum_size = Vector2(320, 22)
 	box.add_child(hint)
 	close.call_deferred("grab_focus")
@@ -1393,16 +1394,43 @@ func _close_options_panel() -> void:
 
 func _set_fullscreen(enabled: bool) -> void:
 	get_window().mode = Window.MODE_FULLSCREEN if enabled else Window.MODE_WINDOWED
+	var app = _app_root()
+	if app != null and app.meta_service != null:
+		app.meta_service.update_setting("fullscreen", enabled)
 
 
 func _set_master_volume(value: float) -> void:
+	_apply_master_volume(value)
+	var app = _app_root()
+	if app != null and app.meta_service != null:
+		app.meta_service.update_setting("master_volume", clampi(roundi(value), 0, 100))
+	_refresh_master_volume_label(value)
+
+
+func _apply_saved_settings() -> void:
+	var settings := _settings_state()
+	get_window().mode = Window.MODE_FULLSCREEN if bool(settings.get("fullscreen", false)) else Window.MODE_WINDOWED
+	_apply_master_volume(float(settings.get("master_volume", 100)))
+
+
+func _apply_master_volume(value: float) -> void:
 	var bus := _master_bus_index()
 	if value <= 0.0:
 		AudioServer.set_bus_mute(bus, true)
 	else:
 		AudioServer.set_bus_mute(bus, false)
 		AudioServer.set_bus_volume_db(bus, linear_to_db(clampf(value / 100.0, 0.01, 1.0)))
-	_refresh_master_volume_label(value)
+
+
+func _settings_state() -> Dictionary:
+	var app = _app_root()
+	if app == null or app.meta_service == null:
+		return {}
+	var settings: Dictionary = app.meta_service.meta_state.get("settings", {})
+	if settings.is_empty():
+		settings = { "fullscreen": false, "master_volume": 100 }
+		app.meta_service.meta_state["settings"] = settings
+	return settings
 
 
 func _refresh_master_volume_label(value: float) -> void:

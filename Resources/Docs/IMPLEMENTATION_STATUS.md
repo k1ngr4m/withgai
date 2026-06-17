@@ -13,8 +13,9 @@
   - locked careers keep their art, summary, unlock tree cards, and disabled start buttons
 - Main menu now includes an in-game settings overlay:
   - `OptionsButton` opens a modal panel from the primary action column
-  - players can toggle fullscreen/windowed mode and adjust the master audio volume for the current session
-  - automated scene checks now cover the settings button, overlay, and volume slider declarations
+  - players can toggle fullscreen/windowed mode and adjust the master audio volume
+  - settings now persist through `MetaState.settings` and are applied when the main menu boots
+  - automated scene checks now cover the settings button, overlay, volume slider, and persisted-settings path
 - Reward, shop, event, rest, save, and meta tests now validate the public full chain through backend while retaining internal mechanics coverage for the placeholder careers.
 - `RunSession.create_new_run()` now enforces public career availability at the service layer:
   - backend public runs still create normally
@@ -33,6 +34,9 @@
   - each page has a manual save button and a main-menu return path that preserves its scene tag
   - reward suspend roundtrips now verify pending card/relic candidates
   - rest suspend roundtrips now verify the current spirit payload
+- Meta progression copy now reflects the current backend-first scope:
+  - backend is described as connected to battle, reward, shop, and suspend/continue
+  - locked careers remain visible as career-tree placeholders
 
 ## 2026-06-16
 

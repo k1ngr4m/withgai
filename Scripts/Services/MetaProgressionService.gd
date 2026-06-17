@@ -9,6 +9,7 @@ func setup(p_save_service: SaveService, p_config_service: ConfigService) -> void
 	save_service = p_save_service
 	config_service = p_config_service
 	meta_state = save_service.load_meta(default_meta_state())
+	_normalize_meta_state()
 
 func default_meta_state() -> Dictionary:
 	return {
@@ -18,7 +19,31 @@ func default_meta_state() -> Dictionary:
 		"career_milestones": {},
 		"highest_floor_reached": 1,
 		"defeated_boss_records": [],
+		"settings": {
+			"fullscreen": false,
+			"master_volume": 100,
+		},
 	}
+
+func update_setting(key: String, value) -> void:
+	var settings: Dictionary = meta_state.get("settings", {})
+	settings[key] = value
+	meta_state["settings"] = settings
+	save_service.save_meta(meta_state)
+
+func _normalize_meta_state() -> void:
+	var defaults := default_meta_state()
+	for key in defaults.keys():
+		if not meta_state.has(key):
+			meta_state[key] = defaults[key]
+	var settings: Dictionary = meta_state.get("settings", {})
+	var default_settings: Dictionary = defaults.get("settings", {})
+	for key in default_settings.keys():
+		if not settings.has(key):
+			settings[key] = default_settings[key]
+	settings["fullscreen"] = bool(settings.get("fullscreen", false))
+	settings["master_volume"] = clampi(int(settings.get("master_volume", 100)), 0, 100)
+	meta_state["settings"] = settings
 
 func is_class_unlocked(class_id: String) -> bool:
 	return meta_state.get("unlocked_class_ids", []).has(class_id)
