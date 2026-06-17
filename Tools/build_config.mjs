@@ -128,6 +128,7 @@ const specialCardDescriptions = {
   card_algo_complexity_compress: "复杂度压缩：获得防线并降低复杂度。",
   card_algo_heuristic_search: "启发式搜索：抽牌并获得算力。",
   card_algo_local_opt: "局部最优：降低复杂度，并让下一张牌费用降低。",
+  card_algo_dynamic_programming: "动态规划：建立长期状态，每种牌型首次重复使用时获得算力并抽牌。",
   card_algo_complexity_burst: "复杂度爆炸：按当前复杂度追加高额伤害。",
   card_algo_big_o_compress: "大O压缩：将复杂度转换成算力和防线。",
   card_algo_pruning: "剪枝优化：降低复杂度，并让下一张牌费用降低。",
@@ -390,6 +391,11 @@ function cardEffects(classId, cardId, type, cost, idx) {
     return [
       { effect_type: "modify_complexity", target_type: "self", params: { amount: -2 } },
       { effect_type: "apply_status", target_type: "self", params: { status_id: "cost_reduction", amount: 1 } },
+    ];
+  }
+  if (cardId === "card_algo_dynamic_programming") {
+    return [
+      { effect_type: "apply_status", target_type: "self", params: { status_id: "dynamic_programming", amount: 1 } },
     ];
   }
   if (cardId === "card_algo_global_optimum") {
@@ -772,7 +778,7 @@ const statuses = [
   ["service_online", "服务在线", "class"], ["api_gateway", "API网关", "class"], ["redis_warmup", "Redis预热", "class"], ["cost_reduction", "减费", "class"], ["request_queue", "请求", "class"], ["sharding", "分库分表", "class"], ["cache", "缓存", "class"], ["component", "组件", "class"], ["style_layer", "样式层", "class"],
   ["state_boost", "状态提升", "class"], ["first_screen_optimization", "首屏优化", "class"], ["compatibility_patch", "兼容性补丁", "class"], ["hotfix_style", "热更新样式", "class"],
   ["vue_suite", "Vue三件套", "class"],
-  ["bug", "Bug", "class"], ["case_mark", "用例", "class"], ["diff", "Diff", "class"], ["auto_regression", "自动化回归", "class"], ["case_matrix", "用例矩阵", "class"], ["compute", "算力", "class"], ["complexity", "复杂度", "class"],
+  ["bug", "Bug", "class"], ["case_mark", "用例", "class"], ["diff", "Diff", "class"], ["auto_regression", "自动化回归", "class"], ["case_matrix", "用例矩阵", "class"], ["compute", "算力", "class"], ["complexity", "复杂度", "class"], ["dynamic_programming", "动态规划", "class"],
   ["requirement_change", "需求变更", "class"], ["priority", "优先级", "class"], ["meeting_minutes_boost", "会议纪要", "class"], ["pm_review", "需求评审", "class"], ["scope_spread", "范围蔓延", "class"], ["performance", "绩效", "class"], ["optimization_target", "优化名单", "class"],
 ];
 const statusTimingHooks = {
@@ -800,6 +806,7 @@ const statusTimingHooks = {
   case_matrix: ["add_case"],
   compute: ["deal_damage"],
   complexity: ["add_compute", "round_start"],
+  dynamic_programming: ["card_played"],
   priority: ["target_resolution"],
   requirement_change: ["apply_status", "enemy_before_action", "modify_intent"],
   meeting_minutes_boost: ["apply_status", "modify_intent"],
@@ -858,6 +865,10 @@ const statusParams = {
   },
   case_matrix: {
     case_amount: 1,
+  },
+  dynamic_programming: {
+    compute_amount: 1,
+    draw_amount: 1,
   },
   scope_spread: {
     spread_amount: 1,
@@ -1028,6 +1039,7 @@ const lubanDefines = `<module name="">
     <var name="block_amount" type="int?"/>
     <var name="service_threshold" type="int?"/>
     <var name="draw_amount" type="int?"/>
+    <var name="compute_amount" type="int?"/>
     <var name="cost_reduction_amount" type="int?"/>
     <var name="damage_per_request" type="int?"/>
     <var name="extra_cache_amount" type="int?"/>

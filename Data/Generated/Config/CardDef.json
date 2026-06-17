@@ -1781,7 +1781,7 @@
     "effect_group_id": "eg_card_algo_dynamic_programming",
     "upgrade_to": "card_algo_dynamic_programming_plus",
     "enabled_in_first_playable": true,
-    "description": "动态规划：建立长期收益。",
+    "description": "动态规划：建立长期状态，每种牌型首次重复使用时获得算力并抽牌。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_algo_dynamic_programming_v1/final.png"
   },
   {

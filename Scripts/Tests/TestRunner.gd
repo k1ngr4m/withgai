@@ -60,6 +60,8 @@ func _validate_main_menu_scene() -> void:
 	_check(source.contains("ClassSpotlightPanel"), "main menu class spotlight configured")
 	_check(source.contains("SpotlightClassArt"), "main menu spotlight art configured")
 	_check(source.contains("SpotlightClassTabs"), "main menu spotlight tabs configured")
+	_check(source.contains("SpotlightStartButton"), "main menu spotlight quick start configured")
+	_check(source.contains("_start_class_from_menu"), "main menu can start selected class directly")
 	_check(source.contains("ShiftBoardPanel"), "main menu duty board configured")
 	_check(source.contains("PlayableClassBadges"), "main menu playable class badges configured")
 	_check(source.contains("CareerDossierStrip"), "main menu career dossiers configured")
@@ -532,6 +534,21 @@ func _validate_config_references(config, content) -> void:
 			local_opt_discounts = true
 	_check(local_opt_reduces, "algorithm local optimum lowers complexity")
 	_check(local_opt_discounts, "algorithm local optimum discounts next card")
+	_check(config.get_def("statuses", "dynamic_programming").get("timing_hooks", []).has("card_played"), "dynamic programming declares card played hook")
+	var dynamic_params: Dictionary = config.get_def("statuses", "dynamic_programming").get("params", {})
+	_check(int(dynamic_params.get("compute_amount", 0)) > 0, "dynamic programming config has compute amount")
+	_check(int(dynamic_params.get("draw_amount", 0)) > 0, "dynamic programming config has draw amount")
+	var dynamic_entries: Array = content.effect_entries(content.card_def("card_algo_dynamic_programming").get("effect_group_id", ""))
+	var dynamic_applies_status := false
+	var dynamic_generic_draw := false
+	for entry in dynamic_entries:
+		var params: Dictionary = entry.get("params", {})
+		if entry.get("effect_type", "") == "apply_status" and entry.get("target_type", "") == "self" and params.get("status_id", "") == "dynamic_programming":
+			dynamic_applies_status = true
+		if entry.get("effect_type", "") == "draw_cards":
+			dynamic_generic_draw = true
+	_check(dynamic_applies_status, "algorithm dynamic programming applies status")
+	_check(not dynamic_generic_draw, "algorithm dynamic programming is not generic draw")
 	var complexity_burst_entries: Array = content.effect_entries(content.card_def("card_algo_complexity_burst").get("effect_group_id", ""))
 	var complexity_burst_scales := false
 	for entry in complexity_burst_entries:
@@ -2121,6 +2138,36 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(player.get("class_resource_state", {}).get("compute", 0)) == 1, "algorithm heuristic search gains compute")
 	_check(int(player.get("class_resource_state", {}).get("complexity", 0)) == 1, "algorithm heuristic search compute raises complexity")
 	_check(int(player.get("current_block", 0)) == 0, "algorithm heuristic search does not grant generic block")
+
+	run = run_session.create_new_run("algorithm")
+	run["owned_relic_ids"] = []
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	player["hand"] = ["card_algo_dynamic_programming", "card_algo_complexity_compress", "card_algo_pruning"]
+	player["draw_pile"] = ["card_algo_linear_probe"]
+	player["discard_pile"] = []
+	player["current_energy"] = 10
+	player["current_block"] = 0
+	player["class_resource_state"]["compute"] = 0
+	player["class_resource_state"]["complexity"] = 0
+	player["status_list"] = {}
+	battle.battle_state["runtime_flags"] = {}
+	battle.play_card(run, 0, 0)
+	_check(int(player.get("status_list", {}).get("dynamic_programming", 0)) == 1, "algorithm dynamic programming status is applied")
+	_check(int(player.get("class_resource_state", {}).get("compute", 0)) == 0, "algorithm dynamic programming has no immediate compute")
+	battle.play_card(run, 0, 0)
+	_check(int(player.get("class_resource_state", {}).get("compute", 0)) == 0, "algorithm dynamic programming ignores first skill")
+	_check(not player.get("hand", []).has("card_algo_linear_probe"), "algorithm dynamic programming does not draw on first skill")
+	battle.play_card(run, 0, 0)
+	_check(int(player.get("class_resource_state", {}).get("compute", 0)) == 1, "algorithm dynamic programming gains compute on repeated skill")
+	_check(player.get("hand", []).has("card_algo_linear_probe"), "algorithm dynamic programming draws on repeated skill")
+	_check(battle.battle_state.get("runtime_flags", {}).get("dynamic_programming_triggered_types", []).has("skill"), "algorithm dynamic programming records triggered type")
+	player["hand"] = ["card_algo_local_opt"]
+	player["draw_pile"] = ["card_algo_global_optimum"]
+	player["current_energy"] = 10
+	battle.play_card(run, 0, 0)
+	_check(int(player.get("class_resource_state", {}).get("compute", 0)) == 1, "algorithm dynamic programming does not repeat same type compute")
+	_check(not player.get("hand", []).has("card_algo_global_optimum"), "algorithm dynamic programming does not draw twice for same type")
 
 	run = run_session.create_new_run("algorithm")
 	run["owned_relic_ids"] = []

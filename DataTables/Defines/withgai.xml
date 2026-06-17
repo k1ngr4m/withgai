@@ -11,6 +11,7 @@
     <var name="block_amount" type="int?"/>
     <var name="service_threshold" type="int?"/>
     <var name="draw_amount" type="int?"/>
+    <var name="compute_amount" type="int?"/>
     <var name="cost_reduction_amount" type="int?"/>
     <var name="damage_per_request" type="int?"/>
     <var name="extra_cache_amount" type="int?"/>

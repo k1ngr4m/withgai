@@ -593,6 +593,7 @@ class StatusParams:
     var block_amount: int
     var service_threshold: int
     var draw_amount: int
+    var compute_amount: int
     var cost_reduction_amount: int
     var damage_per_request: int
     var extra_cache_amount: int
@@ -615,6 +616,7 @@ class StatusParams:
         if _json_.get('block_amount') != null: self.block_amount = _json_["block_amount"]
         if _json_.get('service_threshold') != null: self.service_threshold = _json_["service_threshold"]
         if _json_.get('draw_amount') != null: self.draw_amount = _json_["draw_amount"]
+        if _json_.get('compute_amount') != null: self.compute_amount = _json_["compute_amount"]
         if _json_.get('cost_reduction_amount') != null: self.cost_reduction_amount = _json_["cost_reduction_amount"]
         if _json_.get('damage_per_request') != null: self.damage_per_request = _json_["damage_per_request"]
         if _json_.get('extra_cache_amount') != null: self.extra_cache_amount = _json_["extra_cache_amount"]

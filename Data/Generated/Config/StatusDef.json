@@ -369,6 +369,22 @@
     "type": "class"
   },
   {
+    "id": "dynamic_programming",
+    "name": "动态规划",
+    "stack_rule": "stack",
+    "timing_hooks": [
+      "card_played"
+    ],
+    "params": {
+      "draw_amount": 1,
+      "compute_amount": 1
+    },
+    "effect_group_id": "",
+    "max_stack": 99,
+    "is_hidden": false,
+    "type": "class"
+  },
+  {
     "id": "requirement_change",
     "name": "需求变更",
     "stack_rule": "stack",

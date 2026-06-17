@@ -22,6 +22,7 @@ const PLAYER_POSITIVE_STATUS_IDS := [
 	"case_matrix",
 	"compute",
 	"complexity",
+	"dynamic_programming",
 	"requirement_change",
 	"priority",
 	"scope_spread",
@@ -209,6 +210,7 @@ func play_card(run_state: Dictionary, hand_index: int, target_index := 0) -> voi
 	_consume_cost_reduction(player, card, base_cost)
 	player["cards_played_this_turn"] = int(player.get("cards_played_this_turn", 0)) + 1
 	_apply_frontend_card_played_statuses(player)
+	_apply_algorithm_card_played_statuses(player, card, run_state)
 	var upgraded := _is_card_upgraded(card_id)
 	battle_state["log"].append("打出：%s%s" % [card.get("name", card_id), "+" if upgraded else ""])
 	battle_state["last_play_context"] = {
@@ -344,6 +346,48 @@ func _apply_frontend_card_played_statuses(player: Dictionary) -> void:
 	var gain_amount: int = int(max(1, int(params.get("style_layer_amount", 1)))) * state_boost_stacks
 	_adjust_player_class_resource("style_layers", gain_amount)
 	battle_state["log"].append("状态提升：第 %d 张牌获得样式层 +%d" % [trigger_play_count, gain_amount])
+
+func _apply_algorithm_card_played_statuses(player: Dictionary, card: Dictionary, run_state: Dictionary) -> void:
+	var card_type := String(card.get("type", ""))
+	if card_type.is_empty():
+		return
+	var runtime_flags: Dictionary = battle_state.get("runtime_flags", {})
+	var type_counts: Dictionary = runtime_flags.get("card_type_play_counts", {})
+	var previous_count: int = int(type_counts.get(card_type, 0))
+	var statuses: Dictionary = player.get("status_list", {})
+	var dynamic_stacks: int = int(statuses.get("dynamic_programming", 0))
+	var triggered_types: Array = runtime_flags.get("dynamic_programming_triggered_types", [])
+	if dynamic_stacks > 0 and previous_count > 0 and not triggered_types.has(card_type):
+		triggered_types.append(card_type)
+		runtime_flags["dynamic_programming_triggered_types"] = triggered_types
+		battle_state["runtime_flags"] = runtime_flags
+		var params: Dictionary = _status_params("dynamic_programming")
+		var compute_amount: int = max(0, int(params.get("compute_amount", 0))) * dynamic_stacks
+		var draw_amount: int = max(0, int(params.get("draw_amount", 0))) * dynamic_stacks
+		var entries: Array = []
+		if compute_amount > 0:
+			entries.append({ "effect_type": "add_compute", "target_type": "self", "params": { "amount": compute_amount } })
+		if draw_amount > 0:
+			entries.append({ "effect_type": "draw_cards", "target_type": "self", "params": { "amount": draw_amount } })
+		if effect_executor != null and not entries.is_empty():
+			effect_executor.execute(entries, battle_state, run_state, 0, battle_state["log"])
+		battle_state["log"].append("动态规划复用%s牌型" % _card_type_label(card_type))
+		runtime_flags = battle_state.get("runtime_flags", {})
+		type_counts = runtime_flags.get("card_type_play_counts", type_counts)
+	type_counts[card_type] = previous_count + 1
+	runtime_flags["card_type_play_counts"] = type_counts
+	battle_state["runtime_flags"] = runtime_flags
+
+func _card_type_label(card_type: String) -> String:
+	match card_type:
+		"attack":
+			return "攻击"
+		"skill":
+			return "技能"
+		"power":
+			return "能力"
+		_:
+			return card_type
 
 func end_turn(run_state: Dictionary) -> void:
 	if battle_state.get("phase", "") != "player":

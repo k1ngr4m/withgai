@@ -27,6 +27,7 @@
 ,case_matrix,用例矩阵,stack,"[""add_case""]","{""case_amount"":1}",,99,false,class
 ,compute,算力,stack,"[""deal_damage""]",{},,99,false,class
 ,complexity,复杂度,stack,"[""add_compute"",""round_start""]","{""compute_complexity_gain"":1,""pressure_threshold"":3,""energy_loss"":1,""spirit_loss"":0}",,99,false,class
+,dynamic_programming,动态规划,stack,"[""card_played""]","{""compute_amount"":1,""draw_amount"":1}",,99,false,class
 ,requirement_change,需求变更,stack,"[""apply_status"",""enemy_before_action"",""modify_intent""]","{""intent_amount_reduction"":4,""consume_per_action"":1}",,99,false,class
 ,priority,优先级,stack,"[""target_resolution""]",{},,99,false,class
 ,meeting_minutes_boost,会议纪要,stack,"[""apply_status"",""modify_intent""]","{""requirement_change_bonus"":1,""intent_reduction_bonus"":2}",,99,true,class

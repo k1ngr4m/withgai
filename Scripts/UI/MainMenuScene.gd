@@ -81,6 +81,7 @@ var _spotlight_resource_label: Label
 var _spotlight_card_count_label: Label
 var _spotlight_difficulty_label: Label
 var _spotlight_accent_bar: ColorRect
+var _spotlight_start_button: Button
 var _spotlight_tab_buttons: Array = []
 var _app_root_node
 
@@ -139,6 +140,7 @@ func _build_menu() -> void:
 	_spotlight_card_count_label = null
 	_spotlight_difficulty_label = null
 	_spotlight_accent_bar = null
+	_spotlight_start_button = null
 	_spotlight_tab_buttons.clear()
 	for child in _content_layer.get_children():
 		_content_layer.remove_child(child)
@@ -517,6 +519,9 @@ func _spotlight_panel(compact := false) -> PanelContainer:
 		_spotlight_tab_buttons.append(tab)
 		tabs.add_child(tab)
 
+	_spotlight_start_button = _spotlight_start_button_control()
+	info.add_child(_spotlight_start_button)
+
 	if _spotlight_items.is_empty():
 		_spotlight_items.append({
 			"id": "",
@@ -577,6 +582,11 @@ func _set_spotlight_index(index: int, reset_timer := false) -> void:
 		_spotlight_card_count_label.text = "牌池 %d" % _class_card_count(class_id)
 	if _spotlight_difficulty_label != null and is_instance_valid(_spotlight_difficulty_label):
 		_spotlight_difficulty_label.text = "难度 %s" % _difficulty_marks(int(item.get("difficulty", 1)))
+	if _spotlight_start_button != null and is_instance_valid(_spotlight_start_button):
+		var short_name := String(item.get("short_name", item.get("name", "职业")))
+		_spotlight_start_button.text = "用%s开局" % short_name
+		_spotlight_start_button.disabled = not _can_start_class(class_id)
+		_spotlight_start_button.tooltip_text = "直接创建新局并进入 1F 路线" if not _spotlight_start_button.disabled else "该职业当前不可出战"
 	if _spotlight_art_rect != null and is_instance_valid(_spotlight_art_rect):
 		var art_path := String(item.get("key_art", ""))
 		var texture = load(art_path) if not art_path.is_empty() else null
@@ -613,6 +623,50 @@ func _spotlight_tab_style(active: bool, accent: Color, hover := false) -> StyleB
 	style.set_corner_radius_all(6)
 	style.content_margin_left = 8
 	style.content_margin_right = 8
+	return style
+
+
+func _spotlight_start_button_control() -> Button:
+	var button := Button.new()
+	button.name = "SpotlightStartButton"
+	button.custom_minimum_size = Vector2(180, 42)
+	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	button.add_theme_font_size_override("font_size", 14)
+	button.add_theme_color_override("font_color", Color(0.94, 0.99, 1.0))
+	button.add_theme_color_override("font_disabled_color", Color(0.50, 0.58, 0.60))
+	button.add_theme_stylebox_override("normal", _spotlight_cta_style(false, false))
+	button.add_theme_stylebox_override("hover", _spotlight_cta_style(false, true))
+	button.add_theme_stylebox_override("pressed", _spotlight_cta_style(true, true))
+	button.add_theme_stylebox_override("focus", _spotlight_cta_style(true, true))
+	button.add_theme_stylebox_override("disabled", _spotlight_cta_disabled_style())
+	button.pressed.connect(_start_spotlight_class)
+	return button
+
+
+func _spotlight_cta_style(active: bool, hover := false) -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color(0.08, 0.34, 0.35, 0.92)
+	style.border_color = Color(0.54, 0.94, 0.88, 0.76)
+	if active:
+		style.bg_color = Color(0.10, 0.42, 0.42, 0.96)
+	if hover:
+		style.bg_color = style.bg_color.lightened(0.08)
+		style.border_color = style.border_color.lightened(0.12)
+	style.set_border_width_all(1)
+	style.set_corner_radius_all(7)
+	style.content_margin_left = 12
+	style.content_margin_right = 12
+	return style
+
+
+func _spotlight_cta_disabled_style() -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color(0.08, 0.10, 0.11, 0.72)
+	style.border_color = Color(0.28, 0.34, 0.36, 0.42)
+	style.set_border_width_all(1)
+	style.set_corner_radius_all(7)
+	style.content_margin_left = 12
+	style.content_margin_right = 12
 	return style
 
 
@@ -1093,6 +1147,13 @@ func _has_valid_suspend() -> bool:
 	return not _suspend_run_state().is_empty()
 
 
+func _can_start_class(class_id: String) -> bool:
+	var app = _app_root()
+	if class_id.is_empty() or app == null or app.meta_service == null:
+		return false
+	return app.meta_service.is_class_playable(class_id)
+
+
 func _suspend_run_state(save_state: Dictionary = {}) -> Dictionary:
 	if save_state.is_empty():
 		var app = _app_root()
@@ -1219,3 +1280,21 @@ func _continue_run() -> void:
 			tag = "map"
 			app.run_session.run_state["current_scene_tag"] = "map"
 		_show_scene(tag)
+
+
+func _start_spotlight_class() -> void:
+	if _spotlight_items.is_empty():
+		return
+	var item: Dictionary = _spotlight_items[_spotlight_index]
+	_start_class_from_menu(String(item.get("id", "")))
+
+
+func _start_class_from_menu(class_id: String) -> void:
+	var app = _app_root()
+	if app == null or app.run_session == null or app.save_service == null or app.meta_service == null:
+		return
+	if not app.meta_service.is_class_playable(class_id):
+		return
+	app.run_session.create_new_run(class_id)
+	app.save_service.save_suspend(app.run_session.run_state, app.meta_service.meta_state)
+	_show_scene("map")

@@ -1949,7 +1949,7 @@
       "effect_group_id": "eg_card_algo_dynamic_programming",
       "upgrade_to": "card_algo_dynamic_programming_plus",
       "enabled_in_first_playable": true,
-      "description": "动态规划：建立长期收益。",
+      "description": "动态规划：建立长期状态，每种牌型首次重复使用时获得算力并抽牌。",
       "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_algo_dynamic_programming_v1/final.png"
     },
     "card_algo_complexity_burst": {
@@ -4989,6 +4989,22 @@
       "is_hidden": false,
       "type": "class"
     },
+    "dynamic_programming": {
+      "id": "dynamic_programming",
+      "name": "动态规划",
+      "stack_rule": "stack",
+      "timing_hooks": [
+        "card_played"
+      ],
+      "params": {
+        "draw_amount": 1,
+        "compute_amount": 1
+      },
+      "effect_group_id": "",
+      "max_stack": 99,
+      "is_hidden": false,
+      "type": "class"
+    },
     "requirement_change": {
       "id": "requirement_change",
       "name": "需求变更",
@@ -7476,8 +7492,7 @@
     "eg_card_algo_dynamic_programming": {
       "id": "eg_card_algo_dynamic_programming",
       "entry_ids": [
-        "eg_card_algo_dynamic_programming_e01",
-        "eg_card_algo_dynamic_programming_e02"
+        "eg_card_algo_dynamic_programming_e01"
       ],
       "entries": [
         {
@@ -7485,14 +7500,7 @@
           "target_type": "self",
           "params": {
             "amount": 1,
-            "status_id": "compute"
-          }
-        },
-        {
-          "effect_type": "draw_cards",
-          "target_type": "self",
-          "params": {
-            "amount": 1
+            "status_id": "dynamic_programming"
           }
         }
       ]
@@ -11156,17 +11164,7 @@
       "target_type": "self",
       "params": {
         "amount": 1,
-        "status_id": "compute"
-      }
-    },
-    "eg_card_algo_dynamic_programming_e02": {
-      "id": "eg_card_algo_dynamic_programming_e02",
-      "effect_group_id": "eg_card_algo_dynamic_programming",
-      "order": 2,
-      "effect_type": "draw_cards",
-      "target_type": "self",
-      "params": {
-        "amount": 1
+        "status_id": "dynamic_programming"
       }
     },
     "eg_card_algo_complexity_burst_e01": {
