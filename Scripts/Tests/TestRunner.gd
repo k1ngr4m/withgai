@@ -33,6 +33,7 @@ func _init() -> void:
 	_validate_main_menu_scene()
 	_validate_map_scene()
 	_validate_battle_scene()
+	_validate_reward_scene()
 	_validate_config_references(config, content)
 	_validate_run_class_locks(config, map, meta)
 	_validate_run_reset_cleanup()
@@ -143,6 +144,20 @@ func _validate_battle_scene() -> void:
 	_check(source.contains("BattleLogPanel"), "battle scene log panel configured")
 	_check(source.contains("EndTurnButton"), "battle scene end turn button configured")
 	_check(source.contains("draw_pile"), "battle scene resource panel shows pile counts")
+
+
+func _validate_reward_scene() -> void:
+	_check(ResourceLoader.exists("res://Scenes/RewardScene.tscn"), "reward scene resource exists")
+	var source := FileAccess.get_file_as_string("res://Scripts/UI/RewardScene.gd")
+	_check(source.contains("RewardHeader"), "reward scene header configured")
+	_check(source.contains("CurrencyPanel"), "reward scene currency panel configured")
+	_check(source.contains("CardChoicePanel"), "reward scene card choice panel configured")
+	_check(source.contains("RelicChoicePanel"), "reward scene relic choice panel configured")
+	_check(source.contains("RewardConfirmPanel"), "reward scene confirm panel configured")
+	_check(source.contains("ConfirmRewardButton"), "reward scene confirm reward button configured")
+	_check(source.contains("_reward_selection_summary"), "reward scene summarizes current selection")
+	_check(source.contains("SkipCardButton"), "reward scene explicit card skip button configured")
+	_check(source.contains("SkipRelicButton"), "reward scene explicit relic skip button configured")
 
 
 func _validate_config_references(config, content) -> void:

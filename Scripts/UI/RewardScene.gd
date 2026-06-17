@@ -20,11 +20,54 @@ func _build() -> void:
 	var main := UiFactory.vbox(12)
 	margin.add_child(main)
 	var reward: Dictionary = AppRoot.run_session.run_state.get("pending_reward_state", {})
-	main.add_child(UiFactory.label("战斗奖励", 34))
-	main.add_child(UiFactory.label("绩效点 +%d" % int(reward.get("currency_amount", 0)), 22, Color(1.0, 0.9, 0.55)))
-	main.add_child(UiFactory.label("选择一张牌", 22, Color(0.86, 0.94, 0.98)))
+	main.add_child(_reward_header(reward))
+	main.add_child(_currency_panel(reward))
+	main.add_child(_card_choice_panel(reward))
+	main.add_child(_relic_choice_panel(reward))
+	main.add_child(_confirm_panel())
+
+	var actions := UiFactory.hbox(8)
+	actions.name = "RewardActionBar"
+	main.add_child(actions)
+	var save := UiFactory.button("保存")
+	save.name = "SaveRewardButton"
+	save.pressed.connect(_save_reward)
+	actions.add_child(save)
+	var menu := UiFactory.button("主菜单")
+	menu.name = "RewardMainMenuButton"
+	menu.pressed.connect(_go_main_menu)
+	actions.add_child(menu)
+
+
+func _reward_header(reward: Dictionary) -> Label:
+	var source := String(reward.get("source_encounter_id", ""))
+	var title := "战斗奖励"
+	if not source.is_empty():
+		title = "战斗奖励 | %s" % source
+	var label := UiFactory.label(title, 34)
+	label.name = "RewardHeader"
+	return label
+
+
+func _currency_panel(reward: Dictionary) -> PanelContainer:
+	var panel := UiFactory.panel()
+	panel.name = "CurrencyPanel"
+	var box := UiFactory.vbox(5)
+	panel.add_child(box)
+	box.add_child(UiFactory.label("绩效点 +%d" % int(reward.get("currency_amount", 0)), 22, Color(1.0, 0.9, 0.55)))
+	box.add_child(UiFactory.label("领取奖励后会回到楼层路线；未选择的卡牌或遗物视为跳过。", 13, Color(0.78, 0.88, 0.90)))
+	return panel
+
+
+func _card_choice_panel(reward: Dictionary) -> PanelContainer:
+	var panel := UiFactory.panel()
+	panel.name = "CardChoicePanel"
+	var box := UiFactory.vbox(8)
+	panel.add_child(box)
+	box.add_child(UiFactory.label("选择一张牌", 22, Color(0.86, 0.94, 0.98)))
 	var row := UiFactory.hbox(10)
-	main.add_child(row)
+	row.name = "CardChoiceRow"
+	box.add_child(row)
 	for card_id in reward.get("candidate_card_ids", []):
 		var card: Dictionary = AppRoot.config_service.get_def("cards", card_id)
 		var card_marker := "✓ " if selected_card_id == String(card_id) else ""
@@ -32,34 +75,70 @@ func _build() -> void:
 		b.pressed.connect(func(): _select_card(String(card_id)))
 		row.add_child(b)
 	var skip_card := UiFactory.button("跳过卡牌")
+	skip_card.name = "SkipCardButton"
 	skip_card.pressed.connect(func(): _select_card(""))
 	row.add_child(skip_card)
+	box.add_child(UiFactory.label(_selected_card_text(), 13, Color(0.74, 0.86, 0.88)))
+	return panel
+
+
+func _relic_choice_panel(reward: Dictionary) -> PanelContainer:
+	var panel := UiFactory.panel()
+	panel.name = "RelicChoicePanel"
+	var box := UiFactory.vbox(8)
+	panel.add_child(box)
 	var relics: Array = reward.get("candidate_relic_ids", [])
-	if not relics.is_empty():
-		main.add_child(UiFactory.label("选择一件遗物", 22, Color(0.86, 0.94, 0.98)))
-		var relic_row := UiFactory.hbox(10)
-		main.add_child(relic_row)
-		for relic_id in relics:
-			var relic: Dictionary = AppRoot.config_service.get_def("relics", relic_id)
-			var relic_marker := "✓ " if selected_relic_id == String(relic_id) else ""
-			var relic_button: Button = UiFactory.button("%s%s\n%s" % [relic_marker, relic.get("name", relic_id), relic.get("description", "")])
-			relic_button.custom_minimum_size = Vector2(260, 130)
-			relic_button.pressed.connect(func(): _select_relic(String(relic_id)))
-			relic_row.add_child(relic_button)
-		var skip_relic := UiFactory.button("跳过遗物")
-		skip_relic.pressed.connect(func(): _select_relic(""))
-		relic_row.add_child(skip_relic)
+	box.add_child(UiFactory.label("选择一件遗物", 22, Color(0.86, 0.94, 0.98)))
+	if relics.is_empty():
+		box.add_child(UiFactory.label("本次没有遗物候选。", 14, Color(0.72, 0.84, 0.86)))
+		return panel
+	var relic_row := UiFactory.hbox(10)
+	relic_row.name = "RelicChoiceRow"
+	box.add_child(relic_row)
+	for relic_id in relics:
+		var relic: Dictionary = AppRoot.config_service.get_def("relics", relic_id)
+		var relic_marker := "✓ " if selected_relic_id == String(relic_id) else ""
+		var relic_button: Button = UiFactory.button("%s%s\n%s" % [relic_marker, relic.get("name", relic_id), relic.get("description", "")])
+		relic_button.custom_minimum_size = Vector2(260, 130)
+		relic_button.pressed.connect(func(): _select_relic(String(relic_id)))
+		relic_row.add_child(relic_button)
+	var skip_relic := UiFactory.button("跳过遗物")
+	skip_relic.name = "SkipRelicButton"
+	skip_relic.pressed.connect(func(): _select_relic(""))
+	relic_row.add_child(skip_relic)
+	box.add_child(UiFactory.label(_selected_relic_text(), 13, Color(0.74, 0.86, 0.88)))
+	return panel
+
+
+func _confirm_panel() -> PanelContainer:
+	var panel := UiFactory.panel()
+	panel.name = "RewardConfirmPanel"
+	var box := UiFactory.vbox(6)
+	panel.add_child(box)
+	box.add_child(UiFactory.label(_reward_selection_summary(), 14, Color(0.82, 0.94, 0.96)))
 	var confirm := UiFactory.button("确认领取")
+	confirm.name = "ConfirmRewardButton"
 	confirm.pressed.connect(_accept_reward)
-	main.add_child(confirm)
-	var actions := UiFactory.hbox(8)
-	main.add_child(actions)
-	var save := UiFactory.button("保存")
-	save.pressed.connect(_save_reward)
-	actions.add_child(save)
-	var menu := UiFactory.button("主菜单")
-	menu.pressed.connect(_go_main_menu)
-	actions.add_child(menu)
+	box.add_child(confirm)
+	return panel
+
+
+func _selected_card_text() -> String:
+	if selected_card_id.is_empty():
+		return "当前卡牌选择：跳过"
+	var card: Dictionary = AppRoot.config_service.get_def("cards", selected_card_id)
+	return "当前卡牌选择：%s" % String(card.get("name", selected_card_id))
+
+
+func _selected_relic_text() -> String:
+	if selected_relic_id.is_empty():
+		return "当前遗物选择：跳过"
+	var relic: Dictionary = AppRoot.config_service.get_def("relics", selected_relic_id)
+	return "当前遗物选择：%s" % String(relic.get("name", selected_relic_id))
+
+
+func _reward_selection_summary() -> String:
+	return "%s；%s" % [_selected_card_text(), _selected_relic_text()]
 
 func _select_card(card_id: String) -> void:
 	selected_card_id = card_id

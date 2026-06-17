@@ -31,6 +31,10 @@
   - `PlayerArea`, `ResourcePanel`, `EnemyArea`, `IntentArea`, `HandArea`, `BattleLogPanel`, and `EndTurnButton` are named in the combat UI
   - the resource panel summarizes backend resources, draw/hand/discard/exhaust counts, enemy count, and selected target
   - empty battle logs now show a readable placeholder instead of a blank panel
+- Reward scene now exposes the spec-level reward panels:
+  - `RewardHeader`, `CurrencyPanel`, `CardChoicePanel`, `RelicChoicePanel`, and `RewardConfirmPanel` organize post-battle choices
+  - explicit skip buttons and a selection summary make card/relic skipping intentional before confirming
+  - the confirm button remains wired to `RewardService.accept_battle_reward()` and returns to map or run result as before
 - Reward, shop, event, rest, save, and meta tests now validate the public full chain through backend while retaining internal mechanics coverage for the placeholder careers.
 - `RunSession.create_new_run()` now enforces public career availability at the service layer:
   - backend public runs still create normally
