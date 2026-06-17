@@ -35,6 +35,7 @@ func _init() -> void:
 	_validate_battle_scene()
 	_validate_reward_scene()
 	_validate_shop_scene()
+	_validate_event_scene()
 	_validate_config_references(config, content)
 	_validate_run_class_locks(config, map, meta)
 	_validate_run_reset_cleanup()
@@ -173,6 +174,19 @@ func _validate_shop_scene() -> void:
 	_check(source.contains("ShopCardButton"), "shop scene card stock buttons configured")
 	_check(source.contains("ShopRelicButton"), "shop scene relic stock buttons configured")
 	_check(source.contains("DeckRemoveGrid"), "shop scene deck remove grid configured")
+
+
+func _validate_event_scene() -> void:
+	_check(ResourceLoader.exists("res://Scenes/EventScene.tscn"), "event scene resource exists")
+	var source := FileAccess.get_file_as_string("res://Scripts/UI/EventScene.gd")
+	_check(source.contains("EventTextPanel"), "event scene text panel configured")
+	_check(source.contains("OptionListPanel"), "event scene option list panel configured")
+	_check(source.contains("ResultPanel"), "event scene result panel configured")
+	_check(source.contains("ConfirmEventResultButton"), "event scene result confirm button configured")
+	_check(source.contains("EventOptionButton"), "event scene option buttons configured")
+	_check(source.contains("_event_snapshot"), "event scene snapshots before/after state")
+	_check(source.contains("_format_result_delta"), "event scene formats result delta")
+	_check(source.contains("\"map\" if _resolved else \"event\""), "event scene resolved result saves as map")
 
 
 func _validate_config_references(config, content) -> void:

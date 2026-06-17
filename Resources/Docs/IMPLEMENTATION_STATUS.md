@@ -39,6 +39,10 @@
   - `PlayerCurrencyPanel`, `ShopStockPanel`, `DeckOperationPanel`, and `RefreshButton` are named in the shop UI
   - the currency panel summarizes current performance points, card/relic/remove/refresh costs, deck size, relic count, and refresh count
   - stock purchases, targeted card removal, refresh, save, and pause-to-menu remain wired to the existing `RewardService` shop flow
+- Event scene now exposes the spec-level event panels:
+  - `EventTextPanel`, `OptionListPanel`, and `ResultPanel` separate event setup, choice, and outcome feedback
+  - choosing an option now shows the selected option and before/after run-state delta before returning to the map
+  - saving or pausing after a resolved event stores the run as `map`, preventing continue-run from rolling a fresh event
 - Reward, shop, event, rest, save, and meta tests now validate the public full chain through backend while retaining internal mechanics coverage for the placeholder careers.
 - `RunSession.create_new_run()` now enforces public career availability at the service layer:
   - backend public runs still create normally
