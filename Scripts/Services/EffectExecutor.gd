@@ -85,6 +85,8 @@ func _execute_entry(entry: Dictionary, battle_state: Dictionary, run_state: Dict
 			_delay_intent(entry.get("target_type", "selected"), battle_state, target_index, params, battle_log)
 		"split_intent":
 			_split_intent(entry.get("target_type", "selected"), battle_state, target_index, params, battle_log)
+		"reroll_intent":
+			_reroll_intents(entry.get("target_type", "selected"), battle_state, run_state, target_index, battle_log)
 		"shuffle_priority":
 			_shuffle_priority(entry.get("target_type", "selected"), battle_state, target_index, params, battle_log)
 		"set_priority_top":
@@ -896,6 +898,24 @@ func _split_intent(target_type: String, battle_state: Dictionary, target_index: 
 		var split_amount: int = max(1, int(floor(float(total_amount) / float(hits))))
 		enemy["intent"] = { "intent_type": "multi_attack", "amount": split_amount, "hits": hits }
 		battle_log.append("%s 的里程碑被拆成 %d 段" % [enemy.get("name", "敌人"), hits])
+
+func _reroll_intents(target_type: String, battle_state: Dictionary, run_state: Dictionary, target_index: int, battle_log: Array) -> void:
+	var changed := 0
+	for enemy in _target_enemies(target_type, battle_state, target_index):
+		var next_intent := _roll_preview_intent(enemy)
+		if next_intent.is_empty():
+			battle_log.append("%s 暂无可重置意图" % enemy.get("name", "敌人"))
+			continue
+		var flags: Dictionary = enemy.get("runtime_flags", {})
+		flags.erase("forced_next_intent")
+		flags.erase("observed_next_intent")
+		flags.erase("observed_next_intent_text")
+		enemy["runtime_flags"] = flags
+		enemy["intent"] = next_intent
+		changed += 1
+		battle_log.append("全员对齐重置 %s 意图：%s" % [enemy.get("name", "敌人"), _intent_text(next_intent)])
+	if changed > 0:
+		_apply_modify_intent_relics(battle_state, run_state, battle_log)
 
 func _attack_intent_total(intent: Dictionary) -> int:
 	match String(intent.get("intent_type", "")):

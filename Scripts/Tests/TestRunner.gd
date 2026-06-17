@@ -723,6 +723,17 @@ func _validate_config_references(config, content) -> void:
 			roadmap_adds_requirement = true
 	_check(roadmap_scales_requirement, "pm roadmap scales damage from requirement change")
 	_check(not roadmap_adds_requirement, "pm roadmap is a payoff rather than another generic mark")
+	_check(content.card_def("card_pm_align_all").get("target_type", "") == "self", "pm align all is non-targeted")
+	var align_all_entries: Array = content.effect_entries(content.card_def("card_pm_align_all").get("effect_group_id", ""))
+	var align_all_rerolls := false
+	var align_all_blocks := false
+	for entry in align_all_entries:
+		if entry.get("effect_type", "") == "reroll_intent" and entry.get("target_type", "") == "all_enemies":
+			align_all_rerolls = true
+		if entry.get("effect_type", "") == "gain_block":
+			align_all_blocks = true
+	_check(align_all_rerolls, "pm align all rerolls every enemy intent")
+	_check(not align_all_blocks, "pm align all does not use generic block")
 	_check(content.card_def("card_pm_priority_shuffle").get("target_type", "") == "selected", "pm priority shuffle targets selected enemy")
 	var priority_shuffle_entries: Array = content.effect_entries(content.card_def("card_pm_priority_shuffle").get("effect_group_id", ""))
 	var priority_shuffle_blocks := false
@@ -1881,6 +1892,45 @@ func _validate_combat_mechanics(config, content, map, meta) -> void:
 	_check(int(roadmap_enemies[1].get("current_hp", 0)) == 37, "pm roadmap scales damage from requirement changes")
 	_check(int(roadmap_enemies[1].get("status_list", {}).get("requirement_change", 0)) == 3, "pm roadmap does not add generic requirement mark")
 	_check(int(player.get("current_energy", 0)) == 1, "pm roadmap charges card cost")
+
+	run = run_session.create_new_run("product_manager")
+	run["owned_relic_ids"] = []
+	battle = _start_first_battle(run, content, map, executor)
+	player = battle.battle_state.get("player", {})
+	var align_enemies: Array = battle.battle_state.get("enemies", [])
+	if align_enemies.size() == 1:
+		align_enemies.append(align_enemies[0].duplicate(true))
+		align_enemies[1]["name"] = "对齐副目标"
+	align_enemies[0]["current_hp"] = 50
+	align_enemies[0]["intent"] = { "intent_type": "attack", "amount": 99 }
+	align_enemies[0]["runtime_flags"] = {
+		"forced_next_intent": { "intent_type": "attack", "amount": 88 },
+		"observed_next_intent": { "intent_type": "block", "amount": 77 },
+		"observed_next_intent_text": "防守 77",
+	}
+	align_enemies[1]["current_hp"] = 50
+	align_enemies[1]["intent"] = { "intent_type": "block", "amount": 77 }
+	align_enemies[1]["runtime_flags"] = {
+		"forced_next_intent": { "intent_type": "attack", "amount": 66 },
+		"observed_next_intent": { "intent_type": "attack", "amount": 55 },
+		"observed_next_intent_text": "攻击 55",
+	}
+	battle.battle_state["enemies"] = align_enemies
+	player["hand"] = ["card_pm_align_all"]
+	player["draw_pile"] = []
+	player["discard_pile"] = []
+	player["current_energy"] = 3
+	player["current_block"] = 0
+	player["status_list"] = {}
+	battle.play_card(run, 0, 0)
+	_check(align_enemies[0].get("intent", {}).get("intent_type", "") != "attack" or int(align_enemies[0].get("intent", {}).get("amount", 0)) != 99, "pm align all rerolls first enemy intent")
+	_check(align_enemies[1].get("intent", {}).get("intent_type", "") != "block" or int(align_enemies[1].get("intent", {}).get("amount", 0)) != 77, "pm align all rerolls second enemy intent")
+	_check(not align_enemies[0].get("runtime_flags", {}).has("forced_next_intent"), "pm align all clears first forced intent")
+	_check(not align_enemies[0].get("runtime_flags", {}).has("observed_next_intent"), "pm align all clears first observed intent")
+	_check(not align_enemies[1].get("runtime_flags", {}).has("forced_next_intent"), "pm align all clears second forced intent")
+	_check(not align_enemies[1].get("runtime_flags", {}).has("observed_next_intent"), "pm align all clears second observed intent")
+	_check(int(player.get("current_block", 0)) == 0, "pm align all does not grant generic block")
+	_check(int(player.get("current_energy", 0)) == 1, "pm align all charges card cost")
 
 	run = run_session.create_new_run("product_manager")
 	run["owned_relic_ids"] = []

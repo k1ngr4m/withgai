@@ -146,7 +146,7 @@
 ,eg_card_pm_weekly_sync,"[""eg_card_pm_weekly_sync_e01"",""eg_card_pm_weekly_sync_e02""]"
 ,eg_card_pm_urgent_schedule,"[""eg_card_pm_urgent_schedule_e01"",""eg_card_pm_urgent_schedule_e02""]"
 ,eg_card_pm_verbal_promise,"[""eg_card_pm_verbal_promise_e01"",""eg_card_pm_verbal_promise_e02""]"
-,eg_card_pm_align_all,"[""eg_card_pm_align_all_e01"",""eg_card_pm_align_all_e02""]"
+,eg_card_pm_align_all,"[""eg_card_pm_align_all_e01""]"
 ,eg_card_pm_roadmap,"[""eg_card_pm_roadmap_e01""]"
 ,eg_card_pm_snowball,"[""eg_card_pm_snowball_e01"",""eg_card_pm_snowball_e02""]"
 ,eg_card_pm_goal_drift,"[""eg_card_pm_goal_drift_e01"",""eg_card_pm_goal_drift_e02""]"

@@ -2461,7 +2461,7 @@
     "effect_group_id": "eg_card_pm_align_all",
     "upgrade_to": "card_pm_align_all_plus",
     "enabled_in_first_playable": true,
-    "description": "全员对齐：获得防线并触发职业资源。",
+    "description": "全员对齐：重置所有敌人的当前意图，清理延期和预判安排。",
     "art_path": "res://Resources/Art/Generated/P0/cards/card_illust_pm_align_all_v1/final.png"
   },
   {

@@ -146,7 +146,7 @@
 ,card_pm_weekly_sync,周会拉通,"[""product_manager""]",uncommon,skill,1,self,[],eg_card_pm_weekly_sync,card_pm_weekly_sync_plus,true,周会拉通：获得防线并触发职业资源。,
 ,card_pm_urgent_schedule,紧急排期,"[""product_manager""]",uncommon,attack,1,single_enemy,[],eg_card_pm_urgent_schedule,card_pm_urgent_schedule_plus,true,紧急排期：造成伤害。,
 ,card_pm_verbal_promise,口头承诺,"[""product_manager""]",uncommon,skill,1,self,[],eg_card_pm_verbal_promise,card_pm_verbal_promise_plus,true,口头承诺：获得防线并触发职业资源。,
-,card_pm_align_all,全员对齐,"[""product_manager""]",rare,skill,2,self,[],eg_card_pm_align_all,card_pm_align_all_plus,true,全员对齐：获得防线并触发职业资源。,res://Resources/Art/Generated/P0/cards/card_illust_pm_align_all_v1/final.png
+,card_pm_align_all,全员对齐,"[""product_manager""]",rare,skill,2,self,[],eg_card_pm_align_all,card_pm_align_all_plus,true,全员对齐：重置所有敌人的当前意图，清理延期和预判安排。,res://Resources/Art/Generated/P0/cards/card_illust_pm_align_all_v1/final.png
 ,card_pm_roadmap,版本路线图,"[""product_manager""]",rare,attack,2,highest_priority_enemy,[],eg_card_pm_roadmap,card_pm_roadmap_plus,true,版本路线图：按最高优先级目标身上的需求变更层数造成结算伤害。,res://Resources/Art/Generated/P0/cards/card_illust_pm_roadmap_v1/final.png
 ,card_pm_snowball,需求雪崩,"[""product_manager""]",rare,attack,3,highest_priority_enemy,[],eg_card_pm_snowball,card_pm_snowball_plus,true,需求雪崩：造成伤害。,
 ,card_pm_goal_drift,目标漂移,"[""product_manager""]",rare,skill,2,self,[],eg_card_pm_goal_drift,card_pm_goal_drift_plus,true,目标漂移：获得防线并触发职业资源。,
