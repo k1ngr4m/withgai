@@ -27,6 +27,10 @@
   - `ChapterHeader`, `MapGraphPanel`, `FloorInfoPanel`, `NodeDetailPanel`, and `ResumeButton` are present in the route UI
   - clicking a reachable node previews its floor, type, expected reward, and follow-up route count before entering
   - entering a route node now requires the selected-node confirm button, reducing accidental battle/shop/event transitions
+- Battle scene now exposes the spec-level combat panels:
+  - `PlayerArea`, `ResourcePanel`, `EnemyArea`, `IntentArea`, `HandArea`, `BattleLogPanel`, and `EndTurnButton` are named in the combat UI
+  - the resource panel summarizes backend resources, draw/hand/discard/exhaust counts, enemy count, and selected target
+  - empty battle logs now show a readable placeholder instead of a blank panel
 - Reward, shop, event, rest, save, and meta tests now validate the public full chain through backend while retaining internal mechanics coverage for the placeholder careers.
 - `RunSession.create_new_run()` now enforces public career availability at the service layer:
   - backend public runs still create normally

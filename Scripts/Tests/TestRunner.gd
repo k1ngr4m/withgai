@@ -32,6 +32,7 @@ func _init() -> void:
 	reward_service.call("setup", content, map, meta)
 	_validate_main_menu_scene()
 	_validate_map_scene()
+	_validate_battle_scene()
 	_validate_config_references(config, content)
 	_validate_run_class_locks(config, map, meta)
 	_validate_run_reset_cleanup()
@@ -128,6 +129,20 @@ func _validate_map_scene() -> void:
 	_check(source.contains("_select_node"), "map scene supports node preview selection")
 	_check(source.contains("_enter_selected_node"), "map scene confirms selected node before entering")
 	_check(source.contains("_node_reward_hint"), "map scene explains node reward expectations")
+
+
+func _validate_battle_scene() -> void:
+	_check(ResourceLoader.exists("res://Scenes/BattleScene.tscn"), "battle scene resource exists")
+	var source := FileAccess.get_file_as_string("res://Scripts/UI/BattleScene.gd")
+	_check(source.contains("BattleHeader"), "battle scene header configured")
+	_check(source.contains("PlayerArea"), "battle scene player area configured")
+	_check(source.contains("ResourcePanel"), "battle scene class resource panel configured")
+	_check(source.contains("EnemyArea"), "battle scene enemy area configured")
+	_check(source.contains("IntentArea"), "battle scene intent area configured")
+	_check(source.contains("HandArea"), "battle scene hand area configured")
+	_check(source.contains("BattleLogPanel"), "battle scene log panel configured")
+	_check(source.contains("EndTurnButton"), "battle scene end turn button configured")
+	_check(source.contains("draw_pile"), "battle scene resource panel shows pile counts")
 
 
 func _validate_config_references(config, content) -> void:

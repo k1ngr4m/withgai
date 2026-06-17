@@ -39,44 +39,76 @@ func _build() -> void:
 	margin.add_child(main)
 	var state := AppRoot.battle_service.battle_state
 	var player: Dictionary = state.get("player", {})
-	main.add_child(UiFactory.label("精神 %d/%d  精力 %d  防线 %d  回合 %d  %s" % [
-		int(player.get("current_spirit", 0)), int(player.get("max_spirit", 0)), int(player.get("current_energy", 0)), int(player.get("current_block", 0)), int(player.get("turn_number", 1)), _resource_text(player)
-	], 22))
-	var player_status := _status_text(player.get("status_list", {}))
-	if player_status != "无":
-		main.add_child(UiFactory.label("状态 %s" % player_status, 15, Color(0.84, 0.92, 0.94)))
+	var header := UiFactory.label("精神 %d/%d  精力 %d  防线 %d  回合 %d" % [
+		int(player.get("current_spirit", 0)), int(player.get("max_spirit", 0)), int(player.get("current_energy", 0)), int(player.get("current_block", 0)), int(player.get("turn_number", 1))
+	], 22)
+	header.name = "BattleHeader"
+	main.add_child(header)
+	main.add_child(_player_area(player, state))
+
 	var enemy_row := UiFactory.hbox(10)
+	enemy_row.name = "EnemyArea"
 	main.add_child(enemy_row)
 	var enemies: Array = state.get("enemies", [])
 	for i in range(enemies.size()):
 		enemy_row.add_child(_enemy_panel(enemies[i], i))
 	var hand_row := UiFactory.hbox(8)
+	hand_row.name = "HandArea"
 	main.add_child(UiFactory.scroll(hand_row))
 	var hand: Array = player.get("hand", [])
 	for i in range(hand.size()):
 		hand_row.add_child(_card_button(hand[i], i))
 	var actions := UiFactory.hbox(8)
+	actions.name = "BattleActionBar"
 	main.add_child(actions)
 	var end_turn := UiFactory.button("结束回合")
+	end_turn.name = "EndTurnButton"
 	end_turn.pressed.connect(_end_turn)
 	actions.add_child(end_turn)
 	var save := UiFactory.button("保存")
+	save.name = "SaveBattleButton"
 	save.pressed.connect(_save_battle)
 	actions.add_child(save)
 	var menu := UiFactory.button("主菜单")
+	menu.name = "BattleMainMenuButton"
 	menu.pressed.connect(_go_main_menu)
 	actions.add_child(menu)
-	var log_panel := UiFactory.panel()
-	log_panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	var log_box := UiFactory.vbox(3)
-	log_panel.add_child(log_box)
-	var logs: Array = state.get("log", [])
-	for line in logs.slice(max(0, logs.size() - 8), logs.size()):
-		log_box.add_child(UiFactory.label(String(line), 14, Color(0.86, 0.9, 0.9)))
-	main.add_child(log_panel)
+	main.add_child(_battle_log_panel(state))
+
+
+func _player_area(player: Dictionary, state: Dictionary) -> Control:
+	var box := UiFactory.vbox(8)
+	box.name = "PlayerArea"
+	box.add_child(_resource_panel(player, state))
+	var player_status := _status_text(player.get("status_list", {}))
+	if player_status != "无":
+		box.add_child(UiFactory.label("状态 %s" % player_status, 15, Color(0.84, 0.92, 0.94)))
+	return box
+
+
+func _resource_panel(player: Dictionary, state: Dictionary) -> PanelContainer:
+	var panel := UiFactory.panel()
+	panel.name = "ResourcePanel"
+	var box := UiFactory.vbox(6)
+	panel.add_child(box)
+	var run := AppRoot.run_session.run_state
+	var cls: Dictionary = AppRoot.config_service.get_def("classes", run.get("selected_class_id", ""))
+	box.add_child(UiFactory.label("%s资源面板" % String(cls.get("name", "职业")), 18, Color(0.88, 0.97, 1.0)))
+	box.add_child(UiFactory.label(_resource_text(player), 15, Color(0.78, 0.92, 0.92)))
+	var piles := "抽牌 %d | 手牌 %d | 弃牌 %d | 消耗 %d" % [
+		int(player.get("draw_pile", []).size()),
+		int(player.get("hand", []).size()),
+		int(player.get("discard_pile", []).size()),
+		int(player.get("exhaust_pile", []).size()),
+	]
+	box.add_child(UiFactory.label(piles, 14, Color(0.70, 0.84, 0.86)))
+	var enemies: Array = state.get("enemies", [])
+	box.add_child(UiFactory.label("敌人 %d | 当前目标 %d" % [enemies.size(), AppRoot.battle_service.selected_target_index() + 1], 14, Color(0.70, 0.84, 0.86)))
+	return panel
 
 func _enemy_panel(enemy: Dictionary, enemy_index: int) -> Control:
 	var panel := UiFactory.panel()
+	panel.name = "EnemyPanel%d" % enemy_index
 	panel.custom_minimum_size = Vector2(260, 230)
 	var box := UiFactory.vbox(6)
 	panel.add_child(box)
@@ -85,7 +117,9 @@ func _enemy_panel(enemy: Dictionary, enemy_index: int) -> Control:
 	var intent: Dictionary = enemy.get("intent", {})
 	var selected := enemy_index == AppRoot.battle_service.selected_target_index()
 	box.add_child(UiFactory.label("%s%s  HP %d/%d  防线 %d" % ["▶ " if selected else "", enemy.get("name", ""), int(enemy.get("current_hp", 0)), int(enemy.get("max_hp", 0)), int(enemy.get("current_block", 0))], 18))
-	box.add_child(UiFactory.label("意图：%s %s" % [intent.get("intent_type", ""), str(intent.get("amount", ""))], 15, Color(1.0, 0.82, 0.55)))
+	var intent_label := UiFactory.label("意图：%s %s" % [intent.get("intent_type", ""), str(intent.get("amount", ""))], 15, Color(1.0, 0.82, 0.55))
+	intent_label.name = "IntentArea"
+	box.add_child(intent_label)
 	var preview_text := String(enemy.get("runtime_flags", {}).get("observed_next_intent_text", ""))
 	if not preview_text.is_empty():
 		box.add_child(UiFactory.label("预判：%s" % preview_text, 13, Color(0.62, 0.86, 1.0)))
@@ -95,6 +129,21 @@ func _enemy_panel(enemy: Dictionary, enemy_index: int) -> Control:
 	target.pressed.connect(func(): _select_target(enemy_index))
 	box.add_child(target)
 	return panel
+
+
+func _battle_log_panel(state: Dictionary) -> PanelContainer:
+	var log_panel := UiFactory.panel()
+	log_panel.name = "BattleLogPanel"
+	log_panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	var log_box := UiFactory.vbox(3)
+	log_panel.add_child(log_box)
+	var logs: Array = state.get("log", [])
+	if logs.is_empty():
+		log_box.add_child(UiFactory.label("战斗日志将在这里记录。", 14, Color(0.70, 0.80, 0.82)))
+	else:
+		for line in logs.slice(max(0, logs.size() - 8), logs.size()):
+			log_box.add_child(UiFactory.label(String(line), 14, Color(0.86, 0.9, 0.9)))
+	return log_panel
 
 func _card_button(card_id: String, hand_index: int) -> Button:
 	var card: Dictionary = AppRoot.config_service.get_def("cards", card_id)
@@ -157,7 +206,7 @@ func _resource_text(player: Dictionary) -> String:
 	var parts: Array = []
 	for key in resources.keys():
 		parts.append("%s:%s" % [_resource_label(String(key)), resources[key]])
-	return "资源 " + " ".join(parts)
+	return "资源 无" if parts.is_empty() else "资源 " + " ".join(parts)
 
 func _resource_label(resource_id: String) -> String:
 	return String(RESOURCE_LABELS.get(resource_id, resource_id))
