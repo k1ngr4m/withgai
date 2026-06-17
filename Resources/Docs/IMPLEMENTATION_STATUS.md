@@ -43,6 +43,10 @@
   - `EventTextPanel`, `OptionListPanel`, and `ResultPanel` separate event setup, choice, and outcome feedback
   - choosing an option now shows the selected option and before/after run-state delta before returning to the map
   - saving or pausing after a resolved event stores the run as `map`, preventing continue-run from rolling a fresh event
+- Rest scene now exposes the spec-level rest controls:
+  - `RecoverButton` and `UpgradeButton` are organized under a rest choice panel with current spirit, recovery preview, and eligible upgrade count
+  - the upgrade picker now has `UpgradeChoicePanel`, `UpgradeChoiceList`, and named upgrade-card buttons
+  - direct scene loading safely exits when no active run is present, matching the other node pages
 - Reward, shop, event, rest, save, and meta tests now validate the public full chain through backend while retaining internal mechanics coverage for the placeholder careers.
 - `RunSession.create_new_run()` now enforces public career availability at the service layer:
   - backend public runs still create normally

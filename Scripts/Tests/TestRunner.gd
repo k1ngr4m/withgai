@@ -36,6 +36,7 @@ func _init() -> void:
 	_validate_reward_scene()
 	_validate_shop_scene()
 	_validate_event_scene()
+	_validate_rest_scene()
 	_validate_config_references(config, content)
 	_validate_run_class_locks(config, map, meta)
 	_validate_run_reset_cleanup()
@@ -187,6 +188,20 @@ func _validate_event_scene() -> void:
 	_check(source.contains("_event_snapshot"), "event scene snapshots before/after state")
 	_check(source.contains("_format_result_delta"), "event scene formats result delta")
 	_check(source.contains("\"map\" if _resolved else \"event\""), "event scene resolved result saves as map")
+
+
+func _validate_rest_scene() -> void:
+	_check(ResourceLoader.exists("res://Scenes/RestScene.tscn"), "rest scene resource exists")
+	var source := FileAccess.get_file_as_string("res://Scripts/UI/RestScene.gd")
+	_check(source.contains("RestHeader"), "rest scene header configured")
+	_check(source.contains("RestStatusPanel"), "rest scene status panel configured")
+	_check(source.contains("RestChoicePanel"), "rest scene choice panel configured")
+	_check(source.contains("RecoverButton"), "rest scene recover button configured")
+	_check(source.contains("UpgradeButton"), "rest scene upgrade button configured")
+	_check(source.contains("UpgradeChoicePanel"), "rest scene upgrade choice panel configured")
+	_check(source.contains("UpgradeCardButton"), "rest scene upgrade card buttons configured")
+	_check(source.contains("_rest_recover_preview"), "rest scene previews recovery amount")
+	_check(source.contains("_eligible_upgrade_count"), "rest scene counts eligible upgrades")
 
 
 func _validate_config_references(config, content) -> void:
