@@ -17,6 +17,7 @@ func _ready() -> void:
 	main.add_child(_result_summary_panel(run, settlement))
 	main.add_child(_meta_reward_panel(settlement))
 	main.add_child(_result_actions_panel())
+	call_deferred("_animate_entry", victory)
 
 
 func _has_result_run() -> bool:
@@ -29,6 +30,7 @@ func _has_result_run() -> bool:
 func _result_header(victory: bool) -> Label:
 	var label := UiFactory.label("晋升成功" if victory else "本局结束", 42)
 	label.name = "RunResultHeader"
+	label.add_theme_color_override("font_color", Color(1.0, 0.90, 0.46) if victory else Color(0.90, 0.94, 0.96))
 	return label
 
 
@@ -85,3 +87,24 @@ func _result_actions_panel() -> PanelContainer:
 	)
 	box.add_child(meta)
 	return panel
+
+func _animate_entry(victory: bool) -> void:
+	var nodes := [
+		find_child("RunResultHeader", true, false),
+		find_child("ResultSummaryPanel", true, false),
+		find_child("MetaRewardPanel", true, false),
+		find_child("RunResultActionPanel", true, false),
+	]
+	var delay := 0.0
+	for node in nodes:
+		if node is CanvasItem:
+			var captured = node
+			var tween := captured.create_tween()
+			tween.tween_interval(delay)
+			tween.tween_callback(func(): UiMotion.fade_in(captured, 0.20, Vector2(0, 16)))
+			delay += 0.08
+	var reward := find_child("MetaRewardPanel", true, false)
+	if reward != null:
+		UiMotion.pulse(reward, UiMotion.REWARD, 0.26)
+	if not victory:
+		UiMotion.flash_modulate(self, Color(0.38, 0.08, 0.10), 0.28)

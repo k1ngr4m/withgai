@@ -680,9 +680,24 @@ const enemies = [
   ["boss_pitch_supervisor", "画饼主管", [1], 120, "塞入期权与明年提拔你", "res://Resources/Art/Generated/P0/characters/boss_pitch_supervisor_v1.png"],
   ["boss_mutant_hr", "变异HR", [2], 150, "压缩续航、惩罚冗余手牌", "res://Resources/Art/Generated/P0/icons/enemy_portrait_icon_set_v1/enemy_portrait_final-15.png"],
   ["boss_mutant_ceo", "变异总裁", [3], 190, "多阶段、多意图、召唤会议纪要", "res://Resources/Art/Generated/P0/icons/enemy_portrait_icon_set_v1/enemy_portrait_final-16.png"],
-].map(([id, name, chapter_tags, base_hp, description, art_path]) => ({
-  id, name, chapter_tags, base_hp, intent_group_id: `ig_${id}`, phase_group_id: phaseScripts[id] ? `pg_${id}` : "", reward_profile_id: "reward_default", description, art_path,
-}));
+].map(([id, name, chapter_tags, base_hp, description, art_path]) => {
+  const animationFramePaths = (action) => [1, 2, 3, 4].map((frame) => `res://Resources/Art/Generated/P0/enemies/${id}_anim_v1/${action}/processed/${action}-${frame}.png`);
+  return {
+    id,
+    name,
+    chapter_tags,
+    base_hp,
+    intent_group_id: `ig_${id}`,
+    phase_group_id: phaseScripts[id] ? `pg_${id}` : "",
+    reward_profile_id: "reward_default",
+    description,
+    art_path,
+    idle_frame_paths: animationFramePaths("idle"),
+    attack_frame_paths: animationFramePaths("attack"),
+    hurt_frame_paths: animationFramePaths("hurt"),
+    animation_fps: 6,
+  };
+});
 
 const specialtyIntents = {
   enemy_workaholic_coworker: [
@@ -969,7 +984,7 @@ const lubanJsonTypes = {
   EffectEntryDef: { params: "EffectParams" },
   EffectGroupDef: { entry_ids: "list,string" },
   EncounterDef: { enemy_ids: "list,string" },
-  EnemyDef: { chapter_tags: "list,int" },
+  EnemyDef: { chapter_tags: "list,int", idle_frame_paths: "list,string", attack_frame_paths: "list,string", hurt_frame_paths: "list,string" },
   EnemyIntentGroupDef: { intent_entries: "list,IntentEntry" },
   EventDef: { chapter_tags: "list,int", allowed_classes: "list,string", options: "list,EventOption" },
   MetaUpgradeDef: { cost_curve: "list,int", prerequisite_ids: "list,string" },
@@ -1005,7 +1020,7 @@ const tableDefs = [
   ["ClassDef", Object.values(config.classes), ["id", "name", "family", "unlock_order", "unlock_type", "unlock_param", "starter_relic_id", "starter_deck", "shared_pool_refs", "recommended_difficulty", "enabled_in_first_playable", "summary", "color"]],
   ["CardDef", Object.values(config.cards), ["id", "name", "class_tags", "rarity", "type", "cost", "target_type", "keywords", "effect_group_id", "upgrade_to", "enabled_in_first_playable", "description", "art_path"]],
   ["RelicDef", Object.values(config.relics), ["id", "name", "allowed_classes", "rarity", "trigger_list", "effect_group_id", "shop_weight", "description", "art_path"]],
-  ["EnemyDef", Object.values(config.enemies), ["id", "name", "chapter_tags", "base_hp", "intent_group_id", "phase_group_id", "reward_profile_id", "description", "art_path"]],
+  ["EnemyDef", Object.values(config.enemies), ["id", "name", "chapter_tags", "base_hp", "intent_group_id", "phase_group_id", "reward_profile_id", "description", "art_path", "idle_frame_paths", "attack_frame_paths", "hurt_frame_paths", "animation_fps"]],
   ["EncounterDef", Object.values(config.encounters), ["id", "chapter", "node_type", "enemy_ids", "weight", "min_floor", "max_floor"]],
   ["MapNodeDef", Object.values(config.map_nodes), ["id", "chapter", "node_type", "weight", "can_repeat", "reward_profile_id"]],
   ["EventDef", Object.values(config.events), ["id", "name", "chapter_tags", "allowed_classes", "text", "options", "weight"]],

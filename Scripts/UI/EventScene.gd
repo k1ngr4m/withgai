@@ -5,6 +5,7 @@ var _resolved_event_name := ""
 var _resolved_option_text := ""
 var _resolved_result_text := ""
 var _resolved_destination := "map"
+var _last_event_feedback := ""
 
 
 func _ready() -> void:
@@ -41,6 +42,7 @@ func _build() -> void:
 	else:
 		main.add_child(_option_list_panel(event))
 	main.add_child(_pause_actions())
+	call_deferred("_animate_entry")
 
 
 func _event_text_panel(event: Dictionary) -> PanelContainer:
@@ -100,6 +102,8 @@ func _pause_actions() -> Control:
 	return actions
 
 func _choose(option_index: int) -> void:
+	UiMotion.scan_line(self, UiMotion.SERVICE, 0.18)
+	await get_tree().create_timer(0.12 if not UiMotion.reduce_motion() else 0.01).timeout
 	var run := AppRoot.run_session.run_state
 	var event := AppRoot.reward_service.current_event(run)
 	var options: Array = event.get("options", [])
@@ -113,12 +117,15 @@ func _choose(option_index: int) -> void:
 	var after := _event_snapshot(run)
 	_resolved_result_text = _format_result_delta(before, after)
 	_resolved = true
+	_last_event_feedback = "resolved"
 	AppRoot.run_session.run_state["current_scene_tag"] = "map"
 	AppRoot.save_service.save_suspend(AppRoot.run_session.run_state, AppRoot.meta_service.meta_state)
 	_build()
 
 
 func _confirm_result() -> void:
+	UiMotion.scan_line(self, UiMotion.SERVICE, 0.16)
+	await get_tree().create_timer(0.12 if not UiMotion.reduce_motion() else 0.01).timeout
 	var target := "run_result" if _resolved_destination == "run_victory" else "map"
 	AppRoot.flow_controller.show_scene(target)
 
@@ -159,3 +166,24 @@ func _add_delta(parts: Array, label_text: String, before: int, after: int) -> vo
 		return
 	var prefix := "+" if delta > 0 else ""
 	parts.append("%s %s%d" % [label_text, prefix, delta])
+
+func _animate_entry() -> void:
+	var text_panel := find_child("EventTextPanel", true, false)
+	if text_panel != null:
+		UiMotion.fade_in(text_panel, 0.20, Vector2(0, 16))
+	var options := find_child("OptionListPanel", true, false)
+	if options != null:
+		var delay := 0.08
+		for child in options.get_children():
+			if child is Control:
+				var captured = child
+				var tween := child.create_tween()
+				tween.tween_interval(delay)
+				tween.tween_callback(func(): UiMotion.fade_in(captured, 0.18, Vector2(0, 12)))
+				delay += 0.04
+	var result := find_child("ResultPanel", true, false)
+	if result != null:
+		UiMotion.fade_in(result, 0.20, Vector2(0, 16))
+		if _last_event_feedback == "resolved":
+			UiMotion.pulse(result, UiMotion.REWARD, 0.18)
+	_last_event_feedback = ""

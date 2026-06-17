@@ -171,6 +171,12 @@ func _gain_block(battle_state: Dictionary, run_state: Dictionary, amount: int, b
 	player["relic_runtime_flags"] = flags
 	player["current_block"] = int(player.get("current_block", 0)) + final_amount
 	battle_log.append("获得 %d 防线" % final_amount)
+	_append_visual_event(battle_state, {
+		"type": "block",
+		"target": "player",
+		"amount": final_amount,
+		"label": "+%d 防线" % final_amount,
+	})
 
 func _damage_enemies(target_type: String, battle_state: Dictionary, run_state: Dictionary, target_index: int, amount: int, params: Dictionary, battle_log: Array) -> void:
 	var targets := _target_enemies(target_type, battle_state, target_index)
@@ -219,6 +225,13 @@ func _damage_enemy(enemy: Dictionary, battle_state: Dictionary, run_state: Dicti
 	enemy["current_block"] = block - blocked
 	enemy["current_hp"] = max(0, int(enemy.get("current_hp", 0)) - (damage - blocked))
 	battle_log.append("对 %s 造成 %d 伤害" % [enemy.get("name", "敌人"), damage])
+	_append_visual_event(battle_state, {
+		"type": "damage",
+		"target": "enemy",
+		"enemy_index": _enemy_index(battle_state, enemy),
+		"amount": damage,
+		"label": "-%d" % damage,
+	})
 
 func _target_status_damage_bonus(enemy: Dictionary, params: Dictionary) -> int:
 	var statuses: Dictionary = enemy.get("status_list", {})
@@ -884,6 +897,13 @@ func _add_class_resource(battle_state: Dictionary, key: String, amount: int, bat
 	player["class_resource_state"] = resources
 	if amount != 0:
 		battle_log.append("%s %+d" % [label, amount])
+		_append_visual_event(battle_state, {
+			"type": "resource",
+			"target": "player",
+			"resource_id": key,
+			"amount": amount,
+			"label": "%+d %s" % [amount, label],
+		})
 
 func _add_component(battle_state: Dictionary, run_state: Dictionary, amount: int, params: Dictionary, battle_log: Array) -> void:
 	var player := _player(battle_state)
@@ -1058,10 +1078,31 @@ func _shuffle_priority(target_type: String, battle_state: Dictionary, target_ind
 func _modify_intent(enemy: Dictionary, battle_state: Dictionary, run_state: Dictionary, amount: int, battle_log: Array) -> void:
 	var intent: Dictionary = enemy.get("intent", {})
 	if intent.get("intent_type", "") == "attack":
+		var before_amount := int(intent.get("amount", 0))
 		intent["amount"] = max(0, int(intent.get("amount", 0)) + amount)
 		enemy["intent"] = intent
 		battle_log.append("%s 攻击意图 %+d" % [enemy.get("name", "敌人"), amount])
+		_append_visual_event(battle_state, {
+			"type": "intent",
+			"target": "enemy",
+			"enemy_index": _enemy_index(battle_state, enemy),
+			"amount": int(intent.get("amount", 0)) - before_amount,
+			"label": "意图 %+d" % (int(intent.get("amount", 0)) - before_amount),
+		})
 	_apply_modify_intent_relics(battle_state, run_state, battle_log)
+
+func _append_visual_event(battle_state: Dictionary, event: Dictionary) -> void:
+	var events: Array = battle_state.get("visual_events", [])
+	events.append(event)
+	battle_state["visual_events"] = events
+
+
+func _enemy_index(battle_state: Dictionary, enemy: Dictionary) -> int:
+	var enemies: Array = battle_state.get("enemies", [])
+	for i in range(enemies.size()):
+		if is_same(enemies[i], enemy):
+			return i
+	return -1
 
 func _apply_status_relics(battle_state: Dictionary, run_state: Dictionary, enemy: Dictionary, status_id: String, amount: int, battle_log: Array) -> void:
 	var player := _player(battle_state)

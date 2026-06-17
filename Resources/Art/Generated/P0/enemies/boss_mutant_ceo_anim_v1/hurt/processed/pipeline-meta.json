@@ -1,0 +1,81 @@
+{
+  "target": "creature",
+  "mode": "hurt",
+  "prompt": "boss_mutant_ceo hurt 2x2 sprite sheet\nSource art: res://Resources/Art/Generated/P0/icons/enemy_portrait_icon_set_v1/enemy_portrait_final-16.png\nDerived first-pass combat motion frames from existing AI-generated enemy art.",
+  "input": "res://Resources/Art/Generated/P0/icons/enemy_portrait_icon_set_v1/enemy_portrait_final-16.png",
+  "rows": 2,
+  "cols": 2,
+  "frame_labels": [
+    "hurt-1",
+    "hurt-2",
+    "hurt-3",
+    "hurt-4"
+  ],
+  "frames": [
+    {
+      "frame": 1,
+      "path": "Resources/Art/Generated/P0/enemies/boss_mutant_ceo_anim_v1/hurt/processed/hurt-1.png",
+      "transform": {
+        "scale": 0.92,
+        "rotate": 0,
+        "dx": 0,
+        "dy": 1,
+        "tint": false
+      },
+      "output_size": [
+        300,
+        260
+      ],
+      "edge_touch": false
+    },
+    {
+      "frame": 2,
+      "path": "Resources/Art/Generated/P0/enemies/boss_mutant_ceo_anim_v1/hurt/processed/hurt-2.png",
+      "transform": {
+        "scale": 0.9,
+        "rotate": -4,
+        "dx": -7,
+        "dy": 2,
+        "tint": true
+      },
+      "output_size": [
+        300,
+        260
+      ],
+      "edge_touch": false
+    },
+    {
+      "frame": 3,
+      "path": "Resources/Art/Generated/P0/enemies/boss_mutant_ceo_anim_v1/hurt/processed/hurt-3.png",
+      "transform": {
+        "scale": 0.91,
+        "rotate": 3,
+        "dx": 5,
+        "dy": 1,
+        "tint": true
+      },
+      "output_size": [
+        300,
+        260
+      ],
+      "edge_touch": false
+    },
+    {
+      "frame": 4,
+      "path": "Resources/Art/Generated/P0/enemies/boss_mutant_ceo_anim_v1/hurt/processed/hurt-4.png",
+      "transform": {
+        "scale": 0.92,
+        "rotate": 0,
+        "dx": 0,
+        "dy": 1,
+        "tint": false
+      },
+      "output_size": [
+        300,
+        260
+      ],
+      "edge_touch": false
+    }
+  ],
+  "edge_touch_frames": []
+}

@@ -57,6 +57,7 @@ static func button(text: String) -> Button:
 	var b := Button.new()
 	b.text = text
 	b.custom_minimum_size = Vector2(150, 42)
+	UiMotion.bind_button(b)
 	return b
 
 static func card_button(card: Dictionary, text: String, min_size := Vector2(210, 170)) -> Button:

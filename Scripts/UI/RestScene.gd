@@ -25,6 +25,7 @@ func _build_main() -> void:
 	main.add_child(_rest_status_panel(run))
 	main.add_child(_rest_choice_panel(run))
 	main.add_child(_pause_actions())
+	call_deferred("_animate_entry")
 
 
 func _rest_header(text: String) -> Label:
@@ -75,6 +76,8 @@ func _clear_children() -> void:
 
 func _recover() -> void:
 	AppRoot.reward_service.rest_recover(AppRoot.run_session.run_state)
+	UiMotion.scan_line(self, UiMotion.BLOCK, 0.20)
+	await get_tree().create_timer(0.16 if not UiMotion.reduce_motion() else 0.01).timeout
 	AppRoot.flow_controller.show_scene("map")
 
 func _show_upgrade_choices() -> void:
@@ -119,9 +122,12 @@ func _show_upgrade_choices() -> void:
 	back.pressed.connect(_build_main)
 	main.add_child(back)
 	main.add_child(_pause_actions())
+	call_deferred("_animate_entry")
 
 func _upgrade(card_id: String) -> void:
 	AppRoot.reward_service.rest_upgrade_card(AppRoot.run_session.run_state, card_id)
+	UiMotion.scan_line(self, UiMotion.REWARD, 0.20)
+	await get_tree().create_timer(0.16 if not UiMotion.reduce_motion() else 0.01).timeout
 	AppRoot.flow_controller.show_scene("map")
 
 func _pause_actions() -> Control:
@@ -165,3 +171,17 @@ func _eligible_upgrade_count(run: Dictionary) -> int:
 		if not upgraded_cards.has(card_id):
 			count += 1
 	return count
+
+func _animate_entry() -> void:
+	var header := find_child("RestHeader", true, false)
+	if header != null:
+		UiMotion.fade_in(header, 0.24, Vector2(0, 16))
+	var status := find_child("RestStatusPanel", true, false)
+	if status != null:
+		UiMotion.fade_in(status, 0.24, Vector2(0, 16))
+	var choices := find_child("RestChoicePanel", true, false)
+	if choices != null:
+		UiMotion.fade_in(choices, 0.24, Vector2(0, 16))
+	var upgrade_list := find_child("UpgradeChoiceList", true, false)
+	if upgrade_list != null:
+		UiMotion.fade_in_children(upgrade_list, 0.14, Vector2(0, 10), 0.025)

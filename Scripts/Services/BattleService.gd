@@ -205,6 +205,7 @@ func play_card(run_state: Dictionary, hand_index: int, target_index := 0) -> voi
 	if not can_play_card(hand_index):
 		battle_state["log"].append("精力不足或牌不可用")
 		return
+	var enemy_hp_before := _enemy_hp_snapshot()
 	var player: Dictionary = battle_state.get("player", {})
 	var hand: Array = player.get("hand", [])
 	var card_id := String(hand[hand_index])
@@ -219,6 +220,14 @@ func play_card(run_state: Dictionary, hand_index: int, target_index := 0) -> voi
 	_apply_algorithm_card_played_statuses(player, card, run_state)
 	var upgraded := _is_card_upgraded(card_id)
 	battle_state["log"].append("打出：%s%s" % [card.get("name", card_id), "+" if upgraded else ""])
+	_queue_visual_event({
+		"type": "card_played",
+		"target": "player",
+		"card_id": card_id,
+		"card_type": String(card.get("type", "")),
+		"source_id": String(card.get("id", card_id)),
+		"label": String(card.get("name", card_id)),
+	})
 	battle_state["last_play_context"] = {
 		"card_id": card_id,
 		"cost_paid": cost,
@@ -228,6 +237,7 @@ func play_card(run_state: Dictionary, hand_index: int, target_index := 0) -> voi
 	var entries: Array = _actual_effect_entries(card)
 	effect_executor.execute(entries, battle_state, run_state, target_index, battle_state["log"])
 	_check_enemy_phase_triggers(run_state)
+	_queue_hurt_visuals(enemy_hp_before)
 	_collect_defeated_enemies(run_state)
 	_apply_card_relics(run_state, card)
 	player["discard_pile"].append(card_id)
@@ -246,6 +256,7 @@ func select_target(target_index: int) -> void:
 				target_index = i
 				break
 	battle_state["selected_target_index"] = target_index
+	_queue_visual_event({ "type": "target", "target": "enemy", "enemy_index": target_index, "label": "目标锁定" })
 
 func selected_target_index() -> int:
 	return int(battle_state.get("selected_target_index", 0))
@@ -398,6 +409,7 @@ func _card_type_label(card_type: String) -> String:
 func end_turn(run_state: Dictionary) -> void:
 	if battle_state.get("phase", "") != "player":
 		return
+	_queue_visual_event({ "type": "turn_end", "target": "player", "label": "敌方行动" })
 	var player: Dictionary = battle_state.get("player", {})
 	player["discard_pile"].append_array(player.get("hand", []))
 	player["hand"] = []
@@ -428,6 +440,8 @@ func _enemy_turn(run_state: Dictionary) -> void:
 			continue
 		_apply_requirement_change_before_action(enemy)
 		var intent: Dictionary = enemy.get("intent", {})
+		if not String(intent.get("intent_type", "")).is_empty():
+			_queue_enemy_visual(enemy, "attack")
 		match intent.get("intent_type", ""):
 			"attack":
 				_enemy_attack(player, enemy, int(intent.get("amount", 0)), run_state)
@@ -485,7 +499,52 @@ func _enemy_attack(player: Dictionary, enemy: Dictionary, amount: int, run_state
 	player["damage_taken_this_turn"] = int(player.get("damage_taken_this_turn", 0)) + damage
 	battle_state["log"].append("%s 造成 %d 压力" % [enemy.get("name", "敌人"), damage])
 	if damage > 0:
+		_queue_visual_event({
+			"type": "player_damage",
+			"target": "player",
+			"amount": damage,
+			"label": "-%d 精神" % damage,
+		})
+	if damage > 0:
 		_apply_damage_taken_relics(player, run_state, damage)
+
+func _enemy_hp_snapshot() -> Array:
+	var snapshot: Array = []
+	for enemy in battle_state.get("enemies", []):
+		snapshot.append(int(enemy.get("current_hp", 0)))
+	return snapshot
+
+func _queue_hurt_visuals(enemy_hp_before: Array) -> void:
+	var enemies: Array = battle_state.get("enemies", [])
+	for i in range(min(enemy_hp_before.size(), enemies.size())):
+		if int(enemies[i].get("current_hp", 0)) < int(enemy_hp_before[i]):
+			_queue_enemy_visual_by_index(i, "hurt")
+
+func _queue_enemy_visual(enemy: Dictionary, action: String) -> void:
+	var enemies: Array = battle_state.get("enemies", [])
+	for i in range(enemies.size()):
+		if enemies[i] == enemy:
+			_queue_enemy_visual_by_index(i, action)
+			return
+
+func _queue_enemy_visual_by_index(enemy_index: int, action: String) -> void:
+	if enemy_index < 0:
+		return
+	var events: Array = battle_state.get("visual_events", [])
+	events.append({ "enemy_index": enemy_index, "action": action })
+	battle_state["visual_events"] = events
+
+func _queue_visual_event(event: Dictionary) -> void:
+	var events: Array = battle_state.get("visual_events", [])
+	events.append(event)
+	battle_state["visual_events"] = events
+
+func _enemy_index(enemy: Dictionary) -> int:
+	var enemies: Array = battle_state.get("enemies", [])
+	for i in range(enemies.size()):
+		if is_same(enemies[i], enemy):
+			return i
+	return -1
 
 func _pollute_player(player: Dictionary, card_id: String, destination: String, amount: int, source_name: String) -> void:
 	if card_id.is_empty() or content_resolver.card_def(card_id).is_empty():
@@ -576,6 +635,12 @@ func _check_enemy_phase_triggers(run_state: Dictionary) -> void:
 			enemy["runtime_flags"] = flags
 			enemy["phase_index"] = max(int(enemy.get("phase_index", 0)), int(phase.get("order", 0)))
 			battle_state["log"].append("%s 进入阶段：%s" % [enemy.get("name", "敌人"), phase.get("name", phase_id)])
+			_queue_visual_event({
+				"type": "boss_phase",
+				"target": "enemy",
+				"enemy_index": _enemy_index(enemy),
+				"label": String(phase.get("name", phase_id)),
+			})
 			_execute_phase_actions(enemy, phase.get("actions", []), run_state)
 
 func _execute_phase_actions(enemy: Dictionary, actions: Array, _run_state: Dictionary) -> void:
@@ -601,6 +666,12 @@ func _execute_phase_actions(enemy: Dictionary, actions: Array, _run_state: Dicti
 				if not next_intent.is_empty():
 					enemy["intent"] = next_intent
 					battle_state["log"].append("%s 重置意图为 %s" % [enemy.get("name", "敌人"), next_intent.get("intent_type", "")])
+					_queue_visual_event({
+						"type": "boss_phase",
+						"target": "enemy",
+						"enemy_index": _enemy_index(enemy),
+						"label": "阶段切换",
+					})
 
 func _add_player_status(player: Dictionary, status_id: String, amount: int, source_name: String) -> void:
 	if status_id.is_empty():

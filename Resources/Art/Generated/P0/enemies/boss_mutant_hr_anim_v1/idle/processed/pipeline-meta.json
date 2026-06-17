@@ -1,0 +1,77 @@
+{
+  "target": "creature",
+  "mode": "idle",
+  "prompt": "boss_mutant_hr idle 2x2 sprite sheet\nSource art: res://Resources/Art/Generated/P0/icons/enemy_portrait_icon_set_v1/enemy_portrait_final-15.png\nDerived first-pass combat motion frames from existing AI-generated enemy art.",
+  "input": "res://Resources/Art/Generated/P0/icons/enemy_portrait_icon_set_v1/enemy_portrait_final-15.png",
+  "rows": 2,
+  "cols": 2,
+  "frame_labels": [
+    "idle-1",
+    "idle-2",
+    "idle-3",
+    "idle-4"
+  ],
+  "frames": [
+    {
+      "frame": 1,
+      "path": "Resources/Art/Generated/P0/enemies/boss_mutant_hr_anim_v1/idle/processed/idle-1.png",
+      "transform": {
+        "scale": 0.92,
+        "rotate": 0,
+        "dx": 0,
+        "dy": 1
+      },
+      "output_size": [
+        300,
+        260
+      ],
+      "edge_touch": false
+    },
+    {
+      "frame": 2,
+      "path": "Resources/Art/Generated/P0/enemies/boss_mutant_hr_anim_v1/idle/processed/idle-2.png",
+      "transform": {
+        "scale": 0.94,
+        "rotate": 0,
+        "dx": 0,
+        "dy": -1
+      },
+      "output_size": [
+        300,
+        260
+      ],
+      "edge_touch": false
+    },
+    {
+      "frame": 3,
+      "path": "Resources/Art/Generated/P0/enemies/boss_mutant_hr_anim_v1/idle/processed/idle-3.png",
+      "transform": {
+        "scale": 0.92,
+        "rotate": 0,
+        "dx": 0,
+        "dy": 1
+      },
+      "output_size": [
+        300,
+        260
+      ],
+      "edge_touch": false
+    },
+    {
+      "frame": 4,
+      "path": "Resources/Art/Generated/P0/enemies/boss_mutant_hr_anim_v1/idle/processed/idle-4.png",
+      "transform": {
+        "scale": 0.91,
+        "rotate": 0,
+        "dx": 0,
+        "dy": 2
+      },
+      "output_size": [
+        300,
+        260
+      ],
+      "edge_touch": false
+    }
+  ],
+  "edge_touch_frames": []
+}

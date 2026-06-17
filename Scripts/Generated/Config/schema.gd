@@ -289,6 +289,14 @@ class EnemyDef:
     var description: String
     ## art_path
     var art_path: String
+    ## idle_frame_paths
+    var idle_frame_paths: Array[String]
+    ## attack_frame_paths
+    var attack_frame_paths: Array[String]
+    ## hurt_frame_paths
+    var hurt_frame_paths: Array[String]
+    ## animation_fps
+    var animation_fps: int
 
     func _init(_json_) -> void:
         self.id = _json_["id"]
@@ -301,6 +309,13 @@ class EnemyDef:
         self.reward_profile_id = _json_["reward_profile_id"]
         self.description = _json_["description"]
         self.art_path = _json_["art_path"]
+        self.idle_frame_paths = []
+        for _ele in _json_["idle_frame_paths"]: var _e: String; _e = _ele; self.idle_frame_paths.append(_e)
+        self.attack_frame_paths = []
+        for _ele in _json_["attack_frame_paths"]: var _e: String; _e = _ele; self.attack_frame_paths.append(_e)
+        self.hurt_frame_paths = []
+        for _ele in _json_["hurt_frame_paths"]: var _e: String; _e = _ele; self.hurt_frame_paths.append(_e)
+        self.animation_fps = _json_["animation_fps"]
 
 
 class EnemyIntentGroupDef:

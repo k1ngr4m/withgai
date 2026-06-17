@@ -1,0 +1,77 @@
+{
+  "target": "creature",
+  "mode": "attack",
+  "prompt": "elite_budget_gatekeeper attack 2x2 sprite sheet\nSource art: res://Resources/Art/Generated/P0/icons/enemy_portrait_icon_set_v1/enemy_portrait_final-12.png\nDerived first-pass combat motion frames from existing AI-generated enemy art.",
+  "input": "res://Resources/Art/Generated/P0/icons/enemy_portrait_icon_set_v1/enemy_portrait_final-12.png",
+  "rows": 2,
+  "cols": 2,
+  "frame_labels": [
+    "attack-1",
+    "attack-2",
+    "attack-3",
+    "attack-4"
+  ],
+  "frames": [
+    {
+      "frame": 1,
+      "path": "Resources/Art/Generated/P0/enemies/elite_budget_gatekeeper_anim_v1/attack/processed/attack-1.png",
+      "transform": {
+        "scale": 0.92,
+        "rotate": -2,
+        "dx": -3,
+        "dy": 1
+      },
+      "output_size": [
+        300,
+        260
+      ],
+      "edge_touch": false
+    },
+    {
+      "frame": 2,
+      "path": "Resources/Art/Generated/P0/enemies/elite_budget_gatekeeper_anim_v1/attack/processed/attack-2.png",
+      "transform": {
+        "scale": 1,
+        "rotate": 3,
+        "dx": 7,
+        "dy": -2
+      },
+      "output_size": [
+        300,
+        260
+      ],
+      "edge_touch": false
+    },
+    {
+      "frame": 3,
+      "path": "Resources/Art/Generated/P0/enemies/elite_budget_gatekeeper_anim_v1/attack/processed/attack-3.png",
+      "transform": {
+        "scale": 0.97,
+        "rotate": 1,
+        "dx": 4,
+        "dy": 0
+      },
+      "output_size": [
+        300,
+        260
+      ],
+      "edge_touch": false
+    },
+    {
+      "frame": 4,
+      "path": "Resources/Art/Generated/P0/enemies/elite_budget_gatekeeper_anim_v1/attack/processed/attack-4.png",
+      "transform": {
+        "scale": 0.92,
+        "rotate": 0,
+        "dx": 0,
+        "dy": 1
+      },
+      "output_size": [
+        300,
+        260
+      ],
+      "edge_touch": false
+    }
+  ],
+  "edge_touch_frames": []
+}

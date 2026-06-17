@@ -1,0 +1,3 @@
+enemy_compliance_judge attack 2x2 sprite sheet
+Source art: res://Resources/Art/Generated/P0/icons/enemy_portrait_icon_set_v1/enemy_portrait_final-13.png
+Derived first-pass combat motion frames from existing AI-generated enemy art.

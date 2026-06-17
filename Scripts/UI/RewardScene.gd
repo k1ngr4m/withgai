@@ -2,6 +2,7 @@ extends Control
 
 var selected_card_id: String = ""
 var selected_relic_id: String = ""
+var _last_reward_feedback := ""
 
 func _ready() -> void:
 	if AppRoot.run_session.run_state.get("pending_reward_state", {}).is_empty():
@@ -37,6 +38,7 @@ func _build() -> void:
 	menu.name = "RewardMainMenuButton"
 	menu.pressed.connect(_go_main_menu)
 	actions.add_child(menu)
+	call_deferred("_animate_entry")
 
 
 func _reward_header(reward: Dictionary) -> Label:
@@ -72,6 +74,8 @@ func _card_choice_panel(reward: Dictionary) -> PanelContainer:
 		var card: Dictionary = AppRoot.config_service.get_def("cards", card_id)
 		var card_marker := "✓ " if selected_card_id == String(card_id) else ""
 		var b: Button = UiFactory.card_button(card, "%s%s\n%s\n%s" % [card_marker, card.get("name", card_id), card.get("type", ""), card.get("description", "")], Vector2(230, 180))
+		if selected_card_id == String(card_id):
+			b.modulate = Color(1.0, 0.92, 0.58, 1.0)
 		b.pressed.connect(func(): _select_card(String(card_id)))
 		row.add_child(b)
 	var skip_card := UiFactory.button("跳过卡牌")
@@ -100,6 +104,8 @@ func _relic_choice_panel(reward: Dictionary) -> PanelContainer:
 		var relic_marker := "✓ " if selected_relic_id == String(relic_id) else ""
 		var relic_button: Button = UiFactory.button("%s%s\n%s" % [relic_marker, relic.get("name", relic_id), relic.get("description", "")])
 		relic_button.custom_minimum_size = Vector2(260, 130)
+		if selected_relic_id == String(relic_id):
+			relic_button.modulate = Color(1.0, 0.92, 0.58, 1.0)
 		relic_button.pressed.connect(func(): _select_relic(String(relic_id)))
 		relic_row.add_child(relic_button)
 	var skip_relic := UiFactory.button("跳过遗物")
@@ -142,13 +148,17 @@ func _reward_selection_summary() -> String:
 
 func _select_card(card_id: String) -> void:
 	selected_card_id = card_id
+	_last_reward_feedback = "card" if not card_id.is_empty() else "skip"
 	_build()
 
 func _select_relic(relic_id: String) -> void:
 	selected_relic_id = relic_id
+	_last_reward_feedback = "relic" if not relic_id.is_empty() else "skip"
 	_build()
 
 func _accept_reward() -> void:
+	UiMotion.scan_line(self, UiMotion.REWARD, 0.22)
+	await get_tree().create_timer(0.16 if not UiMotion.reduce_motion() else 0.01).timeout
 	var run := AppRoot.run_session.run_state
 	var result: String = AppRoot.reward_service.accept_battle_reward(run, selected_card_id, selected_relic_id)
 	if result == "run_victory":
@@ -163,3 +173,28 @@ func _save_reward() -> void:
 func _go_main_menu() -> void:
 	_save_reward()
 	AppRoot.flow_controller.show_scene("main_menu")
+
+func _animate_entry() -> void:
+	var header := find_child("RewardHeader", true, false)
+	if header != null:
+		UiMotion.fade_in(header, 0.20, Vector2(0, 16))
+	var currency := find_child("CurrencyPanel", true, false)
+	if currency != null:
+		UiMotion.pulse(currency, UiMotion.REWARD, 0.24)
+	var row := find_child("CardChoiceRow", true, false)
+	if row != null:
+		var delay := 0.0
+		for child in row.get_children():
+			if child is Control:
+				var captured = child
+				var tween := child.create_tween()
+				tween.tween_interval(delay)
+				tween.tween_callback(func(): UiMotion.pop_in(captured, 0.20))
+				delay += 0.05
+	if _last_reward_feedback == "skip":
+		var skip := find_child("SkipCardButton", true, false)
+		if skip != null:
+			UiMotion.flash_modulate(skip, Color(0.55, 0.65, 0.72), 0.14)
+	elif not _last_reward_feedback.is_empty():
+		UiMotion.scan_line(self, UiMotion.REWARD, 0.16)
+	_last_reward_feedback = ""

@@ -1,6 +1,7 @@
 extends Control
 
 var selected_remove_card_id: String = ""
+var _last_shop_feedback := ""
 
 func _ready() -> void:
 	if not _has_shop_run():
@@ -41,6 +42,7 @@ func _build() -> void:
 	main.add_child(_shop_stock_panel(run, card_cost, relic_cost))
 	main.add_child(_build_remove_picker(run, remove_cost))
 	main.add_child(_shop_action_bar(run, remove_cost, refresh_cost, deck_cards))
+	call_deferred("_animate_entry")
 
 
 func _shop_header() -> Label:
@@ -130,22 +132,34 @@ func _shop_action_bar(run: Dictionary, remove_cost: int, refresh_cost: int, deck
 func _buy_card(card_id: String) -> void:
 	if AppRoot.reward_service.buy_shop_card(AppRoot.run_session.run_state, card_id):
 		AppRoot.save_service.save_suspend(AppRoot.run_session.run_state, AppRoot.meta_service.meta_state)
+		_last_shop_feedback = "buy"
+	else:
+		_last_shop_feedback = "fail"
 	_build()
 
 func _buy_relic(relic_id: String) -> void:
 	if AppRoot.reward_service.buy_shop_relic(AppRoot.run_session.run_state, relic_id):
 		AppRoot.save_service.save_suspend(AppRoot.run_session.run_state, AppRoot.meta_service.meta_state)
+		_last_shop_feedback = "buy"
+	else:
+		_last_shop_feedback = "fail"
 	_build()
 
 func _remove_card() -> void:
 	if AppRoot.reward_service.remove_shop_card(AppRoot.run_session.run_state, selected_remove_card_id):
 		AppRoot.save_service.save_suspend(AppRoot.run_session.run_state, AppRoot.meta_service.meta_state)
+		_last_shop_feedback = "remove"
+	else:
+		_last_shop_feedback = "fail"
 	selected_remove_card_id = ""
 	_build()
 
 func _refresh_stock() -> void:
 	if AppRoot.reward_service.refresh_shop_stock(AppRoot.run_session.run_state):
 		AppRoot.save_service.save_suspend(AppRoot.run_session.run_state, AppRoot.meta_service.meta_state)
+		_last_shop_feedback = "refresh"
+	else:
+		_last_shop_feedback = "fail"
 	_build()
 
 func _leave() -> void:
@@ -162,6 +176,7 @@ func _go_main_menu() -> void:
 
 func _select_remove_card(card_id: String) -> void:
 	selected_remove_card_id = card_id
+	_last_shop_feedback = "select_remove"
 	_build()
 
 func _build_remove_picker(run: Dictionary, remove_cost: int) -> PanelContainer:
@@ -207,3 +222,28 @@ func _count_deck_card(deck_cards: Array, card_id: String) -> int:
 		if String(item) == card_id:
 			count += 1
 	return count
+
+func _animate_entry() -> void:
+	var stock := find_child("ShopStockRow", true, false)
+	if stock != null:
+		var delay := 0.0
+		for child in stock.get_children():
+			if child is Control:
+				var captured = child
+				var tween := child.create_tween()
+				tween.tween_interval(delay)
+				tween.tween_callback(func(): UiMotion.fade_in(captured, 0.18, Vector2(18, 0)))
+				delay += 0.04
+	var currency := find_child("PlayerCurrencyPanel", true, false)
+	if currency != null:
+		match _last_shop_feedback:
+			"buy", "refresh", "remove":
+				UiMotion.pulse(currency, UiMotion.REWARD if _last_shop_feedback == "buy" else UiMotion.REQUEST, 0.18)
+			"fail":
+				UiMotion.shake(currency, 8.0, 0.12)
+	var remove_grid := find_child("DeckRemoveGrid", true, false)
+	if remove_grid != null and _last_shop_feedback == "select_remove":
+		UiMotion.scan_line(remove_grid, UiMotion.BLOCK, 0.16)
+	if _last_shop_feedback == "refresh":
+		UiMotion.scan_line(self, UiMotion.REQUEST, 0.20)
+	_last_shop_feedback = ""

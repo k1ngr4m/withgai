@@ -1,0 +1,3 @@
+boss_pitch_supervisor hurt 2x2 sprite sheet
+Source art: res://Resources/Art/Generated/P0/characters/boss_pitch_supervisor_v1.png
+Derived first-pass combat motion frames from existing AI-generated enemy art.

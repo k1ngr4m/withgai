@@ -113,6 +113,8 @@ func _process(delta: float) -> void:
 		_broadcast_timer = 0.0
 		_broadcast_index = (_broadcast_index + 1) % BROADCASTS.size()
 		_broadcast_label.text = String(BROADCASTS[_broadcast_index])
+	if not UiMotion.ambient_motion_enabled():
+		return
 	for index in range(_ambient_lines.size()):
 		var line = _ambient_lines[index]
 		if not is_instance_valid(line):
@@ -383,6 +385,8 @@ func _menu_panel(compact := false) -> PanelContainer:
 	quit_button.name = "ExitButton"
 	quit_button.pressed.connect(func(): get_tree().quit())
 	box.add_child(quit_button)
+	UiMotion.bind_buttons(panel, Color(0.54, 0.88, 0.88))
+	call_deferred("_animate_menu_entry")
 	return panel
 
 
@@ -1473,6 +1477,11 @@ func _open_options_panel() -> void:
 	var hint := _label("设置会保存到局外档。", 12, Color(0.58, 0.70, 0.73))
 	hint.custom_minimum_size = Vector2(320, 22)
 	box.add_child(hint)
+	box.add_child(_setting_toggle("ReduceMotionToggle", "减少动效", "reduce_motion", false))
+	box.add_child(_setting_toggle("AmbientMotionToggle", "背景氛围动效", "ambient_motion", true))
+	box.add_child(_setting_toggle("ScreenShakeToggle", "屏幕震动", "screen_shake", false))
+	UiMotion.bind_buttons(panel, Color(0.54, 0.88, 0.88))
+	UiMotion.fade_in(panel, 0.18, Vector2(0, 16))
 	close.call_deferred("grab_focus")
 
 
@@ -1490,6 +1499,23 @@ func _set_fullscreen(enabled: bool) -> void:
 	var app = _app_root()
 	if app != null and app.meta_service != null:
 		app.meta_service.update_setting("fullscreen", enabled)
+
+
+func _setting_toggle(node_name: String, text: String, key: String, default_value: bool) -> CheckButton:
+	var toggle := CheckButton.new()
+	toggle.name = node_name
+	toggle.text = text
+	toggle.button_pressed = bool(_settings_state().get(key, default_value))
+	toggle.add_theme_font_size_override("font_size", 15)
+	toggle.add_theme_color_override("font_color", Color(0.84, 0.95, 0.97))
+	toggle.toggled.connect(func(enabled: bool): _set_bool_setting(key, enabled))
+	return toggle
+
+
+func _set_bool_setting(key: String, enabled: bool) -> void:
+	var app = _app_root()
+	if app != null and app.meta_service != null:
+		app.meta_service.update_setting(key, enabled)
 
 
 func _set_master_volume(value: float) -> void:
@@ -1521,9 +1547,18 @@ func _settings_state() -> Dictionary:
 		return {}
 	var settings: Dictionary = app.meta_service.meta_state.get("settings", {})
 	if settings.is_empty():
-		settings = { "fullscreen": false, "master_volume": 100 }
+		settings = { "fullscreen": false, "master_volume": 100, "reduce_motion": false, "ambient_motion": true, "screen_shake": false }
 		app.meta_service.meta_state["settings"] = settings
 	return settings
+
+
+func _animate_menu_entry() -> void:
+	if _content_layer == null or not is_instance_valid(_content_layer):
+		return
+	for node_name in ["TitlePanel", "BroadcastStrip", "ClassSpotlightPanel", "PrimaryActions"]:
+		var node := _content_layer.find_child(node_name, true, false)
+		if node is CanvasItem:
+			UiMotion.fade_in(node, 0.22, Vector2(0, 18))
 
 
 func _refresh_master_volume_label(value: float) -> void:

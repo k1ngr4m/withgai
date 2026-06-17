@@ -65,6 +65,11 @@ func _validate_main_menu_scene() -> void:
 	var packed: PackedScene = load("res://Scenes/MainMenuScene.tscn")
 	_check(packed != null, "main menu scene loads")
 	var source := FileAccess.get_file_as_string("res://Scripts/UI/MainMenuScene.gd")
+	var motion_source := FileAccess.get_file_as_string("res://Scripts/UI/UiMotion.gd")
+	_check(not motion_source.is_empty(), "ui motion helper exists")
+	_check(motion_source.contains("static func press"), "ui motion supports button press")
+	_check(motion_source.contains("static func float_text"), "ui motion supports float text")
+	_check(motion_source.contains("reduce_motion"), "ui motion reads reduce motion setting")
 	_check(source.contains("MAIN_BG"), "main menu background configured")
 	_check(source.contains("ClassSpotlightPanel"), "main menu class spotlight configured")
 	_check(source.contains("SpotlightClassArt"), "main menu spotlight art configured")
@@ -82,6 +87,9 @@ func _validate_main_menu_scene() -> void:
 	_check(source.contains("OptionsButton"), "main menu options button configured")
 	_check(source.contains("OptionsOverlay"), "main menu options overlay configured")
 	_check(source.contains("MasterVolumeSlider"), "main menu master volume slider configured")
+	_check(source.contains("ReduceMotionToggle"), "main menu reduce motion toggle configured")
+	_check(source.contains("AmbientMotionToggle"), "main menu ambient motion toggle configured")
+	_check(source.contains("ScreenShakeToggle"), "main menu screen shake toggle configured")
 	_check(source.contains("_apply_saved_settings"), "main menu applies persisted settings")
 	_check(source.contains("update_setting"), "main menu saves settings to meta state")
 	_check(source.contains("RESUMABLE_SCENE_TAGS"), "main menu resume scene whitelist configured")
@@ -128,26 +136,41 @@ func _validate_map_scene() -> void:
 	var source := FileAccess.get_file_as_string("res://Scripts/UI/MapScene.gd")
 	_check(source.contains("ChapterHeader"), "map scene chapter header configured")
 	_check(source.contains("MapGraphPanel"), "map scene graph panel configured")
+	_check(source.contains("MapLegendPanel"), "map scene legend panel configured")
 	_check(source.contains("FloorInfoPanel"), "map scene floor info panel configured")
 	_check(source.contains("NodeDetailPanel"), "map scene node detail panel configured")
 	_check(source.contains("ResumeButton"), "map scene confirm enter button configured")
 	_check(source.contains("_select_node"), "map scene supports node preview selection")
 	_check(source.contains("_enter_selected_node"), "map scene confirms selected node before entering")
 	_check(source.contains("_node_reward_hint"), "map scene explains node reward expectations")
+	_check(source.contains("_add_dashed_route"), "map scene draws dashed map routes")
+	_check(source.contains("_map_node_button"), "map scene uses sprite node buttons")
 
 
 func _validate_battle_scene() -> void:
 	_check(ResourceLoader.exists("res://Scenes/BattleScene.tscn"), "battle scene resource exists")
 	var source := FileAccess.get_file_as_string("res://Scripts/UI/BattleScene.gd")
+	var animator_source := FileAccess.get_file_as_string("res://Scripts/UI/FrameAnimator.gd")
 	_check(source.contains("BattleHeader"), "battle scene header configured")
 	_check(source.contains("PlayerArea"), "battle scene player area configured")
+	_check(source.contains("CombatStage"), "battle scene combat stage configured")
+	_check(source.contains("PlayerActorPanel"), "battle scene player actor panel configured")
 	_check(source.contains("ResourcePanel"), "battle scene class resource panel configured")
 	_check(source.contains("EnemyArea"), "battle scene enemy area configured")
 	_check(source.contains("IntentArea"), "battle scene intent area configured")
 	_check(source.contains("HandArea"), "battle scene hand area configured")
+	_check(source.contains("HandScroll"), "battle scene reserves visible hand scroll area")
+	_check(source.contains("custom_minimum_size = Vector2(0, 174)"), "battle scene hand cards are not collapsed")
 	_check(source.contains("BattleLogPanel"), "battle scene log panel configured")
 	_check(source.contains("EndTurnButton"), "battle scene end turn button configured")
 	_check(source.contains("draw_pile"), "battle scene resource panel shows pile counts")
+	_check(source.contains("FrameAnimator"), "battle scene uses animated enemy art")
+	_check(source.contains("visual_events"), "battle scene consumes enemy animation events")
+	_check(source.contains("_battle_snapshot"), "battle scene snapshots motion state")
+	_check(source.contains("_play_visual_events"), "battle scene plays extended visual events")
+	_check(source.contains("PlayerAnimator"), "battle scene supports player animation preview")
+	_check(animator_source.contains("play_action"), "frame animator supports action playback")
+	_check(animator_source.contains("_play_idle()"), "frame animator falls back to idle")
 
 
 func _validate_reward_scene() -> void:
@@ -263,6 +286,8 @@ func _validate_config_references(config, content) -> void:
 	var enemies_missing_rewards := 0
 	var enemies_missing_art := 0
 	var enemies_unloadable_art := 0
+	var enemies_missing_animation := 0
+	var enemies_unloadable_animation := 0
 	for enemy in config.all_defs("enemies"):
 		if content.intent_entries_for_enemy(enemy.get("id", "")).is_empty():
 			enemies_missing_intents += 1
@@ -273,10 +298,20 @@ func _validate_config_references(config, content) -> void:
 			enemies_missing_art += 1
 		elif load(enemy_art_path) == null:
 			enemies_unloadable_art += 1
+		for animation_field in ["idle_frame_paths", "attack_frame_paths", "hurt_frame_paths"]:
+			var frame_paths: Array = enemy.get(animation_field, [])
+			if frame_paths.is_empty():
+				enemies_missing_animation += 1
+				continue
+			for frame_path in frame_paths:
+				if load(String(frame_path)) == null:
+					enemies_unloadable_animation += 1
 	_check(enemies_missing_intents == 0, "enemy intent groups resolve")
 	_check(enemies_missing_rewards == 0, "enemy reward profiles resolve")
 	_check(enemies_missing_art == 0, "enemy art paths configured")
 	_check(enemies_unloadable_art == 0, "enemy art paths load")
+	_check(enemies_missing_animation == 0, "enemy animation frame paths configured")
+	_check(enemies_unloadable_animation == 0, "enemy animation frame paths load")
 	var encounter_missing_enemies := 0
 	for encounter in config.all_defs("encounters"):
 		for enemy_id in encounter.get("enemy_ids", []):
@@ -3210,10 +3245,15 @@ func _validate_meta_settlement(config, map, meta) -> void:
 	var default_settings: Dictionary = meta.default_meta_state().get("settings", {})
 	_check(default_settings.get("master_volume", 0) == 100, "meta default settings include master volume")
 	_check(not bool(default_settings.get("fullscreen", true)), "meta default settings include fullscreen")
+	_check(not bool(default_settings.get("reduce_motion", true)), "meta default settings include reduce motion")
+	_check(bool(default_settings.get("ambient_motion", false)), "meta default settings include ambient motion")
+	_check(not bool(default_settings.get("screen_shake", true)), "meta default settings include screen shake")
 	meta.update_setting("master_volume", 42)
 	meta.update_setting("fullscreen", true)
+	meta.update_setting("reduce_motion", true)
 	_check(int(meta.meta_state.get("settings", {}).get("master_volume", 0)) == 42, "meta settings store master volume")
 	_check(bool(meta.meta_state.get("settings", {}).get("fullscreen", false)), "meta settings store fullscreen")
+	_check(bool(meta.meta_state.get("settings", {}).get("reduce_motion", false)), "meta settings store reduce motion")
 	meta.update_setting("master_volume", 100)
 	meta.update_setting("fullscreen", false)
 	_check(meta.is_class_playable("backend"), "meta marks backend playable")

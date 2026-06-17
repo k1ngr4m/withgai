@@ -3833,7 +3833,26 @@
       "phase_group_id": "",
       "reward_profile_id": "reward_default",
       "description": "偶尔跳过攻击并叠防线",
-      "art_path": "res://Resources/Art/Generated/P0/enemies/enemy_slacker_coworker_v1/raw.png"
+      "art_path": "res://Resources/Art/Generated/P0/enemies/enemy_slacker_coworker_v1/raw.png",
+      "idle_frame_paths": [
+        "res://Resources/Art/Generated/P0/enemies/enemy_slacker_coworker_anim_v1/idle/processed/idle-1.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_slacker_coworker_anim_v1/idle/processed/idle-2.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_slacker_coworker_anim_v1/idle/processed/idle-3.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_slacker_coworker_anim_v1/idle/processed/idle-4.png"
+      ],
+      "attack_frame_paths": [
+        "res://Resources/Art/Generated/P0/enemies/enemy_slacker_coworker_anim_v1/attack/processed/attack-1.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_slacker_coworker_anim_v1/attack/processed/attack-2.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_slacker_coworker_anim_v1/attack/processed/attack-3.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_slacker_coworker_anim_v1/attack/processed/attack-4.png"
+      ],
+      "hurt_frame_paths": [
+        "res://Resources/Art/Generated/P0/enemies/enemy_slacker_coworker_anim_v1/hurt/processed/hurt-1.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_slacker_coworker_anim_v1/hurt/processed/hurt-2.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_slacker_coworker_anim_v1/hurt/processed/hurt-3.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_slacker_coworker_anim_v1/hurt/processed/hurt-4.png"
+      ],
+      "animation_fps": 6
     },
     "enemy_workaholic_coworker": {
       "id": "enemy_workaholic_coworker",
@@ -3846,7 +3865,26 @@
       "phase_group_id": "",
       "reward_profile_id": "reward_default",
       "description": "高频多段攻击",
-      "art_path": "res://Resources/Art/Generated/P0/enemies/enemy_workaholic_coworker_v1/raw.png"
+      "art_path": "res://Resources/Art/Generated/P0/enemies/enemy_workaholic_coworker_v1/raw.png",
+      "idle_frame_paths": [
+        "res://Resources/Art/Generated/P0/enemies/enemy_workaholic_coworker_anim_v1/idle/processed/idle-1.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_workaholic_coworker_anim_v1/idle/processed/idle-2.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_workaholic_coworker_anim_v1/idle/processed/idle-3.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_workaholic_coworker_anim_v1/idle/processed/idle-4.png"
+      ],
+      "attack_frame_paths": [
+        "res://Resources/Art/Generated/P0/enemies/enemy_workaholic_coworker_anim_v1/attack/processed/attack-1.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_workaholic_coworker_anim_v1/attack/processed/attack-2.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_workaholic_coworker_anim_v1/attack/processed/attack-3.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_workaholic_coworker_anim_v1/attack/processed/attack-4.png"
+      ],
+      "hurt_frame_paths": [
+        "res://Resources/Art/Generated/P0/enemies/enemy_workaholic_coworker_anim_v1/hurt/processed/hurt-1.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_workaholic_coworker_anim_v1/hurt/processed/hurt-2.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_workaholic_coworker_anim_v1/hurt/processed/hurt-3.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_workaholic_coworker_anim_v1/hurt/processed/hurt-4.png"
+      ],
+      "animation_fps": 6
     },
     "enemy_angry_cleaner": {
       "id": "enemy_angry_cleaner",
@@ -3859,7 +3897,26 @@
       "phase_group_id": "",
       "reward_profile_id": "reward_default",
       "description": "高面板单次伤害",
-      "art_path": "res://Resources/Art/Generated/P0/enemies/enemy_angry_cleaner_v1/raw.png"
+      "art_path": "res://Resources/Art/Generated/P0/enemies/enemy_angry_cleaner_v1/raw.png",
+      "idle_frame_paths": [
+        "res://Resources/Art/Generated/P0/enemies/enemy_angry_cleaner_anim_v1/idle/processed/idle-1.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_angry_cleaner_anim_v1/idle/processed/idle-2.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_angry_cleaner_anim_v1/idle/processed/idle-3.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_angry_cleaner_anim_v1/idle/processed/idle-4.png"
+      ],
+      "attack_frame_paths": [
+        "res://Resources/Art/Generated/P0/enemies/enemy_angry_cleaner_anim_v1/attack/processed/attack-1.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_angry_cleaner_anim_v1/attack/processed/attack-2.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_angry_cleaner_anim_v1/attack/processed/attack-3.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_angry_cleaner_anim_v1/attack/processed/attack-4.png"
+      ],
+      "hurt_frame_paths": [
+        "res://Resources/Art/Generated/P0/enemies/enemy_angry_cleaner_anim_v1/hurt/processed/hurt-1.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_angry_cleaner_anim_v1/hurt/processed/hurt-2.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_angry_cleaner_anim_v1/hurt/processed/hurt-3.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_angry_cleaner_anim_v1/hurt/processed/hurt-4.png"
+      ],
+      "animation_fps": 6
     },
     "enemy_salesman": {
       "id": "enemy_salesman",
@@ -3872,7 +3929,26 @@
       "phase_group_id": "",
       "reward_profile_id": "reward_default",
       "description": "向牌组塞低价值污染",
-      "art_path": "res://Resources/Art/Generated/P0/enemies/enemy_salesman_v1/raw.png"
+      "art_path": "res://Resources/Art/Generated/P0/enemies/enemy_salesman_v1/raw.png",
+      "idle_frame_paths": [
+        "res://Resources/Art/Generated/P0/enemies/enemy_salesman_anim_v1/idle/processed/idle-1.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_salesman_anim_v1/idle/processed/idle-2.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_salesman_anim_v1/idle/processed/idle-3.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_salesman_anim_v1/idle/processed/idle-4.png"
+      ],
+      "attack_frame_paths": [
+        "res://Resources/Art/Generated/P0/enemies/enemy_salesman_anim_v1/attack/processed/attack-1.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_salesman_anim_v1/attack/processed/attack-2.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_salesman_anim_v1/attack/processed/attack-3.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_salesman_anim_v1/attack/processed/attack-4.png"
+      ],
+      "hurt_frame_paths": [
+        "res://Resources/Art/Generated/P0/enemies/enemy_salesman_anim_v1/hurt/processed/hurt-1.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_salesman_anim_v1/hurt/processed/hurt-2.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_salesman_anim_v1/hurt/processed/hurt-3.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_salesman_anim_v1/hurt/processed/hurt-4.png"
+      ],
+      "animation_fps": 6
     },
     "enemy_process_specialist": {
       "id": "enemy_process_specialist",
@@ -3885,7 +3961,26 @@
       "phase_group_id": "",
       "reward_profile_id": "reward_default",
       "description": "频繁获得防线与增益",
-      "art_path": "res://Resources/Art/Generated/P0/icons/enemy_portrait_icon_set_v1/enemy_portrait_final-5.png"
+      "art_path": "res://Resources/Art/Generated/P0/icons/enemy_portrait_icon_set_v1/enemy_portrait_final-5.png",
+      "idle_frame_paths": [
+        "res://Resources/Art/Generated/P0/enemies/enemy_process_specialist_anim_v1/idle/processed/idle-1.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_process_specialist_anim_v1/idle/processed/idle-2.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_process_specialist_anim_v1/idle/processed/idle-3.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_process_specialist_anim_v1/idle/processed/idle-4.png"
+      ],
+      "attack_frame_paths": [
+        "res://Resources/Art/Generated/P0/enemies/enemy_process_specialist_anim_v1/attack/processed/attack-1.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_process_specialist_anim_v1/attack/processed/attack-2.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_process_specialist_anim_v1/attack/processed/attack-3.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_process_specialist_anim_v1/attack/processed/attack-4.png"
+      ],
+      "hurt_frame_paths": [
+        "res://Resources/Art/Generated/P0/enemies/enemy_process_specialist_anim_v1/hurt/processed/hurt-1.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_process_specialist_anim_v1/hurt/processed/hurt-2.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_process_specialist_anim_v1/hurt/processed/hurt-3.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_process_specialist_anim_v1/hurt/processed/hurt-4.png"
+      ],
+      "animation_fps": 6
     },
     "enemy_performance_inspector": {
       "id": "enemy_performance_inspector",
@@ -3898,7 +3993,26 @@
       "phase_group_id": "",
       "reward_profile_id": "reward_default",
       "description": "惩罚拖回合与手牌膨胀",
-      "art_path": "res://Resources/Art/Generated/P0/icons/enemy_portrait_icon_set_v1/enemy_portrait_final-6.png"
+      "art_path": "res://Resources/Art/Generated/P0/icons/enemy_portrait_icon_set_v1/enemy_portrait_final-6.png",
+      "idle_frame_paths": [
+        "res://Resources/Art/Generated/P0/enemies/enemy_performance_inspector_anim_v1/idle/processed/idle-1.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_performance_inspector_anim_v1/idle/processed/idle-2.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_performance_inspector_anim_v1/idle/processed/idle-3.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_performance_inspector_anim_v1/idle/processed/idle-4.png"
+      ],
+      "attack_frame_paths": [
+        "res://Resources/Art/Generated/P0/enemies/enemy_performance_inspector_anim_v1/attack/processed/attack-1.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_performance_inspector_anim_v1/attack/processed/attack-2.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_performance_inspector_anim_v1/attack/processed/attack-3.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_performance_inspector_anim_v1/attack/processed/attack-4.png"
+      ],
+      "hurt_frame_paths": [
+        "res://Resources/Art/Generated/P0/enemies/enemy_performance_inspector_anim_v1/hurt/processed/hurt-1.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_performance_inspector_anim_v1/hurt/processed/hurt-2.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_performance_inspector_anim_v1/hurt/processed/hurt-3.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_performance_inspector_anim_v1/hurt/processed/hurt-4.png"
+      ],
+      "animation_fps": 6
     },
     "enemy_meeting_maniac": {
       "id": "enemy_meeting_maniac",
@@ -3911,7 +4025,26 @@
       "phase_group_id": "",
       "reward_profile_id": "reward_default",
       "description": "通过议程召唤衍生物",
-      "art_path": "res://Resources/Art/Generated/P0/icons/enemy_portrait_icon_set_v1/enemy_portrait_final-7.png"
+      "art_path": "res://Resources/Art/Generated/P0/icons/enemy_portrait_icon_set_v1/enemy_portrait_final-7.png",
+      "idle_frame_paths": [
+        "res://Resources/Art/Generated/P0/enemies/enemy_meeting_maniac_anim_v1/idle/processed/idle-1.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_meeting_maniac_anim_v1/idle/processed/idle-2.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_meeting_maniac_anim_v1/idle/processed/idle-3.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_meeting_maniac_anim_v1/idle/processed/idle-4.png"
+      ],
+      "attack_frame_paths": [
+        "res://Resources/Art/Generated/P0/enemies/enemy_meeting_maniac_anim_v1/attack/processed/attack-1.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_meeting_maniac_anim_v1/attack/processed/attack-2.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_meeting_maniac_anim_v1/attack/processed/attack-3.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_meeting_maniac_anim_v1/attack/processed/attack-4.png"
+      ],
+      "hurt_frame_paths": [
+        "res://Resources/Art/Generated/P0/enemies/enemy_meeting_maniac_anim_v1/hurt/processed/hurt-1.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_meeting_maniac_anim_v1/hurt/processed/hurt-2.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_meeting_maniac_anim_v1/hurt/processed/hurt-3.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_meeting_maniac_anim_v1/hurt/processed/hurt-4.png"
+      ],
+      "animation_fps": 6
     },
     "enemy_airdrop_director": {
       "id": "enemy_airdrop_director",
@@ -3924,7 +4057,26 @@
       "phase_group_id": "pg_enemy_airdrop_director",
       "reward_profile_id": "reward_default",
       "description": "切换姿态压迫节奏",
-      "art_path": "res://Resources/Art/Generated/P0/icons/enemy_portrait_icon_set_v1/enemy_portrait_final-8.png"
+      "art_path": "res://Resources/Art/Generated/P0/icons/enemy_portrait_icon_set_v1/enemy_portrait_final-8.png",
+      "idle_frame_paths": [
+        "res://Resources/Art/Generated/P0/enemies/enemy_airdrop_director_anim_v1/idle/processed/idle-1.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_airdrop_director_anim_v1/idle/processed/idle-2.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_airdrop_director_anim_v1/idle/processed/idle-3.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_airdrop_director_anim_v1/idle/processed/idle-4.png"
+      ],
+      "attack_frame_paths": [
+        "res://Resources/Art/Generated/P0/enemies/enemy_airdrop_director_anim_v1/attack/processed/attack-1.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_airdrop_director_anim_v1/attack/processed/attack-2.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_airdrop_director_anim_v1/attack/processed/attack-3.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_airdrop_director_anim_v1/attack/processed/attack-4.png"
+      ],
+      "hurt_frame_paths": [
+        "res://Resources/Art/Generated/P0/enemies/enemy_airdrop_director_anim_v1/hurt/processed/hurt-1.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_airdrop_director_anim_v1/hurt/processed/hurt-2.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_airdrop_director_anim_v1/hurt/processed/hurt-3.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_airdrop_director_anim_v1/hurt/processed/hurt-4.png"
+      ],
+      "animation_fps": 6
     },
     "enemy_compliance_judge": {
       "id": "enemy_compliance_judge",
@@ -3937,7 +4089,26 @@
       "phase_group_id": "",
       "reward_profile_id": "reward_default",
       "description": "清除玩家增益并塞入污染",
-      "art_path": "res://Resources/Art/Generated/P0/icons/enemy_portrait_icon_set_v1/enemy_portrait_final-13.png"
+      "art_path": "res://Resources/Art/Generated/P0/icons/enemy_portrait_icon_set_v1/enemy_portrait_final-13.png",
+      "idle_frame_paths": [
+        "res://Resources/Art/Generated/P0/enemies/enemy_compliance_judge_anim_v1/idle/processed/idle-1.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_compliance_judge_anim_v1/idle/processed/idle-2.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_compliance_judge_anim_v1/idle/processed/idle-3.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_compliance_judge_anim_v1/idle/processed/idle-4.png"
+      ],
+      "attack_frame_paths": [
+        "res://Resources/Art/Generated/P0/enemies/enemy_compliance_judge_anim_v1/attack/processed/attack-1.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_compliance_judge_anim_v1/attack/processed/attack-2.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_compliance_judge_anim_v1/attack/processed/attack-3.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_compliance_judge_anim_v1/attack/processed/attack-4.png"
+      ],
+      "hurt_frame_paths": [
+        "res://Resources/Art/Generated/P0/enemies/enemy_compliance_judge_anim_v1/hurt/processed/hurt-1.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_compliance_judge_anim_v1/hurt/processed/hurt-2.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_compliance_judge_anim_v1/hurt/processed/hurt-3.png",
+        "res://Resources/Art/Generated/P0/enemies/enemy_compliance_judge_anim_v1/hurt/processed/hurt-4.png"
+      ],
+      "animation_fps": 6
     },
     "elite_airdrop_project_lead": {
       "id": "elite_airdrop_project_lead",
@@ -3950,7 +4121,26 @@
       "phase_group_id": "pg_elite_airdrop_project_lead",
       "reward_profile_id": "reward_default",
       "description": "Deadline 倒计时",
-      "art_path": "res://Resources/Art/Generated/P0/enemies/elite_airdrop_project_lead_v1/raw.png"
+      "art_path": "res://Resources/Art/Generated/P0/enemies/elite_airdrop_project_lead_v1/raw.png",
+      "idle_frame_paths": [
+        "res://Resources/Art/Generated/P0/enemies/elite_airdrop_project_lead_anim_v1/idle/processed/idle-1.png",
+        "res://Resources/Art/Generated/P0/enemies/elite_airdrop_project_lead_anim_v1/idle/processed/idle-2.png",
+        "res://Resources/Art/Generated/P0/enemies/elite_airdrop_project_lead_anim_v1/idle/processed/idle-3.png",
+        "res://Resources/Art/Generated/P0/enemies/elite_airdrop_project_lead_anim_v1/idle/processed/idle-4.png"
+      ],
+      "attack_frame_paths": [
+        "res://Resources/Art/Generated/P0/enemies/elite_airdrop_project_lead_anim_v1/attack/processed/attack-1.png",
+        "res://Resources/Art/Generated/P0/enemies/elite_airdrop_project_lead_anim_v1/attack/processed/attack-2.png",
+        "res://Resources/Art/Generated/P0/enemies/elite_airdrop_project_lead_anim_v1/attack/processed/attack-3.png",
+        "res://Resources/Art/Generated/P0/enemies/elite_airdrop_project_lead_anim_v1/attack/processed/attack-4.png"
+      ],
+      "hurt_frame_paths": [
+        "res://Resources/Art/Generated/P0/enemies/elite_airdrop_project_lead_anim_v1/hurt/processed/hurt-1.png",
+        "res://Resources/Art/Generated/P0/enemies/elite_airdrop_project_lead_anim_v1/hurt/processed/hurt-2.png",
+        "res://Resources/Art/Generated/P0/enemies/elite_airdrop_project_lead_anim_v1/hurt/processed/hurt-3.png",
+        "res://Resources/Art/Generated/P0/enemies/elite_airdrop_project_lead_anim_v1/hurt/processed/hurt-4.png"
+      ],
+      "animation_fps": 6
     },
     "elite_outsource_manager": {
       "id": "elite_outsource_manager",
@@ -3964,7 +4154,26 @@
       "phase_group_id": "pg_elite_outsource_manager",
       "reward_profile_id": "reward_default",
       "description": "召唤杂兵并强化协同",
-      "art_path": "res://Resources/Art/Generated/P0/icons/enemy_portrait_icon_set_v1/enemy_portrait_final-11.png"
+      "art_path": "res://Resources/Art/Generated/P0/icons/enemy_portrait_icon_set_v1/enemy_portrait_final-11.png",
+      "idle_frame_paths": [
+        "res://Resources/Art/Generated/P0/enemies/elite_outsource_manager_anim_v1/idle/processed/idle-1.png",
+        "res://Resources/Art/Generated/P0/enemies/elite_outsource_manager_anim_v1/idle/processed/idle-2.png",
+        "res://Resources/Art/Generated/P0/enemies/elite_outsource_manager_anim_v1/idle/processed/idle-3.png",
+        "res://Resources/Art/Generated/P0/enemies/elite_outsource_manager_anim_v1/idle/processed/idle-4.png"
+      ],
+      "attack_frame_paths": [
+        "res://Resources/Art/Generated/P0/enemies/elite_outsource_manager_anim_v1/attack/processed/attack-1.png",
+        "res://Resources/Art/Generated/P0/enemies/elite_outsource_manager_anim_v1/attack/processed/attack-2.png",
+        "res://Resources/Art/Generated/P0/enemies/elite_outsource_manager_anim_v1/attack/processed/attack-3.png",
+        "res://Resources/Art/Generated/P0/enemies/elite_outsource_manager_anim_v1/attack/processed/attack-4.png"
+      ],
+      "hurt_frame_paths": [
+        "res://Resources/Art/Generated/P0/enemies/elite_outsource_manager_anim_v1/hurt/processed/hurt-1.png",
+        "res://Resources/Art/Generated/P0/enemies/elite_outsource_manager_anim_v1/hurt/processed/hurt-2.png",
+        "res://Resources/Art/Generated/P0/enemies/elite_outsource_manager_anim_v1/hurt/processed/hurt-3.png",
+        "res://Resources/Art/Generated/P0/enemies/elite_outsource_manager_anim_v1/hurt/processed/hurt-4.png"
+      ],
+      "animation_fps": 6
     },
     "elite_budget_gatekeeper": {
       "id": "elite_budget_gatekeeper",
@@ -3977,7 +4186,26 @@
       "phase_group_id": "",
       "reward_profile_id": "reward_default",
       "description": "压缩绩效点收益",
-      "art_path": "res://Resources/Art/Generated/P0/icons/enemy_portrait_icon_set_v1/enemy_portrait_final-12.png"
+      "art_path": "res://Resources/Art/Generated/P0/icons/enemy_portrait_icon_set_v1/enemy_portrait_final-12.png",
+      "idle_frame_paths": [
+        "res://Resources/Art/Generated/P0/enemies/elite_budget_gatekeeper_anim_v1/idle/processed/idle-1.png",
+        "res://Resources/Art/Generated/P0/enemies/elite_budget_gatekeeper_anim_v1/idle/processed/idle-2.png",
+        "res://Resources/Art/Generated/P0/enemies/elite_budget_gatekeeper_anim_v1/idle/processed/idle-3.png",
+        "res://Resources/Art/Generated/P0/enemies/elite_budget_gatekeeper_anim_v1/idle/processed/idle-4.png"
+      ],
+      "attack_frame_paths": [
+        "res://Resources/Art/Generated/P0/enemies/elite_budget_gatekeeper_anim_v1/attack/processed/attack-1.png",
+        "res://Resources/Art/Generated/P0/enemies/elite_budget_gatekeeper_anim_v1/attack/processed/attack-2.png",
+        "res://Resources/Art/Generated/P0/enemies/elite_budget_gatekeeper_anim_v1/attack/processed/attack-3.png",
+        "res://Resources/Art/Generated/P0/enemies/elite_budget_gatekeeper_anim_v1/attack/processed/attack-4.png"
+      ],
+      "hurt_frame_paths": [
+        "res://Resources/Art/Generated/P0/enemies/elite_budget_gatekeeper_anim_v1/hurt/processed/hurt-1.png",
+        "res://Resources/Art/Generated/P0/enemies/elite_budget_gatekeeper_anim_v1/hurt/processed/hurt-2.png",
+        "res://Resources/Art/Generated/P0/enemies/elite_budget_gatekeeper_anim_v1/hurt/processed/hurt-3.png",
+        "res://Resources/Art/Generated/P0/enemies/elite_budget_gatekeeper_anim_v1/hurt/processed/hurt-4.png"
+      ],
+      "animation_fps": 6
     },
     "elite_approval_eye": {
       "id": "elite_approval_eye",
@@ -3990,7 +4218,26 @@
       "phase_group_id": "pg_elite_approval_eye",
       "reward_profile_id": "reward_default",
       "description": "冻结高费牌并扭曲顺序",
-      "art_path": "res://Resources/Art/Generated/P0/icons/enemy_portrait_icon_set_v1/enemy_portrait_final-14.png"
+      "art_path": "res://Resources/Art/Generated/P0/icons/enemy_portrait_icon_set_v1/enemy_portrait_final-14.png",
+      "idle_frame_paths": [
+        "res://Resources/Art/Generated/P0/enemies/elite_approval_eye_anim_v1/idle/processed/idle-1.png",
+        "res://Resources/Art/Generated/P0/enemies/elite_approval_eye_anim_v1/idle/processed/idle-2.png",
+        "res://Resources/Art/Generated/P0/enemies/elite_approval_eye_anim_v1/idle/processed/idle-3.png",
+        "res://Resources/Art/Generated/P0/enemies/elite_approval_eye_anim_v1/idle/processed/idle-4.png"
+      ],
+      "attack_frame_paths": [
+        "res://Resources/Art/Generated/P0/enemies/elite_approval_eye_anim_v1/attack/processed/attack-1.png",
+        "res://Resources/Art/Generated/P0/enemies/elite_approval_eye_anim_v1/attack/processed/attack-2.png",
+        "res://Resources/Art/Generated/P0/enemies/elite_approval_eye_anim_v1/attack/processed/attack-3.png",
+        "res://Resources/Art/Generated/P0/enemies/elite_approval_eye_anim_v1/attack/processed/attack-4.png"
+      ],
+      "hurt_frame_paths": [
+        "res://Resources/Art/Generated/P0/enemies/elite_approval_eye_anim_v1/hurt/processed/hurt-1.png",
+        "res://Resources/Art/Generated/P0/enemies/elite_approval_eye_anim_v1/hurt/processed/hurt-2.png",
+        "res://Resources/Art/Generated/P0/enemies/elite_approval_eye_anim_v1/hurt/processed/hurt-3.png",
+        "res://Resources/Art/Generated/P0/enemies/elite_approval_eye_anim_v1/hurt/processed/hurt-4.png"
+      ],
+      "animation_fps": 6
     },
     "boss_pitch_supervisor": {
       "id": "boss_pitch_supervisor",
@@ -4003,7 +4250,26 @@
       "phase_group_id": "pg_boss_pitch_supervisor",
       "reward_profile_id": "reward_default",
       "description": "塞入期权与明年提拔你",
-      "art_path": "res://Resources/Art/Generated/P0/characters/boss_pitch_supervisor_v1.png"
+      "art_path": "res://Resources/Art/Generated/P0/characters/boss_pitch_supervisor_v1.png",
+      "idle_frame_paths": [
+        "res://Resources/Art/Generated/P0/enemies/boss_pitch_supervisor_anim_v1/idle/processed/idle-1.png",
+        "res://Resources/Art/Generated/P0/enemies/boss_pitch_supervisor_anim_v1/idle/processed/idle-2.png",
+        "res://Resources/Art/Generated/P0/enemies/boss_pitch_supervisor_anim_v1/idle/processed/idle-3.png",
+        "res://Resources/Art/Generated/P0/enemies/boss_pitch_supervisor_anim_v1/idle/processed/idle-4.png"
+      ],
+      "attack_frame_paths": [
+        "res://Resources/Art/Generated/P0/enemies/boss_pitch_supervisor_anim_v1/attack/processed/attack-1.png",
+        "res://Resources/Art/Generated/P0/enemies/boss_pitch_supervisor_anim_v1/attack/processed/attack-2.png",
+        "res://Resources/Art/Generated/P0/enemies/boss_pitch_supervisor_anim_v1/attack/processed/attack-3.png",
+        "res://Resources/Art/Generated/P0/enemies/boss_pitch_supervisor_anim_v1/attack/processed/attack-4.png"
+      ],
+      "hurt_frame_paths": [
+        "res://Resources/Art/Generated/P0/enemies/boss_pitch_supervisor_anim_v1/hurt/processed/hurt-1.png",
+        "res://Resources/Art/Generated/P0/enemies/boss_pitch_supervisor_anim_v1/hurt/processed/hurt-2.png",
+        "res://Resources/Art/Generated/P0/enemies/boss_pitch_supervisor_anim_v1/hurt/processed/hurt-3.png",
+        "res://Resources/Art/Generated/P0/enemies/boss_pitch_supervisor_anim_v1/hurt/processed/hurt-4.png"
+      ],
+      "animation_fps": 6
     },
     "boss_mutant_hr": {
       "id": "boss_mutant_hr",
@@ -4016,7 +4282,26 @@
       "phase_group_id": "pg_boss_mutant_hr",
       "reward_profile_id": "reward_default",
       "description": "压缩续航、惩罚冗余手牌",
-      "art_path": "res://Resources/Art/Generated/P0/icons/enemy_portrait_icon_set_v1/enemy_portrait_final-15.png"
+      "art_path": "res://Resources/Art/Generated/P0/icons/enemy_portrait_icon_set_v1/enemy_portrait_final-15.png",
+      "idle_frame_paths": [
+        "res://Resources/Art/Generated/P0/enemies/boss_mutant_hr_anim_v1/idle/processed/idle-1.png",
+        "res://Resources/Art/Generated/P0/enemies/boss_mutant_hr_anim_v1/idle/processed/idle-2.png",
+        "res://Resources/Art/Generated/P0/enemies/boss_mutant_hr_anim_v1/idle/processed/idle-3.png",
+        "res://Resources/Art/Generated/P0/enemies/boss_mutant_hr_anim_v1/idle/processed/idle-4.png"
+      ],
+      "attack_frame_paths": [
+        "res://Resources/Art/Generated/P0/enemies/boss_mutant_hr_anim_v1/attack/processed/attack-1.png",
+        "res://Resources/Art/Generated/P0/enemies/boss_mutant_hr_anim_v1/attack/processed/attack-2.png",
+        "res://Resources/Art/Generated/P0/enemies/boss_mutant_hr_anim_v1/attack/processed/attack-3.png",
+        "res://Resources/Art/Generated/P0/enemies/boss_mutant_hr_anim_v1/attack/processed/attack-4.png"
+      ],
+      "hurt_frame_paths": [
+        "res://Resources/Art/Generated/P0/enemies/boss_mutant_hr_anim_v1/hurt/processed/hurt-1.png",
+        "res://Resources/Art/Generated/P0/enemies/boss_mutant_hr_anim_v1/hurt/processed/hurt-2.png",
+        "res://Resources/Art/Generated/P0/enemies/boss_mutant_hr_anim_v1/hurt/processed/hurt-3.png",
+        "res://Resources/Art/Generated/P0/enemies/boss_mutant_hr_anim_v1/hurt/processed/hurt-4.png"
+      ],
+      "animation_fps": 6
     },
     "boss_mutant_ceo": {
       "id": "boss_mutant_ceo",
@@ -4029,7 +4314,26 @@
       "phase_group_id": "pg_boss_mutant_ceo",
       "reward_profile_id": "reward_default",
       "description": "多阶段、多意图、召唤会议纪要",
-      "art_path": "res://Resources/Art/Generated/P0/icons/enemy_portrait_icon_set_v1/enemy_portrait_final-16.png"
+      "art_path": "res://Resources/Art/Generated/P0/icons/enemy_portrait_icon_set_v1/enemy_portrait_final-16.png",
+      "idle_frame_paths": [
+        "res://Resources/Art/Generated/P0/enemies/boss_mutant_ceo_anim_v1/idle/processed/idle-1.png",
+        "res://Resources/Art/Generated/P0/enemies/boss_mutant_ceo_anim_v1/idle/processed/idle-2.png",
+        "res://Resources/Art/Generated/P0/enemies/boss_mutant_ceo_anim_v1/idle/processed/idle-3.png",
+        "res://Resources/Art/Generated/P0/enemies/boss_mutant_ceo_anim_v1/idle/processed/idle-4.png"
+      ],
+      "attack_frame_paths": [
+        "res://Resources/Art/Generated/P0/enemies/boss_mutant_ceo_anim_v1/attack/processed/attack-1.png",
+        "res://Resources/Art/Generated/P0/enemies/boss_mutant_ceo_anim_v1/attack/processed/attack-2.png",
+        "res://Resources/Art/Generated/P0/enemies/boss_mutant_ceo_anim_v1/attack/processed/attack-3.png",
+        "res://Resources/Art/Generated/P0/enemies/boss_mutant_ceo_anim_v1/attack/processed/attack-4.png"
+      ],
+      "hurt_frame_paths": [
+        "res://Resources/Art/Generated/P0/enemies/boss_mutant_ceo_anim_v1/hurt/processed/hurt-1.png",
+        "res://Resources/Art/Generated/P0/enemies/boss_mutant_ceo_anim_v1/hurt/processed/hurt-2.png",
+        "res://Resources/Art/Generated/P0/enemies/boss_mutant_ceo_anim_v1/hurt/processed/hurt-3.png",
+        "res://Resources/Art/Generated/P0/enemies/boss_mutant_ceo_anim_v1/hurt/processed/hurt-4.png"
+      ],
+      "animation_fps": 6
     }
   },
   "encounters": {

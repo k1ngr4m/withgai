@@ -22,6 +22,9 @@ func default_meta_state() -> Dictionary:
 		"settings": {
 			"fullscreen": false,
 			"master_volume": 100,
+			"reduce_motion": false,
+			"ambient_motion": true,
+			"screen_shake": false,
 		},
 	}
 
@@ -43,6 +46,9 @@ func _normalize_meta_state() -> void:
 			settings[key] = default_settings[key]
 	settings["fullscreen"] = bool(settings.get("fullscreen", false))
 	settings["master_volume"] = clampi(int(settings.get("master_volume", 100)), 0, 100)
+	settings["reduce_motion"] = bool(settings.get("reduce_motion", false))
+	settings["ambient_motion"] = bool(settings.get("ambient_motion", true))
+	settings["screen_shake"] = bool(settings.get("screen_shake", false))
 	meta_state["settings"] = settings
 
 func is_class_unlocked(class_id: String) -> bool:
