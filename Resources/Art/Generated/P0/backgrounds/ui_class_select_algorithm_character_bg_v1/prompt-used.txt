@@ -1,0 +1,1 @@
+Precomposed 1920x1080 class-select character background. Runtime uses this as a single background image with character integrated into the scene and left-side negative space for compact UI text. Built from existing generated withgai key art/background after built-in image generation did not expose a local project-save path. No separate runtime key-art panel.

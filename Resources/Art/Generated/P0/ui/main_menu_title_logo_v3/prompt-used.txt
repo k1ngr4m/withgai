@@ -1,0 +1,4 @@
+User-provided title logo image used as the main menu title sprite.
+Source: /var/folders/vq/1jcbtsb52lbgj0ngjthm4cdc0000gn/T/codex-clipboard-209da7b9-de9c-484b-81fa-c14b8e846c3a.png
+Text: With Gai. Capital W and G, one visible space. Golden hand-painted fantasy title lettering on #FF00FF chroma-key background.
+Processing: copied source to raw.png, removed solid magenta background, cropped transparent final.png with padding.

@@ -34,6 +34,27 @@ func reward_profile(profile_id: String) -> Dictionary:
 func shop_pool(pool_id := "shop_default") -> Dictionary:
 	return config_service.get_def("shop_pools", pool_id)
 
+func initial_boost_def(boost_id: String) -> Dictionary:
+	return config_service.get_def("initial_boosts", boost_id)
+
+func initial_boosts_for_run_class(class_id: String, owned_relic_ids: Array = []) -> Array:
+	if not is_run_class_enabled(class_id):
+		return []
+	var result: Array = []
+	for boost in config_service.all_defs("initial_boosts"):
+		if not bool(boost.get("enabled_in_first_playable", false)):
+			continue
+		var allowed: Array = boost.get("allowed_classes", [])
+		if not allowed.has(class_id):
+			continue
+		var relic_id := String(boost.get("relic_id", ""))
+		if not relic_id.is_empty() and owned_relic_ids.has(relic_id):
+			continue
+		if _boost_needs_random_relic(boost) and _available_relics_for_boost(class_id, owned_relic_ids).is_empty():
+			continue
+		result.append(boost)
+	return result
+
 func effect_entries(effect_group_id: String) -> Array:
 	var group: Dictionary = config_service.get_def("effect_groups", effect_group_id)
 	var entries: Array = group.get("entries", [])
@@ -55,6 +76,16 @@ func relics_for_run_class(class_id: String, include_starter := false) -> Array:
 	if not is_run_class_enabled(class_id):
 		return []
 	return config_service.relics_for_class(class_id, include_starter)
+
+func _boost_needs_random_relic(boost: Dictionary) -> bool:
+	for effect in boost.get("effects", []):
+		if String(effect.get("effect_type", "")) == "add_random_relic":
+			return true
+	return false
+
+func _available_relics_for_boost(class_id: String, owned_relic_ids: Array) -> Array:
+	var relics := relics_for_run_class(class_id)
+	return relics.filter(func(relic): return not owned_relic_ids.has(String(relic.get("id", ""))))
 
 func events_for_run_class(class_id: String, chapter: int) -> Array:
 	if not is_run_class_enabled(class_id):

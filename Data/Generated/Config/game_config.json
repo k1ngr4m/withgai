@@ -4923,6 +4923,200 @@
       "weight": 9
     }
   },
+  "initial_boosts": {
+    "boost_perf_points_99": {
+      "id": "boost_perf_points_99",
+      "name": "绩效预支",
+      "allowed_classes": [
+        "backend",
+        "frontend",
+        "tester",
+        "algorithm",
+        "product_manager"
+      ],
+      "weight": 10,
+      "boost_kind": "effect",
+      "relic_id": "",
+      "effects": [
+        {
+          "effect_type": "gain_currency",
+          "target_type": "self",
+          "params": {
+            "amount": 99
+          }
+        }
+      ],
+      "description": "立刻获得 99 绩效点。",
+      "art_path": "res://Resources/Art/Generated/P0/icons/relic_icon_employee_discount_coupon_v1/prop.png",
+      "enabled_in_first_playable": true
+    },
+    "boost_random_cards_2": {
+      "id": "boost_random_cards_2",
+      "name": "临时灵感",
+      "allowed_classes": [
+        "backend",
+        "frontend",
+        "tester",
+        "algorithm",
+        "product_manager"
+      ],
+      "weight": 10,
+      "boost_kind": "effect",
+      "relic_id": "",
+      "effects": [
+        {
+          "effect_type": "add_random_card",
+          "target_type": "self",
+          "params": {
+            "amount": 2
+          }
+        }
+      ],
+      "description": "获得 2 张随机本职业牌。",
+      "art_path": "res://Resources/Art/Generated/P0/icons/node_icon_combat_set_v1/processed/sheet-1.png",
+      "enabled_in_first_playable": true
+    },
+    "boost_random_relic_1": {
+      "id": "boost_random_relic_1",
+      "name": "办公桌抽屉",
+      "allowed_classes": [
+        "backend",
+        "frontend",
+        "tester",
+        "algorithm",
+        "product_manager"
+      ],
+      "weight": 8,
+      "boost_kind": "effect",
+      "relic_id": "",
+      "effects": [
+        {
+          "effect_type": "add_random_relic",
+          "target_type": "self",
+          "params": {
+            "amount": 1
+          }
+        }
+      ],
+      "description": "获得 1 件随机可用遗物。",
+      "art_path": "res://Resources/Art/Generated/P0/icons/relic_icon_cold_brew_bucket_v1/prop.png",
+      "enabled_in_first_playable": true
+    },
+    "boost_opening_draw_1": {
+      "id": "boost_opening_draw_1",
+      "name": "提前看需求",
+      "allowed_classes": [
+        "backend",
+        "frontend",
+        "tester",
+        "algorithm",
+        "product_manager"
+      ],
+      "weight": 10,
+      "boost_kind": "effect",
+      "relic_id": "",
+      "effects": [
+        {
+          "effect_type": "add_opening_draw_bonus",
+          "target_type": "self",
+          "params": {
+            "amount": 1
+          }
+        }
+      ],
+      "description": "每场战斗首回合额外抽 1 张。",
+      "art_path": "res://Resources/Art/Generated/P0/icons/relic_icon_design_review_v1/prop.png",
+      "enabled_in_first_playable": true
+    },
+    "boost_opening_block_6": {
+      "id": "boost_opening_block_6",
+      "name": "先写周报",
+      "allowed_classes": [
+        "backend",
+        "frontend",
+        "tester",
+        "algorithm",
+        "product_manager"
+      ],
+      "weight": 10,
+      "boost_kind": "effect",
+      "relic_id": "",
+      "effects": [
+        {
+          "effect_type": "add_opening_block_bonus",
+          "target_type": "self",
+          "params": {
+            "amount": 6
+          }
+        }
+      ],
+      "description": "每场战斗开局获得 6 防线。",
+      "art_path": "res://Resources/Art/Generated/P0/icons/relic_icon_lumbar_cushion_v1/prop.png",
+      "enabled_in_first_playable": true
+    },
+    "boost_max_spirit_8": {
+      "id": "boost_max_spirit_8",
+      "name": "睡满八小时",
+      "allowed_classes": [
+        "backend",
+        "frontend",
+        "tester",
+        "algorithm",
+        "product_manager"
+      ],
+      "weight": 8,
+      "boost_kind": "effect",
+      "relic_id": "",
+      "effects": [
+        {
+          "effect_type": "gain_max_spirit",
+          "target_type": "self",
+          "params": {
+            "amount": 8
+          }
+        }
+      ],
+      "description": "最大精神状态 +8，并治疗 8。",
+      "art_path": "res://Resources/Art/Generated/P0/icons/relic_icon_hair_shampoo_v1/prop.png",
+      "enabled_in_first_playable": true
+    },
+    "boost_blue_light_glasses": {
+      "id": "boost_blue_light_glasses",
+      "name": "蓝光眼镜",
+      "allowed_classes": [
+        "backend",
+        "frontend",
+        "tester",
+        "algorithm",
+        "product_manager"
+      ],
+      "weight": 7,
+      "boost_kind": "relic",
+      "relic_id": "relic_blue_light_glasses",
+      "effects": [],
+      "description": "获得遗物：蓝光眼镜。",
+      "art_path": "res://Resources/Art/Generated/P0/icons/relic_icon_blue_light_glasses_v1/prop.png",
+      "enabled_in_first_playable": true
+    },
+    "boost_employee_coupon": {
+      "id": "boost_employee_coupon",
+      "name": "员工内购券",
+      "allowed_classes": [
+        "backend",
+        "frontend",
+        "tester",
+        "algorithm",
+        "product_manager"
+      ],
+      "weight": 7,
+      "boost_kind": "relic",
+      "relic_id": "relic_employee_coupon",
+      "effects": [],
+      "description": "获得遗物：员工内购券。",
+      "art_path": "res://Resources/Art/Generated/P0/icons/relic_icon_employee_discount_coupon_v1/prop.png",
+      "enabled_in_first_playable": true
+    }
+  },
   "statuses": {
     "anxiety": {
       "id": "anxiety",

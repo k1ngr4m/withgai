@@ -369,6 +369,43 @@ class EventOption:
         for _ele in _json_["effects"]: var _e: EffectSpec; _e = EffectSpec.new(_ele); self.effects.append(_e)
 
 
+class InitialBoostDef:
+    ## id
+    var id: String
+    ## name
+    var name: String
+    ## allowed_classes
+    var allowed_classes: Array[String]
+    ## weight
+    var weight: int
+    ## boost_kind
+    var boost_kind: String
+    ## relic_id
+    var relic_id: String
+    ## effects
+    var effects: Array[EffectSpec]
+    ## description
+    var description: String
+    ## art_path
+    var art_path: String
+    ## enabled_in_first_playable
+    var enabled_in_first_playable: bool
+
+    func _init(_json_) -> void:
+        self.id = _json_["id"]
+        self.name = _json_["name"]
+        self.allowed_classes = []
+        for _ele in _json_["allowed_classes"]: var _e: String; _e = _ele; self.allowed_classes.append(_e)
+        self.weight = _json_["weight"]
+        self.boost_kind = _json_["boost_kind"]
+        self.relic_id = _json_["relic_id"]
+        self.effects = []
+        for _ele in _json_["effects"]: var _e: EffectSpec; _e = EffectSpec.new(_ele); self.effects.append(_e)
+        self.description = _json_["description"]
+        self.art_path = _json_["art_path"]
+        self.enabled_in_first_playable = _json_["enabled_in_first_playable"]
+
+
 class IntentEntry:
     var intent_type: String
     var amount: int
@@ -803,6 +840,28 @@ class TbEventDef:
         return self._data_map.get(key)
 
 
+## InitialBoostDef table
+class TbInitialBoostDef:
+    var _data_list: Array[InitialBoostDef]
+    var _data_map: Dictionary
+    
+    func _init(_json_) -> void:
+        for _json2_ in _json_:
+            var _v: InitialBoostDef
+            _v = InitialBoostDef.new(_json2_)
+            self._data_list.append(_v)
+            self._data_map[_v.id] = _v
+
+    func get_data_list() -> Array[InitialBoostDef]:
+        return self._data_list
+
+    func get_data_map() -> Dictionary:
+        return self._data_map
+
+    func get_item(key) -> InitialBoostDef:
+        return self._data_map.get(key)
+
+
 ## StatusDef table
 class TbStatusDef:
     var _data_list: Array[StatusDef]
@@ -994,6 +1053,8 @@ class CfgTables:
     var TbMapNodeDef: TbMapNodeDef
     ## EventDef table
     var TbEventDef: TbEventDef
+    ## InitialBoostDef table
+    var TbInitialBoostDef: TbInitialBoostDef
     ## StatusDef table
     var TbStatusDef: TbStatusDef
     ## MetaUpgradeDef table
@@ -1019,6 +1080,7 @@ class CfgTables:
         self.TbEncounterDef = TbEncounterDef.new(loader.call('EncounterDef'))
         self.TbMapNodeDef = TbMapNodeDef.new(loader.call('MapNodeDef'))
         self.TbEventDef = TbEventDef.new(loader.call('EventDef'))
+        self.TbInitialBoostDef = TbInitialBoostDef.new(loader.call('InitialBoostDef'))
         self.TbStatusDef = TbStatusDef.new(loader.call('StatusDef'))
         self.TbMetaUpgradeDef = TbMetaUpgradeDef.new(loader.call('MetaUpgradeDef'))
         self.TbEffectGroupDef = TbEffectGroupDef.new(loader.call('EffectGroupDef'))

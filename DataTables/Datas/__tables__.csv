@@ -9,6 +9,7 @@
 ,TbEncounterDef,EncounterDef,true,EncounterDef.csv,id,map,EncounterDef table,c,,EncounterDef
 ,TbMapNodeDef,MapNodeDef,true,MapNodeDef.csv,id,map,MapNodeDef table,c,,MapNodeDef
 ,TbEventDef,EventDef,true,EventDef.csv,id,map,EventDef table,c,,EventDef
+,TbInitialBoostDef,InitialBoostDef,true,InitialBoostDef.csv,id,map,InitialBoostDef table,c,,InitialBoostDef
 ,TbStatusDef,StatusDef,true,StatusDef.csv,id,map,StatusDef table,c,,StatusDef
 ,TbMetaUpgradeDef,MetaUpgradeDef,true,MetaUpgradeDef.csv,id,map,MetaUpgradeDef table,c,,MetaUpgradeDef
 ,TbEffectGroupDef,EffectGroupDef,true,EffectGroupDef.csv,id,map,EffectGroupDef table,c,,EffectGroupDef

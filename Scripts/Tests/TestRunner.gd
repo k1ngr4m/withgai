@@ -34,6 +34,7 @@ func _init() -> void:
 	_validate_map_scene()
 	_validate_battle_scene()
 	_validate_reward_scene()
+	_validate_initial_boost_scene()
 	_validate_shop_scene()
 	_validate_event_scene()
 	_validate_rest_scene()
@@ -55,6 +56,7 @@ func _init() -> void:
 	_validate_enemy_phase_scripts(config, content, map, meta)
 	_validate_shop_event_rest(config, content, map, meta, reward_service)
 	_validate_reward_economy(config, map, meta, reward_service)
+	_validate_initial_boosts(config, content, map, meta, reward_service, save)
 	_validate_save_roundtrip(config, map, meta, save)
 	_validate_meta_settlement(config, map, meta)
 	_validate_meta_upgrades(config, map, meta, reward_service)
@@ -78,10 +80,13 @@ func _validate_main_menu_scene() -> void:
 	_check(source.contains("SAVE_SLOT_ICON"), "main menu save slot icon configured")
 	_check(source.contains("VERSION_ICON"), "main menu version icon configured")
 	_check(source.contains("TITLE_LOGO"), "main menu title logo sprite configured")
+	_check(source.contains("main_menu_title_logo_v3/final.png"), "main menu uses provided title logo sprite")
 	_check(source.contains("_title_logo_control"), "main menu builds title logo sprite control")
 	_check(source.contains("SaveSlotWidget"), "main menu save slot widget configured")
 	_check(source.contains("VersionWidget"), "main menu version widget configured")
 	_check(source.contains("MainTitleLogo"), "main menu title logo configured")
+	_check(source.contains("\"With Gai\""), "main menu title fallback preserves required capitalization and spacing")
+	_check(not source.contains("\"withgai\""), "main menu title fallback no longer uses old lowercase title")
 	_check(source.contains("VerticalMainMenu"), "main menu vertical menu configured")
 	_check(source.contains("_build_title_menu_screen(_is_compact_layout())"), "main menu builds minimalist title screen")
 	_check(not source.contains("left.add_child(_hero_block(false))"), "main menu desktop no longer uses old info hero")
@@ -102,6 +107,7 @@ func _validate_main_menu_scene() -> void:
 	_check(source.contains("ExitButton"), "main menu exit button configured")
 	var main_menu_instance: Node = packed.instantiate()
 	_check(String(main_menu_instance.call("_resume_scene_tag", "shop")) == "shop", "main menu resume keeps known scene tag")
+	_check(String(main_menu_instance.call("_resume_scene_tag", "initial_boost")) == "initial_boost", "main menu resume keeps initial boost scene tag")
 	_check(String(main_menu_instance.call("_resume_scene_tag", "unknown_scene")) == "map", "main menu resume falls back for unknown scene tag")
 	main_menu_instance.free()
 	var event_source := FileAccess.get_file_as_string("res://Scripts/UI/EventScene.gd")
@@ -117,7 +123,21 @@ func _validate_main_menu_scene() -> void:
 	_check(battle_source.contains("battle_service.clear()"), "battle scene clears battle service state after victory or defeat")
 	_check(not reward_source.contains("save_suspend(run"), "reward confirm lets flow controller save destination scene")
 	_check(source.contains("app.reset_run()"), "main menu quick start clears previous run state")
+	_check(source.contains("_show_scene(\"initial_boost\")"), "main menu quick start opens initial boost scene")
 	_check(class_select_source.contains("AppRoot.reset_run()"), "class select start clears previous run state")
+	_check(class_select_source.contains("show_scene(\"initial_boost\")"), "class select start opens initial boost scene")
+	_check(class_select_source.contains("CLASS_CHARACTER_BG"), "class select uses integrated character backgrounds")
+	_check(class_select_source.contains("CLASS_HEAD_ART"), "class select uses class head icons")
+	_check(class_select_source.contains("ClassCharacterBackground"), "class select has full-screen character background")
+	_check(class_select_source.contains("ClassThumbnailBar"), "class select has bottom thumbnail bar")
+	_check(class_select_source.contains("ClassDetailPanel"), "class select has detail panel")
+	_check(class_select_source.contains("ConfirmClassButton"), "class select has confirm button")
+	_check(class_select_source.contains("BackButton"), "class select has back button")
+	_check(class_select_source.contains("_confirm_selected_class"), "class select confirms selected class")
+	_check(not class_select_source.contains("ClassHeroPanel"), "class select no longer overlays a separate hero art panel")
+	_check(not class_select_source.contains("\"hr\": \"res://Resources/Art/Generated/P0/characters/char_product_manager_head_icon_v1/final.png\""), "class select HR no longer reuses product manager head icon")
+	_check(load("res://Resources/Art/Generated/P0/backgrounds/ui_class_select_backend_character_bg_v1/final.png") != null, "class select backend character background loads")
+	_check(load("res://Resources/Art/Generated/P0/characters/char_hr_head_icon_v1/final.png") != null, "class select HR head icon loads")
 	_check(event_source.contains("_go_main_menu"), "event scene has pause-to-menu action")
 	_check(shop_source.contains("_go_main_menu"), "shop scene has pause-to-menu action")
 	_check(reward_source.contains("_go_main_menu"), "reward scene has pause-to-menu action")
@@ -129,7 +149,7 @@ func _validate_main_menu_scene() -> void:
 		"res://Resources/Art/Generated/P0/backgrounds/ui_main_menu_bg_v2/final.png",
 		"res://Resources/Art/Generated/P0/ui/main_menu_save_icon_v1/final.png",
 		"res://Resources/Art/Generated/P0/ui/main_menu_version_icon_v1/final.png",
-		"res://Resources/Art/Generated/P0/ui/main_menu_title_logo_v1/final.png",
+		"res://Resources/Art/Generated/P0/ui/main_menu_title_logo_v3/final.png",
 	]
 	for asset_path in main_menu_assets:
 		_check(load(asset_path) != null, "%s main menu asset loads" % asset_path)
@@ -137,7 +157,7 @@ func _validate_main_menu_scene() -> void:
 		"res://Resources/Art/Generated/P0/backgrounds/ui_main_menu_bg_v2/prompt-used.txt",
 		"res://Resources/Art/Generated/P0/ui/main_menu_save_icon_v1/prompt-used.txt",
 		"res://Resources/Art/Generated/P0/ui/main_menu_version_icon_v1/prompt-used.txt",
-		"res://Resources/Art/Generated/P0/ui/main_menu_title_logo_v1/prompt-used.txt",
+		"res://Resources/Art/Generated/P0/ui/main_menu_title_logo_v3/prompt-used.txt",
 	]
 	for prompt_path in main_menu_prompt_files:
 		_check(FileAccess.file_exists(prompt_path), "%s main menu prompt saved" % prompt_path)
@@ -198,6 +218,24 @@ func _validate_reward_scene() -> void:
 	_check(source.contains("_reward_selection_summary"), "reward scene summarizes current selection")
 	_check(source.contains("SkipCardButton"), "reward scene explicit card skip button configured")
 	_check(source.contains("SkipRelicButton"), "reward scene explicit relic skip button configured")
+
+
+func _validate_initial_boost_scene() -> void:
+	_check(ResourceLoader.exists("res://Scenes/InitialBoostScene.tscn"), "initial boost scene resource exists")
+	var packed: PackedScene = load("res://Scenes/InitialBoostScene.tscn")
+	_check(packed != null, "initial boost scene loads")
+	var instance: Node = packed.instantiate()
+	_check(instance != null, "initial boost scene instantiates")
+	instance.free()
+	var source := FileAccess.get_file_as_string("res://Scripts/UI/InitialBoostScene.gd")
+	var flow_source := FileAccess.get_file_as_string("res://Scripts/Services/FlowController.gd")
+	_check(flow_source.contains("\"initial_boost\""), "flow controller registers initial boost scene")
+	_check(source.contains("InitialBoostHeader"), "initial boost scene header configured")
+	_check(source.contains("InitialBoostOptionList"), "initial boost option list configured")
+	_check(source.contains("InitialBoostButton_"), "initial boost option buttons configured")
+	_check(source.contains("InitialBoostIcon"), "initial boost option icons configured")
+	_check(source.contains("InitialBoostDescription"), "initial boost descriptions configured")
+	_check(source.contains("accept_initial_boost"), "initial boost scene accepts chosen boost")
 
 
 func _validate_shop_scene() -> void:
@@ -302,6 +340,14 @@ func _validate_config_references(config, content) -> void:
 	_check(content.cards_for_run_class("hr", true).is_empty(), "hr excluded from run card pool")
 	_check(not content.reward_profile("reward_default").is_empty(), "default reward profile exists")
 	_check(not content.shop_pool("shop_default").is_empty(), "default shop pool exists")
+	_check(config.get_table("initial_boosts").size() >= 8, "initial boost table loaded")
+	_check(content.initial_boosts_for_run_class("backend").size() >= 8, "backend initial boost pool loaded")
+	for boost in config.all_defs("initial_boosts"):
+		_check(not String(boost.get("name", "")).is_empty(), "%s initial boost has name" % String(boost.get("id", "")))
+		_check(int(boost.get("weight", 0)) > 0, "%s initial boost has weight" % String(boost.get("id", "")))
+		var boost_art_path := String(boost.get("art_path", ""))
+		_check(not boost_art_path.is_empty(), "%s initial boost has icon" % String(boost.get("id", "")))
+		_check(load(boost_art_path) != null, "%s initial boost icon loads" % String(boost.get("id", "")))
 	for class_id in ["backend", "frontend", "tester", "algorithm", "product_manager"]:
 		var cls: Dictionary = content.class_def(class_id)
 		_check(not content.relic_def(cls.get("starter_relic_id", "")).is_empty(), "%s starter relic resolves" % class_id)
@@ -3164,6 +3210,87 @@ func _validate_reward_economy(config, map, meta, reward_service) -> void:
 	reward_service.buy_shop_card(run, card_id)
 	_check(int(run.get("currency_perf_points", 0)) == before_currency - cost, "discounted card cost charged")
 	_check(reward_service.card_cost(run) == RewardService.CARD_COST, "shop discount consumed")
+
+
+func _validate_initial_boosts(config, content, map, meta, reward_service, save) -> void:
+	var run_session = RunSessionScript.new()
+	run_session.call("setup", config, map, meta)
+	var run := run_session.create_new_run("backend")
+	var pending: Dictionary = reward_service.prepare_initial_boosts(run)
+	var candidates: Array = pending.get("candidate_boost_ids", [])
+	_check(candidates.size() == 3, "initial boost rolls three candidates")
+	_check(_array_has_no_duplicates(candidates), "initial boost candidates are unique")
+	_check(String(run.get("current_scene_tag", "")) == "initial_boost", "initial boost prepare stores scene tag")
+	var rerolled: Dictionary = reward_service.prepare_initial_boosts(run)
+	_check(rerolled.get("candidate_boost_ids", []) == candidates, "initial boost prepare does not reroll pending candidates")
+	save.save_suspend(run, meta.meta_state)
+	var restored = RunSessionScript.new()
+	restored.call("setup", config, map, meta)
+	_check(restored.restore_from_suspend(save.load_suspend()), "initial boost suspend restore succeeds")
+	_check(restored.run_state.get("pending_initial_boost_state", {}).get("candidate_boost_ids", []) == candidates, "initial boost suspend keeps candidates")
+	save.clear_suspend()
+
+	run = run_session.create_new_run("backend")
+	run["pending_initial_boost_state"] = { "candidate_boost_ids": ["boost_perf_points_99"] }
+	_check(reward_service.accept_initial_boost(run, "boost_perf_points_99"), "initial boost currency accepted")
+	_check(int(run.get("currency_perf_points", 0)) == 99, "initial boost currency applies")
+	_check(String(run.get("selected_initial_boost_id", "")) == "boost_perf_points_99", "initial boost selection recorded")
+	_check(run.get("pending_initial_boost_state", {}).is_empty(), "initial boost pending clears after accept")
+	_check(String(run.get("current_scene_tag", "")) == "map", "initial boost accept returns to map")
+
+	run = run_session.create_new_run("backend")
+	run["pending_initial_boost_state"] = { "candidate_boost_ids": ["boost_random_cards_2"] }
+	var deck_before := int(run.get("deck_state", {}).get("master_deck", []).size())
+	_check(reward_service.accept_initial_boost(run, "boost_random_cards_2"), "initial boost random cards accepted")
+	_check(int(run.get("deck_state", {}).get("master_deck", []).size()) == deck_before + 2, "initial boost random cards added")
+
+	run = run_session.create_new_run("backend")
+	run["pending_initial_boost_state"] = { "candidate_boost_ids": ["boost_random_relic_1"] }
+	var relic_before := int(run.get("owned_relic_ids", []).size())
+	_check(reward_service.accept_initial_boost(run, "boost_random_relic_1"), "initial boost random relic accepted")
+	_check(int(run.get("owned_relic_ids", []).size()) == relic_before + 1, "initial boost random relic added")
+	_check(_array_has_no_duplicates(run.get("owned_relic_ids", [])), "initial boost random relic avoids duplicates")
+
+	run = run_session.create_new_run("backend")
+	run["pending_initial_boost_state"] = { "candidate_boost_ids": ["boost_opening_draw_1"] }
+	var draw_before := int(run.get("player_state", {}).get("opening_draw_bonus", 0))
+	_check(reward_service.accept_initial_boost(run, "boost_opening_draw_1"), "initial boost opening draw accepted")
+	_check(int(run.get("player_state", {}).get("opening_draw_bonus", 0)) == draw_before + 1, "initial boost opening draw applies")
+
+	run = run_session.create_new_run("backend")
+	run["pending_initial_boost_state"] = { "candidate_boost_ids": ["boost_opening_block_6"] }
+	var block_before := int(run.get("player_state", {}).get("opening_block_bonus", 0))
+	_check(reward_service.accept_initial_boost(run, "boost_opening_block_6"), "initial boost opening block accepted")
+	_check(int(run.get("player_state", {}).get("opening_block_bonus", 0)) == block_before + 6, "initial boost opening block applies")
+
+	run = run_session.create_new_run("backend")
+	run["pending_initial_boost_state"] = { "candidate_boost_ids": ["boost_max_spirit_8"] }
+	var max_before := int(run.get("player_state", {}).get("max_spirit", 0))
+	var spirit_before := int(run.get("player_state", {}).get("current_spirit", 0))
+	_check(reward_service.accept_initial_boost(run, "boost_max_spirit_8"), "initial boost max spirit accepted")
+	_check(int(run.get("player_state", {}).get("max_spirit", 0)) == max_before + 8, "initial boost max spirit applies")
+	_check(int(run.get("player_state", {}).get("current_spirit", 0)) == spirit_before + 8, "initial boost spirit heal applies")
+
+	run = run_session.create_new_run("backend")
+	run["pending_initial_boost_state"] = { "candidate_boost_ids": ["boost_blue_light_glasses"] }
+	relic_before = int(run.get("owned_relic_ids", []).size())
+	_check(reward_service.accept_initial_boost(run, "boost_blue_light_glasses"), "initial boost explicit relic accepted")
+	_check(int(run.get("owned_relic_ids", []).size()) == relic_before + 1, "initial boost explicit relic added")
+	_check(run.get("owned_relic_ids", []).has("relic_blue_light_glasses"), "initial boost explicit relic id added")
+
+	run = run_session.create_new_run("backend")
+	run["owned_relic_ids"].append("relic_blue_light_glasses")
+	run["pending_initial_boost_state"] = { "candidate_boost_ids": ["boost_blue_light_glasses"] }
+	relic_before = int(run.get("owned_relic_ids", []).size())
+	_check(reward_service.accept_initial_boost(run, "boost_blue_light_glasses"), "initial boost duplicate explicit relic accepted")
+	_check(int(run.get("owned_relic_ids", []).size()) == relic_before, "initial boost duplicate explicit relic ignored")
+	_check(_array_has_no_duplicates(run.get("owned_relic_ids", [])), "initial boost explicit relic avoids duplicates")
+
+	run = run_session.create_new_run("backend")
+	run["pending_initial_boost_state"] = { "candidate_boost_ids": ["boost_perf_points_99"] }
+	_check(not reward_service.accept_initial_boost(run, "boost_employee_coupon"), "initial boost rejects non-candidate id")
+	_check(int(run.get("currency_perf_points", 0)) == 0, "initial boost non-candidate does not apply")
+	_check(String(run.get("selected_initial_boost_id", "")).is_empty(), "initial boost non-candidate not recorded")
 
 func _validate_save_roundtrip(config, map, meta, save) -> void:
 	var run_session = RunSessionScript.new()

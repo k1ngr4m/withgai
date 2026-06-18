@@ -1,0 +1,5 @@
+generate2dsprite single asset / project-native title logo sprite
+Prompt attempted with built-in image generation:
+Create a single 2D game title logo sprite on a pure solid #FF00FF magenta background. The logo text must be exactly "With Gai": capital W, capital G, lowercase other letters, one visible space. No other words, no Chinese, no subtitle, no UI frame, no background scene. Hand-painted fantasy roguelike title logo with readable pixel-game typography. Palette: #ffe37a and #ffc533 gold fill, #b46a10 inner shade, #3f2300 thick outline/shadow, small #f6e9c4 highlights, optional tiny #7bd1dd accent. Generous magenta margin, no cropping.
+
+Implementation note: built-in image generation was attempted first for the hand-painted title direction, but this environment did not expose the generated bitmap as a copyable project file. The committed v2 asset is a deterministic sprite fallback that preserves the exact required spelling, spacing, capitalization, and palette while following the requested generated-title visual style.

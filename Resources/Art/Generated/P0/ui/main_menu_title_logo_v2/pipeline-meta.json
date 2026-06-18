@@ -1,0 +1,31 @@
+{
+  "skill": "generate2dsprite",
+  "asset_type": "prop",
+  "action": "single",
+  "art_style": "project-native",
+  "reference_style": "Slay the Spire-like hand-painted fantasy title",
+  "text": "With Gai",
+  "palette": {
+    "gold_1": "#ffe37a",
+    "gold_2": "#ffc533",
+    "gold_3": "#b46a10",
+    "gold_dark": "#3f2300",
+    "paper": "#f6e9c4",
+    "paper_dim": "#aeb5b8",
+    "cyan_dim": "#7bd1dd",
+    "danger": "#d85b45"
+  },
+  "raw_background": "#FF00FF",
+  "generation_attempted": true,
+  "generation_file_accessible": false,
+  "fallback_reason": "image_gen bitmap visible in chat but unavailable as a filesystem source for project import",
+  "font_source": "/System/Library/Fonts/Supplemental/Georgia Bold.ttf",
+  "raw_size": [
+    1640,
+    620
+  ],
+  "final_size": [
+    1446,
+    364
+  ]
+}

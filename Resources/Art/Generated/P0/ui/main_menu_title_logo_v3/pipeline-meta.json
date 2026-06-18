@@ -1,0 +1,26 @@
+{
+  "asset_type": "prop",
+  "action": "single",
+  "art_style": "user-provided hand-painted title",
+  "text": "With Gai",
+  "source": "/var/folders/vq/1jcbtsb52lbgj0ngjthm4cdc0000gn/T/codex-clipboard-209da7b9-de9c-484b-81fa-c14b8e846c3a.png",
+  "raw_background": "#FF00FF",
+  "processing": "magenta chroma-key cleanup and transparent crop",
+  "raw_size": [
+    2103,
+    748
+  ],
+  "final_size": [
+    1958,
+    582
+  ],
+  "crop_bbox_with_padding": [
+    69,
+    103,
+    2027,
+    685
+  ],
+  "threshold": 135,
+  "fringe_soften_threshold": 210,
+  "fringe_cleanup": "pink antialias pixels darkened/desaturated near transparent edge"
+}

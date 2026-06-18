@@ -3,7 +3,7 @@ extends Control
 const MAIN_BG := "res://Resources/Art/Generated/P0/backgrounds/ui_main_menu_bg_v2/final.png"
 const SAVE_SLOT_ICON := "res://Resources/Art/Generated/P0/ui/main_menu_save_icon_v1/final.png"
 const VERSION_ICON := "res://Resources/Art/Generated/P0/ui/main_menu_version_icon_v1/final.png"
-const TITLE_LOGO := "res://Resources/Art/Generated/P0/ui/main_menu_title_logo_v1/final.png"
+const TITLE_LOGO := "res://Resources/Art/Generated/P0/ui/main_menu_title_logo_v3/final.png"
 const COMPACT_BREAKPOINT := 900.0
 const SHORT_BREAKPOINT := 860.0
 const BUILD_LABEL := "后端首个可玩"
@@ -56,10 +56,11 @@ const SCENE_LABELS := {
 	"event": "随机事件",
 	"rest": "茶水间休息",
 	"run_result": "复盘结算",
+	"initial_boost": "开局加强",
 	"class_select": "职业选择",
 	"meta": "工位成长",
 }
-const RESUMABLE_SCENE_TAGS := ["map", "battle", "reward", "shop", "event", "rest", "run_result"]
+const RESUMABLE_SCENE_TAGS := ["initial_boost", "map", "battle", "reward", "shop", "event", "rest", "run_result"]
 const BROADCASTS := [
 	"楼宇广播：今日电梯优先服务正在爬楼的打工人。",
 	"会议室提示：画饼主管已占用 6F，请携带防线入场。",
@@ -260,9 +261,9 @@ func _save_slot_widget(compact := false) -> Control:
 	box.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	row.add_child(box)
 
-	var title := _corner_label("存档1", 20 if compact else 24, Color(1.0, 0.84, 0.36, 1.0))
+	var title := _corner_label("存档1", 16 if compact else 18, Color(1.0, 0.89, 0.48, 1.0))
 	box.add_child(title)
-	var detail := _corner_label(_save_slot_detail(), 13 if compact else 15, Color(0.64, 0.88, 0.96, 1.0))
+	var detail := _corner_label(_save_slot_detail(), 12 if compact else 15, Color(0.48, 0.82, 0.87, 1.0))
 	box.add_child(detail)
 	return row
 
@@ -283,10 +284,10 @@ func _version_widget(compact := false) -> Control:
 	var box := UiFactory.vbox(0)
 	box.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	row.add_child(box)
-	var version := _corner_label(_config_version_text(), 15 if compact else 17, Color(0.82, 0.72, 0.54, 0.90))
+	var version := _corner_label(_config_version_text(), 12 if compact else 16, Color(0.96, 0.91, 0.77, 0.92))
 	version.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	box.add_child(version)
-	var build := _corner_label("首个可玩", 11 if compact else 12, Color(0.62, 0.58, 0.48, 0.82))
+	var build := _corner_label("首个可玩", 12 if compact else 14, Color(0.68, 0.71, 0.72, 0.86))
 	build.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	box.add_child(build)
 
@@ -329,13 +330,13 @@ func _title_menu_button(text: String, compact := false) -> Button:
 	button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	button.alignment = HORIZONTAL_ALIGNMENT_CENTER
 	button.focus_mode = Control.FOCUS_ALL
-	button.add_theme_font_size_override("font_size", 26 if compact else 34)
-	button.add_theme_color_override("font_color", Color(0.95, 0.94, 0.86, 1.0))
-	button.add_theme_color_override("font_hover_color", Color(1.0, 0.98, 0.74, 1.0))
-	button.add_theme_color_override("font_pressed_color", Color(0.72, 1.0, 0.96, 1.0))
-	button.add_theme_color_override("font_focus_color", Color(1.0, 0.98, 0.74, 1.0))
-	button.add_theme_color_override("font_disabled_color", Color(0.56, 0.58, 0.56, 0.78))
-	button.add_theme_color_override("font_outline_color", Color(0.015, 0.018, 0.018, 0.95))
+	button.add_theme_font_size_override("font_size", 24 if compact else 32)
+	button.add_theme_color_override("font_color", Color(0.96, 0.91, 0.77, 1.0))
+	button.add_theme_color_override("font_hover_color", Color(1.0, 0.89, 0.48, 1.0))
+	button.add_theme_color_override("font_pressed_color", Color(0.48, 0.82, 0.87, 1.0))
+	button.add_theme_color_override("font_focus_color", Color(1.0, 0.89, 0.48, 1.0))
+	button.add_theme_color_override("font_disabled_color", Color(0.68, 0.71, 0.72, 0.72))
+	button.add_theme_color_override("font_outline_color", Color(0.25, 0.14, 0.0, 0.96))
 	button.add_theme_constant_override("outline_size", 5 if compact else 6)
 	button.add_theme_stylebox_override("normal", _title_menu_button_style(false, false))
 	button.add_theme_stylebox_override("hover", _title_menu_button_style(true, false))
@@ -350,13 +351,13 @@ func _title_menu_button(text: String, compact := false) -> Button:
 func _title_menu_button_style(hover: bool, pressed: bool) -> StyleBoxFlat:
 	var style := StyleBoxFlat.new()
 	style.bg_color = Color(0, 0, 0, 0.0)
-	style.border_color = Color(0.76, 0.96, 0.96, 0.0)
+	style.border_color = Color(0.48, 0.82, 0.87, 0.0)
 	if hover:
 		style.bg_color = Color(0.02, 0.08, 0.09, 0.20)
-		style.border_color = Color(0.72, 1.0, 0.96, 0.36)
+		style.border_color = Color(0.48, 0.82, 0.87, 0.42)
 	if pressed:
 		style.bg_color = Color(0.04, 0.16, 0.17, 0.26)
-		style.border_color = Color(0.82, 1.0, 0.92, 0.52)
+		style.border_color = Color(0.85, 0.36, 0.27, 0.56)
 	style.set_border_width_all(1 if hover else 0)
 	style.set_corner_radius_all(6)
 	style.content_margin_left = 10
@@ -385,18 +386,18 @@ func _title_logo_control(compact := false) -> Control:
 		logo.name = "MainTitleLogo"
 		logo.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		logo.texture = loaded
-		logo.custom_minimum_size = Vector2(380 if compact else 720, 142 if compact else 220)
+		logo.custom_minimum_size = Vector2(430 if compact else 820, 128 if compact else 244)
 		logo.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		logo.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		logo.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 		return logo
-	var fallback := _label("withgai", 72 if compact else 116, Color(0.94, 1.0, 1.0))
+	var fallback := _label("With Gai", 54 if compact else 104, Color(1.0, 0.89, 0.48, 1.0))
 	fallback.name = "MainTitleLogo"
 	fallback.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	fallback.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	fallback.custom_minimum_size = Vector2(360 if compact else 720, 104 if compact else 148)
-	fallback.add_theme_constant_override("outline_size", 8 if compact else 12)
-	fallback.add_theme_color_override("font_outline_color", Color(0.015, 0.025, 0.030, 0.98))
+	fallback.custom_minimum_size = Vector2(420 if compact else 760, 88 if compact else 140)
+	fallback.add_theme_constant_override("outline_size", 7 if compact else 11)
+	fallback.add_theme_color_override("font_outline_color", Color(0.25, 0.14, 0.0, 0.98))
 	return fallback
 
 
@@ -454,7 +455,7 @@ func _hero_block(compact := false) -> Control:
 	box.name = "TitlePanel"
 	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 
-	var title := _label("withgai", 56 if compact else 64, Color(0.96, 0.99, 1.0))
+	var title := _label("With Gai", 56 if compact else 64, Color(0.96, 0.99, 1.0))
 	title.add_theme_constant_override("outline_size", 5)
 	title.add_theme_color_override("font_outline_color", Color(0.02, 0.03, 0.04, 0.94))
 	title.custom_minimum_size = Vector2(320, 70 if compact else 82)
@@ -1786,7 +1787,7 @@ func _start_spotlight_class() -> void:
 
 func _start_class_from_menu(class_id: String) -> void:
 	var app = _app_root()
-	if app == null or app.run_session == null or app.save_service == null or app.meta_service == null:
+	if app == null or app.run_session == null or app.save_service == null or app.meta_service == null or app.reward_service == null:
 		return
 	if not app.meta_service.is_class_playable(class_id):
 		return
@@ -1794,5 +1795,6 @@ func _start_class_from_menu(class_id: String) -> void:
 	var run: Dictionary = app.run_session.create_new_run(class_id)
 	if run.is_empty():
 		return
+	app.reward_service.prepare_initial_boosts(run)
 	app.save_service.save_suspend(run, app.meta_service.meta_state)
-	_show_scene("map")
+	_show_scene("initial_boost")

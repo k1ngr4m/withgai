@@ -1,6 +1,7 @@
 class_name RewardService
 extends RefCounted
 
+const INITIAL_BOOST_CHOICES := 3
 const CARD_COST := 45
 const RELIC_COST := 85
 const REMOVE_COST := 75
@@ -13,6 +14,34 @@ func setup(p_content_resolver, p_map_service: MapService, p_meta_service: MetaPr
 	content_resolver = p_content_resolver
 	map_service = p_map_service
 	meta_service = p_meta_service
+
+func prepare_initial_boosts(run_state: Dictionary) -> Dictionary:
+	if not run_state.get("pending_initial_boost_state", {}).is_empty():
+		return run_state.get("pending_initial_boost_state", {})
+	if not String(run_state.get("selected_initial_boost_id", "")).is_empty():
+		return {}
+	var candidates := _roll_initial_boosts(run_state)
+	run_state["pending_initial_boost_state"] = {
+		"candidate_boost_ids": candidates,
+	}
+	run_state["current_scene_tag"] = "initial_boost"
+	return run_state["pending_initial_boost_state"]
+
+func accept_initial_boost(run_state: Dictionary, boost_id: String) -> bool:
+	var pending: Dictionary = prepare_initial_boosts(run_state)
+	var candidates: Array = pending.get("candidate_boost_ids", [])
+	if not candidates.has(boost_id):
+		return false
+	var boost: Dictionary = content_resolver.initial_boost_def(boost_id)
+	if boost.is_empty():
+		return false
+	_grant_boost_relic(run_state, String(boost.get("relic_id", "")))
+	for effect in boost.get("effects", []):
+		_apply_event_effect(run_state, effect)
+	run_state["selected_initial_boost_id"] = boost_id
+	run_state["pending_initial_boost_state"] = {}
+	run_state["current_scene_tag"] = "map"
+	return true
 
 func accept_battle_reward(run_state: Dictionary, card_id: String, relic_id: String = "") -> String:
 	var reward: Dictionary = run_state.get("pending_reward_state", {})
@@ -233,6 +262,46 @@ func _mark_shop_discount_used(run_state: Dictionary) -> void:
 		return
 	run_state["shop_state"]["discount_used"] = true
 
+func _roll_initial_boosts(run_state: Dictionary) -> Array:
+	var rng := RandomNumberGenerator.new()
+	rng.seed = int(run_state.get("rng_seed", 1)) + 7919
+	var pool: Array = content_resolver.initial_boosts_for_run_class(
+		String(run_state.get("selected_class_id", "")),
+		run_state.get("owned_relic_ids", [])
+	)
+	var candidates: Array = []
+	while candidates.size() < INITIAL_BOOST_CHOICES and not pool.is_empty():
+		var picked: Dictionary = _weighted_boost_pick(pool, rng)
+		var picked_id := String(picked.get("id", ""))
+		if picked_id.is_empty():
+			break
+		candidates.append(picked_id)
+		pool = pool.filter(func(boost): return String(boost.get("id", "")) != picked_id)
+	return candidates
+
+func _weighted_boost_pick(pool: Array, rng: RandomNumberGenerator) -> Dictionary:
+	if pool.is_empty():
+		return {}
+	var total := 0
+	for boost in pool:
+		total += max(1, int(boost.get("weight", 1)))
+	var roll := rng.randi_range(1, max(1, total))
+	var cursor := 0
+	for boost in pool:
+		cursor += max(1, int(boost.get("weight", 1)))
+		if roll <= cursor:
+			return boost
+	return pool[0]
+
+func _grant_boost_relic(run_state: Dictionary, relic_id: String) -> void:
+	if relic_id.is_empty():
+		return
+	var owned: Array = run_state.get("owned_relic_ids", [])
+	if owned.has(relic_id):
+		return
+	owned.append(relic_id)
+	run_state["owned_relic_ids"] = owned
+
 func _count_rest(run_state: Dictionary) -> void:
 	var counters: Dictionary = run_state.get("run_counters", {})
 	counters["rests_used"] = int(counters.get("rests_used", 0)) + 1
@@ -262,6 +331,22 @@ func _apply_event_effect(run_state: Dictionary, entry: Dictionary) -> void:
 			_remove_cards(run_state, max(1, amount))
 		"upgrade_card":
 			_upgrade_cards(run_state, max(1, amount))
+		"add_relic":
+			_grant_boost_relic(run_state, String(params.get("relic_id", "")))
+		"add_opening_draw_bonus":
+			var ps3: Dictionary = run_state.get("player_state", {})
+			ps3["opening_draw_bonus"] = int(ps3.get("opening_draw_bonus", 0)) + max(1, amount)
+			run_state["player_state"] = ps3
+		"add_opening_block_bonus":
+			var ps4: Dictionary = run_state.get("player_state", {})
+			ps4["opening_block_bonus"] = int(ps4.get("opening_block_bonus", 0)) + max(1, amount)
+			run_state["player_state"] = ps4
+		"gain_max_spirit":
+			var ps5: Dictionary = run_state.get("player_state", {})
+			var spirit_gain := maxi(1, amount)
+			ps5["max_spirit"] = int(ps5.get("max_spirit", 72)) + spirit_gain
+			ps5["current_spirit"] = min(int(ps5.get("max_spirit", 72)), int(ps5.get("current_spirit", 72)) + spirit_gain)
+			run_state["player_state"] = ps5
 
 func _add_random_cards(run_state: Dictionary, amount: int) -> void:
 	var cards: Array = content_resolver.cards_for_run_class(run_state.get("selected_class_id", ""), true)

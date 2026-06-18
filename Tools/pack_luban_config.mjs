@@ -12,6 +12,7 @@ const tables = [
   ["EncounterDef", "encounters"],
   ["MapNodeDef", "map_nodes"],
   ["EventDef", "events"],
+  ["InitialBoostDef", "initial_boosts"],
   ["StatusDef", "statuses"],
   ["MetaUpgradeDef", "meta_upgrades"],
   ["EffectGroupDef", "effect_groups"],

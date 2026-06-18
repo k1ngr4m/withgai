@@ -4,6 +4,7 @@ extends RefCounted
 const SCENES := {
 	"main_menu": "res://Scenes/MainMenuScene.tscn",
 	"class_select": "res://Scenes/ClassSelectScene.tscn",
+	"initial_boost": "res://Scenes/InitialBoostScene.tscn",
 	"map": "res://Scenes/MapScene.tscn",
 	"battle": "res://Scenes/BattleScene.tscn",
 	"reward": "res://Scenes/RewardScene.tscn",
@@ -34,4 +35,4 @@ func show_scene(tag: String) -> void:
 	root.add_child(current_scene)
 
 func _is_run_scene(tag: String) -> bool:
-	return ["map", "battle", "reward", "shop", "event", "rest", "run_result"].has(tag)
+	return ["initial_boost", "map", "battle", "reward", "shop", "event", "rest", "run_result"].has(tag)
