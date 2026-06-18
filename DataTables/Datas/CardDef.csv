@@ -2,36 +2,36 @@
 ##type,string,string,"list,string",string,string,int,string,"list,string",string,string,bool,string,string
 ##group,c,c,c,c,c,c,c,c,c,c,c,c,c
 ##comment,id,name,class_tags,rarity,type,cost,target_type,keywords,effect_group_id,upgrade_to,enabled_in_first_playable,description,art_path
-,card_backend_interface_probe,接口打点,"[""backend""]",common,attack,1,single_enemy,[],eg_card_backend_interface_probe,card_backend_interface_probe_plus,true,接口打点：造成伤害。,
+,card_backend_interface_probe,接口打点,"[""backend""]",common,attack,1,single_enemy,[],eg_card_backend_interface_probe,card_backend_interface_probe_plus,true,接口打点：造成伤害。,res://Resources/Art/Generated/P0/cards/card_illust_backend_interface_probe_v1/final.png
 ,card_backend_circuit_breaker,熔断保护,"[""backend""]",common,skill,1,self,[],eg_card_backend_circuit_breaker,card_backend_circuit_breaker_plus,true,熔断保护：获得防线；若服务在线则额外获得防线和缓存，敌方高攻击意图时防线更强。,res://Resources/Art/Generated/P0/cards/card_illust_backend_circuit_breaker_v1/final.png
 ,card_backend_publish_script,发布脚本,"[""backend""]",common,skill,1,self,[],eg_card_backend_publish_script,card_backend_publish_script_plus,true,发布脚本：获得防线并触发职业资源。,res://Resources/Art/Generated/P0/cards/card_illust_backend_publish_script_v1/final.png
-,card_backend_hotfix_rollback,热修复回滚,"[""backend""]",common,skill,0,self,[],eg_card_backend_hotfix_rollback,card_backend_hotfix_rollback_plus,true,热修复回滚：获得防线并触发职业资源。,
-,card_backend_cache_hit,缓存命中,"[""backend""]",common,skill,1,self,[],eg_card_backend_cache_hit,card_backend_cache_hit_plus,true,缓存命中：获得防线并触发职业资源。,
-,card_backend_log_collect,日志收集,"[""backend""]",common,skill,1,self,[],eg_card_backend_log_collect,card_backend_log_collect_plus,true,日志收集：获得防线并触发职业资源。,
-,card_backend_timeout_retry,超时重试,"[""backend""]",common,attack,1,single_enemy,[],eg_card_backend_timeout_retry,card_backend_timeout_retry_plus,true,超时重试：造成伤害。,
+,card_backend_hotfix_rollback,热修复回滚,"[""backend""]",common,skill,0,self,[],eg_card_backend_hotfix_rollback,card_backend_hotfix_rollback_plus,true,热修复回滚：获得防线并触发职业资源。,res://Resources/Art/Generated/P0/cards/card_illust_backend_hotfix_rollback_v1/final.png
+,card_backend_cache_hit,缓存命中,"[""backend""]",common,skill,1,self,[],eg_card_backend_cache_hit,card_backend_cache_hit_plus,true,缓存命中：获得防线并触发职业资源。,res://Resources/Art/Generated/P0/cards/card_illust_backend_cache_hit_v1/final.png
+,card_backend_log_collect,日志收集,"[""backend""]",common,skill,1,self,[],eg_card_backend_log_collect,card_backend_log_collect_plus,true,日志收集：获得防线并触发职业资源。,res://Resources/Art/Generated/P0/cards/card_illust_backend_log_collect_v1/final.png
+,card_backend_timeout_retry,超时重试,"[""backend""]",common,attack,1,single_enemy,[],eg_card_backend_timeout_retry,card_backend_timeout_retry_plus,true,超时重试：造成伤害。,res://Resources/Art/Generated/P0/cards/card_illust_backend_timeout_retry_v1/final.png
 ,card_backend_service_degrade,服务降级,"[""backend""]",common,skill,0,self,[],eg_card_backend_service_degrade,card_backend_service_degrade_plus,true,服务降级：降低所有敌方攻击意图，按已有服务获得额外防线并保留服务。,res://Resources/Art/Generated/P0/cards/card_illust_backend_service_degrade_v1/final.png
 ,card_backend_traffic_shaping,流量削峰,"[""backend""]",common,skill,1,self,[],eg_card_backend_traffic_shaping,card_backend_traffic_shaping_plus,true,流量削峰：获得防线，并把本回合承受的压力折算为缓存。,res://Resources/Art/Generated/P0/cards/card_illust_backend_traffic_shaping_v1/final.png
-,card_backend_request_merge,请求聚合,"[""backend""]",common,attack,1,single_enemy,[],eg_card_backend_request_merge,card_backend_request_merge_plus,true,请求聚合：造成伤害。,
-,card_backend_ticket_debug,工单排查,"[""backend""]",common,skill,1,self,[],eg_card_backend_ticket_debug,card_backend_ticket_debug_plus,true,工单排查：获得防线并触发职业资源。,
-,card_backend_session_keep,会话保持,"[""backend""]",common,skill,1,self,[],eg_card_backend_session_keep,card_backend_session_keep_plus,true,会话保持：获得防线并触发职业资源。,
-,card_backend_pool_maintain,连接池维护,"[""backend""]",common,skill,1,self,[],eg_card_backend_pool_maintain,card_backend_pool_maintain_plus,true,连接池维护：获得防线并触发职业资源。,
-,card_backend_read_replica,只读副本,"[""backend""]",common,skill,1,self,[],eg_card_backend_read_replica,card_backend_read_replica_plus,true,只读副本：获得防线并触发职业资源。,
+,card_backend_request_merge,请求聚合,"[""backend""]",common,attack,1,single_enemy,[],eg_card_backend_request_merge,card_backend_request_merge_plus,true,请求聚合：造成伤害。,res://Resources/Art/Generated/P0/cards/card_illust_backend_request_merge_v1/final.png
+,card_backend_ticket_debug,工单排查,"[""backend""]",common,skill,1,self,[],eg_card_backend_ticket_debug,card_backend_ticket_debug_plus,true,工单排查：获得防线并触发职业资源。,res://Resources/Art/Generated/P0/cards/card_illust_backend_ticket_debug_v1/final.png
+,card_backend_session_keep,会话保持,"[""backend""]",common,skill,1,self,[],eg_card_backend_session_keep,card_backend_session_keep_plus,true,会话保持：获得防线并触发职业资源。,res://Resources/Art/Generated/P0/cards/card_illust_backend_session_keep_v1/final.png
+,card_backend_pool_maintain,连接池维护,"[""backend""]",common,skill,1,self,[],eg_card_backend_pool_maintain,card_backend_pool_maintain_plus,true,连接池维护：获得防线并触发职业资源。,res://Resources/Art/Generated/P0/cards/card_illust_backend_pool_maintain_v1/final.png
+,card_backend_read_replica,只读副本,"[""backend""]",common,skill,1,self,[],eg_card_backend_read_replica,card_backend_read_replica_plus,true,只读副本：获得防线并触发职业资源。,res://Resources/Art/Generated/P0/cards/card_illust_backend_read_replica_v1/final.png
 ,card_backend_api_gateway,API网关,"[""backend""]",uncommon,power,2,self,[],eg_card_backend_api_gateway,card_backend_api_gateway_plus,true,API网关：建立长期状态，每回合开始获得防线；若服务不少于 2 个则额外抽牌。,res://Resources/Art/Generated/P0/cards/card_illust_backend_api_gateway_v1/final.png
 ,card_backend_redis_warmup,Redis预热,"[""backend""]",uncommon,skill,1,self,[],eg_card_backend_redis_warmup,card_backend_redis_warmup_plus,true,Redis预热：获得大量缓存，下回合首张牌费用降低。,res://Resources/Art/Generated/P0/cards/card_illust_backend_redis_warmup_v1/final.png
 ,card_backend_message_queue,消息队列堆积,"[""backend""]",uncommon,skill,1,self,[],eg_card_backend_message_queue,card_backend_message_queue_plus,true,消息队列堆积：生成请求计数，回合末按请求数对所有敌人造成伤害。,res://Resources/Art/Generated/P0/cards/card_illust_backend_message_queue_v1/final.png
 ,card_backend_sharding,分库分表,"[""backend""]",uncommon,power,2,self,[],eg_card_backend_sharding,card_backend_sharding_plus,true,分库分表：建立长期状态，每回合第一次获得缓存时额外获得 1。,res://Resources/Art/Generated/P0/cards/card_illust_backend_sharding_v1/final.png
-,card_backend_gray_cutover,灰度切流,"[""backend""]",uncommon,skill,1,self,[],eg_card_backend_gray_cutover,card_backend_gray_cutover_plus,true,灰度切流：获得防线并触发职业资源。,
-,card_backend_rate_limit,限流策略,"[""backend""]",uncommon,skill,1,self,[],eg_card_backend_rate_limit,card_backend_rate_limit_plus,true,限流策略：获得防线并触发职业资源。,
-,card_backend_async_compensate,异步补偿,"[""backend""]",uncommon,skill,1,self,[],eg_card_backend_async_compensate,card_backend_async_compensate_plus,true,异步补偿：获得防线并触发职业资源。,
-,card_backend_slow_query,慢查询优化,"[""backend""]",uncommon,attack,1,single_enemy,[],eg_card_backend_slow_query,card_backend_slow_query_plus,true,慢查询优化：造成伤害。,
-,card_backend_hot_standby,双机热备,"[""backend""]",uncommon,skill,2,self,[],eg_card_backend_hot_standby,card_backend_hot_standby_plus,true,双机热备：获得防线并触发职业资源。,
-,card_backend_container_orchestration,容器编排,"[""backend""]",uncommon,power,2,self,[],eg_card_backend_container_orchestration,card_backend_container_orchestration_plus,true,容器编排：建立长期收益。,
+,card_backend_gray_cutover,灰度切流,"[""backend""]",uncommon,skill,1,self,[],eg_card_backend_gray_cutover,card_backend_gray_cutover_plus,true,灰度切流：获得防线并触发职业资源。,res://Resources/Art/Generated/P0/cards/card_illust_backend_gray_cutover_v1/final.png
+,card_backend_rate_limit,限流策略,"[""backend""]",uncommon,skill,1,self,[],eg_card_backend_rate_limit,card_backend_rate_limit_plus,true,限流策略：获得防线并触发职业资源。,res://Resources/Art/Generated/P0/cards/card_illust_backend_rate_limit_v1/final.png
+,card_backend_async_compensate,异步补偿,"[""backend""]",uncommon,skill,1,self,[],eg_card_backend_async_compensate,card_backend_async_compensate_plus,true,异步补偿：获得防线并触发职业资源。,res://Resources/Art/Generated/P0/cards/card_illust_backend_async_compensate_v1/final.png
+,card_backend_slow_query,慢查询优化,"[""backend""]",uncommon,attack,1,single_enemy,[],eg_card_backend_slow_query,card_backend_slow_query_plus,true,慢查询优化：造成伤害。,res://Resources/Art/Generated/P0/cards/card_illust_backend_slow_query_v1/final.png
+,card_backend_hot_standby,双机热备,"[""backend""]",uncommon,skill,2,self,[],eg_card_backend_hot_standby,card_backend_hot_standby_plus,true,双机热备：获得防线并触发职业资源。,res://Resources/Art/Generated/P0/cards/card_illust_backend_hot_standby_v1/final.png
+,card_backend_container_orchestration,容器编排,"[""backend""]",uncommon,power,2,self,[],eg_card_backend_container_orchestration,card_backend_container_orchestration_plus,true,容器编排：建立长期收益。,res://Resources/Art/Generated/P0/cards/card_illust_backend_container_orchestration_v1/final.png
 ,card_backend_flush_all,全量回写,"[""backend""]",rare,attack,2,single_enemy,[],eg_card_backend_flush_all,card_backend_flush_all_plus,true,全量回写：消耗全部缓存并按缓存层数造成高额伤害。,res://Resources/Art/Generated/P0/cards/card_illust_backend_flush_all_v1/final.png
-,card_backend_cluster_scale,集群扩容,"[""backend""]",rare,power,2,self,[],eg_card_backend_cluster_scale,card_backend_cluster_scale_plus,true,集群扩容：建立长期收益。,
-,card_backend_lossless_release,无损发布,"[""backend""]",rare,skill,2,self,[],eg_card_backend_lossless_release,card_backend_lossless_release_plus,true,无损发布：获得防线并触发职业资源。,
-,card_backend_trace_chain,追踪链路,"[""backend""]",rare,skill,1,self,[],eg_card_backend_trace_chain,card_backend_trace_chain_plus,true,追踪链路：检索抽牌堆并抽取一张服务相关牌。,
-,card_backend_disaster_recovery,灾备接管,"[""backend""]",rare,skill,2,self,[],eg_card_backend_disaster_recovery,card_backend_disaster_recovery_plus,true,灾备接管：获得防线并触发职业资源。,
-,card_backend_zero_downtime,零停机升级,"[""backend""]",rare,power,3,self,[],eg_card_backend_zero_downtime,card_backend_zero_downtime_plus,true,零停机升级：建立长期收益。,
+,card_backend_cluster_scale,集群扩容,"[""backend""]",rare,power,2,self,[],eg_card_backend_cluster_scale,card_backend_cluster_scale_plus,true,集群扩容：建立长期收益。,res://Resources/Art/Generated/P0/cards/card_illust_backend_cluster_scale_v1/final.png
+,card_backend_lossless_release,无损发布,"[""backend""]",rare,skill,2,self,[],eg_card_backend_lossless_release,card_backend_lossless_release_plus,true,无损发布：获得防线并触发职业资源。,res://Resources/Art/Generated/P0/cards/card_illust_backend_lossless_release_v1/final.png
+,card_backend_trace_chain,追踪链路,"[""backend""]",rare,skill,1,self,[],eg_card_backend_trace_chain,card_backend_trace_chain_plus,true,追踪链路：检索抽牌堆并抽取一张服务相关牌。,res://Resources/Art/Generated/P0/cards/card_illust_backend_trace_chain_v1/final.png
+,card_backend_disaster_recovery,灾备接管,"[""backend""]",rare,skill,2,self,[],eg_card_backend_disaster_recovery,card_backend_disaster_recovery_plus,true,灾备接管：获得防线并触发职业资源。,res://Resources/Art/Generated/P0/cards/card_illust_backend_disaster_recovery_v1/final.png
+,card_backend_zero_downtime,零停机升级,"[""backend""]",rare,power,3,self,[],eg_card_backend_zero_downtime,card_backend_zero_downtime_plus,true,零停机升级：建立长期收益。,res://Resources/Art/Generated/P0/cards/card_illust_backend_zero_downtime_v1/final.png
 ,card_frontend_pixel_tap,像素敲击,"[""frontend""]",common,attack,1,single_enemy,[],eg_card_frontend_pixel_tap,card_frontend_pixel_tap_plus,false,像素敲击：造成基础伤害；若本回合已打出其他牌则追加轻伤。,
 ,card_frontend_flex_layout,Flex排版,"[""frontend""]",common,skill,1,self,[],eg_card_frontend_flex_layout,card_frontend_flex_layout_plus,false,Flex排版：获得防线并生成 1 个组件。,
 ,card_frontend_slice_sprint,切图冲刺,"[""frontend""]",common,skill,0,self,[],eg_card_frontend_slice_sprint,card_frontend_slice_sprint_plus,false,切图冲刺：抽牌并获得样式层。,
@@ -194,6 +194,6 @@
 ,card_shared_hotfix_patch,临时补丁,"[""programmer_shared""]",common,skill,0,self,[],eg_card_shared_hotfix_patch,card_shared_hotfix_patch_plus,true,临时补丁：获得防线并触发职业资源。,res://Resources/Art/Generated/P0/cards/card_illust_shared_hotfix_patch_v1/final.png
 ,card_shared_badge_throw,工牌甩脸,"[""programmer_shared""]",common,attack,0,single_enemy,[],eg_card_shared_badge_throw,card_shared_badge_throw_plus,true,工牌甩脸：造成伤害。,res://Resources/Art/Generated/P0/cards/card_illust_shared_badge_throw_v1/final.png
 ,card_shared_meeting_mute,会议静音,"[""programmer_shared""]",common,skill,1,selected,[],eg_card_shared_meeting_mute,card_shared_meeting_mute_plus,true,会议静音：获得防线并削弱目标攻击意图。,res://Resources/Art/Generated/P0/cards/card_illust_shared_meeting_mute_v1/final.png
-,card_status_option_promise,期权承诺,"[""pollution""]",special,status,0,self,"[""pollution""]",eg_card_status_option_promise,,true,期权承诺：焦虑 +1。,
-,card_status_meeting_minutes,会议纪要污染,"[""pollution""]",special,status,0,self,"[""pollution""]",eg_card_status_meeting_minutes,,true,会议纪要污染：加班 +1。,
-,card_curse_next_year_promotion,明年提拔你,"[""pollution""]",special,curse,0,self,"[""pollution""]",eg_card_curse_next_year_promotion,,true,明年提拔你：脆弱与易伤 +1。,
+,card_status_option_promise,期权承诺,"[""pollution""]",special,status,0,self,"[""pollution""]",eg_card_status_option_promise,,true,期权承诺：焦虑 +1。,res://Resources/Art/Generated/P0/cards/card_illust_status_option_promise_v1/final.png
+,card_status_meeting_minutes,会议纪要污染,"[""pollution""]",special,status,0,self,"[""pollution""]",eg_card_status_meeting_minutes,,true,会议纪要污染：加班 +1。,res://Resources/Art/Generated/P0/cards/card_illust_status_meeting_minutes_v1/final.png
+,card_curse_next_year_promotion,明年提拔你,"[""pollution""]",special,curse,0,self,"[""pollution""]",eg_card_curse_next_year_promotion,,true,明年提拔你：脆弱与易伤 +1。,res://Resources/Art/Generated/P0/cards/card_illust_curse_next_year_promotion_v1/final.png

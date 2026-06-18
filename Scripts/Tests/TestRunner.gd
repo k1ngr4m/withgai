@@ -38,6 +38,7 @@ func _init() -> void:
 	_validate_event_scene()
 	_validate_rest_scene()
 	_validate_run_result_scene()
+	_validate_card_face_ui(config)
 	_validate_config_references(config, content)
 	_validate_run_class_locks(config, map, meta)
 	_validate_run_reset_cleanup()
@@ -70,17 +71,22 @@ func _validate_main_menu_scene() -> void:
 	_check(motion_source.contains("static func press"), "ui motion supports button press")
 	_check(motion_source.contains("static func float_text"), "ui motion supports float text")
 	_check(motion_source.contains("reduce_motion"), "ui motion reads reduce motion setting")
+	_check(motion_source.contains("var original_modulate := child_item.modulate"), "ui motion preserves child opacity before hand fade-in")
+	_check(not motion_source.contains("tween_callback(func(): fade_in(child, duration, offset))"), "ui motion child fade-in does not tween back to transparent")
 	_check(source.contains("MAIN_BG"), "main menu background configured")
-	_check(source.contains("ClassSpotlightPanel"), "main menu class spotlight configured")
-	_check(source.contains("SpotlightClassArt"), "main menu spotlight art configured")
-	_check(source.contains("SpotlightClassTabs"), "main menu spotlight tabs configured")
-	_check(source.contains("SpotlightStartButton"), "main menu spotlight quick start configured")
-	_check(source.contains("_start_class_from_menu"), "main menu can start selected class directly")
-	_check(source.contains("ShiftBoardPanel"), "main menu duty board configured")
-	_check(source.contains("MainMenuBriefingPanel"), "main menu briefing panel configured")
+	_check(source.contains("ui_main_menu_bg_v2/final.png"), "main menu uses title screen background")
+	_check(source.contains("SAVE_SLOT_ICON"), "main menu save slot icon configured")
+	_check(source.contains("VERSION_ICON"), "main menu version icon configured")
+	_check(source.contains("TITLE_LOGO"), "main menu title logo sprite configured")
+	_check(source.contains("_title_logo_control"), "main menu builds title logo sprite control")
+	_check(source.contains("SaveSlotWidget"), "main menu save slot widget configured")
+	_check(source.contains("VersionWidget"), "main menu version widget configured")
+	_check(source.contains("MainTitleLogo"), "main menu title logo configured")
+	_check(source.contains("VerticalMainMenu"), "main menu vertical menu configured")
+	_check(source.contains("_build_title_menu_screen(_is_compact_layout())"), "main menu builds minimalist title screen")
+	_check(not source.contains("left.add_child(_hero_block(false))"), "main menu desktop no longer uses old info hero")
+	_check(not source.contains("root.add_child(_hero_block(true))"), "main menu compact no longer uses old info hero")
 	_check(source.contains("SHORT_BREAKPOINT := 860.0"), "main menu uses compact layout on short displays")
-	_check(source.contains("PlayableClassBadges"), "main menu playable class badges configured")
-	_check(source.contains("CareerDossierStrip"), "main menu career dossiers configured")
 	_check(source.contains("NewGameButton"), "main menu new game button configured")
 	_check(source.contains("ContinueButton"), "main menu continue button configured")
 	_check(source.contains("MetaButton"), "main menu meta button configured")
@@ -120,15 +126,21 @@ func _validate_main_menu_scene() -> void:
 	_check(rest_source.contains("back.pressed.connect(_build_main)"), "rest scene upgrade back button rebuilds clean main view")
 	_check(not rest_source.contains("back.pressed.connect(_ready)"), "rest scene upgrade back button does not stack ready UI")
 	var main_menu_assets := [
-		"res://Resources/Art/Generated/P0/backgrounds/ui_main_menu_bg_v1.png",
-		"res://Resources/Art/Generated/P0/characters/char_backend_keyart_v1.png",
-		"res://Resources/Art/Generated/P0/characters/char_frontend_keyart_v1.png",
-		"res://Resources/Art/Generated/P0/characters/char_tester_keyart_v1.png",
-		"res://Resources/Art/Generated/P0/characters/char_algorithm_keyart_v1.png",
-		"res://Resources/Art/Generated/P0/characters/char_product_manager_keyart_v1.png",
+		"res://Resources/Art/Generated/P0/backgrounds/ui_main_menu_bg_v2/final.png",
+		"res://Resources/Art/Generated/P0/ui/main_menu_save_icon_v1/final.png",
+		"res://Resources/Art/Generated/P0/ui/main_menu_version_icon_v1/final.png",
+		"res://Resources/Art/Generated/P0/ui/main_menu_title_logo_v1/final.png",
 	]
 	for asset_path in main_menu_assets:
 		_check(load(asset_path) != null, "%s main menu asset loads" % asset_path)
+	var main_menu_prompt_files := [
+		"res://Resources/Art/Generated/P0/backgrounds/ui_main_menu_bg_v2/prompt-used.txt",
+		"res://Resources/Art/Generated/P0/ui/main_menu_save_icon_v1/prompt-used.txt",
+		"res://Resources/Art/Generated/P0/ui/main_menu_version_icon_v1/prompt-used.txt",
+		"res://Resources/Art/Generated/P0/ui/main_menu_title_logo_v1/prompt-used.txt",
+	]
+	for prompt_path in main_menu_prompt_files:
+		_check(FileAccess.file_exists(prompt_path), "%s main menu prompt saved" % prompt_path)
 
 
 func _validate_map_scene() -> void:
@@ -161,7 +173,7 @@ func _validate_battle_scene() -> void:
 	_check(source.contains("HandPanel"), "battle scene hand panel configured")
 	_check(source.contains("HandArea"), "battle scene hand area configured")
 	_check(source.contains("HandScroll"), "battle scene reserves visible hand scroll area")
-	_check(source.contains("custom_minimum_size = Vector2(0, 206)"), "battle scene hand panel is not collapsed")
+	_check(source.contains("custom_minimum_size = Vector2(0, 318)"), "battle scene hand panel is tall enough for card faces")
 	_check(source.contains("BattleLogPanel"), "battle scene log panel configured")
 	_check(source.contains("EndTurnButton"), "battle scene end turn button configured")
 	_check(source.contains("draw_pile"), "battle scene resource panel shows pile counts")
@@ -240,6 +252,49 @@ func _validate_run_result_scene() -> void:
 	_check(source.contains("_has_result_run"), "run result scene guards empty run state")
 	_check(source.contains("clear_suspend"), "run result clears suspend save")
 	_check(source.contains("settle_run"), "run result settles meta progression")
+
+
+func _validate_card_face_ui(config) -> void:
+	_check(ResourceLoader.exists("res://Scripts/UI/CardFaceButton.gd"), "card face button script exists")
+	var card_source := FileAccess.get_file_as_string("res://Scripts/UI/CardFaceButton.gd")
+	var factory_source := FileAccess.get_file_as_string("res://Scripts/UI/UiFactory.gd")
+	_check(card_source.contains("class_name CardFaceButton"), "card face button class configured")
+	for node_name in ["CardCost", "CardTitle", "CardArt", "CardType", "CardDescription", "CardBadge"]:
+		_check(card_source.contains(node_name), "%s node configured" % node_name)
+	_check(card_source.contains("TYPE_NAMES"), "card face maps card types")
+	_check(card_source.contains("_trim_description"), "card face trims repeated card names")
+	_check(factory_source.contains("CardFaceButtonScript"), "ui factory preloads card face button")
+	_check(factory_source.contains("setup_card"), "ui factory configures card face button")
+	var card_button = load("res://Scripts/UI/CardFaceButton.gd").new()
+	card_button.custom_minimum_size = Vector2(178, 252)
+	card_button.call("setup_card", {
+		"id": "test_card",
+		"name": "测试牌",
+		"type": "skill",
+		"cost": 1,
+		"description": "测试牌：获得防线。",
+		"art_path": "",
+	}, { "badge_text": "已选", "selected": true })
+	for node_name in ["CardCost", "CardTitle", "CardArt", "CardType", "CardDescription", "CardBadge"]:
+		_check(card_button.find_child(node_name, true, false) != null, "%s node instantiates" % node_name)
+	var desc_label := card_button.find_child("CardDescription", true, false) as Label
+	_check(desc_label != null and desc_label.text == "获得防线。", "card face shows trimmed description text")
+	_check(card_button.get_combined_minimum_size().y <= 252.0, "card face fits battle hand height")
+	card_button.free()
+	var battle_source := FileAccess.get_file_as_string("res://Scripts/UI/BattleScene.gd")
+	var reward_source := FileAccess.get_file_as_string("res://Scripts/UI/RewardScene.gd")
+	var shop_source := FileAccess.get_file_as_string("res://Scripts/UI/ShopScene.gd")
+	var rest_source := FileAccess.get_file_as_string("res://Scripts/UI/RestScene.gd")
+	_check(not battle_source.contains("%s [%s]\\n%s\\n%s"), "battle cards no longer use multiline button text")
+	_check(not reward_source.contains("%s%s\\n%s\\n%s"), "reward cards no longer use multiline button text")
+	_check(not shop_source.contains("买卡 %d\\n%s\\n%s"), "shop cards no longer use multiline button text")
+	_check(not rest_source.contains("%s%s\\n%s"), "rest upgrade cards no longer use multiline button text")
+	for card in config.all_defs("cards"):
+		if not bool(card.get("enabled_in_first_playable", false)):
+			continue
+		var art_path := String(card.get("art_path", ""))
+		_check(not art_path.is_empty(), "%s enabled card has art path" % String(card.get("id", "")))
+		_check(load(art_path) != null, "%s enabled card art loads" % String(card.get("id", "")))
 
 
 func _validate_config_references(config, content) -> void:

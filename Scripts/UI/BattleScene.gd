@@ -68,36 +68,81 @@ func _build() -> void:
 	elif chapter == 3:
 		bg = "res://Resources/Art/Generated/P0/backgrounds/bg_battle_ch3_ceo_floor_v1.png"
 	UiFactory.add_background(self, bg)
-	var margin := UiFactory.margin(self, 16)
-	var main := UiFactory.vbox(8)
-	margin.add_child(main)
 	var player: Dictionary = state.get("player", {})
-	var header := UiFactory.label("精神 %d/%d  精力 %d  防线 %d  回合 %d" % [
-		int(player.get("current_spirit", 0)), int(player.get("max_spirit", 0)), int(player.get("current_energy", 0)), int(player.get("current_block", 0)), int(player.get("turn_number", 1))
-	], 22)
-	header.name = "BattleHeader"
-	main.add_child(header)
-	main.add_child(_player_area(player, state))
-	main.add_child(_combat_area(player, state, visual_events))
-	main.add_child(_hand_panel(player))
-	var actions := UiFactory.hbox(8)
-	actions.name = "BattleActionBar"
-	main.add_child(actions)
-	var end_turn := UiFactory.button("结束回合")
-	end_turn.name = "EndTurnButton"
-	end_turn.pressed.connect(_end_turn)
-	actions.add_child(end_turn)
-	var save := UiFactory.button("保存")
-	save.name = "SaveBattleButton"
-	save.pressed.connect(_save_battle)
-	actions.add_child(save)
-	var menu := UiFactory.button("主菜单")
-	menu.name = "BattleMainMenuButton"
-	menu.pressed.connect(_go_main_menu)
-	actions.add_child(menu)
-	main.add_child(_battle_log_panel(state))
+	add_child(_top_bar(player, state, chapter))
+	add_child(_stage_layer(player, state, visual_events))
+	add_child(_battle_log_panel(state))
+	add_child(_bottom_hud(player))
 	UiMotion.bind_buttons(self, Color(0.48, 0.86, 0.92))
 	call_deferred("_play_visual_events", visual_events)
+
+
+func _top_bar(player: Dictionary, state: Dictionary, chapter: int) -> Control:
+	var bar := PanelContainer.new()
+	bar.name = "BattleHeader"
+	bar.set_anchors_preset(Control.PRESET_TOP_WIDE)
+	bar.offset_left = 16
+	bar.offset_top = 14
+	bar.offset_right = -16
+	bar.offset_bottom = 78
+	bar.add_theme_stylebox_override("panel", _hud_panel_style(Color(0.04, 0.06, 0.08, 0.82), Color(0.72, 0.86, 0.94, 0.34), 8))
+
+	var margin := MarginContainer.new()
+	margin.add_theme_constant_override("margin_left", 18)
+	margin.add_theme_constant_override("margin_right", 18)
+	margin.add_theme_constant_override("margin_top", 8)
+	margin.add_theme_constant_override("margin_bottom", 8)
+	bar.add_child(margin)
+
+	var row := UiFactory.hbox(14)
+	row.alignment = BoxContainer.ALIGNMENT_CENTER
+	margin.add_child(row)
+
+	var run := AppRoot.run_session.run_state
+	var class_id := String(run.get("selected_class_id", ""))
+	var cls: Dictionary = AppRoot.config_service.get_def("classes", class_id)
+	var title := UiFactory.label("第 %d 层  %s" % [chapter, String(cls.get("name", class_id))], 22, Color(0.95, 1.0, 0.96))
+	title.custom_minimum_size = Vector2(140, 0)
+	title.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	_make_single_line(title)
+	row.add_child(title)
+
+	row.add_child(_top_stat("精神", "%d/%d" % [int(player.get("current_spirit", 0)), int(player.get("max_spirit", 0))], Color(1.0, 0.46, 0.44)))
+	row.add_child(_top_stat("防线", str(int(player.get("current_block", 0))), Color(0.42, 0.86, 1.0)))
+	row.add_child(_top_stat("回合", str(int(player.get("turn_number", 1))), Color(1.0, 0.88, 0.45)))
+
+	var resource_panel := _resource_panel(player, state)
+	resource_panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	row.add_child(resource_panel)
+
+	var save := _hud_button("保存", Vector2(92, 38))
+	save.name = "SaveBattleButton"
+	save.pressed.connect(_save_battle)
+	row.add_child(save)
+
+	var menu := _hud_button("主菜单", Vector2(110, 38))
+	menu.name = "BattleMainMenuButton"
+	menu.pressed.connect(_go_main_menu)
+	row.add_child(menu)
+	return bar
+
+
+func _top_stat(caption: String, value: String, color: Color) -> PanelContainer:
+	var panel := PanelContainer.new()
+	panel.custom_minimum_size = Vector2(122, 40)
+	panel.add_theme_stylebox_override("panel", _hud_panel_style(Color(0.01, 0.02, 0.025, 0.54), color.darkened(0.18), 6))
+	var margin := MarginContainer.new()
+	margin.add_theme_constant_override("margin_left", 10)
+	margin.add_theme_constant_override("margin_right", 10)
+	margin.add_theme_constant_override("margin_top", 4)
+	margin.add_theme_constant_override("margin_bottom", 4)
+	panel.add_child(margin)
+	var label := UiFactory.label("%s %s" % [caption, value], 18, color)
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_make_single_line(label)
+	margin.add_child(label)
+	return panel
 
 
 func _player_area(player: Dictionary, state: Dictionary) -> Control:
@@ -109,60 +154,172 @@ func _player_area(player: Dictionary, state: Dictionary) -> Control:
 		box.add_child(UiFactory.label("状态 %s" % player_status, 15, Color(0.84, 0.92, 0.94)))
 	return box
 
-func _combat_area(player: Dictionary, state: Dictionary, visual_events: Array) -> Control:
-	var row := UiFactory.hbox(12)
-	row.name = "CombatStage"
-	row.custom_minimum_size = Vector2(0, 370)
-	row.add_child(_player_actor_panel(player))
-	var spacer := Control.new()
-	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	row.add_child(spacer)
+func _stage_layer(player: Dictionary, state: Dictionary, visual_events: Array) -> Control:
+	var stage := Control.new()
+	stage.name = "CombatStage"
+	stage.set_anchors_preset(Control.PRESET_FULL_RECT)
+	stage.offset_left = 36
+	stage.offset_top = 96
+	stage.offset_right = -36
+	stage.offset_bottom = -290
+
+	var player_panel := _player_actor_panel(player)
+	player_panel.anchor_left = 0.08
+	player_panel.anchor_top = 0.36
+	player_panel.anchor_right = 0.08
+	player_panel.anchor_bottom = 0.36
+	player_panel.offset_left = 0
+	player_panel.offset_top = 0
+	player_panel.offset_right = 380
+	player_panel.offset_bottom = 390
+	stage.add_child(player_panel)
+
 	var enemy_row := UiFactory.hbox(10)
 	enemy_row.name = "EnemyArea"
 	enemy_row.alignment = BoxContainer.ALIGNMENT_END
-	enemy_row.size_flags_horizontal = Control.SIZE_SHRINK_END
+	enemy_row.anchor_left = 0.43
+	enemy_row.anchor_top = 0.25
+	enemy_row.anchor_right = 0.98
+	enemy_row.anchor_bottom = 0.25
+	enemy_row.offset_left = 0
+	enemy_row.offset_top = 0
+	enemy_row.offset_right = 0
+	enemy_row.offset_bottom = 420
 	var enemies: Array = state.get("enemies", [])
 	for i in range(enemies.size()):
 		enemy_row.add_child(_enemy_panel(enemies[i], i, visual_events))
-	row.add_child(enemy_row)
-	return row
+	stage.add_child(enemy_row)
+	return stage
 
 
-func _hand_panel(player: Dictionary) -> PanelContainer:
-	var panel := UiFactory.panel()
+func _combat_area(player: Dictionary, state: Dictionary, visual_events: Array) -> Control:
+	return _stage_layer(player, state, visual_events)
+
+
+func _bottom_hud(player: Dictionary) -> Control:
+	var hud := Control.new()
+	hud.name = "BattleBottomHud"
+	hud.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
+	hud.offset_left = 0
+	hud.offset_top = -328
+	hud.offset_right = 0
+	hud.offset_bottom = 0
+
+	var hand_panel := _hand_panel(player)
+	hand_panel.anchor_left = 0.20
+	hand_panel.anchor_top = 0.0
+	hand_panel.anchor_right = 0.82
+	hand_panel.anchor_bottom = 1.0
+	hand_panel.offset_left = 0
+	hand_panel.offset_top = 0
+	hand_panel.offset_right = 0
+	hand_panel.offset_bottom = -8
+	hud.add_child(hand_panel)
+
+	var energy := _energy_orb(player)
+	energy.anchor_left = 0.06
+	energy.anchor_top = 0.46
+	energy.anchor_right = 0.06
+	energy.anchor_bottom = 0.46
+	energy.offset_left = 0
+	energy.offset_top = 0
+	energy.offset_right = 132
+	energy.offset_bottom = 132
+	hud.add_child(energy)
+
+	var end_turn := _hud_button("结束回合", Vector2(190, 58))
+	end_turn.name = "EndTurnButton"
+	end_turn.anchor_left = 0.84
+	end_turn.anchor_top = 0.56
+	end_turn.anchor_right = 0.84
+	end_turn.anchor_bottom = 0.56
+	end_turn.offset_left = 0
+	end_turn.offset_top = 0
+	end_turn.offset_right = 190
+	end_turn.offset_bottom = 58
+	end_turn.pressed.connect(_end_turn)
+	hud.add_child(end_turn)
+	return hud
+
+
+func _hand_panel(player: Dictionary) -> Control:
+	var panel := PanelContainer.new()
 	panel.name = "HandPanel"
-	panel.custom_minimum_size = Vector2(0, 206)
+	panel.custom_minimum_size = Vector2(0, 318)
 	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	panel.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	var box := UiFactory.vbox(6)
-	panel.add_child(box)
-	var hand: Array = player.get("hand", [])
-	box.add_child(UiFactory.label("手牌 %d 张" % hand.size(), 16, Color(0.88, 0.97, 1.0)))
-	var hand_row := UiFactory.hbox(8)
-	hand_row.name = "HandArea"
-	hand_row.custom_minimum_size = Vector2(0, 156)
-	hand_row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	hand_row.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	var hand_scroll := UiFactory.scroll(hand_row)
+	panel.add_theme_stylebox_override("panel", _hud_panel_style(Color(0.03, 0.05, 0.055, 0.34), Color(0.34, 0.92, 1.0, 0.18), 8))
+
+	var stack := Control.new()
+	panel.add_child(stack)
+	stack.set_anchors_preset(Control.PRESET_FULL_RECT)
+
+	var title := UiFactory.label("", 16, Color(0.88, 0.97, 1.0))
+	title.name = "HandTitle"
+	title.anchor_left = 0.0
+	title.anchor_top = 0.0
+	title.anchor_right = 1.0
+	title.anchor_bottom = 0.0
+	title.offset_left = 12
+	title.offset_top = 6
+	title.offset_right = -12
+	title.offset_bottom = 30
+	stack.add_child(title)
+
+	var hand_scroll := Control.new()
 	hand_scroll.name = "HandScroll"
-	hand_scroll.custom_minimum_size = Vector2(0, 162)
-	hand_scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	hand_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	box.add_child(hand_scroll)
-	if hand.is_empty():
-		hand_row.add_child(UiFactory.label("没有可用手牌。", 14, Color(0.70, 0.80, 0.82)))
-	else:
-		for i in range(hand.size()):
-			hand_row.add_child(_card_button(hand[i], i))
+	hand_scroll.custom_minimum_size = Vector2(0, 274)
+	hand_scroll.set_anchors_preset(Control.PRESET_FULL_RECT)
+	hand_scroll.offset_top = 24
+	stack.add_child(hand_scroll)
+
+	var hand: Array = player.get("hand", [])
+	title.text = "手牌 %d 张" % hand.size()
+	hand_scroll.add_child(_hand_fan(player))
 	return panel
 
 
+func _hand_fan(player: Dictionary) -> Control:
+	var hand_area := Control.new()
+	hand_area.name = "HandArea"
+	hand_area.set_anchors_preset(Control.PRESET_FULL_RECT)
+	hand_area.custom_minimum_size = Vector2(0, 268)
+	hand_area.clip_contents = false
+	var hand: Array = player.get("hand", [])
+	if hand.is_empty():
+		var empty := UiFactory.label("没有可用手牌。", 15, Color(0.70, 0.80, 0.82))
+		empty.anchor_left = 0.5
+		empty.anchor_top = 0.48
+		empty.anchor_right = 0.5
+		empty.anchor_bottom = 0.48
+		empty.offset_left = -90
+		empty.offset_top = -12
+		empty.offset_right = 90
+		empty.offset_bottom = 18
+		hand_area.add_child(empty)
+	else:
+		var viewport_width: float = get_viewport_rect().size.x
+		var panel_width: float = max(720.0, viewport_width * 0.58)
+		var count: int = hand.size()
+		var card_size := Vector2(178, 252)
+		var spacing: float = clamp(panel_width / max(1.0, float(count + 1)), 92.0, 156.0)
+		var total: float = spacing * float(count - 1)
+		var start_x: float = (panel_width - total - card_size.x) * 0.5
+		var base_y: float = 4.0
+		var mid: float = float(count - 1) * 0.5
+		for i in range(hand.size()):
+			var card := _card_button(hand[i], i)
+			card.position = Vector2(start_x + spacing * i, base_y + abs(float(i) - mid) * 10.0)
+			card.rotation_degrees = clamp((float(i) - mid) * 4.8, -18.0, 18.0)
+			card.pivot_offset = card_size * 0.5
+			hand_area.add_child(card)
+	return hand_area
+
+
 func _player_actor_panel(player: Dictionary) -> Control:
-	var panel := UiFactory.panel()
+	var panel := Control.new()
 	panel.name = "PlayerActorPanel"
 	panel.custom_minimum_size = Vector2(340, 360)
-	var box := UiFactory.vbox(6)
-	panel.add_child(box)
 	var run := AppRoot.run_session.run_state
 	var class_id := String(run.get("selected_class_id", ""))
 	var cls: Dictionary = AppRoot.config_service.get_def("classes", class_id)
@@ -171,49 +328,70 @@ func _player_actor_panel(player: Dictionary) -> Control:
 	if not action_paths.is_empty():
 		var animator: FrameAnimator = FrameAnimatorScript.new()
 		animator.name = "PlayerAnimator"
-		animator.setup_actions(action_paths, _class_bust_art_path(class_id), 6, Vector2(320, 245))
+		animator.setup_actions(action_paths, _class_bust_art_path(class_id), 6, Vector2(350, 270))
 		art = animator
 	else:
-		art = UiFactory.texture(_class_bust_art_path(class_id), Vector2(320, 245))
+		art = UiFactory.texture(_class_bust_art_path(class_id), Vector2(350, 270))
 	if String(art.name).is_empty():
 		art.name = "PlayerActorArt"
-	box.add_child(art)
-	box.add_child(UiFactory.label("%s  精神 %d/%d  防线 %d" % [
-		cls.get("name", class_id),
+	art.anchor_left = 0.0
+	art.anchor_top = 0.0
+	art.anchor_right = 1.0
+	art.anchor_bottom = 0.0
+	art.offset_left = 0
+	art.offset_top = 0
+	art.offset_right = 0
+	art.offset_bottom = 270
+	panel.add_child(art)
+
+	var plate := _actor_status_plate("%s  精神 %d/%d  防线 %d" % [
+		String(cls.get("name", class_id)),
 		int(player.get("current_spirit", 0)),
 		int(player.get("max_spirit", 0)),
 		int(player.get("current_block", 0)),
-	], 18))
-	box.add_child(UiFactory.label("状态：%s" % _status_text(player.get("status_list", {})), 13, Color(0.74, 0.9, 0.92)))
+	], _status_text(player.get("status_list", {})), Color(0.48, 0.86, 0.92))
+	plate.anchor_left = 0.06
+	plate.anchor_top = 0.68
+	plate.anchor_right = 0.94
+	plate.anchor_bottom = 0.68
+	plate.offset_left = 0
+	plate.offset_top = 0
+	plate.offset_right = 0
+	plate.offset_bottom = 86
+	panel.add_child(plate)
 	return panel
 
 
 func _resource_panel(player: Dictionary, state: Dictionary) -> PanelContainer:
-	var panel := UiFactory.panel()
+	var panel := PanelContainer.new()
 	panel.name = "ResourcePanel"
-	var box := UiFactory.vbox(6)
-	panel.add_child(box)
+	panel.add_theme_stylebox_override("panel", _hud_panel_style(Color(0.01, 0.02, 0.025, 0.42), Color(0.48, 0.86, 0.92, 0.22), 6))
+	var margin := MarginContainer.new()
+	margin.add_theme_constant_override("margin_left", 10)
+	margin.add_theme_constant_override("margin_right", 10)
+	margin.add_theme_constant_override("margin_top", 5)
+	margin.add_theme_constant_override("margin_bottom", 5)
+	panel.add_child(margin)
+	var box := UiFactory.vbox(2)
+	margin.add_child(box)
 	var run := AppRoot.run_session.run_state
 	var cls: Dictionary = AppRoot.config_service.get_def("classes", run.get("selected_class_id", ""))
-	box.add_child(UiFactory.label("%s资源面板" % String(cls.get("name", "职业")), 18, Color(0.88, 0.97, 1.0)))
-	box.add_child(UiFactory.label(_resource_text(player), 15, Color(0.78, 0.92, 0.92)))
+	box.add_child(UiFactory.label("%s资源  %s" % [String(cls.get("name", "职业")), _resource_text(player)], 14, Color(0.82, 0.96, 0.96)))
 	var piles := "抽牌 %d | 手牌 %d | 弃牌 %d | 消耗 %d" % [
 		int(player.get("draw_pile", []).size()),
 		int(player.get("hand", []).size()),
 		int(player.get("discard_pile", []).size()),
 		int(player.get("exhaust_pile", []).size()),
 	]
-	box.add_child(UiFactory.label(piles, 14, Color(0.70, 0.84, 0.86)))
+	box.add_child(UiFactory.label(piles, 13, Color(0.70, 0.84, 0.86)))
 	var enemies: Array = state.get("enemies", [])
-	box.add_child(UiFactory.label("敌人 %d | 当前目标 %d" % [enemies.size(), AppRoot.battle_service.selected_target_index() + 1], 14, Color(0.70, 0.84, 0.86)))
+	box.add_child(UiFactory.label("敌人 %d | 当前目标 %d" % [enemies.size(), AppRoot.battle_service.selected_target_index() + 1], 12, Color(0.66, 0.80, 0.82)))
 	return panel
 
 func _enemy_panel(enemy: Dictionary, enemy_index: int, visual_events: Array) -> Control:
-	var panel := UiFactory.panel()
+	var panel := Control.new()
 	panel.name = "EnemyPanel%d" % enemy_index
-	panel.custom_minimum_size = Vector2(360, 360)
-	var box := UiFactory.vbox(6)
-	panel.add_child(box)
+	panel.custom_minimum_size = Vector2(330, 400)
 	var def: Dictionary = AppRoot.config_service.get_def("enemies", enemy.get("enemy_def_id", ""))
 	var animator: FrameAnimator = FrameAnimatorScript.new()
 	animator.name = "EnemyAnimator%d" % enemy_index
@@ -229,42 +407,159 @@ func _enemy_panel(enemy: Dictionary, enemy_index: int, visual_events: Array) -> 
 		animator.play_action("attack")
 	elif event_action == "hurt":
 		animator.play_action("hurt")
-	box.add_child(animator)
+	animator.anchor_left = 0.0
+	animator.anchor_top = 0.12
+	animator.anchor_right = 1.0
+	animator.anchor_bottom = 0.12
+	animator.offset_left = 0
+	animator.offset_top = 0
+	animator.offset_right = 0
+	animator.offset_bottom = 230
+	panel.add_child(animator)
+
 	var intent: Dictionary = enemy.get("intent", {})
 	var selected := enemy_index == AppRoot.battle_service.selected_target_index()
-	box.add_child(UiFactory.label("%s%s  HP %d/%d  防线 %d" % ["▶ " if selected else "", enemy.get("name", ""), int(enemy.get("current_hp", 0)), int(enemy.get("max_hp", 0)), int(enemy.get("current_block", 0))], 18))
-	var intent_label := UiFactory.label("意图：%s %s" % [intent.get("intent_type", ""), str(intent.get("amount", ""))], 15, Color(1.0, 0.82, 0.55))
+	var intent_label := UiFactory.label("意图：%s %s" % [intent.get("intent_type", ""), str(intent.get("amount", ""))], 16, Color(1.0, 0.82, 0.55))
 	intent_label.name = "IntentArea"
-	box.add_child(intent_label)
+	intent_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	intent_label.anchor_left = 0.08
+	intent_label.anchor_top = 0.0
+	intent_label.anchor_right = 0.92
+	intent_label.anchor_bottom = 0.0
+	intent_label.offset_left = 0
+	intent_label.offset_top = 0
+	intent_label.offset_right = 0
+	intent_label.offset_bottom = 34
+	panel.add_child(intent_label)
+
+	var plate := _actor_status_plate("%s%s  HP %d/%d  防线 %d" % ["▶ " if selected else "", enemy.get("name", ""), int(enemy.get("current_hp", 0)), int(enemy.get("max_hp", 0)), int(enemy.get("current_block", 0))], _status_text(enemy.get("status_list", {})), Color(1.0, 0.32, 0.28) if selected else Color(0.90, 0.20, 0.20))
+	plate.anchor_left = 0.06
+	plate.anchor_top = 0.70
+	plate.anchor_right = 0.94
+	plate.anchor_bottom = 0.70
+	plate.offset_left = 0
+	plate.offset_top = 0
+	plate.offset_right = 0
+	plate.offset_bottom = 84
+	panel.add_child(plate)
+
 	var preview_text := String(enemy.get("runtime_flags", {}).get("observed_next_intent_text", ""))
 	if not preview_text.is_empty():
-		box.add_child(UiFactory.label("预判：%s" % preview_text, 13, Color(0.62, 0.86, 1.0)))
-	box.add_child(UiFactory.label("状态：%s" % _status_text(enemy.get("status_list", {})), 13, Color(0.74, 0.9, 0.92)))
-	var target := UiFactory.button("设为目标")
+		var preview := UiFactory.label("预判：%s" % preview_text, 13, Color(0.62, 0.86, 1.0))
+		preview.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		preview.anchor_left = 0.08
+		preview.anchor_top = 0.09
+		preview.anchor_right = 0.92
+		preview.anchor_bottom = 0.09
+		preview.offset_left = 0
+		preview.offset_top = 0
+		preview.offset_right = 0
+		preview.offset_bottom = 28
+		panel.add_child(preview)
+
+	var target := _hud_button("设为目标", Vector2(132, 38))
 	target.disabled = int(enemy.get("current_hp", 0)) <= 0
+	target.anchor_left = 0.30
+	target.anchor_top = 0.91
+	target.anchor_right = 0.30
+	target.anchor_bottom = 0.91
+	target.offset_left = 0
+	target.offset_top = 0
+	target.offset_right = 132
+	target.offset_bottom = 38
 	target.pressed.connect(func(): _select_target(enemy_index))
-	box.add_child(target)
+	panel.add_child(target)
 	return panel
 
 
 func _battle_log_panel(state: Dictionary) -> PanelContainer:
-	var log_panel := UiFactory.panel()
+	var log_panel := PanelContainer.new()
 	log_panel.name = "BattleLogPanel"
-	log_panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	var log_box := UiFactory.vbox(3)
-	log_panel.add_child(log_box)
+	log_panel.anchor_left = 0.72
+	log_panel.anchor_top = 0.12
+	log_panel.anchor_right = 0.98
+	log_panel.anchor_bottom = 0.12
+	log_panel.offset_left = 0
+	log_panel.offset_top = 0
+	log_panel.offset_right = 0
+	log_panel.offset_bottom = 138
+	log_panel.add_theme_stylebox_override("panel", _hud_panel_style(Color(0.02, 0.025, 0.03, 0.48), Color(0.95, 1.0, 0.88, 0.20), 6))
+	var margin := MarginContainer.new()
+	margin.add_theme_constant_override("margin_left", 10)
+	margin.add_theme_constant_override("margin_right", 10)
+	margin.add_theme_constant_override("margin_top", 8)
+	margin.add_theme_constant_override("margin_bottom", 8)
+	log_panel.add_child(margin)
+	var log_box := UiFactory.vbox(2)
+	margin.add_child(log_box)
 	var logs: Array = state.get("log", [])
 	if logs.is_empty():
-		log_box.add_child(UiFactory.label("战斗日志将在这里记录。", 14, Color(0.70, 0.80, 0.82)))
+		log_box.add_child(UiFactory.label("战斗日志将在这里记录。", 13, Color(0.70, 0.80, 0.82)))
 	else:
-		for line in logs.slice(max(0, logs.size() - 8), logs.size()):
-			log_box.add_child(UiFactory.label(String(line), 14, Color(0.86, 0.9, 0.9)))
+		for line in logs.slice(max(0, logs.size() - 4), logs.size()):
+			log_box.add_child(UiFactory.label(String(line), 12, Color(0.86, 0.9, 0.9)))
 	return log_panel
+
+
+func _energy_orb(player: Dictionary) -> PanelContainer:
+	var orb := PanelContainer.new()
+	orb.name = "EnergyOrb"
+	orb.add_theme_stylebox_override("panel", _hud_panel_style(Color(0.86, 0.22, 0.04, 0.92), Color(1.0, 0.86, 0.28, 0.95), 64))
+	var label := UiFactory.label("%d" % int(player.get("current_energy", 0)), 38, Color.WHITE)
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	orb.add_child(label)
+	return orb
+
+
+func _actor_status_plate(title: String, status: String, accent: Color) -> PanelContainer:
+	var plate := PanelContainer.new()
+	plate.add_theme_stylebox_override("panel", _hud_panel_style(Color(0.02, 0.025, 0.03, 0.62), accent, 6))
+	var margin := MarginContainer.new()
+	margin.add_theme_constant_override("margin_left", 10)
+	margin.add_theme_constant_override("margin_right", 10)
+	margin.add_theme_constant_override("margin_top", 6)
+	margin.add_theme_constant_override("margin_bottom", 6)
+	plate.add_child(margin)
+	var box := UiFactory.vbox(2)
+	margin.add_child(box)
+	var title_label := UiFactory.label(title, 16, Color(0.96, 0.98, 0.95))
+	title_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	box.add_child(title_label)
+	var status_label := UiFactory.label("状态：%s" % status, 12, Color(0.74, 0.9, 0.92))
+	status_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	box.add_child(status_label)
+	return plate
+
+
+func _hud_button(text: String, min_size := Vector2(150, 42)) -> Button:
+	var button := UiFactory.button(text)
+	button.custom_minimum_size = min_size
+	return button
+
+
+func _make_single_line(label: Label) -> void:
+	label.autowrap_mode = TextServer.AUTOWRAP_OFF
+	label.clip_text = true
+
+
+func _hud_panel_style(bg: Color, border: Color, radius: int) -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = bg
+	style.border_color = border
+	style.set_border_width_all(1)
+	style.corner_radius_top_left = radius
+	style.corner_radius_top_right = radius
+	style.corner_radius_bottom_left = radius
+	style.corner_radius_bottom_right = radius
+	style.shadow_color = Color(0, 0, 0, 0.32)
+	style.shadow_size = 8
+	return style
 
 func _card_button(card_id: String, hand_index: int) -> Button:
 	var card: Dictionary = AppRoot.config_service.get_def("cards", card_id)
 	var cost: String = "X" if int(card.get("cost", 0)) < 0 else str(AppRoot.battle_service.hand_card_cost(hand_index))
-	var b: Button = UiFactory.card_button(card, "%s [%s]\n%s\n%s" % [card.get("name", card_id), cost, card.get("type", ""), card.get("description", "")], Vector2(190, 150))
+	var b: Button = UiFactory.card_button(card, "", Vector2(178, 252), { "cost_text": cost })
 	b.name = "CardButton%d" % hand_index
 	b.disabled = not AppRoot.battle_service.can_play_card(hand_index)
 	if b.disabled:

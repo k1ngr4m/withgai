@@ -1,0 +1,11 @@
+{
+  "skill": "generate2dmap",
+  "map_mode": "baked_scene_mode",
+  "visual_model": "baked_raster",
+  "engine_target": "project-native",
+  "source": "Resources/Art/Generated/P0/backgrounds/ui_main_menu_bg_v1.png",
+  "output_size": [
+    1920,
+    1080
+  ]
+}

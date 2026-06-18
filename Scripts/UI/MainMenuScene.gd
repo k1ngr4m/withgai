@@ -1,6 +1,9 @@
 extends Control
 
-const MAIN_BG := "res://Resources/Art/Generated/P0/backgrounds/ui_main_menu_bg_v1.png"
+const MAIN_BG := "res://Resources/Art/Generated/P0/backgrounds/ui_main_menu_bg_v2/final.png"
+const SAVE_SLOT_ICON := "res://Resources/Art/Generated/P0/ui/main_menu_save_icon_v1/final.png"
+const VERSION_ICON := "res://Resources/Art/Generated/P0/ui/main_menu_version_icon_v1/final.png"
+const TITLE_LOGO := "res://Resources/Art/Generated/P0/ui/main_menu_title_logo_v1/final.png"
 const COMPACT_BREAKPOINT := 900.0
 const SHORT_BREAKPOINT := 860.0
 const BUILD_LABEL := "后端首个可玩"
@@ -159,69 +162,136 @@ func _build_menu() -> void:
 		_content_layer.remove_child(child)
 		child.queue_free()
 
-	if _is_compact_layout():
-		_build_compact_menu()
-	else:
-		_build_desktop_menu()
+	_build_title_menu_screen(_is_compact_layout())
 
 
 func _build_desktop_menu() -> void:
-	var margin := _root_margin(DESKTOP_MARGIN)
-	_content_layer.add_child(margin)
-
-	var root := UiFactory.hbox(36)
-	root.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	root.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	margin.add_child(root)
-
-	var left := UiFactory.vbox(0)
-	left.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	left.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	root.add_child(left)
-
-	left.add_child(_top_bar(false))
-	var left_spacer := Control.new()
-	left_spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	left.add_child(left_spacer)
-	left.add_child(_hero_block(false))
-	var bottom_pad := Control.new()
-	bottom_pad.custom_minimum_size = Vector2(1, 34)
-	left.add_child(bottom_pad)
-
-	var menu_wrap := CenterContainer.new()
-	menu_wrap.custom_minimum_size = Vector2(MENU_WIDTH, 0)
-	menu_wrap.size_flags_horizontal = Control.SIZE_SHRINK_END
-	menu_wrap.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	root.add_child(menu_wrap)
-
-	var menu := _menu_panel(false)
-	menu.custom_minimum_size = Vector2(MENU_WIDTH, 468)
-	menu_wrap.add_child(menu)
+	_build_title_menu_screen(false)
 
 
 func _build_compact_menu() -> void:
-	var scroll := ScrollContainer.new()
-	UiFactory.fill(scroll)
-	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
-	_content_layer.add_child(scroll)
+	_build_title_menu_screen(true)
 
-	var margin := _root_margin(COMPACT_MARGIN)
-	scroll.add_child(margin)
 
-	var root := UiFactory.vbox(18)
-	var viewport_size := get_viewport_rect().size
-	root.custom_minimum_size = Vector2(maxf(320.0, viewport_size.x - float(COMPACT_MARGIN * 2)), 0)
-	root.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	margin.add_child(root)
+func _build_title_menu_screen(compact := false) -> void:
+	var screen := Control.new()
+	screen.name = "TitleMenuScreen"
+	UiFactory.fill(screen)
+	_content_layer.add_child(screen)
 
-	root.add_child(_top_bar(true))
-	root.add_child(_hero_block(true))
+	screen.add_child(_save_slot_widget(compact))
+	screen.add_child(_version_widget(compact))
 
-	var menu := _menu_panel(true)
-	menu.custom_minimum_size = Vector2(0, 430)
-	menu.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	root.add_child(menu)
+	var center := CenterContainer.new()
+	center.name = "TitleMenuCenter"
+	UiFactory.fill(center)
+	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	screen.add_child(center)
+
+	var stack := UiFactory.vbox(18 if compact else 22)
+	stack.name = "TitleMenuStack"
+	stack.custom_minimum_size = Vector2(360 if compact else 720, 0)
+	stack.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	center.add_child(stack)
+
+	stack.add_child(_title_logo_control(compact))
+
+	var gap := Control.new()
+	gap.custom_minimum_size = Vector2(1, 24 if compact else 38)
+	stack.add_child(gap)
+
+	var menu := UiFactory.vbox(4 if compact else 6)
+	menu.name = "VerticalMainMenu"
+	menu.alignment = BoxContainer.ALIGNMENT_CENTER
+	menu.custom_minimum_size = Vector2(260 if compact else 320, 0)
+	menu.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	stack.add_child(menu)
+
+	var continue_button := _title_menu_button("继续游戏" if _has_valid_suspend() else "没有存档", compact)
+	continue_button.name = "ContinueButton"
+	continue_button.disabled = not _has_valid_suspend()
+	continue_button.tooltip_text = "从最近一次中断的楼层继续" if not continue_button.disabled else "当前没有可恢复的中断档"
+	continue_button.pressed.connect(_continue_run)
+	menu.add_child(continue_button)
+
+	var new_button := _title_menu_button("开始游戏", compact)
+	new_button.name = "NewGameButton"
+	new_button.tooltip_text = "进入职业选择界面"
+	new_button.pressed.connect(func(): _show_scene("class_select"))
+	menu.add_child(new_button)
+
+	var meta_button := _title_menu_button("工位成长", compact)
+	meta_button.name = "MetaButton"
+	meta_button.tooltip_text = "打开局外成长和职业解锁树"
+	meta_button.pressed.connect(func(): _show_scene("meta"))
+	menu.add_child(meta_button)
+
+	var options_button := _title_menu_button("设置", compact)
+	options_button.name = "OptionsButton"
+	options_button.tooltip_text = "调整窗口模式和主音量"
+	options_button.pressed.connect(_open_options_panel)
+	menu.add_child(options_button)
+
+	var quit_button := _title_menu_button("退出游戏", compact)
+	quit_button.name = "ExitButton"
+	quit_button.pressed.connect(func(): get_tree().quit())
+	menu.add_child(quit_button)
+
+	call_deferred("_animate_menu_entry")
+
+
+func _save_slot_widget(compact := false) -> Control:
+	var row := UiFactory.hbox(9)
+	row.name = "SaveSlotWidget"
+	row.anchor_left = 0.0
+	row.anchor_right = 0.0
+	row.anchor_top = 0.0
+	row.anchor_bottom = 0.0
+	row.offset_left = 20 if compact else 30
+	row.offset_top = 18 if compact else 30
+	row.offset_right = row.offset_left + (220 if compact else 280)
+	row.offset_bottom = row.offset_top + 58
+	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+
+	var icon := _corner_icon(SAVE_SLOT_ICON, Vector2(42, 42) if compact else Vector2(48, 48))
+	row.add_child(icon)
+
+	var box := UiFactory.vbox(0)
+	box.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	row.add_child(box)
+
+	var title := _corner_label("存档1", 20 if compact else 24, Color(1.0, 0.84, 0.36, 1.0))
+	box.add_child(title)
+	var detail := _corner_label(_save_slot_detail(), 13 if compact else 15, Color(0.64, 0.88, 0.96, 1.0))
+	box.add_child(detail)
+	return row
+
+
+func _version_widget(compact := false) -> Control:
+	var row := UiFactory.hbox(7)
+	row.name = "VersionWidget"
+	row.anchor_left = 1.0
+	row.anchor_right = 1.0
+	row.anchor_top = 0.0
+	row.anchor_bottom = 0.0
+	row.offset_left = -160 if compact else -190
+	row.offset_top = 20 if compact else 30
+	row.offset_right = -20 if compact else -30
+	row.offset_bottom = row.offset_top + 56
+	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+
+	var box := UiFactory.vbox(0)
+	box.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	row.add_child(box)
+	var version := _corner_label(_config_version_text(), 15 if compact else 17, Color(0.82, 0.72, 0.54, 0.90))
+	version.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	box.add_child(version)
+	var build := _corner_label("首个可玩", 11 if compact else 12, Color(0.62, 0.58, 0.48, 0.82))
+	build.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	box.add_child(build)
+
+	row.add_child(_corner_icon(VERSION_ICON, Vector2(38, 38) if compact else Vector2(44, 44)))
+	return row
 
 
 func _queue_rebuild() -> void:
@@ -250,6 +320,116 @@ func _root_margin(margin_size: int) -> MarginContainer:
 	margin.add_theme_constant_override("margin_top", margin_size)
 	margin.add_theme_constant_override("margin_bottom", margin_size)
 	return margin
+
+
+func _title_menu_button(text: String, compact := false) -> Button:
+	var button := Button.new()
+	button.text = text
+	button.custom_minimum_size = Vector2(260 if compact else 320, 42 if compact else 48)
+	button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	button.alignment = HORIZONTAL_ALIGNMENT_CENTER
+	button.focus_mode = Control.FOCUS_ALL
+	button.add_theme_font_size_override("font_size", 26 if compact else 34)
+	button.add_theme_color_override("font_color", Color(0.95, 0.94, 0.86, 1.0))
+	button.add_theme_color_override("font_hover_color", Color(1.0, 0.98, 0.74, 1.0))
+	button.add_theme_color_override("font_pressed_color", Color(0.72, 1.0, 0.96, 1.0))
+	button.add_theme_color_override("font_focus_color", Color(1.0, 0.98, 0.74, 1.0))
+	button.add_theme_color_override("font_disabled_color", Color(0.56, 0.58, 0.56, 0.78))
+	button.add_theme_color_override("font_outline_color", Color(0.015, 0.018, 0.018, 0.95))
+	button.add_theme_constant_override("outline_size", 5 if compact else 6)
+	button.add_theme_stylebox_override("normal", _title_menu_button_style(false, false))
+	button.add_theme_stylebox_override("hover", _title_menu_button_style(true, false))
+	button.add_theme_stylebox_override("pressed", _title_menu_button_style(true, true))
+	button.add_theme_stylebox_override("focus", _title_menu_button_style(false, false))
+	button.add_theme_stylebox_override("disabled", _title_menu_button_style(false, false))
+	_menu_buttons.append(button)
+	UiMotion.bind_button(button)
+	return button
+
+
+func _title_menu_button_style(hover: bool, pressed: bool) -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color(0, 0, 0, 0.0)
+	style.border_color = Color(0.76, 0.96, 0.96, 0.0)
+	if hover:
+		style.bg_color = Color(0.02, 0.08, 0.09, 0.20)
+		style.border_color = Color(0.72, 1.0, 0.96, 0.36)
+	if pressed:
+		style.bg_color = Color(0.04, 0.16, 0.17, 0.26)
+		style.border_color = Color(0.82, 1.0, 0.92, 0.52)
+	style.set_border_width_all(1 if hover else 0)
+	style.set_corner_radius_all(6)
+	style.content_margin_left = 10
+	style.content_margin_right = 10
+	style.content_margin_top = 2
+	style.content_margin_bottom = 2
+	return style
+
+
+func _corner_icon(path: String, min_size: Vector2) -> TextureRect:
+	var texture := TextureRect.new()
+	texture.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	texture.custom_minimum_size = min_size
+	texture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	texture.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	var loaded := load(path)
+	if loaded is Texture2D:
+		texture.texture = loaded
+	return texture
+
+
+func _title_logo_control(compact := false) -> Control:
+	var loaded := load(TITLE_LOGO)
+	if loaded is Texture2D:
+		var logo := TextureRect.new()
+		logo.name = "MainTitleLogo"
+		logo.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		logo.texture = loaded
+		logo.custom_minimum_size = Vector2(380 if compact else 720, 142 if compact else 220)
+		logo.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		logo.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		logo.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+		return logo
+	var fallback := _label("withgai", 72 if compact else 116, Color(0.94, 1.0, 1.0))
+	fallback.name = "MainTitleLogo"
+	fallback.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	fallback.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	fallback.custom_minimum_size = Vector2(360 if compact else 720, 104 if compact else 148)
+	fallback.add_theme_constant_override("outline_size", 8 if compact else 12)
+	fallback.add_theme_color_override("font_outline_color", Color(0.015, 0.025, 0.030, 0.98))
+	return fallback
+
+
+func _corner_label(text: String, font_size: int, color: Color) -> Label:
+	var label := _label(text, font_size, color)
+	label.autowrap_mode = TextServer.AUTOWRAP_OFF
+	label.clip_text = true
+	label.add_theme_constant_override("outline_size", 3)
+	label.add_theme_color_override("font_outline_color", Color(0.02, 0.02, 0.02, 0.88))
+	label.custom_minimum_size = Vector2(maxf(80.0, float(text.length()) * float(font_size)), font_size + 8)
+	return label
+
+
+func _save_slot_detail() -> String:
+	var run_state := _suspend_run_state()
+	if run_state.is_empty():
+		return "空存档"
+	var class_id := String(run_state.get("selected_class_id", ""))
+	return "%s %dF · %s" % [
+		String(CLASS_SHORT_LABELS.get(class_id, "未知")),
+		int(run_state.get("current_floor", 1)),
+		_scene_label(String(run_state.get("current_scene_tag", "map"))),
+	]
+
+
+func _config_version_text() -> String:
+	var app = _app_root()
+	if app != null and app.config_service != null:
+		var version = app.config_service.data.get("version", 1)
+		if typeof(version) == TYPE_FLOAT and is_equal_approx(float(version), float(int(version))):
+			version = int(version)
+		return "v%s" % str(version)
+	return "v1"
 
 
 func _top_bar(compact := false) -> Control:
@@ -1555,7 +1735,7 @@ func _settings_state() -> Dictionary:
 func _animate_menu_entry() -> void:
 	if _content_layer == null or not is_instance_valid(_content_layer):
 		return
-	for node_name in ["TitlePanel", "BroadcastStrip", "ClassSpotlightPanel", "PrimaryActions"]:
+	for node_name in ["SaveSlotWidget", "VersionWidget", "MainTitleLogo", "VerticalMainMenu"]:
 		var node := _content_layer.find_child(node_name, true, false)
 		if node is CanvasItem:
 			UiMotion.fade_in(node, 0.22, Vector2(0, 18))

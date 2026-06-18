@@ -78,7 +78,7 @@ func _shop_stock_panel(run: Dictionary, card_cost: int, relic_cost: int) -> Pane
 	var shop_state: Dictionary = run.get("shop_state", {})
 	for card_id in shop_state.get("card_stock", []):
 		var card: Dictionary = AppRoot.config_service.get_def("cards", card_id)
-		var b: Button = UiFactory.card_button(card, "买卡 %d\n%s\n%s" % [card_cost, card.get("name", card_id), card.get("description", "")], Vector2(210, 170))
+		var b: Button = UiFactory.card_button(card, "", Vector2(190, 260), { "badge_text": "买卡 %d" % card_cost })
 		b.name = "ShopCardButton"
 		b.disabled = int(run.get("currency_perf_points", 0)) < card_cost
 		b.pressed.connect(func(): _buy_card(card_id))
@@ -202,14 +202,17 @@ func _build_remove_picker(run: Dictionary, remove_cost: int) -> PanelContainer:
 	grid.columns = 4
 	grid.add_theme_constant_override("h_separation", 8)
 	grid.add_theme_constant_override("v_separation", 8)
-	box.add_child(grid)
+	box.add_child(UiFactory.scroll(grid))
 	for card_id in unique_cards:
 		var card: Dictionary = AppRoot.config_service.get_def("cards", String(card_id))
 		var count := _count_deck_card(deck_cards, String(card_id))
-		var prefix := "○"
+		var badge := "x%d" % count
 		if selected_remove_card_id == String(card_id):
-			prefix = "✓"
-		var button := UiFactory.card_button(card, "%s %s x%d\n%s" % [prefix, card.get("name", card_id), count, card.get("type", "")], Vector2(210, 72))
+			badge = "已选 %s" % badge
+		var button := UiFactory.card_button(card, "", Vector2(166, 228), {
+			"badge_text": badge,
+			"selected": selected_remove_card_id == String(card_id),
+		})
 		button.name = "DeckRemoveCardButton"
 		button.disabled = bool(run.get("shop_state", {}).get("removed", false))
 		button.pressed.connect(func(): _select_remove_card(String(card_id)))

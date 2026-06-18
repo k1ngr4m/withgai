@@ -1,0 +1,12 @@
+{
+  "skill": "generate2dsprite",
+  "asset_type": "prop",
+  "action": "single",
+  "art_style": "project-native",
+  "source": "Resources/Art/Generated/P0/icons/node_icon_combat_set_v1/processed/sheet-8.png",
+  "raw_background": "#FF00FF",
+  "final_size": [
+    512,
+    512
+  ]
+}

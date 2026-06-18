@@ -94,8 +94,11 @@ func _show_upgrade_choices() -> void:
 	main.add_child(panel)
 	var panel_box := UiFactory.vbox(8)
 	panel.add_child(panel_box)
-	var choices := UiFactory.vbox(6)
+	var choices := GridContainer.new()
 	choices.name = "UpgradeChoiceList"
+	choices.columns = 4
+	choices.add_theme_constant_override("h_separation", 8)
+	choices.add_theme_constant_override("v_separation", 8)
 	panel_box.add_child(UiFactory.scroll(choices))
 	var deck_state: Dictionary = run.get("deck_state", {})
 	var master_deck: Array = deck_state.get("master_deck", [])
@@ -110,7 +113,10 @@ func _show_upgrade_choices() -> void:
 		var upgraded: bool = upgraded_cards.has(card_id)
 		if not upgraded:
 			eligible_count += 1
-		var b := UiFactory.button("%s%s\n%s" % [card.get("name", card_id), " +" if upgraded else "", card.get("description", "")])
+		var b := UiFactory.card_button(card, "", Vector2(166, 228), {
+			"badge_text": "已升级" if upgraded else "可升级",
+			"selected": not upgraded,
+		})
 		b.name = "UpgradeCardButton"
 		b.disabled = upgraded
 		b.pressed.connect(func(): _upgrade(card_id))

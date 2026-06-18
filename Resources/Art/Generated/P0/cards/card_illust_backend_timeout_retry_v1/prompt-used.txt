@@ -1,0 +1,1 @@
+Card illustration for 超时重试. Source image originated from built-in image generation and was deterministically cropped/resized for the card art window. No text, no card frame added.

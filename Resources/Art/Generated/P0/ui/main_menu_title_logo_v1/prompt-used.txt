@@ -1,0 +1,6 @@
+generate2dsprite single asset / project-native title logo sprite
+User reference direction: Slay the Spire-like hand-painted fantasy title, golden yellow letters, thick dark shadow/outline. User requested title text `With Gai`, with W and G capitalized and a space between words. Decorative curls were intentionally minimized so no extra characters appear.
+Prompt attempted with built-in image generation:
+Single 2D game title logo sprite on solid flat #FF00FF magenta background. The logo must read exactly: With Gai. Capital W and capital G, one space between words, no extra words, no subtitle, no punctuation. Style reference: Slay the Spire title logo feeling, hand-painted fantasy lettering, golden yellow letters, uneven brush-painted edges, thick dark brown/black drop shadow and outline, warm highlight strokes, playful fantasy card roguelike logo. Keep the words as one readable horizontal logo. Generous magenta margin on all sides. No background scene, no UI frame, no characters, no watermark. Exact text: With Gai.
+
+Implementation note: image generation was attempted, but the newest local file exposed by the environment was unrelated to the logo. final.png is a deterministic sprite fallback preserving exact title spelling and the requested reference style.

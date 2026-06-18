@@ -55,7 +55,18 @@ func _play(textures: Array, should_loop: bool) -> void:
 		_timer.stop()
 		return
 	_timer.wait_time = 1.0 / float(_fps)
-	_timer.start()
+	if is_inside_tree():
+		_timer.start()
+
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_ENTER_TREE and _timer != null and _active_textures.size() > 1 and _timer.is_stopped():
+		call_deferred("_start_timer_if_ready")
+
+
+func _start_timer_if_ready() -> void:
+	if _timer != null and _timer.is_inside_tree() and _active_textures.size() > 1 and _timer.is_stopped():
+		_timer.start()
 
 func _ensure_timer() -> void:
 	if _timer != null:

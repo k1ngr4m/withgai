@@ -1,0 +1,3 @@
+Single small save-slot icon for the main menu: red/dark office archive folder or work badge, project-native clean HD game prop, no text, no UI frame, solid #FF00FF raw background.
+
+Derived from existing generated project icon family to preserve project-native style. Raw file uses solid #FF00FF background; final file is transparent.

@@ -1,6 +1,8 @@
 class_name UiFactory
 extends RefCounted
 
+const CardFaceButtonScript := preload("res://Scripts/UI/CardFaceButton.gd")
+
 static func fill(node: Control) -> void:
 	node.set_anchors_preset(Control.PRESET_FULL_RECT)
 	node.offset_left = 0
@@ -60,17 +62,12 @@ static func button(text: String) -> Button:
 	UiMotion.bind_button(b)
 	return b
 
-static func card_button(card: Dictionary, text: String, min_size := Vector2(210, 170)) -> Button:
-	var b := button(text)
+static func card_button(card: Dictionary, _text := "", min_size := Vector2(190, 260), options := {}) -> Button:
+	var b: Button = CardFaceButtonScript.new()
 	b.custom_minimum_size = min_size
-	var art_path := String(card.get("art_path", ""))
-	if not art_path.is_empty():
-		var tex = load(art_path)
-		if tex != null:
-			b.icon = tex
-			b.expand_icon = true
-			b.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
-			b.vertical_icon_alignment = VERTICAL_ALIGNMENT_TOP
+	if b.has_method("setup_card"):
+		b.call("setup_card", card, options)
+	UiMotion.bind_button(b)
 	return b
 
 static func vbox(separation := 8) -> VBoxContainer:

@@ -1,0 +1,3 @@
+Single small version/archive record icon for the main menu: warm paper or badge-like office record token, project-native clean HD game prop, no text, no UI frame, solid #FF00FF raw background.
+
+Derived from existing generated project icon family to preserve project-native style. Raw file uses solid #FF00FF background; final file is transparent.

@@ -123,10 +123,21 @@ static func fade_in_children(parent: Node, duration := 0.18, offset := Vector2(0
 	for child in parent.get_children():
 		if child is CanvasItem:
 			var delay := 0.0 if reduce_motion() else float(index) * stagger
-			(child as CanvasItem).modulate.a = 0.0
-			var tween := (child as CanvasItem).create_tween()
+			var child_item := child as CanvasItem
+			var original_modulate := child_item.modulate
+			var original_position := Vector2.ZERO
+			var is_control := child_item is Control
+			if is_control:
+				original_position = (child_item as Control).position
+			child_item.modulate = Color(original_modulate.r, original_modulate.g, original_modulate.b, 0.0)
+			if is_control and not reduce_motion():
+				(child_item as Control).position = original_position + offset
+			var tween := child_item.create_tween()
+			tween.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 			tween.tween_interval(delay)
-			tween.tween_callback(func(): fade_in(child, duration, offset))
+			tween.tween_property(child_item, "modulate", original_modulate, 0.05 if reduce_motion() else duration)
+			if is_control and not reduce_motion():
+				tween.parallel().tween_property(child_item, "position", original_position, duration)
 			index += 1
 
 

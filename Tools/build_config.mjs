@@ -559,7 +559,7 @@ const pollutionCards = [
   upgrade_to: "",
   enabled_in_first_playable: true,
   description: `${name}：${description}`,
-  art_path: "",
+  art_path: cardArtPath(id),
 }));
 cards.push(...pollutionCards);
 

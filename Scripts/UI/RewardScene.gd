@@ -72,8 +72,10 @@ func _card_choice_panel(reward: Dictionary) -> PanelContainer:
 	box.add_child(row)
 	for card_id in reward.get("candidate_card_ids", []):
 		var card: Dictionary = AppRoot.config_service.get_def("cards", card_id)
-		var card_marker := "✓ " if selected_card_id == String(card_id) else ""
-		var b: Button = UiFactory.card_button(card, "%s%s\n%s\n%s" % [card_marker, card.get("name", card_id), card.get("type", ""), card.get("description", "")], Vector2(230, 180))
+		var b: Button = UiFactory.card_button(card, "", Vector2(190, 260), {
+			"badge_text": "已选" if selected_card_id == String(card_id) else "",
+			"selected": selected_card_id == String(card_id),
+		})
 		if selected_card_id == String(card_id):
 			b.modulate = Color(1.0, 0.92, 0.58, 1.0)
 		b.pressed.connect(func(): _select_card(String(card_id)))

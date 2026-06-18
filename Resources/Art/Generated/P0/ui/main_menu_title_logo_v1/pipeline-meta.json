@@ -1,0 +1,20 @@
+{
+  "skill": "generate2dsprite",
+  "asset_type": "prop",
+  "action": "single",
+  "art_style": "project-native",
+  "reference_style": "Slay the Spire title logo",
+  "text": "With Gai",
+  "raw_background": "#FF00FF",
+  "generation_attempted": true,
+  "generation_file_accessible": false,
+  "font_source": "/System/Library/Fonts/Supplemental/Georgia Bold.ttf",
+  "raw_size": [
+    1320,
+    470
+  ],
+  "final_size": [
+    1143,
+    311
+  ]
+}

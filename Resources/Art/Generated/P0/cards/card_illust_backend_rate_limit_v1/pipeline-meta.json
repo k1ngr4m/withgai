@@ -1,0 +1,7 @@
+{
+  "card_id": "card_backend_rate_limit",
+  "name": "限流策略",
+  "source": "/Users/linyiming/.codex/generated_images/019eca50-5430-7d92-bf6c-444b4f6f0354/ig_0fc20bc2cf2d929c016a2fb3fb9488819aa42a4d935972e7a7.png",
+  "output": "/Users/linyiming/Projects/GodotProjects/withgai/Resources/Art/Generated/P0/cards/card_illust_backend_rate_limit_v1/final.png",
+  "processor": "deterministic crop/resize from generated image source"
+}
