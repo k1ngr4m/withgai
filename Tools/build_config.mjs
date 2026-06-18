@@ -5,6 +5,7 @@ const root = process.cwd();
 const dataOut = path.join(root, "Data", "Generated", "Config");
 const tablesOut = path.join(root, "DataTables", "Datas");
 const definesOut = path.join(root, "DataTables", "Defines");
+const PROJECT_VERSION = "0.1.0001";
 fs.mkdirSync(dataOut, { recursive: true });
 fs.mkdirSync(tablesOut, { recursive: true });
 fs.mkdirSync(definesOut, { recursive: true });
@@ -1054,7 +1055,7 @@ const shopPools = {
 };
 
 const config = {
-  version: 1,
+  version: PROJECT_VERSION,
   classes: Object.fromEntries(classDefs.map(([id, name, family, unlock_order, unlock_type, unlock_param, starter_relic_id, starter_deck, shared_pool_refs, recommended_difficulty, enabled_in_first_playable, summary, color]) => [id, { id, name, family, unlock_order, unlock_type, unlock_param, starter_relic_id, starter_deck, shared_pool_refs, recommended_difficulty, enabled_in_first_playable, summary, color }])),
   cards: Object.fromEntries(cards.map((c) => [c.id, c])),
   relics: Object.fromEntries(relics.map((r) => [r.id, r])),

@@ -3,6 +3,7 @@ import path from "node:path";
 
 const root = process.cwd();
 const configDir = path.join(root, "Data", "Generated", "Config");
+const PROJECT_VERSION = "0.1.0001";
 
 const tables = [
   ["ClassDef", "classes"],
@@ -32,7 +33,7 @@ function indexById(rows) {
   return Object.fromEntries(rows.map((row) => [row.id, row]));
 }
 
-const config = { version: 1 };
+const config = { version: PROJECT_VERSION };
 for (const [tableName, key] of tables) {
   config[key] = indexById(readRows(tableName));
 }

@@ -15,6 +15,7 @@ var failed := false
 func _init() -> void:
 	var config = ConfigServiceScript.new()
 	config.load_config()
+	_validate_project_version(config)
 	_check(config.get_table("classes").size() >= 6, "classes loaded")
 	_check(config.get_table("cards").size() >= 162, "cards loaded")
 	_check(config.get_table("effect_groups").size() >= config.get_table("cards").size(), "effect groups loaded")
@@ -64,6 +65,14 @@ func _init() -> void:
 	print("TEST_RESULT: %s" % ("FAILED" if failed else "PASSED"))
 	quit(1 if failed else 0)
 
+func _validate_project_version(config: RefCounted) -> void:
+	var version_text := str(config.data.get("version", ""))
+	var version_pattern := RegEx.new()
+	var compile_result := version_pattern.compile("^\\d+\\.\\d+\\.\\d{4}$")
+	_check(compile_result == OK, "project version regex compiles")
+	_check(version_pattern.search(version_text) != null, "project version uses x.x.xxxx format")
+
+
 func _validate_main_menu_scene() -> void:
 	var packed: PackedScene = load("res://Scenes/MainMenuScene.tscn")
 	_check(packed != null, "main menu scene loads")
@@ -79,6 +88,7 @@ func _validate_main_menu_scene() -> void:
 	_check(source.contains("ui_main_menu_bg_v2/final.png"), "main menu uses title screen background")
 	_check(source.contains("SAVE_SLOT_ICON"), "main menu save slot icon configured")
 	_check(source.contains("VERSION_ICON"), "main menu version icon configured")
+	_check(source.contains("\"v%s\""), "main menu version display uses v prefix")
 	_check(source.contains("TITLE_LOGO"), "main menu title logo sprite configured")
 	_check(source.contains("main_menu_title_logo_v3/final.png"), "main menu uses provided title logo sprite")
 	_check(source.contains("_title_logo_control"), "main menu builds title logo sprite control")

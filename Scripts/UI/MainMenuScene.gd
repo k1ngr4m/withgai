@@ -430,7 +430,7 @@ func _config_version_text() -> String:
 		if typeof(version) == TYPE_FLOAT and is_equal_approx(float(version), float(int(version))):
 			version = int(version)
 		return "v%s" % str(version)
-	return "v1"
+	return "v0.1.0001"
 
 
 func _top_bar(compact := false) -> Control:
